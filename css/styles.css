@@ -43,8 +43,8 @@ nav a{
     transition: background-color 0.3s;
 }
 nav a:hover{
-    background-color: #0096E2;
-    color: black;
+    background-color: #65ccff;
+    color: #333;
 }
 .current {
     background-color: #0096E2;
