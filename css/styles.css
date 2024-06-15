@@ -210,6 +210,54 @@ section ul li {
     letter-spacing: 0.1em;
 }
 
+.intro-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.intro-content img.avatar {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.intro-details h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.intro-details p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.intro-details a {
+    text-decoration: none;
+    color: #0073e6;
+    margin-right: 10px;
+}
+.intro-details a:hover {
+    text-decoration: underline;
+}
+
+.tech-bubble {
+    display: inline-block;
+    background-color: #0096E2;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px 2px 0 0;
+    font-size: 14px;
+    color: #f1f1f1;
+}
 
 /* Projects section styling */
 .project {
@@ -255,7 +303,7 @@ section ul li {
 }
 
 .tech-stack {
-    margin-top: 10px;
+    margin-top: 5px;
     font-size: 0.9em;
     color: #555;
 }
@@ -388,6 +436,38 @@ section ul li {
 
 /* Ensure responsiveness */
 @media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    nav a {
+        padding: 10px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .container2 {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .container2_1 {
+        margin-left: 0;
+    }
+
+    aside#toc {
+        width: 100%;
+        position: static;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
     .example-image {
         flex: 1 1 calc(50% - 10px); /* 2 items per row */
     }
@@ -397,6 +477,17 @@ section ul li {
     .example-image {
         flex: 1 1 100%; /* 1 item per row */
     }
+
+    header, nav, footer {
+        padding: 10px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #logo {
+        margin: 0 0 10px 0;
+    }
 }
-
-
