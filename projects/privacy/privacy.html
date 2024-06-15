@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policies AI System</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>Or people just call me Ethan</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html" class="current">My Portfolio</a>
+            <a href="../../blog.html">My Blogs</a>
+            <a href="mailto:phatnguyenground@gmail.com">Email me</a>
+        </nav>
+        <hr>
+    </header>
+
+    <div class="container1">
+        <div class="project-header">
+            <img src="../../images/privacy_thumbnail.jpeg" alt="Project Privacy Policies Thumbnail" class="project-image">
+            <div class="project-info">
+                <h1>Privacy Policies AI System</h1>
+                <p>An AI System for Classifying, Evaluating and Interpreting Privacy Policies and Terms of Conditions.</p>
+                <a href="https://github.com/Ethan4thewin/NLP-policy" class="button">View on GitHub</a>
+                <h2>Built With</h2>
+                <div class="badges">
+                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
+                    <img src="https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff&style=flat" alt="NumPy Badge">
+                    <img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=fff&style=flat" alt="pandas Badge">
+                    <img src="https://img.shields.io/badge/scikit-learn-F7931E?logo=scikit-learn&logoColor=fff&style=flat" alt="scikit-learn Badge">
+                    <img src="https://img.shields.io/badge/Keras-D00000?logo=keras&logoColor=fff&style=flat" alt="Keras Badge">
+                    <img src="https://img.shields.io/badge/Flask-000?logo=flask&logoColor=fff&style=flat" alt="Flask Badge">
+                    <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=fff&style=flat" alt="Streamlit Badge">
+                </div>
+            </div>
+        </div>
+
+        <p>Privacy policies and terms of conditions are crucial documents that outline how companies handle user data. 
+            However, these documents are often lengthy, complex, and difficult for users to understand. 
+            This project aimed to develop an AI-powered web application that assists users in evaluating policy documents for acceptability, identifying potential issues, and generating concise summaries.</p>
+
+        <p>The project involved four main tasks:</p>
+        <ol>
+            <li>Develop a versatile web application that leverages natural language processing (NLP) and machine learning techniques to classify and evaluate privacy policies and terms of conditions.</li>
+            <li>Highlight problematic phrases within the documents to help users identify potential issues.</li>
+            <li>Generate concise summaries of the documents using automated text summarization techniques.</li>
+            <li>Provide a user-friendly interface for accessing these functionalities, making the tool useful for content moderation, information retrieval, and document summarization.</li>
+        </ol>
+        
+        <h2>Visualisation</h2>
+        <div class="example-images">
+            <div class="example-image">
+                <img src="Picture1.png" alt="Main Page" onclick="openLightbox(this)">
+                <p>Main Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture2.png" alt="Result Page" onclick="openLightbox(this)">
+                <p>Result Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture3.jpeg" alt="Main Page variation on Streamlit" onclick="openLightbox(this)">
+                <p>Main Page variation on Streamlit</p>
+            </div>
+        </div>
+        
+        <div id="lightbox" class="lightbox">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <p id="lightbox-caption"></p>
+        </div> 
+
+        <h2>Workflow</h2>
+        <ol>
+            <li>Data Preparation:
+                <ul>
+                    <li>Preprocessed text data by normalizing case, removing stopwords, tokenizing, and lemmatizing.</li>
+                    <li>Utilized Word2Vec, trained on Google News data, to transform text into numerical vectors, capturing semantic word relationships.</li>
+                </ul>
+            </li>
+            <li>Machine Learning Models:
+                <ul>
+                    <li>Implemented various models, including Decision Tree, Random Forest, Support Vector Machine (SVM), Logistic Regression, and Convolutional Neural Network (CNN), for text classification.</li>
+                    <li>Conducted hyperparameter tuning to enhance model performance.</li>
+                </ul>
+            </li>
+            <li>Problematic Phrases Identification:
+                <ul>
+                    <li>Developed a mechanism to highlight problematic phrases in text using HTML <span> tags with a red background.</li>
+                </ul>
+            </li>
+            <li>Summarization:
+                <ul>
+                    <li>Employed the BART model from HuggingFace for automated text summarization, generating concise summaries of the documents.</li>
+                </ul>
+            </li>
+            <li>Web Application Development:
+                <ul>
+                    <li>Created a user-friendly web application that integrates the NLP and machine learning models, providing an intuitive interface for users to input policy documents and receive evaluations, highlighted issues, and summaries.</li>
+                </ul>
+            </li>
+        </ol>
+    
+        <h2>Results</h2>
+        <p>The Privacy Policies AI System project successfully delivered a versatile web application that assists users in evaluating privacy policies and terms of conditions. Key results include:</p>
+            <ul>
+                <li>Accurate Classification: The machine learning models, after hyperparameter tuning, achieved high accuracy in classifying policy documents as acceptable or unacceptable based on predefined standards.</li>
+                <li>Issue Identification: The application effectively highlights problematic phrases within the documents, making it easier for users to identify potential issues and areas of concern.</li>
+                <li>Concise Summaries: The BART model generates concise and informative summaries of the policy documents, providing users with a quick overview of the main points.</li>
+                <li>User-Friendly Interface: The web application offers a seamless and intuitive user experience, allowing users to easily input policy documents and receive evaluations, highlighted issues, and summaries.</li>
+            </ul>
+        </li>
+
+        <h2>Visit the GitHub Repository</h2>
+        <p>For the full code and documentation, visit the <a href="https://github.com/Ethan4thewin/NLP-policy">GitHub repository</a>.</p>
+    </div>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜</p>
+    </footer>
+
+    <script src="../../js/scripts.js"></script>
+</body>
+</html>

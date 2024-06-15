@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Disparity Analysis</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>Or people just call me Ethan</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html" class="current">My Portfolio</a>
+            <a href="../../blog.html">My Blogs</a>
+            <a href="mailto:phatnguyenground@gmail.com">Email me</a>
+        </nav>
+        <hr>
+    </header>
+
+    <div class="container1">
+        <div class="project-header">
+            <img src="../../images/uciadult_thumbnail.jpg" alt="Project Income Disparity Thumbnail" class="project-image">
+            <div class="project-info">
+                <h1>Income Disparity Analysis</h1>
+                <p>Exploring Income Disparity and Model Performance in the UCI Adult Dataset: An Analysis of Demographics and Tree-Based Models.</p>
+                <a href="https://github.com/Ethan4thewin/UCI-Adult" class="button">View on GitHub</a>
+                <h2>Built With</h2>
+                <div class="badges">
+                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
+                    <img src="https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff&style=flat" alt="NumPy Badge">
+                    <img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=fff&style=flat" alt="pandas Badge">
+                    <img src="https://img.shields.io/badge/scikit-learn-F7931E?logo=scikit-learn&logoColor=fff&style=flat" alt="scikit-learn Badge">
+                    <img src="https://img.shields.io/badge/matplotlib-013243?logo=matplotlib&logoColor=fff&style=flat" alt="matplotlib Badge">
+                </div>
+            </div>
+        </div>
+
+        <p>The UCI Adult Dataset, containing various individual attributes, was analyzed to predict whether an individual's income exceeds $50,000 per year. 
+            The project aimed to discover the demographic of the population and the above-average income level group, as well as examine the performance of Decision Tree and Random Forest models in predicting income levels.</p>
+
+        <p>The project involved two main tasks:</p>
+        <ol>
+            <li>Exploring the dataset using descriptive statistics and visualizations to uncover demographic characteristics and income distribution patterns.</li>
+            <li>Employing Decision Tree and Random Forest models to predict income levels and examining their performance with and without hyperparameter tuning.</li>
+        </ol>
+        
+        <h2>Visualisation</h2>
+        <div class="example-images">
+            <div class="example-image">
+                <img src="Picture1.png" alt="Distribution of Age" onclick="openLightbox(this)">
+            </div>
+            <div class="example-image">
+                <img src="Picture2.png" alt="Distribution of Age based on Education and Gender for High Income Individuals" onclick="openLightbox(this)">
+            </div>
+            <div class="example-image">
+                <img src="Picture3.png" alt="Training Score" onclick="openLightbox(this)">
+            </div>
+        </div>
+        
+        <div id="lightbox" class="lightbox">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <p id="lightbox-caption"></p>
+        </div> 
+
+        <h2>Data Exploration</h2>
+        <p>The dataset was explored using descriptive statistics and visualizations, revealing:</p>
+        <ul>
+            <li>A skewed age demographic towards younger individuals, with most data falling below 60 years old.</li>
+            <li>High school graduates, some college, and bachelor's degree holders making up a substantial proportion of the dataset.</li>
+            <li>Male dominance in both above and below-average income categories, but females having a higher proportion earning below-average income.</li>
+            <li>Positive correlation between education level and above-average income percentage.</li>
+            <li>Females achieving above-average income faster than males, particularly in executive, specialty, and administrator positions.</li>
+        </ul>
+
+        <h2>Data Modeling</h2>
+        <p>Decision Tree and Random Forest models were employed to predict income levels. Key findings include:</p>
+        <ul>
+            <li>Initial models showed overfitting, with high training scores but lower test scores.</li>
+            <li>Hyperparameter tuning using GridSearchCV improved model performance and reduced overfitting.</li>
+            <li>After tuning, both models achieved similar test accuracy, recall, and F1 scores, suggesting comparable performance.</li>
+            <li>Random Forest initially outperformed Decision Tree, but after tuning, both models demonstrated equivalent effectiveness.</li>
+        </ul>
+
+        <h2>Visit the GitHub Repository</h2>
+        <p>For the full code and documentation, visit the <a href="https://github.com/Ethan4thewin/UCI-Adult">GitHub repository</a>.</p>
+    </div>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜</p>
+    </footer>
+
+    <script src="../../js/scripts.js"></script>
+</body>
+</html>

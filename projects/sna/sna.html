@@ -29,12 +29,69 @@
     </header>
 
     <div class="container1">
-        <h1>Statnet33 - Social Network Analysis</h1>
-        <img src="../../images/sna_thumbnail.jpg" alt="Project 1 Full Image" style="width: 100%; height: auto;">
-        <p>A Social Network Analyzer application with a flexible and user-friendly, cross-platform tool for social network analysis and visualisation</p>
-        
+        <div class="project-header">
+            <img src="../../images/sna_thumbnail.jpg" alt="Project SNA Thumbnail" class="project-image">
+            <div class="project-info">
+                <h1>Statnet33 - Social Network Analysis</h1>
+                <p>A Social Network Analyzer application with a flexible and user-friendly, cross-platform tool for social network analysis and visualisation.</p>
+                <a href="https://github.com/Ethan4thewin/Statnet33" class="button">View on GitHub</a>
+                <h2>Built With</h2>
+                <div class="badges">
+                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
+                    <img src="https://img.shields.io/badge/R-276DC3?logo=r&logoColor=fff&style=flat" alt="R Badge">
+                    <img src="https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff&style=flat" alt="NumPy Badge">
+                    <img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=fff&style=flat" alt="pandas Badge">
+                    <img src="https://img.shields.io/badge/NetworkX-4D4D7D?logo=networkx&logoColor=fff&style=flat" alt="NetworkX Badge">
+                    <img src="https://img.shields.io/badge/Seaborn-4EABE1?logo=seaborn&logoColor=fff&style=flat" alt="Seaborn Badge">
+                    <img src="https://img.shields.io/badge/Statnet-0047AB?logo=statnet&logoColor=fff&style=flat" alt="Statnet Badge">
+                    <img src="https://img.shields.io/badge/rpy2-2E2E2E?logo=r&logoColor=fff&style=flat" alt="rpy2 Badge">
+                    <img src="https://img.shields.io/badge/Dash-1380C3?logo=dash&logoColor=fff&style=flat" alt="Dash Badge">
+                </div>
+            </div>
+        </div>
 
-        <p>More details about Project 1. This section can include...</p>
+        <h2>Example</h2>
+        <div class="example-images">
+            <div class="example-image">
+                <img src="Picture1.png" alt="Home Page" onclick="openLightbox(this)">
+                <p>Home Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture2.png" alt="General Metrics Page" onclick="openLightbox(this)">
+                <p>General Metrics Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture3.png" alt="Visualization Page" onclick="openLightbox(this)">
+                <p>Visualization Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture4.png" alt="ERGM Model Page" onclick="openLightbox(this)">
+                <p>ERGM Model Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture5.png" alt="Simulation Page" onclick="openLightbox(this)">
+                <p>Simulation Page</p>
+            </div>
+        </div>
+
+        <div id="lightbox" class="lightbox">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <p id="lightbox-caption"></p>
+        </div>        
+
+        <h2>About StatNet33</h2>
+        <p>StatNet33 is a user-friendly, cross-platform Social Network Analyzer that combines the power of Python and R to facilitate the study of social networks. The application provides an intuitive interface for users to upload network data in common formats, such as CSV or JSON, and ensures data integrity through validation tools.</p>
+        <p>The app offers a set of features for social network analysis, including:</p>
+        <ul>
+            <li>Network cohesion statistics to summarize and characterize network properties, such as centrality, connectivity, and density.</li>
+            <li>Interactive and customizable network visualizations using Dash Cytoscape, supporting various styles, colors, and labeling options.</li>
+            <li>Exponential Random Graph Models (ERGM) to analyze structural patterns and associated factors in the network, allowing users to assess model fit and interpret results.</li>
+        </ul>
+        <p>StatNet33 aims to make social network analysis more accessible and efficient for researchers, analysts, practitioners, and curious individuals studying the structures, patterns, and dynamics of social networks.</p>
+
+        <h2>Visit the GitHub Repository</h2>
+        <p>For the full code and documentation, visit the <a href="https://github.com/Ethan4thewin/Statnet33">GitHub repository</a>.</p>
     </div>
 
     <footer>
