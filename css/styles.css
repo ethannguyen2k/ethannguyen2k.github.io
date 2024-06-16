@@ -491,3 +491,15 @@ section ul li {
         margin: 0 0 10px 0;
     }
 }
+
+/* CSS for fade-in effect */
+.fade-in {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.7s ease-out, transform .7s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateX(0);
+}

@@ -29,7 +29,7 @@
     </header>
 
     <div class="container1">
-        <div class="project-header">
+        <div class="project-header fade-in">
             <img src="../../images/uciadult_thumbnail.jpg" alt="Project Income Disparity Thumbnail" class="project-image">
             <div class="project-info">
                 <h1>Income Disparity Analysis</h1>
@@ -46,17 +46,19 @@
             </div>
         </div>
 
-        <p>The UCI Adult Dataset, containing various individual attributes, was analyzed to predict whether an individual's income exceeds $50,000 per year. 
-            The project aimed to discover the demographic of the population and the above-average income level group, as well as examine the performance of Decision Tree and Random Forest models in predicting income levels.</p>
+        <div class="fade-in">
+            <p>The UCI Adult Dataset, containing various individual attributes, was analyzed to predict whether an individual's income exceeds $50,000 per year. 
+                The project aimed to discover the demographic of the population and the above-average income level group, as well as examine the performance of Decision Tree and Random Forest models in predicting income levels.</p>
 
-        <p>The project involved two main tasks:</p>
-        <ol>
-            <li>Exploring the dataset using descriptive statistics and visualizations to uncover demographic characteristics and income distribution patterns.</li>
-            <li>Employing Decision Tree and Random Forest models to predict income levels and examining their performance with and without hyperparameter tuning.</li>
-        </ol>
+            <p>The project involved two main tasks:</p>
+            <ol>
+                <li>Exploring the dataset using descriptive statistics and visualizations to uncover demographic characteristics and income distribution patterns.</li>
+                <li>Employing Decision Tree and Random Forest models to predict income levels and examining their performance with and without hyperparameter tuning.</li>
+            </ol>
+        </div>
         
-        <h2>Visualisation</h2>
-        <div class="example-images">
+        <div class="fade-in"><h2>Visualisation</h2></div>
+        <div class="example-images fade-in">
             <div class="example-image">
                 <img src="Picture1.png" alt="Distribution of Age" onclick="openLightbox(this)">
             </div>
@@ -74,27 +76,29 @@
             <p id="lightbox-caption"></p>
         </div> 
 
-        <h2>Data Exploration</h2>
-        <p>The dataset was explored using descriptive statistics and visualizations, revealing:</p>
-        <ul>
-            <li>A skewed age demographic towards younger individuals, with most data falling below 60 years old.</li>
-            <li>High school graduates, some college, and bachelor's degree holders making up a substantial proportion of the dataset.</li>
-            <li>Male dominance in both above and below-average income categories, but females having a higher proportion earning below-average income.</li>
-            <li>Positive correlation between education level and above-average income percentage.</li>
-            <li>Females achieving above-average income faster than males, particularly in executive, specialty, and administrator positions.</li>
-        </ul>
+        <div class="fade-in">
+            <h2>Data Exploration</h2>
+            <p>The dataset was explored using descriptive statistics and visualizations, revealing:</p>
+            <ul>
+                <li>A skewed age demographic towards younger individuals, with most data falling below 60 years old.</li>
+                <li>High school graduates, some college, and bachelor's degree holders making up a substantial proportion of the dataset.</li>
+                <li>Male dominance in both above and below-average income categories, but females having a higher proportion earning below-average income.</li>
+                <li>Positive correlation between education level and above-average income percentage.</li>
+                <li>Females achieving above-average income faster than males, particularly in executive, specialty, and administrator positions.</li>
+            </ul>
 
-        <h2>Data Modeling</h2>
-        <p>Decision Tree and Random Forest models were employed to predict income levels. Key findings include:</p>
-        <ul>
-            <li>Initial models showed overfitting, with high training scores but lower test scores.</li>
-            <li>Hyperparameter tuning using GridSearchCV improved model performance and reduced overfitting.</li>
-            <li>After tuning, both models achieved similar test accuracy, recall, and F1 scores, suggesting comparable performance.</li>
-            <li>Random Forest initially outperformed Decision Tree, but after tuning, both models demonstrated equivalent effectiveness.</li>
-        </ul>
+            <h2>Data Modeling</h2>
+            <p>Decision Tree and Random Forest models were employed to predict income levels. Key findings include:</p>
+            <ul>
+                <li>Initial models showed overfitting, with high training scores but lower test scores.</li>
+                <li>Hyperparameter tuning using GridSearchCV improved model performance and reduced overfitting.</li>
+                <li>After tuning, both models achieved similar test accuracy, recall, and F1 scores, suggesting comparable performance.</li>
+                <li>Random Forest initially outperformed Decision Tree, but after tuning, both models demonstrated equivalent effectiveness.</li>
+            </ul>
 
-        <h2>Visit the GitHub Repository</h2>
-        <p>For the full code and documentation, visit the <a href="https://github.com/Ethan4thewin/UCI-Adult">GitHub repository</a>.</p>
+            <h2>Visit the GitHub Repository</h2>
+            <p>For the full code and documentation, visit the <a href="https://github.com/Ethan4thewin/UCI-Adult">GitHub repository</a>.</p>
+        </div>
     </div>
 
     <footer>

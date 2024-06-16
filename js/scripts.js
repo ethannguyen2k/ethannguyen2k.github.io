@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxCaption = document.getElementById("lightbox-caption");
+    const divs = document.querySelectorAll('div.fade-in');
 
     // Highlight the current nav link
     let currentUrl = window.location.pathname.split('/').pop();
@@ -13,6 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.add('current');
         }
     });
+
+    function handleScroll() {
+        let offset = 150;  // Adjust this value if necessary
+
+        divs.forEach(function(div) {
+            if (div.getBoundingClientRect().top <= window.innerHeight - offset) {
+                div.classList.add('visible');
+            }
+        });
+    }
+
+    // Initial check for divs already in view
+    handleScroll();
+
+    // Check divs on scroll
+    window.addEventListener('scroll', handleScroll);
 
     // Smooth scrolling for TOC links
     tocLinks.forEach(function(link) {
@@ -27,19 +44,44 @@ document.addEventListener('DOMContentLoaded', function() {
     // Highlight the TOC link while scrolling
     window.addEventListener('scroll', function() {
         let fromTop = window.scrollY;
+        let offset = 150;  // Adjust this value if necessary
 
         tocLinks.forEach(function(link) {
             let section = document.querySelector(link.getAttribute('href'));
+            let sectionTop = section.offsetTop - offset;
+            let sectionBottom = sectionTop + section.offsetHeight;
 
             if (
-                section.offsetTop <= fromTop + 50 &&
-                section.offsetTop + section.offsetHeight > fromTop + 50
+                fromTop >= sectionTop &&
+                fromTop < sectionBottom
             ) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
             }
         });
+
+        // Check if the user has scrolled to the bottom of the page
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            tocLinks.forEach(function(link) {
+                link.classList.remove('active');
+            });
+            tocLinks[tocLinks.length - 1].classList.add('active');
+        }
+
+        // Add fade-in effect
+        sections.forEach(function(section) {
+            if (section.getBoundingClientRect().top <= window.innerHeight - offset) {
+                section.classList.add('visible');
+            }
+        });
+    });
+
+    // Initial check for sections already in view
+    sections.forEach(function(section) {
+        if (section.getBoundingClientRect().top <= window.innerHeight) {
+            section.classList.add('visible');
+        }
     });
 
     // Lightbox functionality
