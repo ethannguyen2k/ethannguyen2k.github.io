@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxCaption = document.getElementById("lightbox-caption");
     const divs = document.querySelectorAll('div.fade-in');
+    const surpriseMeButton = document.getElementById('surprise-me');
+    const videoSection = document.getElementById('video-section');
+    const surpriseVideo = document.getElementById('surprise-video');
+    const videoUrls = [
+        'https://www.youtube.com/embed/dQw4w9WgXcQ?si=nhLRH2FJPDz-8NZF',
+        'https://www.youtube.com/embed/VIDEO_ID2',
+        'https://www.youtube.com/embed/VIDEO_ID3',
+        'https://www.youtube.com/embed/VIDEO_ID4',
+        'https://www.youtube.com/embed/VIDEO_ID5'
+    ];
 
     // Highlight the current nav link
     let currentUrl = window.location.pathname.split('/').pop();
@@ -51,10 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let sectionTop = section.offsetTop - offset;
             let sectionBottom = sectionTop + section.offsetHeight;
 
-            if (
-                fromTop >= sectionTop &&
-                fromTop < sectionBottom
-            ) {
+            if (fromTop >= sectionTop && fromTop < sectionBottom) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
@@ -108,5 +115,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target === lightbox) {
             closeLightbox();
         }
+    });
+
+    function getRandomVideoUrl() {
+        const randomIndex = Math.floor(Math.random() * videoUrls.length);
+        return videoUrls[randomIndex];
+    }
+
+    surpriseMeButton.addEventListener('click', function() {
+        if (videoSection.classList.contains('hidden')) {
+            videoSection.classList.remove('hidden');
+            videoSection.classList.add('visible');
+        } 
+        surpriseVideo.src = getRandomVideoUrl();
     });
 });
