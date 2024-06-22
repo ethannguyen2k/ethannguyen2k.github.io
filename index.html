@@ -24,40 +24,45 @@
     </header>
     
     <div class="introduction fade-in">
-        <p>Welcome to my professional workspace. My name is Duc Phat Nguyen, but you can call me Ethan.</p>
-        <p>Feel free to explore my site. Here is my <a href="portfolio.html">Portfolio</a> and <a href="blog.html">Blog</a> for more detailed information about my work and experiences.</p>
+        <p>Hi! I'm <span id="tooltip-trigger">Duc Phat Nguyen</span>, but you can call me Ethan.</p>
+        <p>I am a student based in Melbourne, looking for opportunities in Data Science & AI. Currently, I am focusing on improving my algebra & statistical knowledge.</p>
         <p>I continually update my content, so I hope you will return for future updates. Regardless, I wish you a productive and positive day.</p>
-        <p>🤙 To contact me, my email is in the footer below or visit my <a href="https://www.linkedin.com/in/ethan-by-day">LinkedIn</a>.</p>
+        <p>🤙 To contact me, my email is in the footer below or visit my <a href="https://www.linkedin.com/in/ethan-by-day" target="_blank">LinkedIn</a>.</p>
+    </div>
+
+    <!-- Tooltip container -->
+    <div id="tooltip-container" class="tooltip-container">
+        <img src="images/avatar2.jpg" alt="My Image">
     </div>
 
     <div class="grid-container fade-in">
         <a href="portfolio.html" class="grid-item">
-            <img src="images/avatar.jpg" alt="My Portfolio">
-            <span>My Portfolio</span>
+            <img src="images/portfolio.jpg" alt="Portfolio">
+            <span>Portfolio</span>
         </a>
         <a href="blog.html" class="grid-item">
-            <img src="images/blog.jpg" alt="My Blogs">
-            <span>My Blogs</span>
+            <img src="images/blog.jpg" alt="Blogs">
+            <span>Blogs</span>
         </a>
         <a href="mailto:phatnguyenground@gmail.com" class="grid-item">
             <img src="images/email.jpg" alt="Email">
             <span>Email</span>
         </a>
-        <a href="https://www.linkedin.com/in/ethan-by-day" class="grid-item">
+        <a href="https://www.linkedin.com/in/ethan-by-day" target="_blank" class="grid-item">
             <img src="images/blue_background.jpg" alt="LinkedIn">
             <span>LinkedIn</span>
         </a>
         <a href="playlist.html" class="grid-item">
-            <img src="images/playlist.jpg" alt="Playlist">
-            <span>Playlist</span>
+            <img src="images/playlist.jpg" alt="Playlists">
+            <span>Playlists</span>
         </a>
-        <a id="surprise-me" class="grid-item">
+        <div id="surpriseMe" class="grid-item">
             <img src="images/surprise.gif" alt="Surprise Me">
-        </a>
+        </div>
     </div>
 
-    <div id="video-section" class="hidden">
-        <iframe id="surprise-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div id="videoSection" class="video-section hidden">
+        <!-- Random YouTube video will be embedded here -->
     </div>
 
     <footer>

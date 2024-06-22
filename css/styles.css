@@ -143,6 +143,28 @@ ol li {
     background-color: #f9f9f9;
 }
 
+#tooltip-trigger{
+    cursor: default;
+    color: #0096E2;
+}
+
+.tooltip-container {
+    position: fixed;
+    display: none;
+    z-index: 9999;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 5px; /* Add rounded corners */
+}
+
+.tooltip-container img {
+    max-width: 300px;
+    height: auto;
+    display: block;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -160,6 +182,7 @@ ol li {
     font-weight: bold;
     height: 150px; /* Adjust the height as needed */
     transition: transform 0.3s;
+    cursor: pointer;
 }
 
 .grid-item img {
@@ -188,23 +211,54 @@ ol li {
     transform: scale(1.05);
 }
 
-/* Video Section */
-#video-section {
-    display: none;
-    margin: 20px 0;
-    text-align: center;
-}
-
-#video-section.visible {
-    display: block;
-}
-
-#surprise-video {
+/* Special styling for the "Surprise Me" grid item */
+.surprise-btn {
     width: 100%;
-    max-width: 600px;
-    height: 400px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+
+.surprise-btn:hover img {
+    transform: scale(1.1);
+}
+
+.surprise-btn:hover {
+    transform: scale(1.05);
+}
+
+/* General styles for the video section */
+.video-section {
+    margin: 20px auto;
+    padding: 10px;
+    width: 80%;
+    max-width: 700px;
+    border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: all 0.5s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.video-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.video-section iframe {
+    width: 100%;
+    border-radius: 10px;
+}
+.hidden {
+    display: none;
+}
+
+/* Additional styles for video embedding */
+.video-section iframe {
+    width: 100%;
+    border-radius: 10px;
 }
 
 /* PORTFOLIO */

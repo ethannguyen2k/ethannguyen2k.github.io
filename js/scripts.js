@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded");
     const navLinks = document.querySelectorAll('#nav-bar a');
     const tocLinks = document.querySelectorAll('#toc a');
     const sections = document.querySelectorAll('section');
@@ -6,16 +7,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxCaption = document.getElementById("lightbox-caption");
     const divs = document.querySelectorAll('div.fade-in');
-    const surpriseMeButton = document.getElementById('surprise-me');
-    const videoSection = document.getElementById('video-section');
-    const surpriseVideo = document.getElementById('surprise-video');
-    const videoUrls = [
-        'https://www.youtube.com/embed/dQw4w9WgXcQ?si=nhLRH2FJPDz-8NZF',
-        'https://www.youtube.com/embed/VIDEO_ID2',
-        'https://www.youtube.com/embed/VIDEO_ID3',
-        'https://www.youtube.com/embed/VIDEO_ID4',
-        'https://www.youtube.com/embed/VIDEO_ID5'
+    const tooltipTrigger = document.getElementById("tooltip-trigger");
+    const tooltipContainer = document.getElementById("tooltip-container");
+    const surpriseMeBtn = document.getElementById('surpriseMe');
+    const videoSection = document.getElementById('videoSection');
+    const videoIds = [
+        'dQw4w9WgXcQ', // Rick Astley - Never Gonna Give You Up
+        'OPf0YbXqDm0', // Mark Ronson - Uptown Funk ft. Bruno Mars
+        '6b5DkEzP9Jw', // Luke Chiang - Home
+        'kxgj5af8zg4', // The Weeknd - Out Of Time
+        '6GCNUeTFSbA',  // Micheal Sembello - Maniac
+        'CiHfAO1XE4U' // My own
     ];
+
+    if (surpriseMeBtn && videoSection) {
+        surpriseMeBtn.addEventListener('click', function() {
+            const randomVideoId = videoIds[Math.floor(Math.random() * videoIds.length)];
+            videoSection.innerHTML = `
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/${randomVideoId}" 
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            `;
+            videoSection.classList.remove('hidden');
+            setTimeout(() => {
+                videoSection.classList.add('visible');
+            }, 50); // small delay to ensure transition
+            // Scroll to video section
+            videoSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    // Tooltip functionality
+    if (tooltipTrigger && tooltipContainer) {
+        tooltipTrigger.addEventListener("mouseenter", function() {
+            tooltipContainer.style.display = "block";
+        });
+
+        tooltipTrigger.addEventListener("mouseleave", function() {
+            tooltipContainer.style.display = "none";
+        });
+
+        document.addEventListener("mousemove", function(event) {
+            if (tooltipContainer.style.display === "block") {
+                tooltipContainer.style.top = (event.clientY + 20) + "px";
+                tooltipContainer.style.left = (event.clientX + 20) + "px";
+            }
+        });
+    }
 
     // Highlight the current nav link
     let currentUrl = window.location.pathname.split('/').pop();
@@ -115,18 +153,5 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target === lightbox) {
             closeLightbox();
         }
-    });
-
-    function getRandomVideoUrl() {
-        const randomIndex = Math.floor(Math.random() * videoUrls.length);
-        return videoUrls[randomIndex];
-    }
-
-    surpriseMeButton.addEventListener('click', function() {
-        if (videoSection.classList.contains('hidden')) {
-            videoSection.classList.remove('hidden');
-            videoSection.classList.add('visible');
-        } 
-        surpriseVideo.src = getRandomVideoUrl();
     });
 });
