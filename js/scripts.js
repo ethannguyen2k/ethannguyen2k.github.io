@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         surpriseMeBtn.addEventListener('click', function() {
             const randomVideoId = videoIds[Math.floor(Math.random() * videoIds.length)];
             videoSection.innerHTML = `
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/${randomVideoId}" 
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/${randomVideoId}?autoplay=1&rel=0&modestbranding=1" 
                 title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             `;
