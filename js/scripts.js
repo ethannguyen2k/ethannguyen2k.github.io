@@ -12,19 +12,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const surpriseMeBtn = document.getElementById('surpriseMe');
     const videoSection = document.getElementById('videoSection');
     const videoIds = [
+        'CiHfAO1XE4U', // My own
         'dQw4w9WgXcQ', // Rick Astley - Never Gonna Give You Up
-        'OPf0YbXqDm0', // Mark Ronson - Uptown Funk ft. Bruno Mars
+        '6GCNUeTFSbA',  // Micheal Sembello - Maniac
         '6b5DkEzP9Jw', // Luke Chiang - Home
         'kxgj5af8zg4', // The Weeknd - Out Of Time
-        '6GCNUeTFSbA',  // Micheal Sembello - Maniac
-        'CiHfAO1XE4U' // My own
+        'OPf0YbXqDm0', // Mark Ronson - Uptown Funk ft. Bruno Mars
     ];
+
+    let currentVideoIndex = 0;
 
     if (surpriseMeBtn && videoSection) {
         surpriseMeBtn.addEventListener('click', function() {
-            const randomVideoId = videoIds[Math.floor(Math.random() * videoIds.length)];
+            const videoId = videoIds[currentVideoIndex];
             videoSection.innerHTML = `
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/${randomVideoId}?autoplay=1&rel=0&modestbranding=1" 
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" 
                 title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             `;
@@ -32,8 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 videoSection.classList.add('visible');
             }, 50); // small delay to ensure transition
+            
             // Scroll to video section
             videoSection.scrollIntoView({ behavior: 'smooth' });
+
+            // Move to the next video, loop back to the start if we've reached the end
+            currentVideoIndex = (currentVideoIndex + 1) % videoIds.length;
         });
     }
 
