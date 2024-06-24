@@ -144,7 +144,7 @@ ol li {
 }
 
 #tooltip-trigger{
-    cursor: default;
+    cursor: pointer;
     color: #0096E2;
 }
 

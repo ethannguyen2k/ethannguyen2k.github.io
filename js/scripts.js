@@ -44,9 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Tooltip functionality
+    let tooltipTimeout;
     if (tooltipTrigger && tooltipContainer) {
         tooltipTrigger.addEventListener("mouseenter", function() {
-            tooltipContainer.style.display = "block";
+            tooltipTimeout = setTimeout(function() {
+                tooltipContainer.style.display = "block";
+            }, 300); // Delay in milliseconds (500ms = 0.5s)
         });
 
         tooltipTrigger.addEventListener("mouseleave", function() {
