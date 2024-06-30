@@ -12,33 +12,28 @@ body {
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    background-image: none !important;
+    min-height: 100vh;
+}
+#tv-screen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    display: none;
+}
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    z-index: 1;
 }
 
-/* Flicker Effect */
-@keyframes flicker {
-    0% { opacity: 1; }
-    5% { opacity: 0.5; }
-    10% { opacity: 1; }
-    15% { opacity: 0.75; }
-    20% { opacity: 1; }
-    25% { opacity: 0.5; }
-    30% { opacity: 1; }
-    35% { opacity: 0.75; }
-    40% { opacity: 1; }
-    45% { opacity: 0.75; }
-    50% { opacity: 1; }
-    55% { opacity: 0.5; }
-    60% { opacity: 1; }
-    65% { opacity: 0.75; }
-    70% { opacity: 1; }
-    75% { opacity: 0.5; }
-    80% { opacity: 1; }
-    85% { opacity: 0.75; }
-    90% { opacity: 1; }
-    95% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
 
+/* For Flicker Effect */
 body::before {
     content: "";
     position: absolute;
@@ -54,14 +49,14 @@ body::before {
 /* Header Styles */
 header {
     background: rgba(0, 0, 0, 0.7);
-    padding: 10px;
+    padding: 20px;
     border-bottom: 2px solid #0f0;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 20px 20px 0px;
-    z-index: 1;
+    z-index: 2;
 }
 
 .header-content {
@@ -98,8 +93,10 @@ header {
 
 /* Container Styles */
 .container2 {
+    flex: 1;
     padding: 20px;
-    z-index: 1;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.7);
 }
 
 h1 {
@@ -116,17 +113,21 @@ h1 {
 }
 
 .playlist-item {
-    width: 45%;
+    width: calc(45% - 20px);
     background-size: cover;
     background-position: center;
     padding: 20px;
     margin: 10px 0;
     border: 2px solid #0f0;
-    transition: transform 0.2s;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .playlist-item:hover {
     transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
 }
 
 .playlist-item h2 {
@@ -147,7 +148,7 @@ footer {
     padding: 10px;
     text-align: center;
     border-top: 2px solid #0f0;
-    z-index: 1;
+    z-index: 2;
 }
 
 footer p {
@@ -172,5 +173,12 @@ footer a:hover {
     color: #0f0;
     text-shadow: 0 0 5px #0f0;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 1;
+    z-index: 2;
+}
+
+/* Ensure content remains visible over the background */
+header, .container2, .inspiration, footer {
+    background-color: rgba(0, 0, 0, 0.7);
+    margin: 10px;
+    border-radius: 5px;
 }

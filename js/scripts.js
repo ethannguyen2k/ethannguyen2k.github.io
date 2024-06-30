@@ -19,19 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         'kxgj5af8zg4', // The Weeknd - Out Of Time
         'OPf0YbXqDm0', // Mark Ronson - Uptown Funk ft. Bruno Mars
     ];
-    const playlistItems = document.querySelectorAll('.playlist-item');
-    const playlistBody = document.getElementById('playlist-body');
-
-    playlistItems.forEach(item => {
-        item.addEventListener('mouseover', () => {
-            const bgImage = item.getAttribute('data-bg');
-            playlistBody.style.backgroundImage = `url(${bgImage})`;
-        });
-
-        item.addEventListener('mouseout', () => {
-            playlistBody.style.backgroundImage = '';
-        });
-    });
 
     let currentVideoIndex = 0;
 
