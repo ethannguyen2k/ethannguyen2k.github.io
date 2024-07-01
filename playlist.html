@@ -9,16 +9,29 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="js/TVScreen.js"></script>
+    <style>
+        #tv-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        #tv-screen {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body id="playlist-body">
     <header>
         <div class="header-content">
-            <img id="logo" src="images/doodle_circle.png" alt="Logo">
+            <img id="logo" src="images/doodle_circle3.png" alt="Logo">
             <div class="text-content">
-                <h1>Duc Phat Nguyen</h1>
-                <h3>A student looking for opportunities in Data Science & AI</h3>
+                <h1>Ethan</h1>
+                <h3>Good vibes save lives</h3>
             </div>
         </div>
         <nav id="nav-bar">
@@ -28,37 +41,51 @@
         </nav>
     </header>
     
-    <div class="container2 fade-in">
+    <div class="container2">
         <h1>My Playlists</h1>
         <div class="playlist-list">
-            <div class="playlist-item" data-bg="https://p.potaufeu.asahi.com/8d7b-p/picture/26639449/e7d4db79285ec9f5f7c0fc9d8271594c.jpg">
-                <h2>WORK & STUDY TUNES</h2>
-                <p>music that keeps me in the zone with some cooldowns in between.</p>
-            </div>
+            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0onTC6nOYUjO-kF9BGFYtkA&si=mANGdAMWAfketiDY" target="_blank" class="playlist-item" data-bg="https://p.potaufeu.asahi.com/8d7b-p/picture/26639449/e7d4db79285ec9f5f7c0fc9d8271594c.jpg">
+                <div class="playlist-content">
+                    <h2>WORK & STUDY TUNES</h2>
+                    <p>music that keeps me in the zone with some cooldowns in between.</p>
+                </div>
+            </a>
 
-            <div class="playlist-item" data-bg="https://www.masalaherb.com/wp-content/uploads/2019/03/Strawberry-Jam-gog-3.jpg">
-                <h2>MY JAM</h2>
-                <p>play replay times three thousands.</p>
-            </div>
+            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0rw9Xtn8TNX4j0tabJaXrzv&si=OLZBojTItzJ4tLDj" target="_blank" class="playlist-item" data-bg="https://www.masalaherb.com/wp-content/uploads/2019/03/Strawberry-Jam-gog-3.jpg">
+                <div class="playlist-content">
+                    <h2>MY JAM</h2>
+                    <p>play replay times three thousands.</p>
+                </div>
+            </a>
 
-            <div class="playlist-item" data-bg="https://st.hzcdn.com/simgs/pictures/landscapes/stanford-garden-richard-kramer-img~4491d3460da524bb_14-2223-1-b890877.jpg">
-                <h2>癒し系 ACOUSTIC</h2>
-                <p>tranquility and relaxation</p>
-            </div>
+            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0qbQ6xM8QMMt2IA3CGvvIGw&si=5HwH8r6gLEGwALJt" target="_blank" class="playlist-item" data-bg="https://www.kanpai-japan.com/sites/default/files/styles/og/public/uploads/2011/11/koishikawa-korakuen-5.jpg">
+                <div class="playlist-content">
+                    <h2>癒し系 ACOUSTIC</h2>
+                    <p>tranquility and relaxation</p>
+                </div>
+            </a>
 
-            <div class="playlist-item" data-bg="https://64.media.tumblr.com/ac4c74b8920d56d98fe42d8f1120c53e/419747342fc73292-e2/s540x810/8820e089bcc1a020ebabb5b2e06b28c3637cd1fd.gif">
-                <h2>TURN BACK TIME</h2>
-                <p>"Marty, you're not thinking fourth dimensionally!"</p>
-            </div>
+            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0qgPZVJm8Sp_YH2vxRoJwkU&si=JLz7T9LMhclDquj7" target="_blank" class="playlist-item" data-bg="https://64.media.tumblr.com/ac4c74b8920d56d98fe42d8f1120c53e/419747342fc73292-e2/s540x810/8820e089bcc1a020ebabb5b2e06b28c3637cd1fd.gif">
+                <div class="playlist-content">
+                    <h2>TURN BACK TIME</h2>
+                    <p>"Marty, you're not thinking fourth dimensionally!"</p>
+                </div>
+            </a>
         </div>
     </div>
 
     <p class="inspiration">Music has always been a day-by-day source of inspiration and motivation for me. These will be constantly updated.</p>
 
     <footer>
-        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        <p>Made by Ethan, 2024, with 💚. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
     </footer>
 
+    <div id="tv-container">
+        <div id="tv-screen"></div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="js/TVScreen.js"></script>
     <script src="js/playlist.js"></script>
 </body>
 </html>

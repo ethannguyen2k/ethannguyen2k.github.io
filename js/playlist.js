@@ -1,40 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
     const playlistItems = document.querySelectorAll('.playlist-item');
-    const playlistBody = document.getElementById('playlist-body');
-
-    let originalBackground = playlistBody.style.backgroundImage;
-
-    // Function to initialize TVScreen flicker effect
-    function initializeTVScreen(container, bgImage) {
-        var tvScreen = new TVScreen(container, '100%', '100vh');
-        tvScreen.loadContent('<img src="' + bgImage + '" style="width:100%; height:100%;">');
-        return tvScreen;
-    }
-
-    // Function to remove TVScreen flicker effect
-    function removeTVScreen(tvScreen) {
-        if (tvScreen && tvScreen.interval) {
-            clearInterval(tvScreen.interval);
-        }
-        $(container).empty();
-        playlistBody.style.backgroundImage = originalBackground;
-    }
-
-    let activeTVScreen = null;
+    const tvContainer = document.getElementById('tv-container');
+    const tvScreenElement = document.getElementById('tv-screen');
+    let tvScreen = new TVScreen(tvScreenElement, '100%', '100%');
 
     playlistItems.forEach(item => {
-        item.addEventListener('mouseover', () => {
-            const bgImage = item.getAttribute('data-bg');
-            originalBackground = playlistBody.style.backgroundImage;
-            if (activeTVScreen) {
-                removeTVScreen(activeTVScreen);
-            }
-            activeTVScreen = initializeTVScreen('#playlist-body', bgImage);
+        item.addEventListener('mouseover', function() {
+            const imageUrl = item.getAttribute('data-bg');
+            tvScreen.loadContent(`
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <div style="position: absolute; width: 100%; height: 100%; background: url(${imageUrl}) center center / cover no-repeat;"></div>
+                    <div style="position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7);"></div>
+                </div>
+            `);
+            tvContainer.style.zIndex = 1;
         });
 
-        item.addEventListener('mouseout', () => {
-            removeTVScreen(activeTVScreen);
-            activeTVScreen = null;
+        item.addEventListener('mouseout', function() {
+            tvScreen.loadContent('');
+            tvContainer.style.zIndex = -1;
         });
     });
 });
