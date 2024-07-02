@@ -139,12 +139,12 @@ ol li {
 /* INDEX */
 .introduction {
     text-align: center;
-    padding: 10px;
+    padding: 20px;
     background-color: #f9f9f9;
 }
 
 #tooltip-trigger{
-    cursor: pointer;
+    cursor: default;
     color: #0096E2;
 }
 
@@ -580,6 +580,34 @@ section ul li {
     padding: 10px 20px;
     height: 150px;
 }
+
+/* Blogs */
+.article {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    margin-right: 100px;
+}
+
+.article h3 a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.article h3 a:hover {
+    color: #0056b3;
+}
+
+.article .meta {
+    color: #888;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.article p {
+    line-height: 1.6;
+}
+
 
 /* Ensure responsiveness */
 @media (max-width: 768px) {
