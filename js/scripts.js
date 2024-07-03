@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tooltipTrigger.addEventListener("mouseenter", function() {
             tooltipTimeout = setTimeout(function() {
                 tooltipContainer.style.display = "block";
-            }, 300); // Delay in milliseconds (500ms = 0.5s)
+            });
         });
 
         tooltipTrigger.addEventListener("mouseleave", function() {

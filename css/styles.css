@@ -387,13 +387,18 @@ section ul li {
     font-size: 18px;
 }
 
-.intro-details a {
+/* Icon Styles */
+.intro-details p a {
+    color: #333;
     text-decoration: none;
-    color: #0073e6;
-    margin-right: 10px;
+    margin-left: 2px;
+    margin-right: 8px;
+    font-size: 1.5em;
+    transition: color 0.3s;
 }
-.intro-details a:hover {
-    text-decoration: underline;
+
+.intro-details p a:hover {
+    color: #0096E2; /* Change this to your desired hover color */
 }
 
 .tech-bubble {
