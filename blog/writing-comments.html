@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html">My Blogs</a>
+        </nav>
+        <hr>
+    </header>
+    
+    <div class="container2 fade-in">
+        <div>
+            <h2>Writing Comments</h2>
+            <p>As a 24-year-old, I have had my fair share of moments grappling with programming. When I started, my understanding was straightforward but somewhat naive:</p>
+            <ul>
+                <li>I hadn't yet gained real-world experience in my domain.</li>
+                <li>I struggled to distinguish the standards for including comments and knowing if they were succinct.</li>
+                <li>I believed every code snippet should include comments to help readers understand the code's context and purpose.</li>
+            </ul>
+            
+            <p>However, through years of working on various projects and engaging with extensive codebases, I've learned that the quantity and quality of comments aren't always correlated. Poor comments can be worse than none.</p>
+            <p>So, how do we decide when and what to include in comments to make them effective?</p>
+            
+            <p>As <a href="https://visualstudiomagazine.com/articles/2013/07/26/why-commenting-code-is-still-bad.aspx" target="_blank">Peter Vogel has written</a>:</p>
+            <ul>
+                <li>Writing and maintaining comments is costly.</li>
+                <li>Compilers don't check comments, so there's no guarantee they're correct.</li>
+                <li>The computer will always do what the code specifies, regardless of comments.</li>
+            </ul>
+            
+            <p>This suggests it's often better to "tell" the compiler, and people potentially, through clear and expressive code rather than rely on comments. Here's an example to illustrate this:</p>
+            
+            <pre><code class="language-javascript">
+        if (userRole === 'member') {
+            // Show member-only content
+            document.getElementById('member-content').style.display = 'block';
+            // Hide admin-only content
+            document.getElementById('admin-content').style.display = 'none';
+        } else if (userRole === 'admin') {
+            // Show admin-only content
+            document.getElementById('admin-content').style.display = 'block';
+            // Hide member-only content
+            document.getElementById('member-content').style.display = 'none';
+        } else {
+            // Show default content for non-logged-in users
+            document.getElementById('default-content').style.display = 'block';
+            // Hide member and admin content
+            document.getElementById('member-content').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'none';
+        }
+            </code></pre>
+            
+            <p>Compare that to:</p>
+            
+            <pre><code class="language-javascript">
+        if (userRole === 'member') {
+            document.getElementById('member-content').style.display = 'block';
+            document.getElementById('admin-content').style.display = 'none';
+        } else if (userRole === 'admin') {
+            document.getElementById('admin-content').style.display = 'block';
+            document.getElementById('member-content').style.display = 'none';
+        } else {
+            document.getElementById('default-content').style.display = 'block';
+            document.getElementById('member-content').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'none';
+        }
+            </code></pre>
+            
+            <p>The above example suggest that, we can do both. Both as in both quality code, and expressive comments.</p>
+            <p>But that takes me back right to Peter Vogel's three statements at the start. Compilers will do exactly what you want as time goes on (considering you are updating the codebase). We can have pipelines, test cases, compiler checks, … Comments are not often get updated, on the other hand, and does not have these kind of checks (maybe AI will).</p>
+            <p>Comments are still useful though. Like this example with referencing math or algorithm:</p>
+                        
+            <pre><code class="language-py">
+        par = PassiveAggressiveRegressor().fit(x_train, y_train)
+        # taken from https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.PassiveAggressiveRegressor.html
+            </code></pre>
+            
+            <p>Comments can also be useful for:</p>
+            <ul>
+                <li>Documenting performance optimizations.</li>
+                <li>Referencing other external resources or documentation.</li>
+                <li>Pointing bugs or explaining fixes.</li>
+                <li>Enhancing readability in complex sections.</li>
+            </ul>
+            
+            <p>Good code combined with meaningful comments can save time and reduce frustration for you and your teammates. Although coding philosophies may vary, and some prefer detailed comments while others lean towards self-explanatory code, a balanced approach often works best.
+                While I still believe comments can provide valuable context, I've learned that clear code can often express intent more effectively than comments alone.</p>
+        </div>        
+
+        <p><a href="index.html">Back to Home</a></p>
+    </div>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+</body>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</html>
