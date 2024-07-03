@@ -117,7 +117,7 @@ ul {
 
 ul li {
     background-color: #fff;
-    margin: 10px 0;
+    margin: 10px;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -613,6 +613,92 @@ section ul li {
     line-height: 1.6;
 }
 
+/* Individual Blog */
+/* General styles for the code window */
+.code-window {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background: #121d20;
+    border: #e2e6e7 1px solid;
+    border-left: #e2e6e7 5px solid;
+    border-top: #e2e6e7 5px solid;
+    color: #ccc;
+}
+
+/* Styles for the console title bar */
+.code-window .console {
+    background: #e2e6e7;
+    height: 20px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+/* Styles for the console buttons */
+.code-window .console .red,
+.code-window .console .orange,
+.code-window .console .green {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.code-window .console .red {
+    background: red;
+}
+
+.code-window .console .orange {
+    background: orange;
+}
+
+.code-window .console .green {
+    background: #06b506;
+}
+
+/* Styles for the code content */
+.code-window pre.code-content {
+    margin: 0;
+    padding: 0 15px 15px 15px;
+    overflow: auto;
+    background: #e2e6e7;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    tab-size: 4; /* Adjust tab size as needed */
+}
+
+/* Styles for the code */
+pre[class*="language-"] {
+    background: none;
+    font-family: monospace, monospace;
+    font-size: 1em;
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+    padding: 0;
+}
+
+code {
+    padding: 0.2rem 0.4rem;
+    font-size: 90%;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: #06b506;
+}
+/* Reset margin and padding for pre and code elements */
+pre, code {
+    margin: 0;
+    padding: 0;
+}
 
 /* Ensure responsiveness */
 @media (max-width: 768px) {

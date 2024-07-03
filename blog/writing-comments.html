@@ -50,50 +50,71 @@
             
             <p>This suggests it's often better to "tell" the compiler, and people potentially, through clear and expressive code rather than rely on comments. Here's an example to illustrate this:</p>
             
-            <pre><code class="language-javascript">
-        if (userRole === 'member') {
-            // Show member-only content
-            document.getElementById('member-content').style.display = 'block';
-            // Hide admin-only content
-            document.getElementById('admin-content').style.display = 'none';
-        } else if (userRole === 'admin') {
-            // Show admin-only content
-            document.getElementById('admin-content').style.display = 'block';
-            // Hide member-only content
-            document.getElementById('member-content').style.display = 'none';
-        } else {
-            // Show default content for non-logged-in users
-            document.getElementById('default-content').style.display = 'block';
-            // Hide member and admin content
-            document.getElementById('member-content').style.display = 'none';
-            document.getElementById('admin-content').style.display = 'none';
-        }
-            </code></pre>
+            <div class="code-window">
+                <div class="console">
+                    <div class="red"></div>
+                    <div class="orange"></div>
+                    <div class="green"></div>
+                </div>
+                <pre class="code-content"><code class="language-javascript">
+if (userRole === 'member') {
+    // Show member-only content
+    document.getElementById('member-content').style.display = 'block';
+    // Hide admin-only content
+    document.getElementById('admin-content').style.display = 'none';
+} else if (userRole === 'admin') {
+    // Show admin-only content
+    document.getElementById('admin-content').style.display = 'block';
+    // Hide member-only content
+    document.getElementById('member-content').style.display = 'none';
+} else {
+    // Show default content for non-logged-in users
+    document.getElementById('default-content').style.display = 'block';
+    // Hide member and admin content
+    document.getElementById('member-content').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'none';
+}
+                </code></pre>
+            </div>
             
             <p>Compare that to:</p>
             
-            <pre><code class="language-javascript">
-        if (userRole === 'member') {
-            document.getElementById('member-content').style.display = 'block';
-            document.getElementById('admin-content').style.display = 'none';
-        } else if (userRole === 'admin') {
-            document.getElementById('admin-content').style.display = 'block';
-            document.getElementById('member-content').style.display = 'none';
-        } else {
-            document.getElementById('default-content').style.display = 'block';
-            document.getElementById('member-content').style.display = 'none';
-            document.getElementById('admin-content').style.display = 'none';
-        }
-            </code></pre>
+            <div class="code-window">
+                <div class="console">
+                    <div class="red"></div>
+                    <div class="orange"></div>
+                    <div class="green"></div>
+                </div>
+                <pre class="code-content"><code class="language-javascript">
+if (userRole === 'member') {
+    document.getElementById('member-content').style.display = 'block';
+    document.getElementById('admin-content').style.display = 'none';
+} else if (userRole === 'admin') {
+    document.getElementById('admin-content').style.display = 'block';
+    document.getElementById('member-content').style.display = 'none';
+} else {
+    document.getElementById('default-content').style.display = 'block';
+    document.getElementById('member-content').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'none';
+}
+                </code></pre>
+            </div>
             
             <p>The above example suggest that, we can do both. Both as in both quality code, and expressive comments.</p>
             <p>But that takes me back right to Peter Vogel's three statements at the start. Compilers will do exactly what you want as time goes on (considering you are updating the codebase). We can have pipelines, test cases, compiler checks, … Comments are not often get updated, on the other hand, and does not have these kind of checks (maybe AI will).</p>
             <p>Comments are still useful though. Like this example with referencing math or algorithm:</p>
                         
-            <pre><code class="language-py">
-        par = PassiveAggressiveRegressor().fit(x_train, y_train)
-        # taken from https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.PassiveAggressiveRegressor.html
-            </code></pre>
+            <div class="code-window">
+                <div class="console">
+                    <div class="red"></div>
+                    <div class="orange"></div>
+                    <div class="green"></div>
+                </div>
+                <pre class="code-content"><code class="language-python">
+par = PassiveAggressiveRegressor().fit(x_train, y_train)
+# taken from https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.PassiveAggressiveRegressor.html
+                </code></pre>
+            </div>
             
             <p>Comments can also be useful for:</p>
             <ul>
