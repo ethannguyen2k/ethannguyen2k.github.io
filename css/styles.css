@@ -109,7 +109,12 @@ h1, h2 {
     color: #0096E2;
     margin-top: 20px;
 }
-
+.subheading {
+    font-size: 0.5em; /* Smaller font size for the subheading */
+    font-weight: normal; /* Adjust the font weight if needed */
+    font-style: italic;
+    color: gray; /* Optional: set a color for the subheading */
+}
 ul {
     list-style-type: none;
     padding: 0;
@@ -614,6 +619,11 @@ section ul li {
 }
 
 /* Individual Blog */
+.blog-info {
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #666;
+}
 /* General styles for the code window */
 .code-window {
     width: 100%;
@@ -671,7 +681,6 @@ section ul li {
     background: #e2e6e7;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    white-space: pre;
     white-space: pre-wrap;
     word-wrap: break-word;
     tab-size: 4; /* Adjust tab size as needed */
@@ -688,16 +697,8 @@ pre[class*="language-"] {
 }
 
 code {
-    padding: 0.2rem 0.4rem;
     font-size: 90%;
     border-radius: 0.25rem;
-    background: transparent;
-    color: #06b506;
-}
-/* Reset margin and padding for pre and code elements */
-pre, code {
-    margin: 0;
-    padding: 0;
 }
 
 /* Ensure responsiveness */

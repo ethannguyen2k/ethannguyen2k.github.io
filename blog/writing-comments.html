@@ -23,7 +23,7 @@
         <nav id="nav-bar">
             <a href="../index.html">Homepage</a>
             <a href="../portfolio.html">My Portfolio</a>
-            <a href="../blog.html">My Blogs</a>
+            <a href="../blog.html" class="current">My Blogs</a>
         </nav>
         <hr>
     </header>
@@ -31,6 +31,11 @@
     <div class="container2 fade-in">
         <div>
             <h2>Writing Comments</h2>
+            <div class="blog-info">
+                <p>Author: Ethan</p>
+                <p>Date Created: <span id="date-created">June 10, 2023</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
             <p>As a 24-year-old, I have had my fair share of moments grappling with programming. When I started, my understanding was straightforward but somewhat naive:</p>
             <ul>
                 <li>I hadn't yet gained real-world experience in my domain.</li>
@@ -38,7 +43,7 @@
                 <li>I believed every code snippet should include comments to help readers understand the code's context and purpose.</li>
             </ul>
             
-            <p>However, through years of working on various projects and engaging with extensive codebases, I've learned that the quantity and quality of comments aren't always correlated. Poor comments can be worse than none.</p>
+            <p>However, through a couple of years working on various projects and engaging with extensive codebases, I've learned that the quantity and quality of comments aren't always correlated. Poor comments can be worse than none.</p>
             <p>So, how do we decide when and what to include in comments to make them effective?</p>
             
             <p>As <a href="https://visualstudiomagazine.com/articles/2013/07/26/why-commenting-code-is-still-bad.aspx" target="_blank">Peter Vogel has written</a>:</p>
@@ -139,4 +144,8 @@ par = PassiveAggressiveRegressor().fit(x_train, y_train)
 <script src="../js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
 </html>
