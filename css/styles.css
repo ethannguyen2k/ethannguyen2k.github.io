@@ -593,9 +593,23 @@ section ul li {
 
 /* Blogs */
 .article {
-    margin-top: 30px;
-    margin-bottom: 40px;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-bottom: 20px;
     margin-right: 100px;
+}
+
+.article-img {
+    width: 150px;
+    height: 150px;
+    margin: 20px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.article-content {
+    max-width: calc(100% - 170px); /* Adjust according to the width and margin of the image */
 }
 
 .article h3 a {
@@ -736,7 +750,22 @@ table tbody tr:last-of-type {
 }
 
 table tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #ddd;
+}
+table caption {
+    caption-side: bottom;
+    font-size: 1em;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
+    color: #333;
+}
+figcaption{
+    font-size: 1em;
+    color: #333;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 /* Add responsive design for table */

@@ -35,14 +35,19 @@
                 <p>Date Created: <span id="date-created">July 5, 2024</span></p>
                 <p>Date Modified: <span id="date-modified"></span></p>
             </div>
+            <img src="https://datacarpentry.org/spreadsheet-ecology-lesson/fig/conditional_formating.png" alt="Article Image" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
             <p>Organizing data in spreadsheets may seem straightforward, but improper techniques can lead to errors and inefficiencies. 
-                This blog post explores key strategies for organizing spreadsheet data, drawing insights from <a href="https://doi.org/10.1080/00031305.2017.1375989">W. Broman and Kara H. Woo's comprehensive guide in "Data Organization in Spreadsheets," published in The American Statistician</a>. 
-                These principles are essential for anyone handling data, ensuring clarity, consistency, and ease of analysis.</p>
+                This blog post explores some fundementals for organizing spreadsheet data, drawing insights from <a href="https://doi.org/10.1080/00031305.2017.1375989">W. Broman and Kara H. Woo's comprehensive guide in "Data Organization in Spreadsheets," published in The American Statistician</a>. 
+                These principles, in my opinion, are essential for anyone handling data. It will ensure clarity, consistency, and ease of analysis.</p>
 
             <h3>Be Consistent</h3>
             <p>Consistency is crucial in data organization. Here's how you can maintain it across your spreadsheets:</p>
             <ul>
-                <li><strong>Consistent Values for Categorical Variables:</strong> Ensure that values for categorical variables are consistent. For example, always use "male" and "female" instead of mixing in "M" or "F". Similarly, for missing values, use a standard representation such as <code>NA</code> or a hyphen (<code>-</code>). Never use different notations interchangeably.</li>
+                <li><strong>Consistent Values for Categorical Variables:</strong> Ensure that values for categorical variables are consistent. 
+                    For example, use "male" and "female" or "M" and "F" without mixing these altogether. 
+                    Similarly, for missing values, use a standard representation such as <code>NA</code> (a favourite in R) or a hyphen (<code>-</code>). 
+                    <strong>Never use different notations interchangeably.</strong> And never explain why it is missing in place of the missing value. You should make a seperate column for that.
+                </li>
                 <li><strong>Consistent Naming and Layouts:</strong>
                     <ul>
                         <li><strong>Variable and Subject Names:</strong> Use the same format throughout. Choose either underscores or hyphens for spaces in names, but not both.</li>
@@ -53,8 +58,15 @@
                 </li>
             </ul>
 
-            <h3>Examples of Good and Bad Practices</h3>
+            <h3>Succinct Name for Subjects</h3>
+            <p>Choosing clear and concise names for your subjects is vital for readability and analysis.</p>
+            <ul>
+                <li><strong>Avoid Spaces:</strong> Spaces in names can lead to errors and inconsistencies when importing data into software for analysis. Use underscores (_) or hyphens (-) instead.</li>
+                <li><strong>Be Consistent:</strong> Again, decide on either underscores or hyphens and stick to that choice throughout your dataset. Inconsistencies can make data processing scripts more complicated and error-prone.</li>
+                <li><strong>Avoid Special Characters:</strong> Special characters can interfere with data parsing and cause unexpected issues. Stick to letters, numbers, underscores, and hyphens. "</li>
+            </ul>
             <table>
+                <caption>Example of Good and Bad Subject Names</caption>
                 <thead>
                     <tr>
                         <th>Good Name</th>
@@ -102,12 +114,15 @@
             </table>
 
             <h3>Write Dates in a Consistent Manner</h3>
-            <p>Adopt the ISO 8601 standard (<code>yyyy-mm-dd</code>) for dates. 
-                This practice avoids confusion and ensures compatibility across systems. 
-                To prevent automatic conversions by spreadsheet software, set the text format for the date column before entering dates, or add an apostrophe (<code>'</code>) before the date.</p>
+            <ul>
+                <li><strong>Use a Single Date Format:</strong> Choose a single date format and stick to it throughout your dataset. Mixing date formats can lead to confusion and errors.</li>
+                <li><strong>Use ISO 8601 Standard:</strong> The ISO 8601 standard (<code>yyyy-mm-dd</code>) is widely accepted and avoids ambiguity. It is also compatible with most software and programming languages.</li>
+                <li><strong>Prevent Automatic Conversions:</strong> To prevent automatic conversions by spreadsheet software, set the text format for the date column before entering dates, or add an apostrophe (<code>'</code>) before the date ('2014-06-14).</li>
+            </ul>
+            <p>Other ways of writing dates is to use seperate columns for day, month and year or a straight 8-digit integer of form YYYYMMDD.</p>
 
-            <h3>Example of Consistent Date Entry</h3>
             <table>
+                <caption>Example of Consistent Date Entry</caption>
                 <thead>
                     <tr>
                         <th>id</th>
@@ -155,10 +170,11 @@
             </table>
 
             <h3>No Empty Cells</h3>
-            <p>Never leave cells empty unintentionally. Use <code>NA</code> or a hyphen (<code>-</code>) to indicate missing data. Define categorical variables explicitly and fill them in, avoiding merged cells which complicate data analysis in programming languages.</p>
+            <p>Never leave cells empty unintentionally. Use <code>NA</code> or a hyphen (<code>-</code>) to indicate missing data. 
+                Define categorical variables explicitly and fill them in, avoiding merged cells which complicate data analysis in programming languages.</p>
 
-            <h3>Example of Proper Data Entry</h3>
             <table>
+                <caption>Example of Proper Data Entry without Empty Cells</caption>
                 <thead>
                     <tr>
                         <th>strain</th>
@@ -204,83 +220,6 @@
                         <td>1</td>
                         <td>252</td>
                     </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>320</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>397</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>314</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>227</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>187</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>453</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>283</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>267</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>425</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>283</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>273</td>
-                    </tr>
                 </tbody>
             </table>
 
@@ -288,13 +227,64 @@
             <p>Each cell should contain only one type of data. 
                 Avoid combining multiple data types in a single cell.</p>
 
+            <table>
+                <caption>Good Example: One Type of Data per Cell</caption>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price (USD)</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Apples</td>
+                        <td>1.20</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>Bananas</td>
+                        <td>0.80</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Cherries</td>
+                        <td>3.00</td>
+                        <td>7</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            <table>
+                <caption>Bad Example: Multiple Types of Data in a Single Cell</caption>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price and Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Apples</td>
+                        <td>$1.20 for 10</td>
+                    </tr>
+                    <tr>
+                        <td>Bananas</td>
+                        <td>$0.80 for 5</td>
+                    </tr>
+                    <tr>
+                        <td>Cherries</td>
+                        <td>$3.00 for 7</td>
+                    </tr>
+                </tbody>
+            </table>
+
             <h3>Use a Clear Layout</h3>
             <p>The best layout for data within a spreadsheet is a single, large rectangle where rows correspond to subjects and columns correspond to variables. 
                 For CSV files, keep each table in one file. 
                 If using multiple tables, place them in separate worksheets but maintain consistency.</p>
 
-            <h3>Example of a Tidy Layout</h3>
-            <p>Instead of complicated layouts with merged cells:</p>
+            <p>So, instead of complicated layouts with merged cells:</p>
             <table>
                 <thead>
                     <tr>
@@ -474,6 +464,7 @@
 
             <h3>Create a Metadata Table</h3>
             <p>Include a separate table explaining all the variables. This metadata table should have:</p>
+            <img src="data-org-images/metadata-image.png" alt="Metadata Table" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
             <ul>
                 <li>The exact variable name as in the data file.</li>
                 <li>A version of the variable name that might be used in data visualizations.</li>
@@ -484,13 +475,26 @@
 
             <h3>Additional Tips</h3>
             <ul>
+                <li><strong>Create README file:</strong> Keep the description of the dataset, its source, and any important details such as explaining the structure of the data, including the layout of the spreadsheet and the meaning of each column.
+                </li>
                 <li><strong>No Calculations in Raw Data Files:</strong> Keep calculations separate from raw data to avoid accidental alterations.</li>
                 <li><strong>Use Data Validation:</strong> This helps prevent data entry errors by restricting the type of data that can be entered.</li>
                 <li><strong>No Formatting in Data:</strong> Avoid using colors or highlighting in raw data files. Formatting should be applied in a copy of the data if needed for presentation.</li>
                 <li><strong>Make Backups:</strong> Store backups in multiple locations. Consider using a formal version control system and write-protect files to prevent accidental changes.</li>
             </ul>
 
-            <p>By adhering to these best practices, you can ensure that your data is well-organized, consistent, and ready for analysis. Proper data organization not only facilitates accurate analysis but also enhances the reproducibility and integrity of your work.</p>
+            <p>In adhering to these practices, you can ensure that your data is consistent and well-organized. 
+                Proper data organization not only facilitates accurate analysis but also enhances the reproducibility and integrity of your work.</p>
+
+            <h3>More Examples of Bad and Good Data Organization</h3>
+            <img src="data-org-images/bad-examples.png" alt="Bad Data Organization" style="width: 90%; display: block; margin-left: auto; margin-right: auto;">
+            <figcaption>Some layouts that are causing problems</figcaption>
+            <img src="data-org-images/good-examples.png" alt="Good Data Organization" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+            <figcaption>Reorganization of the table D above</figcaption>
+            <img src="data-org-images/bad-examples2.png" alt="Bad Data Organization" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+            <figcaption>Instead of this, we can use a single header and name them date_W4, date_W6, …</figcaption>
+            <img src="data-org-images/good-examples2.png" alt="Good Data Organization" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+            <figcaption>Or like this</figcaption>
         </div>
 
         <p><a href="index.html">Back to Home</a></p>
