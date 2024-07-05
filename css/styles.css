@@ -697,11 +697,84 @@ pre[class*="language-"] {
 }
 
 code {
-    font-size: 90%;
+    font-size: 100%;
     border-radius: 0.25rem;
 }
 
-/* Ensure responsiveness */
+/* General table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: 'Arial', sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+table thead tr {
+    background-color: #0096E2;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+table th, table td {
+    padding: 12px 15px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #0096E2;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Add responsive design for table */
+@media screen and (max-width: 600px) {
+    table {
+        border: 0;
+    }
+
+    table thead {
+        display: none;
+    }
+
+    table tr {
+        display: block;
+        margin-bottom: .625em;
+    }
+
+    table td {
+        display: block;
+        text-align: right;
+        font-size: .8em;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
+
+/* Ensure responsiveness for the website*/
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -759,7 +832,7 @@ code {
     }
 }
 
-/* CSS for fade-in effect */
+/* fade-in effect */
 .fade-in {
     opacity: 0;
     transform: translateX(-50px);

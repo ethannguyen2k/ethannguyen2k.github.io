@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Organization in Spreadsheets</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html" class="current">My Blogs</a>
+        </nav>
+        <hr>
+    </header>
+    
+    <div class="container2 fade-in">
+        <div>
+            <h2>Data Organization in Spreadsheets</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">July 5, 2024</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
+            <p>Organizing data in spreadsheets may seem straightforward, but improper techniques can lead to errors and inefficiencies. 
+                This blog post explores key strategies for organizing spreadsheet data, drawing insights from <a href="https://doi.org/10.1080/00031305.2017.1375989">W. Broman and Kara H. Woo's comprehensive guide in "Data Organization in Spreadsheets," published in The American Statistician</a>. 
+                These principles are essential for anyone handling data, ensuring clarity, consistency, and ease of analysis.</p>
+
+            <h3>Be Consistent</h3>
+            <p>Consistency is crucial in data organization. Here's how you can maintain it across your spreadsheets:</p>
+            <ul>
+                <li><strong>Consistent Values for Categorical Variables:</strong> Ensure that values for categorical variables are consistent. For example, always use "male" and "female" instead of mixing in "M" or "F". Similarly, for missing values, use a standard representation such as <code>NA</code> or a hyphen (<code>-</code>). Never use different notations interchangeably.</li>
+                <li><strong>Consistent Naming and Layouts:</strong>
+                    <ul>
+                        <li><strong>Variable and Subject Names:</strong> Use the same format throughout. Choose either underscores or hyphens for spaces in names, but not both.</li>
+                        <li><strong>Date Formats:</strong> Use a consistent date format, preferably the ISO 8601 standard (<code>yyyy-mm-dd</code>).</li>
+                        <li><strong>Phrases in Notes:</strong> Ensure phrases used in notes are uniform.</li>
+                        <li><strong>No Extra Spaces:</strong> Avoid extra spaces within cells as they can cause inconsistencies and errors in data analysis.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Examples of Good and Bad Practices</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Good Name</th>
+                        <th>Good Alternative</th>
+                        <th>Avoid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Max_temp_C</td>
+                        <td>MaxTemp</td>
+                        <td>Maximum Temp (◦C)</td>
+                    </tr>
+                    <tr>
+                        <td>Precipitation_mm</td>
+                        <td>Precipitation</td>
+                        <td>precmm</td>
+                    </tr>
+                    <tr>
+                        <td>Mean_year_growth</td>
+                        <td>MeanYearGrowth</td>
+                        <td>Mean growth/year</td>
+                    </tr>
+                    <tr>
+                        <td>sex</td>
+                        <td>sex</td>
+                        <td>M/F</td>
+                    </tr>
+                    <tr>
+                        <td>weight</td>
+                        <td>weight</td>
+                        <td>w.</td>
+                    </tr>
+                    <tr>
+                        <td>cell_type</td>
+                        <td>CellType</td>
+                        <td>Cell Type</td>
+                    </tr>
+                    <tr>
+                        <td>Observation_01</td>
+                        <td>first_observation</td>
+                        <td>1st Obs.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Write Dates in a Consistent Manner</h3>
+            <p>Adopt the ISO 8601 standard (<code>yyyy-mm-dd</code>) for dates. 
+                This practice avoids confusion and ensures compatibility across systems. 
+                To prevent automatic conversions by spreadsheet software, set the text format for the date column before entering dates, or add an apostrophe (<code>'</code>) before the date.</p>
+
+            <h3>Example of Consistent Date Entry</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>date</th>
+                        <th>glucose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>2015-06-14</td>
+                        <td>149.3</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>2015-06-15</td>
+                        <td>95.6</td>
+                    </tr>
+                    <tr>
+                        <td>103</td>
+                        <td>2015-06-18</td>
+                        <td>97.5</td>
+                    </tr>
+                    <tr>
+                        <td>104</td>
+                        <td>2015-06-19</td>
+                        <td>121.2</td>
+                    </tr>
+                    <tr>
+                        <td>105</td>
+                        <td>2015-06-20</td>
+                        <td>111.6</td>
+                    </tr>
+                    <tr>
+                        <td>106</td>
+                        <td>2015-06-21</td>
+                        <td>108.6</td>
+                    </tr>
+                    <tr>
+                        <td>107</td>
+                        <td>2015-06-22</td>
+                        <td>169.4</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>No Empty Cells</h3>
+            <p>Never leave cells empty unintentionally. Use <code>NA</code> or a hyphen (<code>-</code>) to indicate missing data. Define categorical variables explicitly and fill them in, avoiding merged cells which complicate data analysis in programming languages.</p>
+
+            <h3>Example of Proper Data Entry</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>strain</th>
+                        <th>genotype</th>
+                        <th>min</th>
+                        <th>replicate</th>
+                        <th>response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>370</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>160</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>356</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>355</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>252</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>320</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>397</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>314</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>227</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>187</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>453</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>283</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>267</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>425</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>283</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>273</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>One Type of Data per Cell</h3>
+            <p>Each cell should contain only one type of data. 
+                Avoid combining multiple data types in a single cell.</p>
+
+            <h3>Use a Clear Layout</h3>
+            <p>The best layout for data within a spreadsheet is a single, large rectangle where rows correspond to subjects and columns correspond to variables. 
+                For CSV files, keep each table in one file. 
+                If using multiple tables, place them in separate worksheets but maintain consistency.</p>
+
+            <h3>Example of a Tidy Layout</h3>
+            <p>Instead of complicated layouts with merged cells:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>1 min</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>5 min</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>strain</th>
+                        <th>normal</th>
+                        <th></th>
+                        <th>mutant</th>
+                        <th></th>
+                        <th>normal</th>
+                        <th></th>
+                        <th>mutant</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A</td>
+                        <td>261</td>
+                        <td>379</td>
+                        <td>192</td>
+                        <td>340</td>
+                        <td>329</td>
+                        <td>335</td>
+                        <td>443</td>
+                        <td>294</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>407</td>
+                        <td>388</td>
+                        <td>350</td>
+                        <td>257</td>
+                        <td>268</td>
+                        <td>305</td>
+                        <td>276</td>
+                        <td>451</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Use a tidy version:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>strain</th>
+                        <th>genotype</th>
+                        <th>min</th>
+                        <th>replicate</th>
+                        <th>response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>370</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>160</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>356</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>355</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>252</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>320</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>397</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>314</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>227</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>187</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>453</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>normal</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>283</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>267</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>425</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>283</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>mutant</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>273</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Create a Metadata Table</h3>
+            <p>Include a separate table explaining all the variables. This metadata table should have:</p>
+            <ul>
+                <li>The exact variable name as in the data file.</li>
+                <li>A version of the variable name that might be used in data visualizations.</li>
+                <li>A longer explanation of what the variable means.</li>
+                <li>The measurement units.</li>
+                <li>Expected minimum and maximum values.</li>
+            </ul>
+
+            <h3>Additional Tips</h3>
+            <ul>
+                <li><strong>No Calculations in Raw Data Files:</strong> Keep calculations separate from raw data to avoid accidental alterations.</li>
+                <li><strong>Use Data Validation:</strong> This helps prevent data entry errors by restricting the type of data that can be entered.</li>
+                <li><strong>No Formatting in Data:</strong> Avoid using colors or highlighting in raw data files. Formatting should be applied in a copy of the data if needed for presentation.</li>
+                <li><strong>Make Backups:</strong> Store backups in multiple locations. Consider using a formal version control system and write-protect files to prevent accidental changes.</li>
+            </ul>
+
+            <p>By adhering to these best practices, you can ensure that your data is well-organized, consistent, and ready for analysis. Proper data organization not only facilitates accurate analysis but also enhances the reproducibility and integrity of your work.</p>
+        </div>
+
+        <p><a href="index.html">Back to Home</a></p>
+    </div>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+</body>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
+</html>
