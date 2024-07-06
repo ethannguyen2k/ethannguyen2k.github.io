@@ -845,6 +845,7 @@ figcaption{
 
     .project img {
         margin: 0 auto 10px;
+        width: 40%;
     }
 
     .project-details {
