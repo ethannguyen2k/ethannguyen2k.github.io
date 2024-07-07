@@ -6,11 +6,12 @@ body {
     color: #0f0;
     text-shadow: 0 0 5px #0f0;
     background-size: cover;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .content-wrapper {
@@ -173,4 +174,60 @@ header, .container2, .inspiration, footer {
     background: rgba(0, 0, 0, 0.2);
     margin: 10px;
     border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #logo {
+        margin-bottom: 10px;
+    }
+
+    #nav-bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #nav-bar a {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .playlist-item {
+        width: calc(100% - 40px); /* Full width minus padding/margin */
+        margin: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    #nav-bar a {
+        font-size: 16px;
+    }
+
+    .playlist-item {
+        width: calc(100% - 20px); /* Full width minus padding/margin */
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .playlist-item h2 {
+        font-size: 18px;
+    }
+
+    .playlist-item p {
+        font-size: 14px;
+    }
 }
