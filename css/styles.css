@@ -823,6 +823,7 @@ figcaption{
 
     .container2_1 {
         margin-left: 0;
+        margin-right: 0;
         padding: 10px;
     }
 
@@ -922,7 +923,6 @@ figcaption{
     }
 
     .project img {
-        width: 100%;
         height: auto;
         margin-bottom: 10px;
     }
