@@ -266,6 +266,14 @@ ol li {
     border-radius: 10px;
 }
 
+#videoDescription {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #555;
+    font-style: italic;
+    text-align: center;
+}
+
 /* PORTFOLIO */
 
 /* Layout styling */

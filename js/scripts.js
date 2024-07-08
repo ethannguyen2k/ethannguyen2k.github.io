@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const tooltipContainer = document.getElementById("tooltip-container");
     const surpriseMeBtn = document.getElementById('surpriseMe');
     const videoSection = document.getElementById('videoSection');
+    const videoDescription = document.getElementById('videoDescription');
     const videoIds = [
         'CiHfAO1XE4U', // My own
         'dQw4w9WgXcQ', // Rick Astley - Never Gonna Give You Up
@@ -19,17 +20,29 @@ document.addEventListener('DOMContentLoaded', function() {
         'kxgj5af8zg4', // The Weeknd - Out Of Time
         'OPf0YbXqDm0', // Mark Ronson - Uptown Funk ft. Bruno Mars
     ];
+    const videoDescriptions = [
+        'A heartfelt thanks to my friends for an amazing gift, still searching for the perfect spot.<br>Click Surprise me for more!',
+        'Rick...<br>Click Surprise me for more!',
+        '༼ つ ◕_◕ ༽つ༼ つ ◕_◕ ༽つ<br>Click Surprise me for more!',
+        'no matter where you are<br>Click Surprise me for more!',
+        'Don\'t panic...<br>Click Surprise me for more!',
+        'Bruno Mars funky never fails ~(=^‥^)/<br>The surprise ends here, but click again if you want to start over!',
+    ];
 
     let currentVideoIndex = 0;
 
-    if (surpriseMeBtn && videoSection) {
+    if (surpriseMeBtn && videoSection && videoDescription) {
         surpriseMeBtn.addEventListener('click', function() {
             const videoId = videoIds[currentVideoIndex];
+            const description = videoDescriptions[currentVideoIndex];
+    
             videoSection.innerHTML = `
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" 
                 title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             `;
+            videoDescription.innerHTML = description;
+            
             videoSection.classList.remove('hidden');
             setTimeout(() => {
                 videoSection.classList.add('visible');
@@ -37,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Scroll to video section
             videoSection.scrollIntoView({ behavior: 'smooth' });
-
+    
             // Move to the next video, loop back to the start if we've reached the end
             currentVideoIndex = (currentVideoIndex + 1) % videoIds.length;
         });
