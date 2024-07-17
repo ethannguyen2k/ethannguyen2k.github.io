@@ -648,6 +648,60 @@ section ul li {
     font-size: 0.9em;
     color: #666;
 }
+.blog-article {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 20px 20px 20px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.blog-article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.blog-article-img {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.blog-article-content {
+    flex: 1;
+}
+
+.blog-article-content h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.blog-article-content h3 a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.blog-article-content h3 a:hover {
+    color: #0073e6;
+}
+
+.blog-article-content .meta {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.blog-article-content p {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.6;
+}
+
 /* General styles for the code window */
 .code-window {
     width: 100%;
@@ -882,6 +936,28 @@ figcaption{
     .article-content {
         max-width: 100%;
     }
+    .blog-article {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .blog-article-img {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .blog-article-content h3 {
+        font-size: 1.3em;
+    }
+
+    .blog-article-content .meta {
+        font-size: 0.8em;
+    }
+
+    .blog-article-content p {
+        font-size: 0.9em;
+    }
 }
 
 @media (max-width: 480px) {
@@ -959,6 +1035,21 @@ figcaption{
 
     .article p {
         font-size: 0.9em;
+    }
+    .blog-article {
+        padding: 15px;
+    }
+
+    .blog-article-content h3 {
+        font-size: 1.1em;
+    }
+
+    .blog-article-content .meta {
+        font-size: 0.75em;
+    }
+
+    .blog-article-content p {
+        font-size: 0.85em;
     }
 }
 
