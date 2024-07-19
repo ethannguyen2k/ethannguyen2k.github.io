@@ -53,6 +53,9 @@ header {
     flex-direction: column;
     align-items: center;
 }
+.text-content h3{
+    font-style: italic;
+}
 .text-content h1, .text-content h3 {
     margin: 4px;
 }

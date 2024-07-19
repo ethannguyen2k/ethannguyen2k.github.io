@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs - Writing Comments in Programming</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/blog-styles.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
+    <aside class="sidebar">
         <div class="header-content">
             <img id="logo" src="../images/doodle_circle.png" alt="Logo">
             <div class="text-content">
@@ -25,8 +26,12 @@
             <a href="../portfolio.html">My Portfolio</a>
             <a href="../blog.html" class="current">My Blogs</a>
         </nav>
-        <hr>
-    </header>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/Ethan4thewin" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-by-day" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
     
     <div class="container2 fade-in">
         <div>
@@ -134,12 +139,13 @@ par = PassiveAggressiveRegressor().fit(x_train, y_train)
         </div>        
 
         <p><a href="index.html">Back to Home</a></p>
-    </div>
 
-    <footer>
-        <hr>
-        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-    </footer>
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+
+    </div>
 </body>
 <script src="../js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>

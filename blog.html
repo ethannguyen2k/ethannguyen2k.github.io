@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/blog-styles.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
+    <aside class="sidebar">
         <div class="header-content">
             <img id="logo" src="images/doodle_circle.png" alt="Logo">
             <div class="text-content">
@@ -24,8 +25,12 @@
             <a href="portfolio.html">My Portfolio</a>
             <a href="blog.html">My Blogs</a>
         </nav>
-        <hr>
-    </header>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/Ethan4thewin" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-by-day" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
     
     <div class="container2 fade-in">
         <h1>My Blogs <span class="subheading">Tech stuff that I found intriguing.</span></h1>
@@ -71,7 +76,7 @@
         </div>
 
         <div class="article">
-            <img src="https://png.pngitem.com/pimgs/s/584-5846258_microsoft-office-specialist-world-hd-png-download.png" alt="Article Image" class="article-img">
+            <img src="https://th.bing.com/th/id/R.8e802d83d6bc9794d264beed8ecf8f82?rik=p7CUcZmT78Yxzg&riu=http%3a%2f%2fww1.prweb.com%2fprfiles%2f2016%2f12%2f13%2f13923445%2fMOSWC_2017_Logo.png&ehk=5D8kZRCpE16CUA1UWzlfHhqL6jL6YvtWbRD5Q7mb604%3d&risl=&pid=ImgRaw&r=0" alt="Article Image" class="article-img">
             <div class="article-content">
                 <h3><a target="_blank" href="https://news.microsoft.com/vi-vn/2021/11/16/viet-nam-gianh-cu-dup-huy-chuong-vang-va-huy-chuong-bac-the-gioi-cuoc-thi-vo-dich-tin-hoc-van-phong-the-gioi-2020-2021/">Vietnam won the Gold Medal and the World Silver Medal at the World Office Informatics Championship 2020-2021</a></h3>
                 <p class="meta">by Microsoft Vietnam Communications | November 16, 2021 | Tags: Competitions, Office Specialists</p>
@@ -110,12 +115,14 @@
         </div>
 
         <p><a href="index.html">Back to Home</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+
     </div>
 
-    <footer>
-        <hr>
-        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-    </footer>
 </body>
 <script src="js/scripts.js"></script>
 </html>
