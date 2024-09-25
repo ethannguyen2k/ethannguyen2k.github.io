@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'dQw4w9WgXcQ', // Rick Astley - Never Gonna Give You Up
         '6GCNUeTFSbA',  // Micheal Sembello - Maniac
         '6b5DkEzP9Jw', // Luke Chiang - Home
-        'kxgj5af8zg4', // The Weeknd - Out Of Time
+        'nrZNzc9AjP8', // Good Kid - Second Rate Town
         'OPf0YbXqDm0', // Mark Ronson - Uptown Funk ft. Bruno Mars
     ];
     const videoDescriptions = [
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'Rick...<br>Click Surprise me for more!',
         '༼ つ ◕_◕ ༽つ༼ つ ◕_◕ ༽つ<br>Click Surprise me for more!',
         'no matter where you are<br>Click Surprise me for more!',
-        'Don\'t panic...<br>Click Surprise me for more!',
+        'disillusionment<br>Click Surprise me for more!',
         'Bruno Mars funky never fails ~(=^‥^)/<br>The surprise ends here, but click again if you want to start over!',
     ];
 
