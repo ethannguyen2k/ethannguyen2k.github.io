@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - Writing Comments in Programming</title>
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .spoiler {
+            color: #888;
+            font-style: italic;
+        }
+        .highlight {
+            color: #0057b8;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/Ethan4thewin" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-by-day" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="container2 fade-in">
+        <div>
+            <h2>Cloud-Based Manufacturing Optimization: A Student's Journey with Azure and AI</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">November 11, 2024</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
+            <img src="azure-images/header images.png" alt="Project header image" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
+            <p>Have you ever tried to create something while simultaneously learning how to use the tools? 
+            That's pretty much what my team and I experienced in our last semester project with Azure services 
+            to create a manufacturing optimization solution.</p>
+
+            <p><span class="spoiler"> Spoiler alert: we survived, 
+                learned a ton, and even managed to build something pretty cool.</span></p>
+            
+            <p>While the work was divided equally among team members, I took on the role of team leader where I 
+            provided a broad overview of the project, architecture design, set expectations, and orchestrated the 
+            team's efforts into a coherent product - in this case, a software module integrated into our client's 
+            existing system.</p>
+            
+            <h3>The Challenge: Making Machines Smarter</h3>
+            
+            <p><span class="highlight">The Picture:</span> You have manufacturing machines generating tons of data 
+            through sensors, but that data is just sitting there, not really doing much. So we wanted to create a software 
+            solution that could not just monitor these machines, but actually make sense of all that data and help 
+            engineers optimize operations.</p>
+            
+            <p>The core idea was to build a system that could:</p>
+            <ul>
+                <li>Monitor machines through sensor data</li>
+                <li>Store historical performance data</li>
+                <li>Use generative AI to query data, create reports, recognize faults, and raise alerts</li>
+                <li>Visualize everything in a user-friendly format</li>
+            </ul>
+            
+            <p>Sounds straightforward, right? Well... not exactly.</p>
+            
+            <h3>Azure: A Maze</h3>
+            
+            <p>Working with Azure was like exploring a city where every service is its own neighborhood. 
+            Some neighborhoods are friendly and work great together, while others... let's just say they need better 
+            public transportation.</p>
+            
+            <p>We used various Azure services for storing data, processing it, and running AI models. But here's 
+            where it gets interesting (and by interesting, I mean challenging 🎢).</p>
+            
+            <h3>The Plot Twists</h3>
+            
+            <p>Combining Azure services is a bit like following a recipe with missing instructions. Here are some fun 
+            challenges we faced:</p>
+            
+            <ol>
+                <li><strong>Documentation:</strong> Sometimes Azure's documentation felt like a treasure hunt. 
+                    "Oh, you want these two services to work together? Here's a cryptic clue in the docs!" While slightly exaggerated, the point stands. 
+                    When designing infrastructure for clients, we couldn't say with confidence if things would work as intended. The amount of documentation diving needed to verify feature availability was too extensive for proposal phases.
+                </li>
+                <li><strong>The Integration:</strong> Getting different Azure services to work together was way harder than it should be (had to thank my teammates for figuring this out before I go ape-****). 
+                    Often you have two Azure services that you expect to work together nicely, but they don't or require some roundabout way to integrate. For some services, I spent weeks trying to find ways for them to talk to each other, only to realize it wasn't documented anywhere and the only working solution was a roundabout approach using additional services. 
+                    This problem might not be a big deal if you use the Azure native version of a common technology (like Azure SQL vs Postgres for Azure, Synapse vs Databricks, Cosmos vs other non-structured DBs), but then you hit point number 1 again - oops, that feature in open-source product A isn't in our version yet, it's on the road map or in preview mode.
+                </li>
+                <li><strong>The "It's Not You, It's Me" Moments:</strong> Azure services occasionally decided to take their sweet time responding, like waiting for a text reply that never comes (something like this -> <img src="azure-images/read.png" style="vertical-align:middle; display: inline;">).
+                </li>
+            </ol>
+            
+            <h3>Lessons Learned (The Hard Way)</h3>
+            
+            <ul>
+                <li><strong>Reading Documentation is an Art:</strong> Beyond just reading, you need to read between 
+                    the lines. Often, what's missing is as important as what's included. To add to this, the number of things that are poorly or ambiguously documented across multiple locations is too high. 
+                    Maybe it's just me.
+                </li>
+                <li><strong>Integration Testing is Your Best Friend:</strong> When working with multiple services, test their interactions early. 
+                    Trust me, finding out two services don't play nice together, have clunky interactions, occasional timeout errors, or bugs after building half your solution is not fun.
+                </li>
+                <li><strong>Keep It Simple:</strong> Start with the basics and add complexity gradually. 
+                    This is something that I have learned from my past mistakes and from my teammates as well. 
+                    They are very good at breaking down the problem into smaller pieces and then solving them one by one. 
+                    This is a good approach to avoid getting overwhelmed by the system's complexity.
+                </li>
+            </ul>
+            
+            <p>Don't get me wrong, Azure has the most compelling storyline because it produces the top BI tool on the planet (PowerBI), the most common enterprise RDBMS (SqlServer), the most common business productivity suite (O365), and the most common authentication service (AAD). 
+                If I have to guess, probably MSFT doesn't pay as much attention to the DE or developers' side of the business, as many DEs are code-heavy.</p>
+            
+            <h3>The Silver Linings ✨</h3>
+            
+            <p>Despite the challenges, we built something genuinely useful:</p>
+            <ul>
+                <li>A real-time monitoring system</li>
+                <li>AI-powered insights for optimization</li>
+                <li>Interactive 3D visualizations</li>
+                <li>A chat interface for querying system data</li>
+            </ul>
+            
+            <p>And the best part? Everything actually worked together (after some convincing).</p>
+            
+            <h3>Personal Takeaways</h3>
+            
+            <p>Looking back, this project was more of a proof of concept, a prototype for our client rather than an actual staging product, like solving a puzzle where the pieces keep changing shape. 
+                Frustrating? Sometimes. Educational? It taught me that in the real world, technical skills are just part of the equation. 
+                Problem-solving, persistence, and being able to shrug it off are equally important.</p>
+            
+            <p>Want to see how it all came together? Check out our <a class="link" href="https://youtu.be/bpuhwgohZMo" target="_blank">
+            project presentation video</a> where we demonstrate the system in action. Our teachers seemed impressed, so 
+            we must have done something right.</p>
+            
+            <p><em>Made with care and occasional facepalms while dealing with Azure</em></p>
+        </div>
+
+        <p><a href="index.html">Back to Home</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+    </div>
+
+</body>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
+</html>

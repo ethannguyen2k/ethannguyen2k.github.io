@@ -89,11 +89,12 @@ body {
     border-color: #0056b3; /* Change border color on hover */
 }
 /* Navigation */
-nav{
+nav {
     background-color: white;
     clear: both;
     padding-bottom: 10px;
 }
+
 nav a {
     text-decoration: none;
     text-align: left;
@@ -101,15 +102,40 @@ nav a {
     padding: 10px 15px;
     border-radius: 10px;
     color: #0096E2;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;  /* Changed to 'all' to smooth all transitions */
 }
+
 nav a:hover {
-    background-color: #65ccff;
+    background: linear-gradient(to right, #65ccff, #99ddff);
     color: #333;
 }
+
 .current {
-    background-color: #0096E2;
+    background: linear-gradient(
+        270deg,
+        #0096E2,
+        #65ccff,
+        #0096E2
+    );
+    background-size: 200% 100%;
     color: white;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.current:hover {
+    animation: gradientShift 1s ease infinite;
 }
 
 footer{
