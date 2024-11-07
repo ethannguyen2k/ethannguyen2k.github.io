@@ -113,9 +113,9 @@ nav a:hover {
 .current {
     background: linear-gradient(
         270deg,
-        #0096E2,
-        #65ccff,
-        #0096E2
+        #009FFF,
+        #ec2F4B,
+        #009FFF
     );
     background-size: 200% 100%;
     color: white;
