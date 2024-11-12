@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - Training Mario with Reinforcement Learning</title>
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .dropdown-heading {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px;
+            padding-left: 30px; /* Add space for triangle on the left */
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            margin: 0;
+            position: relative;
+        }
+
+        /* Triangle icon using ::before pseudo-element */
+        .dropdown-heading::before {
+            content: '';
+            border-style: solid;
+            border-width: 5px 5px 0 5px; /* Triangle pointing down */
+            border-color: #333 transparent transparent transparent;
+            position: absolute;
+            left: 10px; /* Position triangle on the left */
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s; /* Smooth rotation */
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+
+        /* Show content and rotate triangle when open */
+        .dropdown.open .dropdown-content {
+            display: block;
+        }
+
+        /* Rotate the triangle to point up */
+        .dropdown.open .dropdown-heading::before {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .note {
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/Ethan4thewin" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-by-day" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="container2 fade-in">
+        <div>
+            <h2>Training Mario with Reinforcement Learning</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">November 12, 2024</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
+            <img src="" alt="Project header image" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
+            <p>In a lovely day, I asked myself, how can I make a computer learn to play Mario? Well, I did just that, and I embarked on this journey to understand reinforcement learning (RL) better. This blog post documents my experiments with training an AI agent to play Super Mario Bros using a Double Deep Q-Network (DDQN).</p>
+
+        <h3>What is Reinforcement Learning?</h3>
+        <p>Reinforcement learning (RL) is a type of machine learning where an agent learns by interacting with its environment to achieve a specific goal. 
+            The agent takes actions and receives rewards or penalties based on the effectiveness of those actions. 
+            Over time, the agent uses this feedback to adjust its behavior, aiming to maximize cumulative rewards. 
+        </p>
+        <!-- #TODO: Add a diagram here -->
+        <p>RL is commonly used in gaming, robotics, finance, or any setting where sequential decision-making under uncertainty is required. 
+            For example, an RL agent can learn to play video games by trying different strategies and learning from the outcomes. 
+            A famous example is AlphaGo, which used RL to beat world champions in <a href="https://deepmind.google/research/breakthroughs/alphago/">the game of Go</a>. There are also power agents in games like <a href="https://deepmind.google/discover/blog/alphastar-mastering-the-real-time-strategy-game-starcraft-ii/">AlphaStar in StarCraft</a> and <a href="https://openai.com/index/openai-five-defeats-dota-2-world-champions/">OpenAI Five in Dota 2</a> to play at superhuman levels.
+        </p>
+        <p>In the case of Mario, the agent's actions are moving left or right, jumping, or shooting fireballs.</p>
+        <p>The basic elements of reinforcement learning include:</p>
+        <ol>
+            <li><b>Agent</b>: The learner or decision-maker that interacts with the environment.</li>
+            <li><b>Environment</b>: The setting in which the agent operates.</li>
+            <li><b>Action</b>: Choices the agent can make.</li>
+            <li><b>State</b>: The current situation or context in which the agent finds itself.</li>
+            <li><b>Reward</b>: Feedback given to the agent to indicate success or failure.</li>
+        </ol>
+        <p>"For any given state, an agent can choose to do the most optimal action (exploit) or a random action (explore)."
+            This is something that agent has to learn to make better decision. 
+            This trade-off between exploration and exploitation is a key challenge in reinforcement learning.
+        </p>
+
+        <div class="dropdown">
+            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Core Concepts</h3>
+            <div class="dropdown-content">
+                <img src="https://spinningup.openai.com/en/latest/_images/rl_diagram_transparent_bg.png" alt="Agent-environment interaction loop" style="display: block; margin-left: auto; margin-right: auto;">
+                <p>Imagine you're playing a video game. You are the <b>agent</b> (the character you control), and the environment is the game world (the levels, obstacles, and everything around you).
+                    You can see things happening in the game (like a monster coming toward you) and decide what to do next (maybe jump, run away, or fight back), which is the <b>environment</b>.
+                </p>
+                <h4>States and Observations</h4>
+                <p>The <b>state</b> is like a snapshot of everything in the game world at a specific moment. For example, where the monsters are, what items are around, and how much health you have.
+                    <b>Observations</b> are what the agent can see or know about the world. Sometimes you can see everything (like in a game where you can see the whole map), and sometimes you can only see part of it (like if you're inside a building in the game and can't see the outside).
+                    This means the state is the complete picture (fully observed if agent can see the state) while the agent can only see part of it (partially observed, agent can only see a partial observation), most of the time.
+                </p>
+                <h4>Action Space</h4>
+                <p><b>Action space</b> is the set of all possible things you can do in the game. 
+                    For example, you might have options like "jump", "run", or "attack". 
+                    These are the actions the agent can choose from.
+                </p>
+                <p>In some environments, such as Atari games and Go, the agent operates within <b>discrete action spaces</b>, meaning there are a limited number of possible actions it can take. 
+                    Other environments, like where the agent controls a robot in a physical world, have <b>continuous action spaces</b>. 
+                    In continuous spaces, actions are real-valued vectors.</p>
+                <h4>Policies</h4>
+                <p>A <b>policy</b> is like a set of rules or a plan that tells the agent what to do based on what it sees. 
+                    So, if you see a monster, your policy might tell you to jump, or if it is attacking you first, you fight back. 
+                    If you see a treasure, your policy might tell you to collect it.
+                </p>
+                <p>Since the policy acts as the agent's brain, the terms "policy" and "agent" are often used interchangeably. For example, one might say, "The policy aims to maximize the reward."</p>
+                <p>In deep RL, we use parameterized policies. These policies are functions whose outputs depend on a set of parameters, such as the weights and biases of a neural network. 
+                    In adjusting these parameters through optimization algorithms, we can change the behavior of the policy.</p>
+                <p>A policy can be either deterministic or stochastic.</p>
+                <!-- see if deter and sto are like exploit and explore -->
+                <h4>Trajectories</h4>
+                <p>A <b>trajectory</b> is a sequence of states and actions in the world, like the path the agent takes through the game. 
+                    It's the series of actions the agent takes, starting from the beginning until the end. 
+                    It's like the story of what you do in the game.
+                </p>
+                <p>Trajectories are also frequently called episodes or rollouts.</p>
+                <h4>Rewards</h4>
+                <p>The goal of Reinforcement Learning (RL) is for <i><u>the agent to get better by practicing and learning from what happens when it takes different actions</u></i>. 
+                    The agent gets rewards for good actions and tries to do more of those to maximize its total reward.
+                </p>
+                <p>The reward function, written as 𝑅
+                    , tells the agent how good or bad a certain action was. This depends on:
+                    Where the agent was (the state it was in, like a level in a game),
+                    What action it just took (like moving, jumping, or grabbing something),
+                    Where it ended up (the next state, after the action).
+                    So we could write it as:
+                    𝑅=𝑅(𝑠,𝑎,𝑠′)
+                    </p>
+                <p>Sometimes, though, it's simpler to look only at where the agent is now (or where it is and what action it took).</p>
+                <p>The agent doesn’t just care about the reward from one action—it cares about getting the most points or rewards over time.
+                    This total score over a period is called the return, written as R(τ). There are a couple of ways to look at return:
+                    <ul>
+                        <li><b>Finite-Horizon Undiscounted Return</b>: adding up all the points you get in a short level or time period in a game.</li>
+                        <li><b>Infinite-Horizon Discounted Return</b>: look at all rewards the agent ever gets (an infinite horizon), but we use a discount factor (written as γ) to make future rewards worth a bit less.</li>
+                    </ul>
+                </p>
+                <p>Prioritize short-term gains (like going for treasures) but still consider discounted long-term rewards (by factoring in future treasures after defeating the monster). Plus, using a discount factor makes the math easier. 
+                    For each decision, it might calculate a value estimate based on both immediate rewards and discounted future rewards. 
+                    So, even if it avoids one monster initially for a quick treasure, it might tackle the next if it seems worthwhile.</p>
+            </div>
+        </div>
+
+        <h3>Initial Setup & Environment Challenges</h3>
+        <p><span class="note">Note: This blog follows the instructions from <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html">this tutorial</a>. 
+            Discussion and modifications that entails will be attempted to make sense of the article and the code.</span></p>
+        <p>Setting up the environment was quite the adventure. 
+            If you've worked with Python packages before, you know the usual suspects - version conflicts, deprecation warnings, and the occasional "this doesn't work like it used to" moments. 
+        </p>
+        
+        <ul>
+            <li>Outdated components</li>
+            <li>Compatibility issues because some functions are deprecated</li>
+            <li>Getting the right combination of dependencies' versions</li>
+        </ul>
+        <p>After a few hours of debugging and package juggling, I finally got everything working together.</p>
+
+        <p>To list the whole dependencies I used would be a bit much, but here are the main ones:</p>
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content"><code>
+pytorch=2.4.1=py3.8_cuda12.4_cudnn9_0
+torchrl=0.5.0
+torchvision=0.20.0
+gym=0.26.1
+gym-super-mario-bros=7.4.0
+numpy=1.24.4
+matplotlib-base=3.7.3
+        </code></pre>
+        </div>
+
+        <p>You can see that I used CUDA and cuDNN for GPU acceleration.
+            To find the right versions, I recommend checking <a href="https://stackoverflow.com/a/55717476">here</a>, <a href="https://pytorch.org/get-started/locally/">the official PyTorch website</a>, or using miniconda conda-forge channel for up-to-date packages.
+        </p>
+
+        <h3>Understanding the Network Architecture</h3>
+        <p>I started with a PyTorch tutorial on training a Mario-playing RL agent, but let's break down what's actually happening here. The model uses a Double Deep Q-Network (DDQN), which is an improvement over standard DQN.</p>
+
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content"><code>
+def __build_cnn(self, c, output_dim):
+    return nn.Sequential(
+        nn.Conv2d(in_channels=c, out_channels=32, kernel_size=8, stride=4),
+        nn.ReLU(),
+        nn.Conv2d(in_channels=32, out_channels=64, kernel_size=4, stride=2),
+        nn.ReLU(),
+        nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),
+        nn.ReLU(),
+        nn.Flatten(),
+        nn.Linear(3136, 512),
+        nn.ReLU(),
+        nn.Linear(512, output_dim),
+    )
+        </code></pre>
+        </div>
+
+        <h3>Training Process and Hyperparameter Tuning</h3>
+        <p>The training process was quite extensive. With my current setup:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Original</th>
+                    <th>Modified</th>
+                    <th>Reasoning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Batch size</td>
+                    <td>32</td>
+                    <td>256</td>
+                    <td>More stable learning</td>
+                </tr>
+                <tr>
+                    <td>Exploration rate min</td>
+                    <td>0.1</td>
+                    <td>0.15</td>
+                    <td>Maintain exploration</td>
+                </tr>
+                <tr>
+                    <td>Exploration decay</td>
+                    <td>0.99999975</td>
+                    <td>0.99999</td>
+                    <td>Faster decay</td>
+                </tr>
+                <tr>
+                    <td>Gamma</td>
+                    <td>0.9</td>
+                    <td>0.98</td>
+                    <td>Better long-term planning</td>
+                </tr>
+                <tr>
+                    <td>Learning rate</td>
+                    <td>0.00025</td>
+                    <td>0.0005</td>
+                    <td>Faster learning</td>
+                </tr>
+                <tr>
+                    <td>Memory size</td>
+                    <td>100000</td>
+                    <td>50000</td>
+                    <td>Focus on recent experiences</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>One interesting addition was implementing a prioritized replay buffer:</p>
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content"><code>
+class SimpleReplayBuffer:
+    def __init__(self, capacity, device):
+        self.buffer = deque(maxlen=capacity)
+        self.priorities = deque(maxlen=capacity)
+        self.device = device
+        self.eps = 1e-5  # Avoid zero probabilities
+
+    def push(self, state, next_state, action, reward, done):
+        priority = float(abs(reward)) + self.eps
+        self.buffer.append((state, next_state, action, reward, done))
+        self.priorities.append(priority)
+        </code></pre>
+        </div>
+
+        <p>I will continue to update this post in the future!</p>
+        </div>
+
+        <section id="references">
+        <h2>References</h2>
+        <ol>
+            <li>
+            Doe, J., & Smith, A. (2023). <em>Understanding Machine Learning</em>. Tech Journal, 10(4), 102-112. Available at: <a href="https://example.com">https://example.com</a>
+            </li>
+            <li>
+            Miller, R. (2022). "Optimizing Manufacturing Processes." <em>Industrial Insights</em>. Retrieved from <a href="https://industrialinsights.com/article">https://industrialinsights.com/article</a>
+            </li>
+            <li>
+            Chen, L., et al. (2021). "A Comprehensive Guide to Data Science." <em>Data Science Review</em>, 5(2), 45-60. DOI: <a href="https://doi.org/10.1234/dsr.2021.4567">10.1234/dsr.2021.4567</a>
+            </li>
+            <li>
+            Brown, T. (2020). <em>Artificial Intelligence for Beginners</em>. New York: AI Publishing.
+            </li>
+        </ol>
+        </section>
+          
+    <p><a href="index.html">Back to Home</a></p>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+</div>
+
+</body>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+// JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+    function toggleDropdown(element) {
+    element.parentElement.classList.toggle("open");
+  };
+</script>
+</html>    
