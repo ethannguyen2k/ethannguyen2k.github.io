@@ -87,7 +87,7 @@
                 <p>Date Created: <span id="date-created">November 12, 2024</span></p>
                 <p>Date Modified: <span id="date-modified"></span></p>
             </div>
-            <img src="" alt="Project header image" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
+            <img src="mario-images/mario-image.jpg" alt="Project header image - Mario" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
             <p>In a lovely day, I asked myself, how can I make a computer learn to play Mario? Well, I did just that, and I embarked on this journey to understand reinforcement learning (RL) better. This blog post documents my experiments with training an AI agent to play Super Mario Bros using a Double Deep Q-Network (DDQN).</p>
 
         <h3>What is Reinforcement Learning?</h3>
@@ -109,6 +109,7 @@
             <li><b>State</b>: The current situation or context in which the agent finds itself.</li>
             <li><b>Reward</b>: Feedback given to the agent to indicate success or failure.</li>
         </ol>
+        <img src="mario-images/mario-diagram.png" alt="Agent-environment interaction loop" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
         <p>"For any given state, an agent can choose to do the most optimal action (exploit) or a random action (explore)."
             This is something that agent has to learn to make better decision. 
             This trade-off between exploration and exploitation is a key challenge in reinforcement learning.
@@ -176,7 +177,7 @@
             </div>
         </div>
 
-        <h3>Initial Setup & Environment Challenges</h3>
+        <h3>Initial Setup</h3>
         <p><span class="note">Note: This blog follows the instructions from <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html">this tutorial</a>. 
             Discussion and modifications that entails will be attempted to make sense of the article and the code.</span></p>
         <p>Setting up the environment was quite the adventure. 
@@ -210,6 +211,59 @@ matplotlib-base=3.7.3
 
         <p>You can see that I used CUDA and cuDNN for GPU acceleration.
             To find the right versions, I recommend checking <a href="https://stackoverflow.com/a/55717476">here</a>, <a href="https://pytorch.org/get-started/locally/">the official PyTorch website</a>, or using miniconda conda-forge channel for up-to-date packages.
+            Once you have the right versions, it will look something like this:
+        </p>
+        <img src="mario-images/cuda.png" alt="CUDA device confirmation" style="display: block; margin-left: auto; margin-right: auto;">
+
+        <h3>Initialise Environment</h3>
+        <p>In Mario, tubes, mushrooms, etc... are the components of the environment. 
+            This is where the agent will interact with the game world, taking actions and receiving rewards based on its performance.
+        </p>
+
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content"><code>
+# Initialize Super Mario environment (in v0.26 change render mode to 'human' to see results on the screen)
+if gym.__version__ < '0.26':
+    env = gym_super_mario_bros.make("SuperMarioBros-1-1-v0", new_step_api=True)
+else:
+    env = gym_super_mario_bros.make("SuperMarioBros-1-1-v0", render_mode='rgb', apply_api_compatibility=True)
+
+# Define the movement options for Super Mario
+MOVEMENT_OPTIONS = [
+    ["right"],        # Move right
+    ["right", "A"],   # Jump right
+]
+
+# Apply the wrapper to the environment
+env = JoypadSpace(env, MOVEMENT_OPTIONS)
+
+env.reset()
+next_state, reward, done, trunc, info = env.step(action=0)
+print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
+        </code></pre>
+        </div>
+
+        <code>(240, 256, 3), </code><br>
+        <code>0.0, </code><br>
+        <code>False, </code><br>
+        <code>{'coins': 0, 'flag_get': False, 'life': 2, 'score': 0, 'stage': 1, 'status': 'small', 'time': 400, 'world': 1, 'x_pos': 40, 'y_pos': 79}</code>
+
+        <p>This code snippet initializes the Super Mario environment, sets up the movement options, and applies a wrapper to the environment, which will helps the agent interact with the environment by providing a set of actions it can take.
+            As a test, the code prints out the next state, reward, done flag, and info after taking the first action in the environment.
+        </p>
+        
+        <p>When you call env.step(action=0), you're telling Mario to perform action 0, which from the MOVEMENT_OPTIONS list is moving right. Of course, you can change the action to 1, which is a jump right.
+            The function returns the next state (a 240x256x3 image), the reward (0.0 in this case), a done flag (False, meaning the episode is not over), and some additional information about the environment.
+            This is something that Mario will probably see (for illustration purposes):
+        </p>
+        <img src="mario-images/mario-screen.svg" alt="Mario screen" style="display: block; margin-left: auto; margin-right: auto; width: 45%;">
+        <p>Think of it like pressing the right button for a split second, checks if you get a reward, game over or not, and then returns the new state of the game.
+            This is a single step in the game, the interaction loop will continue until the game is over or the AI beat the game.
         </p>
 
         <h3>Understanding the Network Architecture</h3>

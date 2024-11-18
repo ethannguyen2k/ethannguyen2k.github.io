@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policies AI System</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html" class="current">My Portfolio</a>
+            <a href="../../blog.html">My Blogs</a>
+        </nav>
+        <hr>
+    </header>
+
+    <div class="container1">
+        <div class="project-header fade-in">
+            <img src="https://user-images.githubusercontent.com/2184469/40949613-7542733a-6834-11e8-895b-ce1cc3af9dbb.gif" alt="Project Mario RL Thumbnail" class="project-image">
+            <div class="project-info">
+                <h1>Play Mario with Reinforcement Learning</h1>
+                <p>A Double Deep Q-Learning implementation that teaches an AI agent to play Super Mario Bros through trial and error.
+                    I wrote a blog post about this project <a target="_blank" href="../../blog/mario-rl.html">here</a>.
+                </p>
+                <a target="_blank" href="https://github.com/Ethan4thewin/mario-rlagent" class="button">View on GitHub</a>
+                <h2>Built With</h2>
+                <div class="badges">
+                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
+                    <img src="https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=fff&style=flat" alt="PyTorch Badge">
+                    <img src="https://img.shields.io/badge/OpenAI_Gym-412991?logo=openai&logoColor=fff&style=flat" alt="OpenAI Badge">
+                    <img src="https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff&style=flat" alt="NumPy Badge">
+                    <img src="https://img.shields.io/badge/Matplotlib-3776AB?style=flat" alt="Matplotlib Badge">
+                </div>
+            </div>
+        </div>
+
+        <div class="fade-in">
+            <p>This project implements a Double Deep Q-Learning (DDQN) model to teach an AI agent to play Super Mario Bros. 
+                The agent learns through trial and error, developing strategies to navigate levels, avoid enemies, and maximize score. 
+                The implementation uses PyTorch for deep learning and OpenAI Gym for the game environment.
+            </p>
+
+            <p>The project involved several key components:</p>
+            <ol>
+                <li>Environment Setup:</li>
+                <ul>
+                    <li>Integration with OpenAI Gym's Super Mario Bros environment</li>
+                    <li>State preprocessing and action space definition</li>
+                    <li>Reward function design to encourage desired behaviors</li>
+                </ul>
+                <li>Model Architecture:</li>
+                <ul>
+                    <li>Implementation of a DDQN model with target network for stability</li>
+                    <li>Experience replay buffer to store and sample past experiences</li>
+                    <li>Training loop to update the model based on rewards and penalties</li>
+                </ul>
+                <li>Training Pipeline:</li>
+                <ul>
+                    <li>Training the agent on episodes of Super Mario Bros with Epsilon-greedy exploration strategy</li>
+                    <li>Monitoring performance metrics and checkpoints</li>
+                    <li>Periodic target network updates</li>
+                </ul>
+            </ol>
+        </div>
+        
+        <div class="fade-in"><h2>Visualisation</h2></div>
+        <div class="example-images fade-in">
+            <div class="example-image">
+                <img src="Picture1.png" alt="Main Page" onclick="openLightbox(this)">
+                <p>Main Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture2.png" alt="Result Page" onclick="openLightbox(this)">
+                <p>Result Page</p>
+            </div>
+            <div class="example-image">
+                <img src="Picture3.jpeg" alt="Main Page variation on Streamlit" onclick="openLightbox(this)">
+                <p>Main Page variation on Streamlit</p>
+            </div>
+        </div>
+        
+        <div id="lightbox" class="lightbox">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <p id="lightbox-caption"></p>
+        </div> 
+
+        <div class="fade-in">
+            <h2>Workflow</h2>
+            <p>Coming soon</p>
+        
+            <h2>Results</h2>
+            <p>Coming soon</p>
+            </li>
+
+            <h2>Visit the GitHub Repository</h2>
+            <p>For the full code and documentation, visit the <a target="_blank" href="https://github.com/Ethan4thewin/mario-rlagent">GitHub repository</a>.</p>
+        </div>
+    </div>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+
+    <script src="../../js/scripts.js"></script>
+</body>
+</html>
