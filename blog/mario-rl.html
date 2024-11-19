@@ -248,14 +248,16 @@ print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
         </code></pre>
         </div>
 
-        <code>(240, 256, 3), </code><br>
-        <code>0.0, </code><br>
-        <code>False, </code><br>
-        <code>{'coins': 0, 'flag_get': False, 'life': 2, 'score': 0, 'stage': 1, 'status': 'small', 'time': 400, 'world': 1, 'x_pos': 40, 'y_pos': 79}</code>
-
         <p>This code snippet initializes the Super Mario environment, sets up the movement options, and applies a wrapper to the environment, which will helps the agent interact with the environment by providing a set of actions it can take.
             As a test, the code prints out the next state, reward, done flag, and info after taking the first action in the environment.
         </p>
+
+        <div class="output-cell">
+            <div class="output-line">(240, 256, 3), </div>
+            <div class="output-line">0.0, </div>
+            <div class="output-line">False, </div>
+            <div class="output-line">{'coins': 0, 'flag_get': False, 'life': 2, 'score': 0, 'stage': 1, 'status': 'small', 'time': 400, 'world': 1, 'x_pos': 40, 'y_pos': 79}</div>
+        </div>
         
         <p>When you call env.step(action=0), you're telling Mario to perform action 0, which from the MOVEMENT_OPTIONS list is moving right. Of course, you can change the action to 1, which is a jump right.
             The function returns the next state (a 240x256x3 image), the reward (0.0 in this case), a done flag (False, meaning the episode is not over), and some additional information about the environment.
@@ -264,6 +266,20 @@ print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
         <img src="mario-images/mario-screen.svg" alt="Mario screen" style="display: block; margin-left: auto; margin-right: auto; width: 45%;">
         <p>Think of it like pressing the right button for a split second, checks if you get a reward, game over or not, and then returns the new state of the game.
             This is a single step in the game, the interaction loop will continue until the game is over or the AI beat the game.
+        </p>
+
+        <h3>Pre-process the Environment</h3>
+
+        <p>In the previous output, the next state was a 240x256x3 image which is returned by the environment.
+            Often, this is too much information for the agent to process directly.
+            Mario does not need to see the entire screen to make decisions.
+            Instead, we will apply wrappers to the environment to pre-process the images and make them more manageable for the agent.
+        </p>
+        <img src="mario-images/env-wrapper.png" alt="Environment wrapper" style="display: block; margin-left: auto; margin-right: auto;">
+        <img src="mario-images/frame-transformation.svg" alt="Frame transformation" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+
+        <p>The final output is smaller by almost 85%, which means faster processing and less memory usage.
+            This is much simpler than what a human sees, but contains all the essential information needed to learn how to play the game effectively.           
         </p>
 
         <h3>Understanding the Network Architecture</h3>

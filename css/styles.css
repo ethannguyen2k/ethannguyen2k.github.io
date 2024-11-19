@@ -410,6 +410,40 @@ section ul li {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
+    position: relative;
+}
+
+.intro-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 150, 226, 0.1),
+        rgba(0, 150, 226, 0.8),
+        rgba(0, 150, 226, 0.1)
+    ) border-box;
+    mask: 
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    background-size: 300% 100%;
+    animation: borderGradient 3s ease infinite; 
+}
+
+@keyframes borderGradient {
+    0% { background-position: 100% 50%; }
+    50% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 .intro-content img.avatar {
