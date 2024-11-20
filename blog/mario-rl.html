@@ -331,12 +331,12 @@ print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
             </tbody>
         </table>
         <img src="mario-images/memory-usage.svg" alt="Memory usage comparison" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
-        <p>My SimpleReplayBuffer does 2 key things:</p>
+        <p>My <b>SimpleReplayBuffer</b> does 2 key things:</p>
         <ol>
             <li>push (Storing Experiences): 
                 <ul>
                     <li>It takes a snapshot of what happened during one step of Mario's gameplay.</li>
-                    <li>It calculates how important this memory is (priority = |reward| +  epsilon - tiny number).</li>
+                    <li>It calculates how important this memory is (priority = |reward| +  epsilon).</li>
                     <li>It stores the experience in a deque and the priority in a separate deque.</li>
                 </ul>
             </li>
@@ -352,6 +352,93 @@ print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
             It is lightweight, easy to understand, and doesn't require any special dependencies.
             Plus, it is easier to debug and modify if needed.
         </p>
+
+        <h3>It's-a me, Mario!</h3>
+        <p>It's time create the Mario-playing agent. Basically, Mario should be able to:
+        </p>
+        <ul>
+            <li><b>Act</b> according to the optimal policy (exploit) or try new things (explore) based on the current state.</li>
+            <li><b>Remember</b> experiences. Experience = (current state, current action, reward, next state). 
+                Mario will <b>cache</b> and <b>recall</b> these experiences to update his policy.</li>
+            <li><b>Learn</b> from these experiences, which means updating his policy to maximize rewards over time.</li>
+        </ul>
+
+        <div class="dropdown">
+            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Act</h3>
+            <div class="dropdown-content">
+                <div class="code-window">
+                    <div class="console">
+                        <div class="red"></div>
+                        <div class="orange"></div>
+                        <div class="green"></div>
+                    </div>
+                <pre class="code-content"><code>
+def act(self, state):
+    """
+    Given a state, choose an epsilon-greedy action and update value of step.
+
+    Inputs:
+    state(``LazyFrame``): A single observation of the current state, dimension is (state_dim)
+    Outputs:
+    ``action_idx`` (``int``): An integer representing which action Mario will perform
+    """
+                </code></pre>
+                </div>
+
+                <p>The act function takes a state, which is a LazyFrame object representing what Mario "sees" at a given moment.
+                    From there, it chooses an action based on an epsilon-greedy strategy (exploit vs. explore).
+                    If the agent is exploring (randomly trying new things), it will choose a random action.
+                    If the agent is exploiting (using what it knows to maximize rewards), it will choose the best action by relying on MarioNet in the Learn section.
+                </p>
+
+                <img src="mario-images/act-method-flow.svg" alt="Act method flow" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+                <p>The method is called every time Mario needs to make a decision, which happens many times per second during gameplay.
+                </p>
+
+                <p>Exploration rate early on is 1, meaning Mario will explore 100% of the time early in training.
+                    Over time, this rate will decrease through <code>exploration_rate_decay</code>, so Mario will explore less and force to exploit more.
+                    This value will never goes below <code>exploration_rate_min</code>, which can be set.
+                </p>
+            </div>
+        </div>
+        
+        <div class="dropdown">
+            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Remember (Cache and Recall)</h3>
+            <div class="dropdown-content">
+                <div class="code-window">
+                    <div class="console">
+                        <div class="red"></div>
+                        <div class="orange"></div>
+                        <div class="green"></div>
+                    </div>
+                <pre class="code-content"><code>
+def cache(self, state, next_state, action, reward, done):
+    """
+    Store the experience to self.memory (replay buffer)
+
+    Inputs:
+    state (``LazyFrame``),
+    next_state (``LazyFrame``),
+    action (``int``),
+    reward (``float``),
+    done(``bool``)
+    """
+
+def recall(self):
+    """
+    Retrieve a batch of experiences from memory
+    """
+                </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Learn</h3>
+            <div class="dropdown-content">
+            
+            </div>
+        </div>
 
         <h3>Understanding the Network Architecture</h3>
         <p>I started with a PyTorch tutorial on training a Mario-playing RL agent, but let's break down what's actually happening here. The model uses a Double Deep Q-Network (DDQN), which is an improvement over standard DQN.</p>
@@ -378,6 +465,8 @@ def __build_cnn(self, c, output_dim):
     )
         </code></pre>
         </div>
+
+        <h3>Additional Parameters</h3>
 
         <h3>Training Process and Hyperparameter Tuning</h3>
         <p>The training process was quite extensive. With my current setup:</p>
