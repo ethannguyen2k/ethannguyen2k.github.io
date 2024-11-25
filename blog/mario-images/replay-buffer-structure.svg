@@ -6,30 +6,30 @@
     <g transform="translate(70,80)">
         <!-- Experience 1 -->
         <rect width="680" height="60" fill="#f0f8ff" stroke="#666"/>
-        <text x="10" y="35" font-size="14">Experience 1:</text>
-        <text x="120" y="25" font-size="12">State: [84x84x4]</text>
-        <text x="250" y="25" font-size="12">Action: RIGHT</text>
-        <text x="370" y="25" font-size="12">Reward: 100</text>
-        <text x="480" y="25" font-size="12">Next State: [84x84x4]</text>
-        <text x="610" y="25" font-size="12">Done: False</text>
-        <text x="120" y="45" font-size="12" fill="#0066cc">Priority: 100.00001</text>
+        <text x="10" y="35" font-size="14" font-family="Arial">Experience 1:</text>
+        <text x="120" y="25" font-size="12" font-family="Arial">State: [84x84x4]</text>
+        <text x="250" y="25" font-size="12" font-family="Arial">Action: RIGHT</text>
+        <text x="370" y="25" font-size="12" font-family="Arial">Reward: 100</text>
+        <text x="480" y="25" font-size="12" font-family="Arial">Next State: [84x84x4]</text>
+        <text x="610" y="25" font-size="12" font-family="Arial">Done: False</text>
+        <text x="120" y="45" font-size="12" fill="#0066cc" font-family="Arial">Priority: 100.00001</text>
     </g>
     
     <g transform="translate(70,150)">
         <!-- Experience 2 -->
         <rect width="680" height="60" fill="#f5f5f5" stroke="#666"/>
-        <text x="10" y="35" font-size="14">Experience 2:</text>
-        <text x="120" y="25" font-size="12">State: [84x84x4]</text>
-        <text x="250" y="25" font-size="12">Action: JUMP</text>
-        <text x="370" y="25" font-size="12">Reward: 0</text>
-        <text x="480" y="25" font-size="12">Next State: [84x84x4]</text>
-        <text x="610" y="25" font-size="12">Done: False</text>
-        <text x="120" y="45" font-size="12" fill="#0066cc">Priority: 0.00001</text>
+        <text x="10" y="35" font-size="14" font-family="Arial">Experience 2:</text>
+        <text x="120" y="25" font-size="12" font-family="Arial">State: [84x84x4]</text>
+        <text x="250" y="25" font-size="12" font-family="Arial">Action: JUMP</text>
+        <text x="370" y="25" font-size="12" font-family="Arial">Reward: 0</text>
+        <text x="480" y="25" font-size="12" font-family="Arial">Next State: [84x84x4]</text>
+        <text x="610" y="25" font-size="12" font-family="Arial">Done: False</text>
+        <text x="120" y="45" font-size="12" fill="#0066cc" font-family="Arial">Priority: 0.00001</text>
     </g>
     
     <!-- More entries indicator -->
-    <text x="370" y="280" font-size="20">. . .</text>
+    <text x="370" y="280" font-size="20" font-family="Arial">. . .</text>
     
     <!-- Capacity indicator -->
-    <text x="60" y="370" font-size="14">Capacity: N experiences</text>
+    <text x="60" y="370" font-size="14" font-family="Arial">Capacity: N experiences</text>
 </svg>
