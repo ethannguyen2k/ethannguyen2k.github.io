@@ -1,0 +1,63 @@
+<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="1000" height="600" fill="none"/>
+    
+    <!-- Main Agent Box -->
+    <rect x="50" y="50" width="900" height="500" rx="15" fill="#fff" stroke="#333" stroke-width="2"/>
+    <text x="500" y="90" text-anchor="middle" font-family="Arial" font-size="24" fill="#333">Mario Agent</text>
+    
+    <!-- Act Component -->
+    <rect x="100" y="120" width="200" height="150" rx="10" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+    <text x="200" y="155" text-anchor="middle" fill="white" font-family="Arial" font-size="18">ACT</text>
+    <rect x="120" y="170" width="160" height="80" rx="5" fill="#81C784" stroke="#fff"/>
+    <text x="200" y="195" text-anchor="middle" fill="white" font-family="Arial" font-size="12">1. Observe State</text>
+    <text x="200" y="215" text-anchor="middle" fill="white" font-family="Arial" font-size="12">2. Choose Action</text>
+    <text x="200" y="235" text-anchor="middle" fill="white" font-family="Arial" font-size="12">(Explore vs Exploit)</text>
+    
+    <!-- Remember Component -->
+    <rect x="400" y="120" width="200" height="150" rx="10" fill="#2196F3" stroke="#1976D2" stroke-width="2"/>
+    <text x="500" y="155" text-anchor="middle" fill="white" font-family="Arial" font-size="18">REMEMBER</text>
+    <rect x="420" y="170" width="160" height="80" rx="5" fill="#64B5F6" stroke="#fff"/>
+    <text x="500" y="195" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Memory Buffer</text>
+    <text x="500" y="215" text-anchor="middle" fill="white" font-family="Arial" font-size="12">50,000 Experiences</text>
+    <text x="500" y="235" text-anchor="middle" fill="white" font-family="Arial" font-size="12">(Cache &amp; Recall)</text>
+    
+    <!-- Learn Component -->
+    <rect x="700" y="120" width="200" height="150" rx="10" fill="#9C27B0" stroke="#7B1FA2" stroke-width="2"/>
+    <text x="800" y="155" text-anchor="middle" fill="white" font-family="Arial" font-size="18">LEARN</text>
+    <rect x="720" y="170" width="160" height="80" rx="5" fill="#BA68C8" stroke="#fff"/>
+    <text x="800" y="195" text-anchor="middle" fill="white" font-family="Arial" font-size="12">DDQN Network</text>
+    <text x="800" y="215" text-anchor="middle" fill="white" font-family="Arial" font-size="12">TD Learning</text>
+    <text x="800" y="235" text-anchor="middle" fill="white" font-family="Arial" font-size="12">(Estimate vs Target)</text>
+    
+    <!-- Neural Networks -->
+    <rect x="150" y="350" width="700" height="150" rx="10" fill="#FF5722" stroke="#E64A19" stroke-width="2"/>
+    <text x="500" y="380" text-anchor="middle" fill="white" font-family="Arial" font-size="18">Deep Neural Networks</text>
+    
+    <!-- Online Network -->
+    <rect x="200" y="400" width="250" height="80" rx="5" fill="#FF8A65" stroke="#fff"/>
+    <text x="325" y="430" text-anchor="middle" fill="white" font-family="Arial" font-size="14">Online Network</text>
+    <text x="325" y="450" text-anchor="middle" fill="white" font-family="Arial" font-size="12">(Makes Decisions)</text>
+    
+    <!-- Target Network -->
+    <rect x="550" y="400" width="250" height="80" rx="5" fill="#FF8A65" stroke="#fff"/>
+    <text x="675" y="430" text-anchor="middle" fill="white" font-family="Arial" font-size="14">Target Network</text>
+    <text x="675" y="450" text-anchor="middle" fill="white" font-family="Arial" font-size="12">(Stable Learning)</text>
+    
+    <!-- Arrows -->
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+        </marker>
+    </defs>
+    
+    <!-- Connection arrows -->
+    <path d="M300,195 L400,195" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)" fill="none" stroke-linejoin="round"/>
+    <path d="M600,195 L700,195" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)" fill="none" stroke-linejoin="round"/>
+    <!-- ACT to Online Network -->
+    <path d="M200,270 L325,350" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)" fill="none"/>
+
+    <!-- LEARN to Neural Networks -->
+    <path d="M800,270 L675,350" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)" fill="none"/>
+</svg>

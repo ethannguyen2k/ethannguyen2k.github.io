@@ -362,6 +362,7 @@ print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
                 Mario will <b>cache</b> and <b>recall</b> these experiences to update his policy.</li>
             <li><b>Learn</b> from these experiences, which means updating his policy to maximize rewards over time.</li>
         </ul>
+        <img src="mario-images/mario-agent-overview.svg" alt="Mario agent overview" style="display: block; margin-left: auto; margin-right: auto;">
 
         <div class="dropdown">
             <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Act</h3>
@@ -430,43 +431,168 @@ def recall(self):
     """
                 </code></pre>
                 </div>
+
+                <p>These 2 functions serve as the memory bank for Mario.</p>
+                <p>The cache function stores experiences (state, next state, action, reward, done) in the memory (replay buffer).
+                    The recall function randomly retrieves a batch of experiences from the replay buffer for training.
+                    This is where Mario "remembers" past experiences and uses them to learn.
+                </p>
+
+                <p>There are 2 keys parameters to consider when caching and recalling experiences: <b>the buffer size</b> and <b>the batch size</b>.</p>
+                <img src="mario-images/mario-memory-flow.svg" alt="Mario memory flow" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
+                <p><b>The buffer size</b> determines how many experiences Mario can remember at once.
+                    For Mario, each level lasts around 200-300 seconds. 50000 experiences should be enough to cover 150-250 full levels, making it a good starting point.
+                    If you have the computational resources, you can increase this number to remember more experiences -> diverse learning, important events are not forgotten.</p>
+                <p><b>The batch size</b> determines how many experiences Mario will recall for training.
+                    A larger batch size means Mario can learn from more experiences at once, which can lead to more stable learning.
+                    However, larger batch sizes require more memory and computational resources, so it's a trade-off.
+                </p>
             </div>
         </div>
 
         <div class="dropdown">
             <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Learn</h3>
             <div class="dropdown-content">
-            
+                <h4>MarioNet</h4>
+                <div class="code-window">
+                    <div class="console">
+                        <div class="red"></div>
+                        <div class="orange"></div>
+                        <div class="green"></div>
+                    </div>
+                <pre class="code-content"><code>
+class MarioNet(nn.Module):
+    """mini CNN structure
+    input -> (conv2d + relu) x 3 -> flatten -> (dense + relu) x 2 -> output
+    """
+                </code></pre>
+                </div>
+
+                <p>The MarioNet class defines the neural network architecture that Mario uses to learn how to play the game.
+                    In this instance, we use Double Deep-Q Network. For clarity, the blog won't drill into the details.
+                    However, know that DDQN can provide a more stable training, better performance, and relatively simple to implement compare to DQN or Dueling DQN which is way more complex.
+                </p>
+
+                <h4>TD Estimate and Target (Temporal Difference Learning)</h4>
+                <div class="code-window">
+                    <div class="console">
+                        <div class="red"></div>
+                        <div class="orange"></div>
+                        <div class="green"></div>
+                    </div>
+                <pre class="code-content"><code>
+@torch.cuda.amp.autocast()
+def td_estimate(self, state, action):
+    """Compute current Q-value estimate"""
+
+@torch.cuda.amp.autocast()
+@torch.no_grad()  # No gradients needed for target
+def td_target(self, reward, next_state, done):
+    """Compute TD target using DDQN"""
+                </code></pre>
+                </div>
+
+                <p>In short, TD learning is about estimating the value of a state-action pair and updating this estimate based on the reward and the expected value of the next state.</p>
+                <ol>
+                    <li><b>TD Estimate</b> (Current Guess):</li>
+                        <ul>
+                            <li>What Mario thinks the value of current state-action pair is</li>
+                            <li>Comes from online network (current knowledge)</li>
+                            <li>Like Mario saying "I think jumping here will give me X points"</li>
+                        </ul>
+                    <li><b>TD Target</b> (Better Guess):</li>
+                        <ul>
+                            <li>What Mario should think the value is, based on immediate reward received and estimated future value from more stable target network.</li>
+                            <li>Comes from target network (more accurate)</li>
+                            <li>Like a teacher saying "Actually, jumping there gave you Y points plus future possibilities"</li>
+                        </ul>
+                </ol>
+                <img src="mario-images/td-learning-simple.svg" alt="TD learning" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+                <p>Over time, learning happens by minimising difference and Mario's estimates get closer to reality.
+                </p>
+
+                <h4>Model Updates (Training Process)</h4>
+                <div class="code-window">
+                    <div class="console">
+                        <div class="red"></div>
+                        <div class="orange"></div>
+                        <div class="green"></div>
+                    </div>
+                <pre class="code-content"><code>
+def update_Q_online(self, td_estimate, td_target):
+    loss = self.loss_fn(td_estimate, td_target)  # How wrong was Mario?
+    self.optimizer.zero_grad()                   # Clear previous gradients
+    loss.backward()                              # Calculate gradients
+    self.optimizer.step()                        # Update network weights
+    return loss.item()
+
+def sync_Q_target(self):
+    # Copy online network weights to target network
+    self.net.target.load_state_dict(self.net.online.state_dict())
+                </code></pre>
+                </div>
+
+                <p>These functions are responsible for updating the online network based on the TD estimate and TD target.
+                    It's like Mario's brain adjusting its understanding
+                    The update_Q_online function calculates the loss between the TD estimate and TD target, backpropagates the loss to update the network weights, and returns the loss value.
+                    The sync_Q_target function, which will be called occasionally, synchronizes the target network with the online network by copying the weights so that the target network is updated with the latest knowledge.
+                </p>
+
+                <h4>Learning Loop</h4>
+                <div class="code-window">
+                    <div class="console">
+                        <div class="red"></div>
+                        <div class="orange"></div>
+                        <div class="green"></div>
+                    </div>
+                <pre class="code-content"><code>
+def learn(self):
+    # Important timings
+    if self.curr_step < self.burnin:         # First 5000 steps
+        return None, None                    # Just collect experiences
+        
+    if self.curr_step % self.learn_every != 0:   # Every 2 steps
+        return None, None                        # Skip learning
+        
+    if self.curr_step % self.sync_every == 0:    # Every 5000 steps
+        self.sync_Q_target()                     # Sync target network
+
+    if self.curr_step % self.save_every == 0:    # Every 500,000 steps
+        self.save()                              # Save checkpoints
+
+    # Main learning steps
+    state, next_state, action, reward, done = self.recall()  # Get batch
+    td_est = self.td_estimate(state, action)                 # Current guess
+    td_tgt = self.td_target(reward, next_state, done)        # Better guess
+    loss = self.update_Q_online(td_est, td_tgt)              # Learn
+                </code></pre>
+                </div>
+
+                <p>The learn function is the heart of the agent's learning process.
+                    It decides when to start learning, when to skip learning, and when to synchronize the target network.
+                    <ul>
+                        <li>First 5000 steps: Just collect experiences</li>
+                        <li>Every 2 steps: Skip learning</li>
+                        <li>Every 5000 steps: Sync target network</li>
+                        <li>Every 500,000 steps: Save checkpoint</li>
+                    </ul>
+                </p>
+                <p>The flow would be something like this: Get Batch → Calculate Guess → Calculate Target → Update Network</p>
             </div>
         </div>
 
-        <h3>Understanding the Network Architecture</h3>
-        <p>I started with a PyTorch tutorial on training a Mario-playing RL agent, but let's break down what's actually happening here. The model uses a Double Deep Q-Network (DDQN), which is an improvement over standard DQN.</p>
-
-        <div class="code-window">
-            <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
-            </div>
-        <pre class="code-content"><code>
-def __build_cnn(self, c, output_dim):
-    return nn.Sequential(
-        nn.Conv2d(in_channels=c, out_channels=32, kernel_size=8, stride=4),
-        nn.ReLU(),
-        nn.Conv2d(in_channels=32, out_channels=64, kernel_size=4, stride=2),
-        nn.ReLU(),
-        nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),
-        nn.ReLU(),
-        nn.Flatten(),
-        nn.Linear(3136, 512),
-        nn.ReLU(),
-        nn.Linear(512, output_dim),
-    )
-        </code></pre>
-        </div>
-
-        <h3>Additional Parameters</h3>
+        <h3>Logging</h3>
+        <p>For tracking and visualising the training process, the MetricLogger class is created.
+            It is a comprehensive logging system used to track, and save, and visualise the agent's performance during training.
+        </p>
+        <img src="mario-images/metric-logger-diagram.svg" alt="Metric logger diagram" style="display: block; margin-left: auto; margin-right: auto;">
+        <p>In essence, these metrics help understand the agent's learning:</p>
+        <ul>
+            <li>Increasing rewards indicate the agent is getting better</li>
+            <li>Decreasing losses show stable learning, that the agent is learning from its mistakes</li>
+            <li>Increasing Q-values show the agent is finding better strategies</li>
+            <li>Episode lengths can indicate if Mario is surviving longer or completing levels faster</li>
+        </ul>
 
         <h3>Training Process and Hyperparameter Tuning</h3>
         <p>The training process was quite extensive. With my current setup:</p>

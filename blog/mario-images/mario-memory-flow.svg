@@ -1,0 +1,50 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+    <!-- Cache Process -->
+    <rect x="50" y="50" width="300" height="150" rx="10" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+    <text x="200" y="80" text-anchor="middle" fill="white" font-family="Arial" font-size="16">Cache Process</text>
+    
+    <!-- Experience Components -->
+    <text x="200" y="125" text-anchor="middle" fill="white" font-family="Arial" font-size="12">
+        Experience = (state, action, reward, next_state, done)
+    </text>
+    <text x="200" y="145" text-anchor="middle" fill="white" font-family="Arial" font-size="12">
+        1. Convert to arrays
+    </text>
+    <text x="200" y="165" text-anchor="middle" fill="white" font-family="Arial" font-size="12">
+        2. Convert to tensors
+    </text>
+
+    <!-- Memory Buffer -->
+    <rect x="250" y="250" width="300" height="100" rx="10" fill="#2196F3" stroke="#1976D2" stroke-width="2"/>
+    <text x="400" y="285" text-anchor="middle" fill="white" font-family="Arial" font-size="16">Replay Buffer</text>
+    <text x="400" y="315" text-anchor="middle" fill="white" font-family="Arial" font-size="12">
+        Capacity: 50,000 experiences
+    </text>
+
+    <!-- Recall Process -->
+    <rect x="450" y="50" width="300" height="150" rx="10" fill="#9C27B0" stroke="#7B1FA2" stroke-width="2"/>
+    <text x="600" y="80" text-anchor="middle" fill="white" font-family="Arial" font-size="16">Recall Process</text>
+    <text x="600" y="120" text-anchor="middle" fill="white" font-family="Arial" font-size="12">
+        Random Sample
+    </text>
+    <text x="600" y="140" text-anchor="middle" fill="white" font-family="Arial" font-size="12">
+        Batch Size: 256 experiences
+    </text>
+    <text x="600" y="160" text-anchor="middle" fill="white" font-family="Arial" font-size="12">
+        Used for learning
+    </text>
+
+    <!-- Arrows -->
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+        </marker>
+    </defs>
+    
+    <!-- Cache to Buffer Arrow -->
+    <path d="M200,200 L300,250" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+    
+    <!-- Buffer to Recall Arrow -->
+    <path d="M500,250 L600,200" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+</svg>

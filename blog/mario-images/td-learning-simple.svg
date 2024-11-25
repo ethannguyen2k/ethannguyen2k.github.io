@@ -1,0 +1,26 @@
+<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+    <!-- TD Estimate -->
+    <rect x="50" y="50" width="200" height="200" rx="10" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+    <text x="150" y="90" text-anchor="middle" fill="white" font-family="Arial" font-size="16">TD Estimate</text>
+    <text x="150" y="130" text-anchor="middle" fill="white" font-family="Arial" font-size="14">"Current Guess"</text>
+    <text x="150" y="170" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Online Network</text>
+    <text x="150" y="200" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Q(s,a)</text>
+
+    <!-- TD Target -->
+    <rect x="350" y="50" width="200" height="200" rx="10" fill="#2196F3" stroke="#1976D2" stroke-width="2"/>
+    <text x="450" y="90" text-anchor="middle" fill="white" font-family="Arial" font-size="16">TD Target</text>
+    <text x="450" y="130" text-anchor="middle" fill="white" font-family="Arial" font-size="14">"Better Guess"</text>
+    <text x="450" y="170" text-anchor="middle" fill="white" font-family="Arial" font-size="12">r + γ * max Q'(s',a')</text>
+    <text x="450" y="200" text-anchor="middle" fill="white" font-family="Arial" font-size="12">Reward + Future Value</text>
+
+    <!-- Arrow -->
+    <path d="M250,150 L350,150" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="300" y="130" text-anchor="middle" font-family="Arial" font-size="14">Learn</text>
+
+    <!-- Arrow Marker -->
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+        </marker>
+    </defs>
+</svg>

@@ -1,11 +1,11 @@
 <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
     <!-- Buffer Structure -->
-    <rect x="50" y="50" width="700" height="300" fill="none" stroke="#333" stroke-width="2"/>
+    <rect x="50" y="50" width="720" height="300" fill="none" stroke="#333" stroke-width="2"/>
     
     <!-- Experience Entries -->
     <g transform="translate(70,80)">
         <!-- Experience 1 -->
-        <rect width="660" height="60" fill="#f0f8ff" stroke="#666"/>
+        <rect width="680" height="60" fill="#f0f8ff" stroke="#666"/>
         <text x="10" y="35" font-size="14">Experience 1:</text>
         <text x="120" y="25" font-size="12">State: [84x84x4]</text>
         <text x="250" y="25" font-size="12">Action: RIGHT</text>
@@ -17,7 +17,7 @@
     
     <g transform="translate(70,150)">
         <!-- Experience 2 -->
-        <rect width="660" height="60" fill="#f5f5f5" stroke="#666"/>
+        <rect width="680" height="60" fill="#f5f5f5" stroke="#666"/>
         <text x="10" y="35" font-size="14">Experience 2:</text>
         <text x="120" y="25" font-size="12">State: [84x84x4]</text>
         <text x="250" y="25" font-size="12">Action: JUMP</text>
