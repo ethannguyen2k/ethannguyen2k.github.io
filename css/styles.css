@@ -172,9 +172,12 @@ ol li {
 
 /* INDEX */
 .introduction {
-    text-align: center;
+    text-align: justify;
     padding: 20px;
     background-color: #f9f9f9;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 50px;
 }
 
 #tooltip-trigger{
@@ -1145,7 +1148,7 @@ figcaption{
 .fade-in {
     opacity: 0;
     transform: translateX(-50px);
-    transition: opacity 0.7s ease-out, transform .7s ease-out;
+    transition: opacity 0.55s ease-out, transform .55s ease-out;
 }
 
 .fade-in.visible {

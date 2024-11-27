@@ -1,0 +1,89 @@
+<svg viewBox="0 0 800 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-size="24" font-weight="bold" font-family="Arial" fill="#2c3e50">Mario Evaluation Pipeline</text>
+  
+  <!-- Environment Setup Section -->
+  <g transform="translate(50,80)">
+    <rect x="0" y="0" width="720" height="140" rx="10" fill="#e3f2fd" stroke="#1976d2"/>
+    <text x="350" y="30" text-anchor="middle" font-size="18" font-weight="bold" font-family="Arial" fill="#1976d2">Environment Setup</text>
+    
+    <!-- Environment Components -->
+    <g transform="translate(20,60)">
+      <rect x="0" y="0" width="120" height="50" rx="5" fill="white" stroke="#90caf9"/>
+      <text x="60" y="30" text-anchor="middle" font-size="12" font-family="Arial">Game Environment</text>
+      
+      <rect x="140" y="0" width="120" height="50" rx="5" fill="white" stroke="#90caf9"/>
+      <text x="200" y="30" text-anchor="middle" font-size="12" font-family="Arial">Frame Skipping</text>
+      
+      <rect x="280" y="0" width="120" height="50" rx="5" fill="white" stroke="#90caf9"/>
+      <text x="340" y="30" text-anchor="middle" font-size="12" font-family="Arial">Grayscale</text>
+      
+      <rect x="420" y="0" width="120" height="50" rx="5" fill="white" stroke="#90caf9"/>
+      <text x="480" y="30" text-anchor="middle" font-size="12" font-family="Arial">Resize (84x84)</text>
+      
+      <rect x="560" y="0" width="120" height="50" rx="5" fill="white" stroke="#90caf9"/>
+      <text x="620" y="30" text-anchor="middle" font-size="12" font-family="Arial">Frame Stack</text>
+    </g>
+  </g>
+  
+  <!-- Model Loading Section -->
+  <g transform="translate(50,240)">
+    <rect x="0" y="0" width="720" height="120" rx="10" fill="#e8f5e9" stroke="#388e3c"/>
+    <text x="350" y="30" text-anchor="middle" font-size="18" font-weight="bold" font-family="Arial" fill="#388e3c">Model Setup</text>
+    
+    <!-- Model Components -->
+    <g transform="translate(20,60)">
+      <rect x="0" y="0" width="200" height="40" rx="5" fill="white" stroke="#81c784"/>
+      <text x="100" y="25" text-anchor="middle" font-size="12" font-family="Arial">Load MarioNet Architecture</text>
+      
+      <rect x="250" y="0" width="200" height="40" rx="5" fill="white" stroke="#81c784"/>
+      <text x="350" y="25" text-anchor="middle" font-size="12" font-family="Arial">Load Trained Weights</text>
+      
+      <rect x="500" y="0" width="180" height="40" rx="5" fill="white" stroke="#81c784"/>
+      <text x="590" y="25" text-anchor="middle" font-size="12" font-family="Arial">Set Evaluation Mode</text>
+    </g>
+  </g>
+  
+  <!-- Gameplay Loop -->
+  <g transform="translate(50,380)">
+    <rect x="0" y="0" width="720" height="240" rx="10" fill="#fff3e0" stroke="#f57c00"/>
+    <text x="350" y="30" text-anchor="middle" font-size="18" font-weight="bold" font-family="Arial" fill="#f57c00">Gameplay Loop</text>
+    
+    <!-- Loop Components -->
+    <g transform="translate(50,70)">
+      <rect x="0" y="0" width="140" height="60" rx="5" fill="white" stroke="#ffb74d"/>
+      <text x="70" y="25" text-anchor="middle" font-size="12" font-family="Arial">Get State</text>
+      <text x="70" y="45" text-anchor="middle" font-size="10" font-family="Arial">Process current frame</text>
+      
+      <rect x="180" y="0" width="140" height="60" rx="5" fill="white" stroke="#ffb74d"/>
+      <text x="250" y="25" text-anchor="middle" font-size="12" font-family="Arial">Predict Action</text>
+      <text x="250" y="45" text-anchor="middle" font-size="10" font-family="Arial">Using trained model</text>
+      
+      <rect x="360" y="0" width="140" height="60" rx="5" fill="white" stroke="#ffb74d"/>
+      <text x="430" y="25" text-anchor="middle" font-size="12" font-family="Arial">Take Action</text>
+      <text x="430" y="45" text-anchor="middle" font-size="10" font-family="Arial">Update environment</text>
+      
+      <rect x="180" y="100" width="140" height="60" rx="5" fill="white" stroke="#ffb74d"/>
+      <text x="250" y="125" text-anchor="middle" font-size="12" font-family="Arial">Record Stats</text>
+      <text x="250" y="145" text-anchor="middle" font-size="10" font-family="Arial">Position, reward, etc.</text>
+      
+      <rect x="360" y="100" width="140" height="60" rx="5" fill="white" stroke="#ffb74d"/>
+      <text x="430" y="125" text-anchor="middle" font-size="12" font-family="Arial">Record Video</text>
+      <text x="430" y="145" text-anchor="middle" font-size="10" font-family="Arial">Capture gameplay</text>
+      
+      <!-- Arrows -->
+      <path d="M140,30 H180" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <path d="M320,30 H360" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <path d="M430,60 L430,100" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <path d="M360,130 H320" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+      <path d="M180,130 L70,130 L70,60" stroke="#666" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    </g>
+  </g>
+  
+  <!-- Arrow Marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto" fill="#666" stroke="none">
+      <polygon points="0 0, 10 3.5, 0 7"/>
+    </marker>
+  </defs>
+</svg>

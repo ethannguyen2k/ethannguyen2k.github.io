@@ -604,10 +604,35 @@ figcaption{
 .fade-in {
     opacity: 0;
     transform: translateX(-50px);
-    transition: opacity 0.7s ease-out, transform .7s ease-out;
+    transition: opacity 0.55s ease-out, transform .55s ease-out;
 }
 
 .fade-in.visible {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* Video container */
+.video-container {
+    text-align: center; /* Centers the video and caption */
+    max-width: 600px; /* Optional: restricts the container width */
+    margin: 0 auto; /* Centers the container horizontally */
+}
+
+.video-container video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #000;
+}
+
+.video-container .video-caption {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #555;
+    font-style: italic;
 }
