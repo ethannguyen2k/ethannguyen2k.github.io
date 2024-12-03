@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policies AI System</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html" class="current">My Portfolio</a>
+            <a href="../../blog.html">My Blogs</a>
+        </nav>
+    </header>
+
+    <div class="container1">
+        <div class="project-header fade-in">
+            <img src="../../images/poker_thumbnail.webp" alt="Project Poker Trees-based Models Thumbnail" class="project-image">
+            <div class="project-info">
+                <h1>Poker Hand Classification</h1>
+                <p>A machine learning project exploring tree-based models for poker hand classification, featuring custom preprocessing and model optimisation.</p>
+                <a target="_blank" href="https://github.com/ethannguyen2k/poker-hands" class="button">View on GitHub</a>
+                <h2>Built With</h2>
+                <div class="badges">
+                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
+                    <img src="https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff&style=flat" alt="NumPy Badge">
+                    <img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=fff&style=flat" alt="pandas Badge">
+                    <img src="https://img.shields.io/badge/scikit-learn-F7931E?logo=scikit-learn&logoColor=fff&style=flat" alt="scikit-learn Badge">
+                    <img src="https://img.shields.io/badge/Matplotlib-3776AB?style=flat&logo=python&logoColor=white" alt="Matplotlib Badge">
+                    <img src="https://img.shields.io/badge/Seaborn-4EABE1?style=flat&logo=python&logoColor=white" alt="Seaborn Badge">
+                </div>
+            </div>
+        </div>
+    
+        <div class="fade-in">
+            <p>This project implements and evaluates various tree-based machine learning models to classify poker hands, as well as attempting to build a tree-based model from scratch.
+                The project explores different preprocessing techniques and model architectures to achieve optimal classification performance.
+            </p>
+
+            <p>The project involved three pre-built models:</p>
+            <ol>
+                <li>Decision Trees</li>
+                <li>Random Forests</li>
+                <li>Stacked Ensemble Models</li>
+                <ul>
+                    <li>Two Random Forest Classifiers with different parameters</li>
+                    <li>One Decision Tree Classifier</li>
+                    <li>LogisticRegression as the final estimator</li>
+                </ul>
+            </ol>
+        </div>
+
+        <div class="fade-in">
+            <h2>Dataset Information</h2>
+            <a target="_blank" href="https://archive.ics.uci.edu/dataset/158/poker+hand">Poker Hand Dataset</a>
+            <p>The dataset used in this project is the Poker Hand dataset from the UCI Machine Learning Repository. 
+                The dataset contains 1,025,010 instances (25,010 for train and 1,000,000 for test), each representing a poker hand with 10 attributes (5 cards with rank and suit). 
+                The goal is to predict the poker hand rank based on these attributes into 10 classes of from 0 (Nothing) to 9 (Royal Flush).</p>
+            </p>
+
+            <h2>Preprocessing Evolution</h2>
+            <p>The project explores different preprocessing techniques to improve model performance, including:</p>
+            <div class="card">
+                <div class="evolution-container">
+                    <div class="evolution-step step-initial">
+                        <h3>Initial Features</h3>
+                        <p>Basic card rank and suit representation</p>
+                    </div>
+                    
+                    <div class="evolution-step step-enhanced">
+                        <h3>Enhanced Features</h3>
+                        <p>Added card frequency counts and sequential checks</p>
+                    </div>
+                    
+                    <div class="evolution-step step-advanced">
+                        <h3>Advanced Features</h3>
+                        <p>Incorporated flush detection and card pattern analysis</p>
+                    </div>
+                    
+                    <div class="evolution-step step-final">
+                        <h3>Final Features</h3>
+                        <p>Added highest and second-highest card count metrics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="fade-in"><h2>Visualisation</h2></div>
+        <div class="example-images fade-in">
+            <div class="example-image">
+                <img src="confusion_matrix_grid.png" alt="Confusion Matrix Grid" onclick="openLightbox(this)">
+                <p>Confusion Matrix Results</p>
+            </div>
+        </div>
+
+        <div id="lightbox" class="lightbox">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <p id="lightbox-caption"></p>
+        </div>
+
+        <div class="fade-in">
+            <h2>Discussions</h2>
+            <ol>
+                <li><b>Poor Performance with Raw Card Features (Suit and Rank)</b></li>
+                <p>It is seen that <b>the models struggled to distinguish between poker hands using raw features</b> like suits and ranks directly. 
+                    This is expected, as raw numerical or categorical data often lacks the necessary abstraction for models to understand complex relationships in the data.
+                </p>
+                <li><b>Feature Engineering (Counts and Sequential Checks)</b></li>
+                <p><b>Introducing counts of cards by rank and suit, as well as checks for sequential cards, appears to have improved accuracy significantly</b> (from 49-62% to 96-99%). 
+                    This aligns with the principle that good feature engineering can help models better capture domain-specific relationships, in this case, identifying pairs or straights.
+                </p>
+                <p>However, models are still struggling with hands that share overlapping characteristics (Straight and Flush versus Straight Flush, Three of a kind versus Four of a kind versus Full House, or even Royal Flush).
+                </p>
+                <li><b>Flush Feature</b></li>
+                <p>With Flush problem, a logical solution is to <b>add a feature that specifically determines if a hand is a Flush</b>.
+                    This will likely resolve ambiguity for Flush-related hands, including Straight Flush and Royal Flush.</p>
+                <li><b>Card Counts for Higher Patterns</b></li>
+                <p>Finally, <b>the addition of features for the highest and second-highest card counts</b> seems to have addressed ambiguities among Three of a Kind, Four of a Kind, and Full House.
+                </p>
+            </ol>
+            <p>There can be other alternatives in dealing with imbalanced dataset, such as oversampling and undersampling. 
+                However, for a game of poker where rules are well-defined, a meticulous feature engineering process seems easier and can lead to perfect classification results.
+            </p>
+            <h2>Key Observations</h2>
+            <ul>
+                <li>Feature engineering was crucial - all three models improved dramatically with better features.</li>
+                <li>Stacking consistently performed better than individual models, though by a small margin once better feature engineering was introduced.</li>
+                <li>The initial raw features were insufficient and the final feature set achieved perfect classification, which means tailored features can significantly enhance model performance.</li>
+            </ul>
+
+            <h2>Visit the GitHub Repository</h2>
+            <p>For the full code and documentation, visit the <a target="_blank" href="https://github.com/ethannguyen2k/poker-hands">GitHub repository</a>.</p>
+        </div>
+    
+    </div>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+
+    <script src="../../js/scripts.js"></script>
+</body>
+</html>

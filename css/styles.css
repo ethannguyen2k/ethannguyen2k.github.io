@@ -1155,3 +1155,78 @@ figcaption{
     opacity: 1;
     transform: translateX(0);
 }
+
+/* Card styles */
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.evolution-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.evolution-step {
+    padding-left: 1rem;
+    position: relative;
+}
+
+/* Colored borders for different steps */
+.step-initial {
+    border-left: 4px solid #3b82f6;  /* Blue */
+}
+
+.step-enhanced {
+    border-left: 4px solid #10b981;  /* Green */
+}
+
+.step-advanced {
+    border-left: 4px solid #8b5cf6;  /* Purple */
+}
+
+.step-final {
+    border-left: 4px solid #f59e0b;  /* Yellow */
+}
+
+.evolution-step h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+.evolution-step p {
+    margin: 0;
+    color: #6b7280;
+}
+
+/* Hover effects */
+.evolution-step:hover {
+    background-color: #f8fafc;
+    transform: translateX(4px);
+    transition: all 0.2s ease;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    body {
+        padding: 10px;
+    }
+    
+    .card {
+        padding: 15px;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+    }
+    
+    .evolution-step h3 {
+        font-size: 1rem;
+    }
+}
