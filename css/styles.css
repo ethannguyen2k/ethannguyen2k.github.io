@@ -642,6 +642,12 @@ section ul li {
     display: block;
     width: 80%;
     max-width: 1000px;
+    overflow: auto;
+}
+
+#lightbox-img {
+    max-width: none; /* Allow larger images */
+    max-height: none;
 }
 
 .close {
