@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policies AI System</title>
     <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
@@ -31,7 +32,7 @@
             <img src="../../images/poker_thumbnail.webp" alt="Project Poker Trees-based Models Thumbnail" class="project-image">
             <div class="project-info">
                 <h1>Poker Hand Classification</h1>
-                <p>A machine learning project exploring tree-based models for poker hand classification, featuring custom preprocessing and model optimisation.</p>
+                <p>A machine learning project exploring tree-based models for poker hand classification, featuring build-from-scratch model, custom preprocessing, and model optimisation.</p>
                 <a target="_blank" href="https://github.com/ethannguyen2k/poker-hands" class="button">View on GitHub</a>
                 <h2>Built With</h2>
                 <div class="badges">
@@ -48,9 +49,11 @@
         <div class="fade-in">
             <p>This project implements and evaluates various tree-based machine learning models to classify poker hands, as well as attempting to build a tree-based model from scratch.
                 The project explores different preprocessing techniques and model architectures to achieve optimal classification performance.
+                It serves as a starting point of understanding how tree-based models came to be.
+                It also demonstrates how feature engineering can significantly improve model performance, especially in complex classification tasks.
             </p>
 
-            <p>The project involved three pre-built models:</p>
+            <p>The project involved three pre-built models and one custom-built model:</p>
             <ol>
                 <li>Decision Trees</li>
                 <li>Random Forests</li>
@@ -60,6 +63,7 @@
                     <li>One Decision Tree Classifier</li>
                     <li>LogisticRegression as the final estimator</li>
                 </ul>
+                <li>Custom Decision Tree Model, built from scratch</li>
             </ol>
         </div>
 
@@ -98,7 +102,7 @@
             </div>
         </div>
         
-        <div class="fade-in"><h2>Visualisation</h2></div>
+        <div class="fade-in"><h2>Pre-built | Visualisation</h2></div>
         <div class="example-images fade-in">
             <div class="example-image">
                 <img src="confusion_matrix_grid.png" alt="Confusion Matrix Grid" onclick="openLightbox(this)">
@@ -113,7 +117,7 @@
         </div>
 
         <div class="fade-in">
-            <h2>Discussions</h2>
+            <h2>Pre-built | Discussions</h2>
             <ol>
                 <li><b>Poor Performance with Raw Card Features (Suit and Rank)</b></li>
                 <p>It is seen that <b>the models struggled to distinguish between poker hands using raw features</b> like suits and ranks directly. 
@@ -135,12 +139,64 @@
             <p>There can be other alternatives in dealing with imbalanced dataset, such as oversampling and undersampling. 
                 However, for a game of poker where rules are well-defined, a meticulous feature engineering process seems easier and can lead to perfect classification results.
             </p>
-            <h2>Key Observations</h2>
+            <h2>Pre-built | Key Observations</h2>
             <ul>
                 <li>Feature engineering was crucial - all three models improved dramatically with better features.</li>
                 <li>Stacking consistently performed better than individual models, though by a small margin once better feature engineering was introduced.</li>
                 <li>The initial raw features were insufficient and the final feature set achieved perfect classification, which means tailored features can significantly enhance model performance.</li>
             </ul>
+
+            <h2>Custom Model</h2>
+            <p>Thanks to the internet and the guide from GenAI, I was, once again, be able to understand the concept of Decision Tree and implement it from scratch.
+                What makes decision trees particularly interesting is that while their mathematical foundation is relatively straightforward (mainly information theory and probability), the implementation challenges lie in:
+            </p>
+            <ol>
+                <li>Efficient data partitioning</li>
+                <li>Handling edge cases</li>
+                <li>Managing tree growth (or pruning)</li>
+                <li>Implementing stopping criteria</li>
+            </ol>
+            <p>Building a decision tree from scratch provided greater in-depth into both the simplicity and complexity of tree-based models. 
+                While the mathematical concepts might be straightforward, the implementation details and optimisation considerations is what makes it worthwhile.
+                The final tree structure efficiently captured poker hand patterns:
+            </p>
+
+            <div class="code-window">
+                <div class="console">
+                    <div class="red"></div>
+                    <div class="orange"></div>
+                    <div class="green"></div>
+                </div>
+                <pre class="code-content"><code class="language-plaintext">
+Root (max_card_count = 1)
+├── No Repeats Branch
+│   ├── Check Sequential
+│   │   ├── Check Flush → Royal/Straight Flush
+│   │   └── No Flush → Straight
+│   └── Not Sequential
+│       ├── Check Flush → Flush
+│       └── No Flush → Nothing
+└── Has Repeats Branch
+    ├── Second Count = 1
+    │   └── Check Max Count → One Pair/Three of Kind/Four of Kind
+    └── Second Count = 2
+        └── Check Max Count → Two Pairs/Full House
+                </code></pre>
+            </div>
+
+            <p>I wrote more about how I built the custom model in the <a target="_blank" href="https://github.com/ethannguyen2k/poker-hands">GitHub repository</a>, so feel free to check it out.</p>
+
+            <h2>Model Complexity</h2>
+            <p>To my knowledge in the past about decision trees, I thought they were simple models that could be easily understood and implemented, especially compared to Random Forests.
+                And it is indeed that way on concept level, but the implementation details can be quite complex.
+                If easy, Linear Regression might be considered the simplest in terms of both concept and implementation, as it involves straightforward matrix operations and gradient descent. 
+                Neural networks, while more complex in architecture, can actually be simpler to implement from scratch than decision trees because their building blocks (forward pass, backward pass, gradient descent) are more linear in nature.
+            </p>
+
+            <p>For Random Forests, the complexity lies in the ensemble nature of the model, where multiple decision trees are combined.
+                While it is easy to imagine a Random Forest is indeed a collection (or "forest") of decision trees, its structure and operation can be quite hard to grasp since you need to wrap the base DT algorithm within additional infrastructure.
+                But that is the talk for another day.
+            </p>
 
             <h2>Visit the GitHub Repository</h2>
             <p>For the full code and documentation, visit the <a target="_blank" href="https://github.com/ethannguyen2k/poker-hands">GitHub repository</a>.</p>

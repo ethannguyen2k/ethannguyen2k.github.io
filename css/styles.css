@@ -1,12 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+:root {
+    /* Light theme (default) */
+    --bg-primary: #f4f4f4;
+    --bg-secondary: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent-color: #0096E2;
+    --border-color: #dddddd;
+    --card-bg: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    /* Code window colors - Light theme */
+    --code-window-bg: #121d20;
+    --code-window-border: #e2e6e7;
+    --code-window-text: #333;
+    --console-bg: #e2e6e7;
+    --code-content-bg: #f3f3f3;
+    --code-window-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --accent-color: #65ccff;
+    --border-color: #444444;
+    --card-bg: #2d2d2d;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+    /* Code window colors - Dark theme */
+    --code-window-bg: #1a1a1a;
+    --code-window-border: #444;
+    --code-window-text: #fff;
+    --console-bg: #2d2d2d;
+    --code-content-bg: #0c0c0c;
+    --code-window-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
 body {
     font-family: 'Inter';
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: #0096E2 #f1f1f1; /* Firefox */
 }
@@ -61,7 +99,7 @@ header {
 }
 /* Navigation */
 nav {
-    background-color: white;
+    background-color: var(--bg-secondary);
     border-radius: 1em;
     padding: 1em 0.8em;
     width: fit-content;
@@ -74,13 +112,14 @@ nav a {
     text-decoration: none;
     border-radius: 1em;
     padding: 0.7em 0.8em;
-    color: #0096E2;
+    color: var(--accent-color);
     transition: all 0.3s ease;  /* Changed to include all properties */
 }
 
 nav a:hover {
     background: linear-gradient(to right, #65ccff, #99ddff);
     color: #333;
+    text-decoration: none;
 }
 
 .current {
@@ -121,7 +160,7 @@ p {
     line-height: 1.6;
 }
 a {
-    color: #0096E2;
+    color: var(--accent-color);
     text-decoration: none;
 }
 a:hover {
@@ -135,14 +174,15 @@ a:hover {
 }
 
 h1, h2 {
-    color: #0096E2;
+    color: var(--accent-color);
     margin-top: 20px;
 }
+/* My Blogs Tech stuff that I found intriguing. */
 .subheading {
     font-size: 0.5em; /* Smaller font size for the subheading */
     font-weight: normal; /* Adjust the font weight if needed */
     font-style: italic;
-    color: gray; /* Optional: set a color for the subheading */
+    color: var(--text-secondary); /* Optional: set a color for the subheading */
 }
 ul {
     list-style-type: none;
@@ -150,11 +190,11 @@ ul {
 }
 
 ul li {
-    background-color: #fff;
+    background-color: var(--card-bg);
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px var(--shadow-color);
 }
 
 ul li a {
@@ -174,7 +214,7 @@ ol li {
 .introduction {
     text-align: justify;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: var(--card-bg);
     max-width: 800px;
     margin: 0 auto;
     border-radius: 50px;
@@ -182,7 +222,7 @@ ol li {
 
 #tooltip-trigger{
     cursor: default;
-    color: #0096E2;
+    color: var(--accent-color);
 }
 
 .tooltip-container {
@@ -190,8 +230,8 @@ ol li {
     display: none;
     z-index: 9999;
     padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 5px; /* Add rounded corners */
 }
@@ -215,7 +255,6 @@ ol li {
     overflow: hidden;
     border-radius: 50px;
     text-decoration: none;
-    color: #000;
     font-weight: bold;
     height: 150px; /* Adjust the height as needed */
     transition: transform 0.3s;
@@ -234,7 +273,7 @@ ol li {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
+    color: var(--bg-primary);
     font-size: 1.5em;
     font-weight: bold;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
@@ -272,10 +311,10 @@ ol li {
     padding: 10px;
     width: 80%;
     max-width: 700px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    background-color: var(--bg-primary);
     transition: all 0.5s ease;
     opacity: 0;
     transform: translateY(20px);
@@ -301,7 +340,7 @@ ol li {
 #videoDescription {
     margin-top: 10px;
     font-size: 0.9em;
-    color: #555;
+    color: var(--text-secondary);
     font-style: italic;
     text-align: center;
 }
@@ -335,21 +374,21 @@ aside#toc ul li {
 
 aside#toc ul li a {
     text-decoration: none;
-    color: #333;
+    color: var(--text-primary);
 }
 
 aside#toc ul li a.active {
     font-weight: bold;
-    color: #0096E2;
+    color: var(--accent-color);
 }
 
 .container2_1 {
     flex: 1; /* Allow container to flex and take available space */
     margin-left: 240px; /* Adjusted to fit the sidebar */
     padding: 20px;
-    background-color: #fff;
+    background-color: var(--bg-secondary);
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px var(--shadow-color);
 }
 
 /* Content section styling */
@@ -359,7 +398,7 @@ section {
 
 section h2 {
     margin-bottom: 10px;
-    color: #0096E2;
+    color: var(--accent-color);
 }
 
 section ul {
@@ -377,26 +416,26 @@ section ul li {
     margin: 20px 0;
     font-size: 1em;
     font-family: 'Inter', sans-serif;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 3px var(--shadow-color);
 }
 
 .table-common thead {
-    background-color: #0096E2;
-    color: #ffffff;
+    background-color: var(--accent-color);
+    color: var(--bg-secondary);
 }
 
 .table-common th, .table-common td {
     padding: 12px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     text-align: left;
 }
 
 .table-common tbody tr:nth-child(even) {
-    background-color: #f4f4f4;
+    background-color: var(--bg-primary);
 }
 
 .table-common tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #dcf3ff;
 }
 
 .table-common th {
@@ -408,12 +447,13 @@ section ul li {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    background-color: var(--bg-secondary);
     position: relative;
+    z-index: 1; /* Place content above the pseudo-element */
 }
 
 .intro-content::before {
@@ -432,15 +472,17 @@ section ul li {
         rgba(0, 150, 226, 0.1)
     ) border-box;
     mask: 
-        linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0);
+        linear-gradient(var(--bg-primary) 0 0) padding-box,
+        linear-gradient(var(--bg-primary) 0 0);
     -webkit-mask: 
-        linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0);
+        linear-gradient(var(--bg-primary) 0 0) padding-box,
+        linear-gradient(var(--bg-primary) 0 0);
     -webkit-mask-composite: destination-out;
     mask-composite: exclude;
     background-size: 300% 100%;
     animation: borderGradient 3s ease infinite; 
+    pointer-events: none; /* This makes the pseudo-element non-interactive */
+    z-index: 0; /* Place pseudo-element behind the content */
 }
 
 @keyframes borderGradient {
@@ -455,7 +497,7 @@ section ul li {
     border-radius: 50%;
     margin-right: 20px;
     object-fit: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .intro-details h3 {
@@ -470,7 +512,7 @@ section ul li {
 
 /* Icon Styles */
 .intro-details p a {
-    color: #333;
+    color: var(--text-primary);
     text-decoration: none;
     margin-left: 2px;
     margin-right: 8px;
@@ -479,17 +521,17 @@ section ul li {
 }
 
 .intro-details p a:hover {
-    color: #0096E2; /* Change this to your desired hover color */
+    color: var(--accent-color);
 }
 
 .tech-bubble {
     display: inline-block;
-    background-color: #0096E2;
+    background-color: var(--accent-color);
     padding: 5px 10px;
     border-radius: 20px;
     margin: 5px 2px 0 0;
     font-size: 14px;
-    color: #f1f1f1;
+    color: var(--bg-secondary);
 }
 
 /* Projects section styling */
@@ -497,10 +539,10 @@ section ul li {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    border: 1px solid #ccc; /* Optional: for better visual separation */
+    border: 1px solid var(--border-color);
     padding: 10px;
     border-radius: 8px; /* Optional: for rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: for shadow effect */
+    box-shadow: 0 4px 8px var(--shadow-color);
     transition: transform 0.3s;
 }
 
@@ -526,19 +568,19 @@ section ul li {
 .project-details h3 {
     margin: 0;
     font-size: 1.5em;
-    color: #0096E2;
+    color: var(--accent-color);
 }
 
 .project-details p {
     margin: 10px 0;
     font-size: 1em;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .tech-stack {
     margin-top: 5px;
     font-size: 0.9em;
-    color: #555;
+    color: var(--text-secondary);
 }
 
 .project a {
@@ -577,15 +619,15 @@ section ul li {
     display: inline-block;
     padding: 10px 20px;
     margin-top: 10px;
-    background-color: #007BFF;
-    color: white;
+    background-color: var(--accent-color);
+    color: var(--bg-primary);
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: #0073e6;
 }
 .container1 {
     max-width: 1000px;
@@ -611,7 +653,7 @@ section ul li {
     width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--shadow-color);
     transition: transform 0.2s;
 }
 .example-image img:hover {
@@ -620,7 +662,7 @@ section ul li {
 .example-image p {
     margin-top: 10px;
     font-size: 1em;
-    color: #555;
+    color: var(--text-secondary);
     font-style: italic;
 }
 
@@ -669,7 +711,7 @@ section ul li {
 
 #lightbox-caption {
     text-align: center;
-    color: black;
+    color: var(--text-primary);
     padding: 10px 20px;
     height: 150px;
 }
@@ -685,16 +727,15 @@ section ul li {
     max-width: 100%;
     height: auto;
     margin: 0 auto;
-    border: 2px solid #333;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #000;
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .video-container .video-caption {
     margin-top: 10px;
     font-size: 1em;
-    color: #555;
+    color: var(--text-secondary);
     font-style: italic;
 }
 
@@ -720,17 +761,17 @@ section ul li {
 }
 
 .article h3 a {
-    color: #333;
+    color: var(--text-primary);
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .article h3 a:hover {
-    color: #0056b3;
+    color: var(--accent-color);
 }
 
 .article .meta {
-    color: #888;
+    color: var(--text-secondary);
     font-size: 0.9em;
     margin-bottom: 10px;
 }
@@ -743,7 +784,7 @@ section ul li {
 .blog-info {
     margin-bottom: 20px;
     font-size: 0.9em;
-    color: #666;
+    color: var(--text-secondary);
 }
 .blog-article {
     display: flex;
@@ -751,8 +792,8 @@ section ul li {
     margin-top: 20px;
     padding: 10px 20px 20px 20px;
     border-radius: 10px;
-    background: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: var(--card-bg);
+    box-shadow: 0 4px 8px var(--shadow-color);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -779,23 +820,23 @@ section ul li {
 
 .blog-article-content h3 a {
     text-decoration: none;
-    color: #333;
+    color: var(--text-primary);
     transition: color 0.3s;
 }
 
 .blog-article-content h3 a:hover {
-    color: #0073e6;
+    color: var(--accent-color);
 }
 
 .blog-article-content .meta {
     font-size: 0.9em;
-    color: #777;
+    color: var(--text-secondary);
     margin-bottom: 10px;
 }
 
 .blog-article-content p {
     font-size: 1em;
-    color: #555;
+    color: var(--text-primary);
     line-height: 1.6;
 }
 
@@ -805,18 +846,16 @@ section ul li {
     max-width: 600px;
     margin: 20px auto;
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--code-window-shadow);
     overflow: hidden;
-    background: #121d20;
-    border: #e2e6e7 1px solid;
-    border-left: #e2e6e7 5px solid;
-    border-top: #e2e6e7 5px solid;
-    color: #ccc;
+    background: var(--code-window-bg);
+    border: var(--code-window-border) 5px solid;
+    color: var(--code-window-text);
 }
 
 /* Styles for the console title bar */
 .code-window .console {
-    background: #e2e6e7;
+    background: var(--console-bg);
     height: 20px;
     padding: 5px;
     display: flex;
@@ -853,7 +892,7 @@ section ul li {
     margin: 0;
     padding: 0 15px 15px 15px;
     overflow: auto;
-    background: #e2e6e7;
+    background: var(--code-content-bg);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     white-space: pre-wrap;
@@ -888,8 +927,8 @@ table {
 }
 
 table thead tr {
-    background-color: #0096E2;
-    color: #ffffff;
+    background-color: var(--accent-color);
+    color: var(--bg-secondary);
     text-align: left;
     font-weight: bold;
 }
@@ -899,19 +938,19 @@ table th, table td {
 }
 
 table tbody tr {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid var(--border-color);
 }
 
 table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: var(--bg-primary);
 }
 
 table tbody tr:last-of-type {
-    border-bottom: 2px solid #0096E2;
+    border-bottom: 2px solid var(--accent-color);
 }
 
 table tbody tr:hover {
-    background-color: #ddd;
+    background-color: #dcf3ff;
 }
 table caption {
     caption-side: bottom;
@@ -919,11 +958,11 @@ table caption {
     font-style: italic;
     text-align: center;
     margin-top: 10px;
-    color: #333;
+    color: var(--text-primary);
 }
 figcaption{
     font-size: 1em;
-    color: #333;
+    color: var(--text-primary);
     text-align: center;
     margin-top: 10px;
     margin-bottom: 30px;
@@ -1164,9 +1203,9 @@ figcaption{
 
 /* Card styles */
 .card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -1203,17 +1242,17 @@ figcaption{
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #1f2937;
+    color: var(--text-primary);
 }
 
 .evolution-step p {
     margin: 0;
-    color: #6b7280;
+    color: var(--text-secondary);
 }
 
 /* Hover effects */
 .evolution-step:hover {
-    background-color: #f8fafc;
+    background-color: #dcf3ff;
     transform: translateX(4px);
     transition: all 0.2s ease;
 }

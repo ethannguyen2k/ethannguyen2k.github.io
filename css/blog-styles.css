@@ -1,12 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+:root {
+    /* Light theme (default) */
+    --bg-primary: #f4f4f4;
+    --bg-secondary: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent-color: #0096E2;
+    --border-color: #dddddd;
+    --card-bg: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    /* Code window colors - Light theme */
+    --code-window-bg: #121d20;
+    --code-window-border: #e2e6e7;
+    --code-window-text: #333;
+    --console-bg: #e2e6e7;
+    --code-content-bg: #f3f3f3;
+    --code-window-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --accent-color: #65ccff;
+    --border-color: #444444;
+    --card-bg: #2d2d2d;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+    /* Code window colors - Dark theme */
+    --code-window-bg: #1a1a1a;
+    --code-window-border: #444;
+    --code-window-text: #fff;
+    --console-bg: #2d2d2d;
+    --code-content-bg: #0c0c0c;
+    --code-window-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
 body {
     font-family: 'Inter';
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: #0096E2 #f1f1f1; /* Firefox */
 }
@@ -33,9 +71,9 @@ body {
 /* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: #fff;
+    background-color: var(--bg-secondary);
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 5px var(--shadow-color);
     height: 100vh;
     position: fixed;
     overflow-y: auto;
@@ -70,8 +108,8 @@ body {
 }
 
 .sidebar-extra a {
-    color: #333; /* Adjust icon color */
-    background-color: #eeeeee;
+    color: var(--text-primary); /* Adjust icon color */
+    background-color: var(--bg-primary);
     font-size: 2em; /* Adjust icon size */
     text-decoration: none;
     display: flex;
@@ -80,17 +118,17 @@ body {
     width: 50px; /* Set the width of the circle */
     height: 50px; /* Set the height of the circle */
     border-radius: 50%; /* Make it a circle */
-    border: 2px solid #333; /* Add a border */
+    border: 2px solid var(--code-window-text); /* Add a border */
     transition: all 0.3s; /* Smooth transition for hover effects */
 }
 .sidebar-extra a:hover {
-    color: #fff; /* Change icon color on hover */
-    background-color: #0096E2; /* Change background color on hover */
+    color: var(--bg-primary); /* Change icon color on hover */
+    background-color: var(--accent-color); /* Change background color on hover */
     border-color: #0056b3; /* Change border color on hover */
 }
 /* Navigation */
 nav {
-    background-color: white;
+    background-color: var(--bg-secondary);
     clear: both;
     padding-bottom: 10px;
 }
@@ -101,7 +139,7 @@ nav a {
     display: block;
     padding: 10px 15px;
     border-radius: 10px;
-    color: #0096E2;
+    color: var(--accent-color);
     transition: all 0.3s ease;  /* Changed to 'all' to smooth all transitions */
 }
 
@@ -149,7 +187,7 @@ p {
     line-height: 1.6;
 }
 a {
-    color: #0096E2;
+    color: var(--accent-color);
     text-decoration: none;
 }
 
@@ -161,14 +199,14 @@ a {
 }
 
 h1, h2 {
-    color: #0096E2;
+    color: var(--accent-color);
     margin-top: 20px;
 }
 .subheading {
     font-size: 0.5em; /* Smaller font size for the subheading */
     font-weight: normal; /* Adjust the font weight if needed */
     font-style: italic;
-    color: gray; /* Optional: set a color for the subheading */
+    color: var(--text-secondary); /* Optional: set a color for the subheading */
 }
 ul {
     list-style-type: none;
@@ -176,11 +214,11 @@ ul {
 }
 
 ul li {
-    background-color: #fff;
+    background-color: var(--card-bg);
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px var(--shadow-color);
 }
 
 ul li a {
@@ -217,17 +255,17 @@ ol li {
 }
 
 .article h3 a {
-    color: #333;
+    color: var(--text-primary);
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .article h3 a:hover {
-    color: #0056b3;
+    color: var(--accent-color);
 }
 
 .article .meta {
-    color: #888;
+    color: var(--text-secondary);
     font-size: 0.9em;
     margin-bottom: 10px;
 }
@@ -240,7 +278,7 @@ ol li {
 .blog-info {
     margin-bottom: 20px;
     font-size: 0.9em;
-    color: #666;
+    color: var(--text-secondary);
 }
 .blog-article {
     display: flex;
@@ -248,8 +286,8 @@ ol li {
     margin-top: 20px;
     padding: 10px 20px 20px 20px;
     border-radius: 10px;
-    background: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: var(--card-bg);
+    box-shadow: 0 4px 8px var(--shadow-color);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -276,23 +314,23 @@ ol li {
 
 .blog-article-content h3 a {
     text-decoration: none;
-    color: #333;
+    color: var(--text-primary);
     transition: color 0.3s;
 }
 
 .blog-article-content h3 a:hover {
-    color: #0073e6;
+    color: var(--accent-color);
 }
 
 .blog-article-content .meta {
     font-size: 0.9em;
-    color: #777;
+    color: var(--text-secondary);
     margin-bottom: 10px;
 }
 
 .blog-article-content p {
     font-size: 1em;
-    color: #555;
+    color: var(--text-primary);
     line-height: 1.6;
 }
 
@@ -302,18 +340,16 @@ ol li {
     max-width: 600px;
     margin: 20px auto;
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--code-window-shadow);
     overflow: hidden;
-    background: #121d20;
-    border: #e2e6e7 1px solid;
-    border-left: #e2e6e7 5px solid;
-    border-top: #e2e6e7 5px solid;
-    color: #ccc;
+    background: var(--code-window-bg);
+    border: var(--code-window-border) 5px solid;
+    color: var(--code-window-text);
 }
 
 /* Styles for the console title bar */
 .code-window .console {
-    background: #e2e6e7;
+    background: var(--console-bg);
     height: 20px;
     padding: 5px;
     display: flex;
@@ -350,7 +386,7 @@ ol li {
     margin: 0;
     padding: 0 15px 15px 15px;
     overflow: auto;
-    background: #e2e6e7;
+    background: var(--code-content-bg);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     white-space: pre-wrap;
@@ -374,13 +410,13 @@ code {
 }
 
 .output-cell {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 12px;
     font-size: 14px;
     line-height: 1.5;
-    color: #1a1a1a;
+    color: var(--text-primary);
     overflow-x: auto;
 }
 
@@ -396,12 +432,12 @@ table {
     font-size: 1em;
     font-family: 'Arial', sans-serif;
     min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px var(--shadow-color);
 }
 
 table thead tr {
-    background-color: #0096E2;
-    color: #ffffff;
+    background-color: var(--accent-color);
+    color: var(--bg-secondary);
     text-align: left;
     font-weight: bold;
 }
@@ -411,19 +447,19 @@ table th, table td {
 }
 
 table tbody tr {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid var(--border-color);
 }
 
 table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: var(--bg-primary);
 }
 
 table tbody tr:last-of-type {
-    border-bottom: 2px solid #0096E2;
+    border-bottom: 2px solid var(--accent-color);
 }
 
 table tbody tr:hover {
-    background-color: #ddd;
+    background-color: #dcf3ff;
 }
 table caption {
     caption-side: bottom;
@@ -431,11 +467,11 @@ table caption {
     font-style: italic;
     text-align: center;
     margin-top: 10px;
-    color: #333;
+    color: var(--text-primary);
 }
 figcaption{
     font-size: 1em;
-    color: #333;
+    color: var(--text-primary);
     text-align: center;
     margin-top: 10px;
     margin-bottom: 30px;
@@ -624,15 +660,14 @@ figcaption{
     max-width: 100%;
     height: auto;
     margin: 0 auto;
-    border: 2px solid #333;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    background-color: #000;
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .video-container .video-caption {
     margin-top: 10px;
     font-size: 1em;
-    color: #555;
+    color: var(--text-secondary);
     font-style: italic;
 }
