@@ -1,3 +1,11 @@
+function applyTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+}
+
+// Call it immediately
+applyTheme();
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded");
     const navLinks = document.querySelectorAll('#nav-bar a');
@@ -109,6 +117,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 behavior: 'smooth'
             });
         });
+    });
+
+    // Add theme toggle initialization here
+    const themeToggle = document.getElementById('themeToggle');
+    
+    // Toggle theme
+    themeToggle?.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        // Debug log
+        console.log('Theme switched to:', newTheme);
     });
 
     // Highlight the TOC link while scrolling
