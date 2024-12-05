@@ -19,12 +19,18 @@
         })();
     </script>
     <style>
+        [data-theme="light"] {
+            --highlight-color: #0057b8;
+        }
+        [data-theme="dark"] {
+            --highlight-color: #ffcc00;
+        }
         .spoiler {
             color: #888;
             font-style: italic;
         }
         .highlight {
-            color: #0057b8;
+            color: var(--highlight-color);
             font-weight: bold;
         }
     </style>

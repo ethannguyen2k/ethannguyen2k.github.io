@@ -50,7 +50,7 @@
     --border-color: #444444;
     --card-bg: #2d2d2d;
     --shadow-color: rgba(255, 255, 255, 0.1);
-    --hover-color: #1f1f1f;
+    --hover-color: #00293f;
     /* Code window colors - Dark theme */
     --code-window-bg: #1a1a1a;
     --code-window-border: #444;
@@ -63,16 +63,27 @@
 :root {
     --transition-time: 0.2s;
     --transition-timing: ease;
+    --theme-transition: background-color var(--transition-time) var(--transition-timing),
+                color var(--transition-time) var(--transition-timing),
+                border var(--transition-time) var(--transition-timing),
+                box-shadow var(--transition-time) var(--transition-timing);
 }
 
 /* Apply transitions to all color and background changes */
-*,
-*::before,
-*::after {
-    transition: background-color var(--transition-time) var(--transition-timing),
-                color var(--transition-time) var(--transition-timing),
-                border-color var(--transition-time) var(--transition-timing),
-                box-shadow var(--transition-time) var(--transition-timing);
+body,
+header,
+nav,
+main,
+footer,
+.container,
+.card,
+.button,
+.sidebar,
+.article,
+.project,
+.blog-article,
+*:hover {
+  transition: var(--theme-transition);
 }
 
 body {

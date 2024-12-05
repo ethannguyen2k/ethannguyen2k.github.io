@@ -10,12 +10,13 @@
     --border-color: #dddddd;
     --card-bg: #fff;
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-color: #dcf3ff;
     /* Code window colors - Light theme */
-    --code-window-bg: #121d20;
+    --code-window-bg: #f3f3f3;
     --code-window-border: #e2e6e7;
     --code-window-text: #333;
     --console-bg: #e2e6e7;
-    --code-content-bg: #f3f3f3;
+    --code-content-bg: #e2e6e7;
     --code-window-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -29,12 +30,13 @@
     --border-color: #dddddd;
     --card-bg: #fff;
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-color: #dcf3ff;
     /* Code window colors - Light theme */
-    --code-window-bg: #121d20;
+    --code-window-bg: #f3f3f3;
     --code-window-border: #e2e6e7;
     --code-window-text: #333;
     --console-bg: #e2e6e7;
-    --code-content-bg: #f3f3f3;
+    --code-content-bg: #e2e6e7;
     --code-window-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -48,28 +50,40 @@
     --border-color: #444444;
     --card-bg: #2d2d2d;
     --shadow-color: rgba(255, 255, 255, 0.1);
+    --hover-color: #00293f;
     /* Code window colors - Dark theme */
     --code-window-bg: #1a1a1a;
     --code-window-border: #444;
     --code-window-text: #fff;
     --console-bg: #2d2d2d;
-    --code-content-bg: #0c0c0c;
+    --code-content-bg: #2d2d2d;
     --code-window-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
 }
 
 :root {
     --transition-time: 0.2s;
     --transition-timing: ease;
+    --theme-transition: background-color var(--transition-time) var(--transition-timing),
+                color var(--transition-time) var(--transition-timing),
+                border var(--transition-time) var(--transition-timing),
+                box-shadow var(--transition-time) var(--transition-timing);
 }
 
 /* Apply transitions to all color and background changes */
-*,
-*::before,
-*::after {
-    transition: background-color var(--transition-time) var(--transition-timing),
-                color var(--transition-time) var(--transition-timing),
-                border-color var(--transition-time) var(--transition-timing),
-                box-shadow var(--transition-time) var(--transition-timing);
+body,
+header,
+nav,
+main,
+footer,
+.container,
+.card,
+.button,
+.sidebar,
+.article,
+.project,
+.blog-article,
+*:hover {
+  transition: var(--theme-transition);
 }
 
 .theme-toggle {
@@ -128,6 +142,11 @@
 
 [data-theme="light"] .theme-btn .fa-moon {
     display: none;
+}
+
+.hljs {
+    background: var(--code-window-bg);
+    color: var(--code-window-text);
 }
 
 body {
@@ -571,7 +590,7 @@ table tbody tr:last-of-type {
 }
 
 table tbody tr:hover {
-    background-color: #dcf3ff;
+    background-color: var(--hover-color);
 }
 table caption {
     caption-side: bottom;
