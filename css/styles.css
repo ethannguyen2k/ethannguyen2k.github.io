@@ -11,6 +11,7 @@
     --card-bg: #fff;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --hover-color: #dcf3ff;
+    --lightbox: rgba(255, 255, 255, 0.9);
     /* Code window colors - Light theme */
     --code-window-bg: #121d20;
     --code-window-border: #e2e6e7;
@@ -31,6 +32,7 @@
     --card-bg: #fff;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --hover-color: #dcf3ff;
+    --lightbox: rgba(255, 255, 255, 0.9);
     /* Code window colors - Light theme */
     --code-window-bg: #121d20;
     --code-window-border: #e2e6e7;
@@ -51,6 +53,7 @@
     --card-bg: #2d2d2d;
     --shadow-color: rgba(255, 255, 255, 0.1);
     --hover-color: #00293f;
+    --lightbox: rgba(0, 0, 0, 0.9);
     /* Code window colors - Dark theme */
     --code-window-bg: #1a1a1a;
     --code-window-border: #444;
@@ -779,7 +782,7 @@ section ul li {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--lightbox);
 }
 
 .lightbox-content {
