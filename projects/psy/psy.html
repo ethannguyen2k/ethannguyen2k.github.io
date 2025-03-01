@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychology Researcher Automation Project</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        .callout {
+            background-color: #65ccff;
+            border-left: 4px solid #0096E2;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .callout-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        .pipeline-stage {
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        .pipeline-stage h3 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html" class="current">My Portfolio</a>
+            <a href="../../blog.html">My Blogs</a>
+        </nav>
+    </header>
+
+    <div class="container1">
+        <div class="project-header fade-in">
+            <img src="../../images/psy_thumbnail.webp" alt="Project Psychological Analysis Thumbnail" class="project-image">
+            <div class="project-info">
+                <h1>Psychology Researcher Automation</h1>
+                <p>Streamlining clinic data collection with Gemini-powered web scraping</p>
+                <a target="_blank" href="https://github.com/ethannguyen2k/psy-automation" class="button">View on GitHub</a>
+                <h2>Built With</h2>
+                <div class="badges">
+                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
+                    <img src="https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff&style=flat" alt="Pandas Badge">
+                    <img src="https://img.shields.io/badge/BeautifulSoup4-FFC107?logo=python&logoColor=000&style=flat" alt="BeautifulSoup4 Badge">
+                    <img src="https://img.shields.io/badge/Requests-007EC6?logo=python&logoColor=fff&style=flat" alt="Requests Badge">
+                    <img src="https://img.shields.io/badge/Google%20Gemini%20API-4285F4?logo=google&logoColor=fff&style=flat" alt="Google Gemini API Badge">
+                    <img src="https://img.shields.io/badge/Openpyxl-217346?logo=microsoft-excel&logoColor=fff&style=flat" alt="Openpyxl Badge">
+                    <img src="https://img.shields.io/badge/Pydantic-5E81AC?logo=python&logoColor=fff&style=flat" alt="Pydantic Badge">
+                </div>
+            </div>
+        </div>
+    
+        <div class="fade-in">
+            <h2>Project Overview</h2>
+            <p>The Psychology Researcher Automation project is a specialised tool designed to streamline the process of researching psychology clinics in Australia. 
+                By combining web scraping techniques with AI-powered data extraction, the system can automatically gather and structure information about psychology clinics, including contact details, practitioner information, and pricing data.
+            </p>
+            
+            <div class="callout">
+                <div class="callout-title">Key Capabilities</div>
+                <p>This automation pipeline extracts critical information from clinic websites:</p>
+                <ul>
+                    <li>Email addresses for clinic contacts</li>
+                    <li>Doctor/Team page URLs</li>
+                    <li>Lists of psychologists with their specialization types (Clinical or General)</li>
+                    <li>Pricing information for initial and follow-up consultations</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="fade-in">
+            <h2>The Problem</h2>
+            <p>Researching psychology clinics manually is an extremely time-consuming process. For each clinic, a researcher needs to:</p>
+            <ul>
+                <li>Visit the clinic's website</li>
+                <li>Navigate through various pages to find relevant information</li>
+                <li>Extract details about the practitioners, their qualifications, and services</li>
+                <li>Locate contact information and pricing</li>
+                <li>Organize all this information in a structured format</li>
+            </ul>
+            
+            <p>This process becomes especially challenging when dealing with hundreds of clinics, each with different website structures and information organization. 
+                Our automation system reduces what could take days of manual effort into a streamlined pipeline that delivers consistent results in a fraction of the time.</p>
+        </div>
+
+        <div class="fade-in">
+            <h2>The Pipeline Architecture</h2>
+            <p>Our solution is divided into five distinct stages that form a complete data processing pipeline:</p>
+            
+            <div class="pipeline-stage">
+                <h3>Stage 1: Excel Parsing and Initial Validation</h3>
+                <p>The first stage processes the input Excel file containing clinic information. It:</p>
+                <ul>
+                    <li>Identifies rows highlighted in green (indicating they should be processed)</li>
+                    <li>Validates address formats according to Australian standards</li>
+                    <li>Checks for duplicate phone numbers and missing critical data</li>
+                    <li>Verifies website URL formats</li>
+                </ul>
+                <p>This initial validation ensures we begin with clean, standardized data before web scraping.</p>
+            </div>
+            
+            <div class="pipeline-stage">
+                <h3>Stage 2: Website Scraping and Content Extraction</h3>
+                <p>The second stage handles the web scraping process for each clinic website:</p>
+                <ul>
+                    <li>Fetches and parses the main website content</li>
+                    <li>Identifies and follows links to relevant pages (team/staff pages, services, pricing)</li>
+                    <li>Extracts text content while preserving structural information (headings, paragraphs, lists)</li>
+                    <li>Implements rate limiting and exponential backoff for respectful scraping</li>
+                    <li>Saves extracted content in structured text files for further processing</li>
+                </ul>
+                <p>The scraper includes sophisticated error handling and retries to handle various website configurations.</p>
+            </div>
+            
+            <div class="pipeline-stage">
+                <h3>Stage 3: LLM-based Information Extraction</h3>
+                <p>The third stage leverages Google's Gemini API to extract specific information from the scraped text:</p>
+                <ul>
+                    <li>Uses specialized prompts to identify psychologist names and their types (Clinical vs. General)</li>
+                    <li>Extracts contact emails with priority for primary clinic contacts</li>
+                    <li>Finds URLs for doctor/team pages</li>
+                    <li>Identifies pricing information for initial and follow-up consultations</li>
+                    <li>Structures the extracted data in a consistent JSON format</li>
+                </ul>
+                <p>The AI-powered extraction significantly improves accuracy compared to regex-only approaches, especially for diverse website layouts.</p>
+            </div>
+            
+            <div class="pipeline-stage">
+                <h3>Stage 4: Validation and Structural Formatting</h3>
+                <p>The fourth stage validates and formats the extracted information:</p>
+                <ul>
+                    <li>Cleanses and standardizes extracted data (emails, URLs, pricing, etc.)</li>
+                    <li>Validates information against expected formats</li>
+                    <li>Identifies and flags discrepancies between existing and newly extracted data</li>
+                    <li>Prepares data for Excel output, including creating new rows for additional psychologists</li>
+                </ul>
+                <p>This stage ensures the final output meets quality standards and is ready for analysis.</p>
+            </div>
+            
+            <div class="pipeline-stage">
+                <h3>Stage 5: Excel Output Generation</h3>
+                <p>The final stage generates a professionally formatted Excel file containing all the extracted information:</p>
+                <ul>
+                    <li>Creates a structured Excel file with all extracted data</li>
+                    <li>Applies color coding to highlight different data categories</li>
+                    <li>Formats phone numbers and other fields for better readability</li>
+                    <li>Generates an invoice file for submission</li>
+                    <li>Preserves original green row highlighting while adding new extracted information</li>
+                </ul>
+                <p>The result is a comprehensive, ready-to-use Excel document that saves hours of manual research.</p>
+            </div>
+        </div>
+
+        <div class="fade-in">
+            <h2>Implementation Highlights</h2>
+        
+            <h3>🔍 Intelligent Web Scraping</h3>
+            <p>Our scraper goes beyond basic content extraction by intelligently identifying the most valuable pages on a clinic's website. It looks for patterns in link text and URL structures to find pages likely to contain practitioner information, such as "Our Team," "Meet Our Psychologists," or "Staff." The system also preserves the structure of the content, maintaining headings, paragraphs, and lists for more accurate AI processing.</p>
+            
+            <h3>🤖 AI-Powered Information Extraction</h3>
+            <p>Using Google's Gemini API, we've developed specialized prompts that enable accurate extraction of complex information. The AI can distinguish between clinical and general psychologists based on context clues, identify the most relevant contact information, and extract pricing details even when they're presented in various formats across different websites.</p>
+            
+            <h3>🛠️ Robust Error Handling and Rate Limiting</h3>
+            <p>The system implements comprehensive error handling with exponential backoff for failed requests. It respects website servers by implementing rate limiting between requests and uses batch processing to manage resources efficiently. 
+                This ensures the tool can run reliably even when processing hundreds of websites.</p>
+        </div>
+
+        <div class="fade-in">
+            <h2>Challenges and Solutions</h2>
+        
+            <h3>🌐 Website Diversity</h3>
+            <p>Websites vary in structure & tech stacks.</p>
+            <p><strong>Solution:</strong> Our scraper adapts using multiple content detection techniques.</p>
+            
+            <h3>⚖️ Rate Limiting and Respectful Scraping</h3>
+            <p>High request rates may cause IP blocks.</p>
+            <p><strong>Solution:</strong> Configurable delays & exponential backoff prevent server overload.</p>
+            
+            <h3>📄 Extracting Unstructured Information</h3>
+            <p>Info appears in inconsistent formats.</p>
+            <p><strong>Solution:</strong> AI-driven text parsing (vs. regex) improves accuracy.</p>    
+        </div>
+
+        <div class="fade-in">
+            <h2>Visit the GitHub Repository</h2>
+            <p>For the full code and documentation, visit the <a target="_blank" href="https://github.com/ethannguyen2k/poker-hands">GitHub repository</a>.</p>
+        </div>
+
+    </div>
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+
+    <script src="../../js/scripts.js"></script>
+</body>
+</html>
