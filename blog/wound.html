@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - Wound Measurement System</title>
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        [data-theme="light"] {
+            --highlight-color: #0057b8;
+        }
+        [data-theme="dark"] {
+            --highlight-color: #ffcc00;
+        }
+        .spoiler {
+            color: #888;
+            font-style: italic;
+        }
+        .highlight {
+            color: var(--highlight-color);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../images/doodle_circle.png" alt="Logo">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="container2 fade-in">
+        <div class="blog-content">
+            <h2>Building an AI-Powered Wound Measurement System</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">December 12, 2024</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
+
+            <p><span class="spoiler"> This blog post reflects my personal experience and contributions as an AI/Machine Learning Services Applications intern. 
+                The project was a collaborative effort involving talented developers, healthcare professionals, and mentors who provided guidance throughout the process.</span></p>
+
+            <h3>Introduction</h3>
+            <p>During my recent internship as an AI/Machine Learning Services Applications specialist, I had the opportunity to work on a challenging and impactful healthcare project: developing an AI-based wound measurement system that integrates standard medical reference objects for accurate wound assessment. 
+                This blog post outlines my experience, the technical challenges we overcame, and the insights gained throughout this journey.</p>
+
+            <h3>The Problem: Accurate Wound Measurement in Healthcare</h3>
+            <p>Wound assessment is a critical component of patient care, particularly for chronic wounds like pressure ulcers, diabetic foot ulcers, and venous leg ulcers. 
+                Traditional wound measurement methods often lack consistency, are time-consuming, and can be subjective depending on the healthcare provider performing the assessment.
+                Our goal was to create a system that could:
+            </p>
+            <ul>
+                <li>Consistently detect and measure wounds with high accuracy</li>
+                <li>Work with flexible reference objects commonly available in clinical settings</li>
+                <li>Provide reliable data for monitoring wound healing progress over time</li>
+                <li>Integrate seamlessly into existing clinical workflows</li>
+            </ul>
+
+            <h3>Our Solution: AI-Driven Detection with Reference Objects</h3>
+            <p>The core of our solution was a wound detection API powered by <a href="https://blog.roboflow.com/yolov7-breakdown/" target="_blank">YOLO (You Only Look Once)</a> object detection models. 
+                What makes our approach unique is the flexible reference system that allows healthcare providers to use one of three common objects for measurement:
+            </p>
+            <ol>
+                <li><strong>Coins</strong> - Circular reference objects with known diameters</li>
+                <li><strong>RuCardslers</strong> - Rectangular reference objects with standardized dimensions</li>
+                <li><strong>Rulers</strong> - Linear reference objects for direct measurement</li>
+            </ol>
+            <p>Each reference method has its advantages in different clinical scenarios:</p>
+            <ul>
+                <li>During routine patient monitoring, coins or cards are convenient options</li>
+                <li>During surgical procedures, rulers provide the accuracy and flexibility needed in an operating room environment</li>
+            </ul>
+
+            <h3>Technical Implementation</h3>
+            <h4>The Architecture</h4>
+            <p>The system comprises several key components:</p>
+            <ol>
+                <li><strong>YOLO Object Detection Models</strong> - Custom-trained models to detect wounds and reference objects</li>
+                <li><strong>FastAPI Backend</strong> - Handles image processing, object detection, and measurement calculations</li>
+                <li><strong>PHP/Laravel/Filament Frontend</strong> - Provides the user interface for clinical staff</li>
+            </ol>
+
+            <h4>Key Technical Challenges</h4>
+            <p><strong>Learning New Technology Stacks</strong></p>
+            <p>One of my first challenges was getting up to speed with PHP/Laravel/Filament, which was used for the frontend system. 
+                Coming from a different programming background, this required quick adaptation and learning while ensuring that the backend logic I was developing would integrate seamlessly.
+            </p>
+
+            <p><strong>Bridging Backend-Frontend Communication</strong></p>
+            <p>The most significant challenge was ensuring reliable communication between the backend (Python/FastAPI) and frontend (PHP/Laravel) systems. 
+                These different frameworks use different libraries and data structures, requiring careful design of APIs and data formats to ensure smooth integration.
+            </p>
+
+            <p><strong>Image Processing and Measurement Algorithms</strong></p>
+            <p>Developing algorithms to:</p>
+            <ul>
+                <li>Process polygon calculations for wound boundaries</li>
+                <li>Reduce polygon points while maintaining shape accuracy</li>
+                <li>Calculate accurate scaling based on reference objects</li>
+                <li>Account for perspective distortion</li>
+            </ul>
+            <p>A particularly interesting part of the development was implementing the polygon calculation functions that determine wound dimensions. 
+                For example, the system uses the Shoelace formula (also known as the surveyor's formula) to calculate polygon areas accurately.</p>
+            
+            <div class="code-window">
+                <div class="console">
+                    <div class="red"></div>
+                    <div class="orange"></div>
+                    <div class="green"></div>
+                </div>
+            <pre class="code-content"><code>
+def calculate_polygon_area(points):
+# Shoelace formula implementation
+n = len(points)
+area = 0.0
+for i in range(n):
+    j = (i + 1) % n
+    area += points[i][0] * points[j][1]
+    area -= points[j][0] * points[i][1]
+return abs(area) / 2.0
+            </code></pre>
+            </div>
+
+            <p><strong>Synthetic Data Generation</strong></p>
+            <p>To improve model performance, I developed an extensive library of synthetic images for machine learning. 
+                This approach allowed us to train robust models without requiring large amounts of real clinical data, which can be difficult to obtain due to privacy concerns and regulatory requirements.
+            </p>
+
+            <h3>Real-World Impact</h3>
+            <p>The system has been able to address several issues:</p>
+            <ul>
+                <li>Accuracy - Provides consistent measurements independent of the healthcare provider</li>
+                <li>Efficiency - Reduces the time needed to document and measure wounds</li>
+                <li>Monitoring - Enables precise tracking of wound healing progress over time</li>
+                <li>Integration - Works with common objects found in clinical settings (coins, cards, rulers)</li>
+            </ul>
+
+            <h3>Conclusion</h3>
+            <p>My internship experience developing an AI-powered wound measurement system has been invaluable. 
+                It provided the opportunity to work on a project with real-world healthcare impact while developing both technical and professional skills.
+            </p>
+
+            <p>The flexible approach to reference objects (coins, cards, and rulers) makes our solution particularly adaptable to different clinical scenarios, from routine wound checks to surgical procedures. 
+                As healthcare continues to embrace digital transformation, tools like ours that enhance clinical assessment through AI and computer vision will play an increasingly important role in improving patient care.
+            </p>
+            
+        </div>
+
+        <p><a href="index.html">Back to Home</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+    </div>
+
+</body>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
+</html>

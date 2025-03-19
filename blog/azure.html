@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Writing Comments in Programming</title>
+    <title>My Blogs - Cloud-Based Manufacturing Optimisation</title>
     <link rel="stylesheet" href="../css/blog-styles.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -97,8 +97,108 @@
                 <li>Use generative AI to query data, create reports, recognize faults, and raise alerts</li>
                 <li>Visualise everything in a user-friendly format</li>
             </ul>
-            
-            <p>Sounds straightforward, right? Well... not exactly.</p>
+
+            <h3>IoT Sensor Data Analysis, Anomaly Detection and LLM Integration System</h3>
+            <h4>1. Data Collection and Ingestion</h4>
+            <p>Our system was designed to collect key parameters like temperature, speed, torque, and positional data from various sensors installed on the machines.
+                Along with Raspberry Pi devices as edge computing units, we used OPC UA protocol via PLCs (Programmable Logic Controllers) to translate machine signals into readable data.
+            </p>
+            <p>So the pipeline looks like this:</p>
+
+            <div class="output-cell">
+                <div class="output-line">Edge Device (Raspberry Pi) → Azure IoT Hub → Azure Event Hub → Azure Function Apps → Azure Cosmos DB</div>
+            </div>
+
+            <h4>2. Data Storage and Processing</h4>
+            <p>Once the data was collected, 2 databases were used:
+                <ul>
+                    <li><strong>Azure Cosmos DB:</strong> Stores raw IoT messages</li>
+                    <li><strong>Azure Blob Storage:</strong> Stores processed performance metrics (OEE, OT, OE) for LLM consumption</li>
+                </ul>
+            </p>
+
+            <p>For data processing, we implement an Event Hub Trigger Azure Function with Python 3.11 runtime to:
+                <ul>
+                    <li>Parse incoming IoT telemetry</li>
+                    <li>Update Digital Twin properties</li>
+                    <li>Calculate statistical metrics</li>
+                    <li>Store processed data in Blob Storage</li>
+                </ul>
+            </p>
+
+            <h4>3. Anomaly Detection and LLM Integration</h4>
+            <p>For anomaly detection, we used Azure Machine Learning to train a simple model that could predict machine failures based on historical data. 
+                The model was then deployed as a web service and integrated into the Azure Function App to raise alerts when anomalies were detected.</p>
+
+            <p>Workflow:
+                <ul>
+                    <li>The backend retrieves data from Cosmos DB</li>
+                    <li>Data is scaled using a pre-trained scaler</li>
+                    <li>The maintenance alert model predicts and raise result toward frontend dashboard</li>
+                </ul>
+            </p>
+
+            <h4>4. Digital Twin Integration</h4>
+            <h5>Digital Twin Setup</h5>
+            <ul>
+                <li>Create Azure Digital Twin models for the manufacturing system (e.g., Gantry System)</li>
+                <li>Define relationships between components:
+                    <ul>
+                        <li>Vacuum → Storage: have_access_to</li>
+                        <li>ControlPad → Vacuum: controls</li>
+                        <li>Conveyor → Sensors: linked_to</li>
+                    </ul>
+            </ul>
+            <h5>Real-time Monitoring</h5>
+            <ul>
+                <li>IoT data updates Digital Twin properties via Function App</li>
+                <li>The Digital Twin model provides a virtual representation of the physical system</li>
+                <li>Use 3D visualization (Azure Digital Twins 3D Scenes) and in-house dashboard to monitor machinery status in real-time</li>
+            </ul>
+
+            <h4>5. LLM Integration for Log Processing and Optimization</h4>
+            <h5>Azure OpenAI Services Setup</h5>
+            <ul>
+                <li>Deploy GPT-4o model in Azure OpenAI Services</li>
+                <li>Set up text-embedding-ada-002 model for vector search capabilities</li>
+                <li>Configure system message and parameters</li>
+            </ul>
+
+            <h5>Integrating Machine Data with LLM</h5>
+            <ul>
+                <li>Process and store machine performance metrics in Azure Blob Storage</li>
+                <li>Set up Azure AI Search to index this data</li>
+                <li>Configure vector search for semantically relevant retrieval</li>
+                <li>Connect the Azure OpenAI Service to search this indexed data</li>
+            </ul>
+
+            <h5>Optimization Suggestion Workflow</h5>
+            <ul>
+                <li>Users interact with the LLM via a chat interface</li>
+                <li>The LLM queries Azure AI Search for relevant machine data</li>
+                <li>The system combines its knowledge with real-time and historical data</li>
+                <li>It generates reports and optimization suggestions based on this integrated information</li>
+            </ul>
+
+            <p>For an example prompt, it goes something like this:</p>
+
+            <div class="code-window">
+                <div class="console">
+                    <div class="red"></div>
+                    <div class="orange"></div>
+                    <div class="green"></div>
+                </div>
+            <pre class="code-content"><code>
+"Analyse the raw data and statistics from the time period and generate a summary.
+Your report should include the following sections:
+1. Executive Summary
+2. Variable Trends
+3. Anomalies Detected
+4. Potential Faults
+5. Optimization Strategies
+For each section, provide concise, data-driven insights. Use specific numbers and percentages where relevant."
+            </code></pre>
+            </div>
             
             <h3>Azure: A Maze</h3>
             
@@ -108,8 +208,6 @@
             
             <p>We used various Azure services for storing data, processing it, and running AI models. But here's 
             where it gets interesting (and by interesting, I mean challenging 🎢).</p>
-            
-            <h3>The Plot Twists</h3>
             
             <p>Combining Azure services is a bit like following a recipe with missing instructions. Here are some fun 
             challenges we faced:</p>
@@ -147,7 +245,7 @@
             <p>Don't get me wrong, Azure has the most compelling storyline because it produces the top BI tool on the planet (PowerBI), the most common enterprise RDBMS (SqlServer), the most common business productivity suite (O365), and the most common authentication service (AAD). 
                 If I have to guess, probably MSFT doesn't pay as much attention to the DE or developers' side of the business, as many DEs are code-heavy.</p>
             
-            <h3>The Silver Linings ✨</h3>
+            <h3>The Silver Linings</h3>
             
             <p>Despite the challenges, we built something genuinely useful:</p>
             <ul>
