@@ -8,6 +8,10 @@ applyTheme();
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded");
+    
+    // Update footer with current year
+    updateFooterYear();
+    
     const navLinks = document.querySelectorAll('#nav-bar a');
     const tocLinks = document.querySelectorAll('#toc a');
     const sections = document.querySelectorAll('section');
@@ -200,3 +204,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Function to update the footer year dynamically
+function updateFooterYear() {
+    const footerYear = document.querySelectorAll('footer p');
+    if (footerYear.length > 0) {
+        const currentYear = new Date().getFullYear();
+        footerYear.forEach(p => {
+            p.innerHTML = p.innerHTML.replace(/\d{4}/, currentYear);
+        });
+    }
+}
