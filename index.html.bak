@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homepage">
+    <meta name="author" content="Ethan">
+    <title>My Front Page</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="images/doodle_circle.png" alt="Logo" style="max-width: 100%; height: auto;">
+            <div class="text-content">
+                <h1>Duc Phat Nguyen</h1>
+                <h3>A student looking for opportunities in Data Science & AI</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </header>
+    
+    <div class="introduction fade-in">
+        <p>Hi! I'm <span id="tooltip-trigger">Duc Phat Nguyen</span>, but you can call me Ethan.</p>
+        <p>I am a student based in Melbourne, looking for opportunities in Data Science & AI. Currently, I am focusing on improving my statistical knowledge, CI/CD, and cloud techs. Check out my portfolio for more details.</p>
+        <p>I continually update my content, so I hope you will return for future updates. Regardless, I wish you a productive and positive day.</p>
+        <p>🤙 To contact me, my email is in the footer below or visit my <a href="https://www.linkedin.com/in/ethan-2k" target="_blank">LinkedIn</a>.</p>
+    </div>
+
+    <!-- Tooltip container -->
+    <div id="tooltip-container" class="tooltip-container">
+        <img src="images/avatar2.jpg" alt="My Image">
+    </div>
+
+    <div class="grid-container fade-in">
+        <a href="portfolio.html" class="grid-item">
+            <img src="images/portfolio.jpg" alt="Portfolio">
+            <span>Portfolio</span>
+        </a>
+        <a href="blog.html" class="grid-item">
+            <img src="images/blog.jpg" alt="Blogs">
+            <span>Blogs</span>
+        </a>
+        <a href="mailto:phatnguyenground@gmail.com" class="grid-item">
+            <img src="images/email.jpg" alt="Email">
+            <span>Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/ethan-2k" target="_blank" class="grid-item">
+            <img src="images/blue_background.jpg" alt="LinkedIn">
+            <span>LinkedIn</span>
+        </a>
+        <a href="playlist.html" class="grid-item">
+            <img src="images/playlist.jpg" alt="Playlists">
+            <span>Playlists</span>
+        </a>
+        <div id="surpriseMe" class="grid-item">
+            <img src="images/surprise.gif" alt="Surprise Me">
+            <span>Surprise Me</span>
+        </div>
+    </div>
+
+    <div id="videoSection" class="video-section hidden">
+        <!-- YouTube video will be embedded here -->
+    </div>
+
+    <p id="videoDescription"></p>
+
+    <blockquote class="quote">
+        <p>"If you are wrong, you can walk away and slam the door. If your mother is wrong, she can only shed tears while cleaning the house.</p>
+        <p>Everyone wants to save the world, but no one wants to help their mother with the housework."</p>
+        <footer>-Anonymous-</footer>
+    </blockquote>
+
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+</body>
+<script src="js/scripts.js"></script>
+</html>
