@@ -66,6 +66,54 @@ function playNextNote() {
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded");
+
+    // Scroll Prompt functionality
+    const scrollPrompt = document.getElementById('scroll-prompt');
+
+    if (scrollPrompt) {
+        // Hide the scroll prompt when user is near the bottom of the page
+        window.addEventListener('scroll', function () {
+            const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+    
+            // Hide when near the bottom (e.g., within 100px)
+            if (scrollPosition + windowHeight >= documentHeight - 100) {
+                scrollPrompt.style.opacity = '0';
+                setTimeout(() => {
+                    scrollPrompt.style.display = 'none';
+                }, 300);
+            } else {
+                scrollPrompt.style.display = 'flex';
+                setTimeout(() => {
+                    scrollPrompt.style.opacity = '0.8';
+                }, 10);
+            }
+        });
+    
+        // Smooth scroll down when clicked
+        scrollPrompt.addEventListener('click', function () {
+            const windowHeight = window.innerHeight;
+            window.scrollTo({
+                top: windowHeight,
+                behavior: 'smooth'
+            });
+        });
+    
+        // Initial check
+        setTimeout(() => {
+            const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+    
+            if (scrollPosition + windowHeight < documentHeight - 100) {
+                scrollPrompt.style.display = 'flex';
+                scrollPrompt.style.opacity = '0.8';
+            } else {
+                scrollPrompt.style.display = 'none';
+            }
+        }, 1000);
+    }    
     
     // Update footer with current year
     updateFooterYear();
