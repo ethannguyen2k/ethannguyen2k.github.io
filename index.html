@@ -32,6 +32,163 @@
             padding: 20px;
             position: relative;
             z-index: 10;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* About Me Button */
+        .about-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 150, 226, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+            font-size: 24px;
+        }
+
+        .about-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 150, 226, 0.5);
+        }
+        
+        /* About Me Modal */
+        .about-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .about-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .about-content {
+            background: var(--box-bg);
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            border-radius: 20px;
+            padding: 30px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-30px);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .about-modal.visible .about-content {
+            transform: translateY(0);
+        }
+        
+        .about-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .about-close:hover {
+            transform: rotate(90deg);
+            color: var(--accent-color);
+        }
+        
+        .about-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+        
+        .about-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 150, 226, 0.3);
+        }
+        
+        .about-title h2 {
+            margin: 0 0 5px 0;
+            font-size: 1.8em;
+        }
+        
+        .about-vname {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin: 0 0 5px 0;
+        }
+        
+        .about-job-title {
+            font-style: italic;
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin: 5px 0;
+        }
+        
+        .about-section {
+            margin-bottom: 25px;
+        }
+        
+        .about-section h3 {
+            border-bottom: 1px solid var(--box-border);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .about-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .about-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .about-list li i {
+            margin-right: 10px;
+            color: var(--accent-color);
+            margin-top: 2.5px;
+        }
+        
+        .about-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .about-link:hover {
+            text-decoration: underline;
         }
 
         /* Header content positioning */
@@ -167,6 +324,7 @@
         }
 
         .box {
+            border: 1px solid var(--box-border);
             background: var(--box-bg);
             border-radius: 20px;
             padding: 30px;
@@ -438,6 +596,9 @@
                 <i class="fa-solid fa-moon"></i>
             </button>
         </div>
+        <button class="about-btn" id="aboutBtn" aria-label="About Me">
+            <i class="fa-solid fa-hand-peace"></i>
+        </button>
     </header>
 
     <!-- Tooltip container for quote -->
@@ -451,7 +612,7 @@
         <div class="content-container" id="contentContainer">
             <div class="main-box">
                 <div class="header-content">
-                    <img id="logo" src="images/logo2.png" alt="Logo">
+                    <img id="logo" src="images/logo2.webp" alt="Logo">
                     <div class="text-content">
                         <h1>hi! i'm ethan</h1>
                         <h3>hard learning. hardworking. hard playing. ready for what's next</h3>
@@ -512,6 +673,51 @@
     <footer>
         <p>made by ethan, 2024, with 💜</p>
     </footer>
+
+    <!-- About Me Modal -->
+    <div class="about-modal" id="aboutModal">
+        <div class="about-content">
+            <button class="about-close" id="aboutClose">&times;</button>
+            <div class="about-header">
+                <img src="images/avatar2.jpg" alt="ethan's avatar" class="about-avatar">
+                <div class="about-title">
+                    <h2>Ethan</h2>
+                    <p class="about-vname">Nguyễn Đức Phát</p>
+                    <p class="about-job-title">AI whisperer & occasional slur shouter <br><small>(for a more professional version, check out my <a href="portfolio.html" class="about-link">portfolio</a>)</small></p>
+                </div>
+            </div>
+            <div class="about-section">
+                <h3>a short introduction</h3>
+                <p style="margin-bottom: 15px; font-weight: 550;">xin chào! i'm ethan, a data sci graduate and a tutor. i...</p>
+                <ul class="about-list">
+                    <li><i class="fa-solid fa-chart-line"></i> have background in econ and data</li>
+                    <li><i class="fa-solid fa-robot"></i> create a bunch of AI agents that barely works</li>
+                    <li><i class="fa-solid fa-laptop-code"></i> have a laptop that refused to serve certain models in its GPU</li>
+                    <li><i class="fa-solid fa-brain"></i> do ML/AI engineering or sometimes me-learning. the world is vast.</li>
+                </ul>
+            </div>
+            <div class="about-section">
+                <h3>other interests</h3>
+                <ul class="about-list">
+                    <li><i class="fa-solid fa-gamepad"></i> game development (thanks&nbsp; <a href="https://www.youtube.com/@GMTK" target="_blank" class="about-link">GMTK</a>)</li>
+                    <li><i class="fa-solid fa-music"></i> chill with my own&nbsp; <a href="playlist.html" class="about-link">music playlist</a></li>
+                    <li><i class="fa-solid fa-code"></i> frontend dev, cuz it's fun once in a while</li>
+                    <li><i class="fa-solid fa-chess"></i> games like total war series, strategic coop shooter games</li>
+                    <li><i class="fa-solid fa-beer-mug-empty"></i> hanging out with friends, sometimes, cuz i touch grass sometimes for my mental</li>
+                </ul>
+            </div>
+            <div class="about-section">
+                <h3>fun facts</h3>
+                <ul class="about-list">
+                    <li><i class="fa-solid fa-trophy"></i> i am once a&nbsp; <a href="https://ybox.vn/guong-mat/doi-ban-than-cung-nhau-chinh-phuc-cuoc-thi-vo-dich-tin-hoc-van-phong-the-gioi-61aadb03ae21b47a994c6855" target="_blank" class="about-link">runner up in an international competition</a></li>
+                    <li><i class="fa-solid fa-utensils"></i> i prefer a dinner over lunch, it's more fun to hang out with the boys at night</li>
+                    <li><i class="fa-solid fa-graduation-cap"></i> top 4 15mins english tests in high school</li>
+                    <li><i class="fa-solid fa-tooth"></i> did you know? snails can have between 10,000 and 25,000 teeth, depending on the species</li>
+                    <li><i class="fa-solid fa-language"></i> english is hard sometimes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Theme toggle functionality
@@ -581,6 +787,7 @@
             const iconSources = [
                 'images/surpriseicon/SurpriseIcon.webp',
                 'images/surpriseicon/SurpriseIcon2.webp',
+                'images/surpriseicon/SurpriseIcon2 (2).jpg',
                 'images/surpriseicon/SurpriseIcon3.webp',
                 'images/surpriseicon/SurpriseIcon4.webp',
                 'images/surpriseicon/SurpriseIcon5.webp',
@@ -710,6 +917,9 @@
                     <div style="text-align: center; margin-bottom: 20px;">
                         <p>the easiest way to contact me is through email! i don't really check my
                         social media messages, so please send things to my email instead</p>
+
+                        <img src="images/email-icon.webp" alt="Email me" style="max-width: 150px; margin: 20px auto; width: 100%; height: auto; display: block; border-radius: 10px; filter: drop-shadow(0 8px 15px rgba(0, 150, 226, 0.4));">
+
                         <p style="margin-top: 15px; font-weight: bold;">phatnguyenground@gmail.com</p>
                         <p>or press the button below to open your mail app.</p>
                         <div style="margin-top: 20px;">
@@ -731,6 +941,26 @@
                 document.getElementById('backFromContact').addEventListener('click', function() {
                     contentContainer.classList.remove('active');
                 });
+            });
+
+            // About Me button functionality
+            const aboutBtn = document.getElementById('aboutBtn');
+            const aboutModal = document.getElementById('aboutModal');
+            const aboutClose = document.getElementById('aboutClose');
+
+            aboutBtn.addEventListener('click', function() {
+                aboutModal.classList.add('visible');
+            });
+
+            aboutClose.addEventListener('click', function() {
+                aboutModal.classList.remove('visible');
+            });
+
+            // Close the modal when clicking outside the content
+            window.addEventListener('click', function(event) {
+                if (event.target === aboutModal) {
+                    aboutModal.classList.remove('visible');
+                }
             });
         });
 

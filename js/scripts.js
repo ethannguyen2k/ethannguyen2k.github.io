@@ -6,9 +6,92 @@ function applyTheme() {
 // Call it immediately
 applyTheme();
 
+// Musical Notes System
+let audioContext = null;
+let currentNoteIndex = 0;
+let audioInitialized = false;
+// Remove the localStorage check so nudge appears on every visit
+// const nudgeShown = localStorage.getItem('audioNudgeShown') === 'true';
+const noteFrequencies = [
+    261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, // C4–B4
+    523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77  // C5–B5
+];
+
+function initAudioContext() {
+    if (audioContext === null) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioInitialized = true;
+        
+        // Hide the nudge once audio is initialized
+        const audioNudge = document.getElementById('audio-nudge');
+        if (audioNudge) {
+            audioNudge.style.display = 'none';
+            // Remove this to prevent storing the nudge shown state
+            // localStorage.setItem('audioNudgeShown', 'true');
+        }
+    }
+}
+
+function playNote(frequency) {
+    if (!audioInitialized) {
+        initAudioContext();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    const panNode = audioContext.createStereoPanner();
+
+    oscillator.type = 'triangle'; // slightly richer tone
+    oscillator.frequency.setValueAtTime(frequency - 10, audioContext.currentTime);
+    oscillator.frequency.linearRampToValueAtTime(frequency, audioContext.currentTime + 0.1);
+
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.03);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.35);
+
+    panNode.pan.value = Math.random() * 2 - 1;
+
+    oscillator.connect(gainNode);
+    gainNode.connect(panNode);
+    panNode.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.4);
+}
+
+function playNextNote() {
+    playNote(noteFrequencies[currentNoteIndex]);
+    currentNoteIndex = (currentNoteIndex + 1) % noteFrequencies.length;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded");
     
+    // Update footer with current year
+    updateFooterYear();
+    
+    // Always show audio nudge when page loads
+    const audioNudge = document.getElementById('audio-nudge');
+    if (audioNudge) {
+        audioNudge.style.display = 'block';
+    }
+    
+    // Initialize audio context on first user interaction
+    document.addEventListener('click', function initAudioOnce() {
+        initAudioContext();
+        document.removeEventListener('click', initAudioOnce);
+    }, { once: true });
+    
+    // Tech bubble music functionality
+    const techBubbles = document.querySelectorAll('.tech-bubble');
+    if (techBubbles) {
+        techBubbles.forEach(bubble => {
+            bubble.addEventListener('mouseenter', function() {
+                playNextNote();
+            });
+        });
+    }  
+
     // Update footer with current year
     updateFooterYear();
     

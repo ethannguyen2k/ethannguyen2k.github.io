@@ -17,11 +17,39 @@
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>
+    <style>
+        #audio-nudge {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--box-border);
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            animation: bounce 1s infinite alternate;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes bounce {
+            from {
+                transform: translateX(-50%) translateY(0);
+            }
+            to {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <img id="logo" src="images/logo2.png" alt="Logo">
+            <img id="logo" src="images/logo2.webp" alt="Logo">
             <div class="text-content">
                 <h1>hi! i'm ethan</h1>
                 <h3>hard learning. hardworking. hard playing. ready for what's next</h3>
@@ -71,25 +99,92 @@
                         <p>
                             <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
                             <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a></p>
-                        <div class="tech-stack">
-                            <span class="tech-bubble">Python</span>
-                            <span class="tech-bubble">R</span>
-                            <span class="tech-bubble">Tableau</span>
-                            <span class="tech-bubble">Power BI</span>
-                            <span class="tech-bubble">MySQL</span>
-                            <span class="tech-bubble">MongoDB</span>
-                            <span class="tech-bubble">PostgreSQL</span>
-                            <span class="tech-bubble">AWS</span>
-                            <span class="tech-bubble">Oracle</span>
-                            <span class="tech-bubble">Git</span>
-                        </div>
+                            <a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                            <a href="https://bit.ly/EthanNguyenCV" target="_blank"><i class="fa-solid fa-file-lines"></i></a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="tech-stack">
+                    <!-- Programming Languages -->
+                    <div class="tech-category">
+                        <h4>Programming Languages</h4>
+                        <span class="tech-bubble">Python</span>
+                        <span class="tech-bubble">R</span>
+                        <span class="tech-bubble">SQL</span>
+                        <span class="tech-bubble">PHP</span>
+                    </div>
+                    
+                    <!-- Frameworks & Libraries -->
+                    <div class="tech-category">
+                        <h4>Frameworks & Libraries</h4>
+                        <span class="tech-bubble">TensorFlow</span>
+                        <span class="tech-bubble">PyTorch</span>
+                        <span class="tech-bubble">OpenCV</span>
+                        <span class="tech-bubble">YOLOv8</span>
+                        <span class="tech-bubble">Flask</span>
+                        <span class="tech-bubble">Laravel</span>
+                        <span class="tech-bubble">Filament</span>
+                        <span class="tech-bubble">XGBoost</span>
+                    </div>
+                    
+                    <!-- Data Visualization -->
+                    <div class="tech-category">
+                        <h4>Data Visualization</h4>
+                        <span class="tech-bubble">Tableau</span>
+                        <span class="tech-bubble">Power BI</span>
+                        <span class="tech-bubble">Advanced Excel</span>
+                        <span class="tech-bubble">Dash</span>
+                        <span class="tech-bubble">Cytoscape</span>
+                    </div>
+                    
+                    <!-- Databases -->
+                    <div class="tech-category">
+                        <h4>Databases</h4>
+                        <span class="tech-bubble">MySQL</span>
+                        <span class="tech-bubble">PostgreSQL</span>
+                        <span class="tech-bubble">MongoDB</span>
+                        <span class="tech-bubble">SQLite</span>
+                        <span class="tech-bubble">Chroma</span>
+                    </div>
+                    
+                    <!-- Cloud Technologies -->
+                    <div class="tech-category">
+                        <h4>Cloud Technologies</h4>
+                        <span class="tech-bubble">AWS</span>
+                        <span class="tech-bubble">Oracle Cloud</span>
+                        <span class="tech-bubble">Azure</span>
+                    </div>
+                    
+                    <!-- AI/ML Specialties -->
+                    <div class="tech-category">
+                        <h4>AI/ML Specialties</h4>
+                        <span class="tech-bubble">Machine Learning</span>
+                        <span class="tech-bubble">Deep Learning</span>
+                        <span class="tech-bubble">Computer Vision</span>
+                        <span class="tech-bubble">NLP</span>
+                        <span class="tech-bubble">LLM Fine-tuning</span>
+                        <span class="tech-bubble">Reinforcement Learning</span>
+                    </div>
+                    
+                    <!-- DevOps & Tools -->
+                    <div class="tech-category">
+                        <h4>DevOps & Tools</h4>
+                        <span class="tech-bubble">Docker</span>
+                        <span class="tech-bubble">Kubernetes</span>
+                        <span class="tech-bubble">Git</span>
+                    </div>
+                    
+                    <!-- Analytics & Modeling -->
+                    <div class="tech-category">
+                        <h4>Analytics & Modeling</h4>
+                        <span class="tech-bubble">Statistical Modeling</span>
+                        <span class="tech-bubble">Economic Modeling</span>
+                        <span class="tech-bubble">Forecasting</span>
                     </div>
                 </div>
             </section>
-
-            <p>You can find my resume in my LinkedIn. But here is what I did:</p>
-
+            
             <section id="current-roles" class="fade-in">
                 <h2>Current Roles</h2>
                 <ul>
@@ -268,6 +363,8 @@
             <p><a href="index.html">Back to Home</a></p>
         </div>
     </div>
+
+    <div id="audio-nudge">Click anywhere to enable sound on those tech bubbles 🎵</div>
 
     <footer>
         <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>

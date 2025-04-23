@@ -451,7 +451,7 @@
         <div class="content-container" id="contentContainer">
             <div class="main-box">
                 <div class="header-content">
-                    <img id="logo" src="images/logo2.png" alt="Logo">
+                    <img id="logo" src="images/logo2.webp" alt="Logo">
                     <div class="text-content">
                         <h1>hi! i'm ethan</h1>
                         <h3>hard learning. hardworking. hard playing. ready for what's next</h3>
