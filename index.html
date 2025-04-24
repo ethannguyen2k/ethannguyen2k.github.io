@@ -581,6 +581,63 @@
                 height: 50px;
             }
         }
+
+        .collage-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .collage-item {
+            flex-grow: 1;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease-in-out;
+            min-width: 150px; /* Ensures we get at least 2 photos per row */
+        }
+        
+        .collage-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .collage-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Last row flex adjustment for better layout */
+        .collage-item:last-child {
+            flex-grow: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .collage-item {
+                height: 150px;
+                min-width: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .collage-item {
+                height: 120px;
+                min-width: 100px;
+            }
+            .collage-container {
+                gap: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -716,12 +773,23 @@
                     <li><i class="fa-solid fa-language"></i> english is hard sometimes</li>
                 </ul>
             </div>
+            
+            <!-- Photo Collage Section -->
+            <div class="about-section">
+                <h3>photo collage</h3>
+                <p>moments with friends and family that make life special...</p>
+                <div class="collage-container" id="photoCollage">
+                    <!-- Images will be loaded here via JavaScript -->
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         // Theme toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Load collage images
+            loadCollageImages();
 
             // Update the footer year dynamically
             updateFooterYear();
@@ -971,6 +1039,64 @@
                 const currentYear = new Date().getFullYear();
                 footerYear.forEach(p => {
                     p.innerHTML = p.innerHTML.replace(/\d{4}/, currentYear);
+                });
+            }
+        }
+
+        // Function to load collage images with a staggered appearance
+        function loadCollageImages() {
+            const collageContainer = document.getElementById('photoCollage');
+            const imageCount = 20; // We have 20 images in the collage-modal folder
+            const delay = 150; // Delay between each image appearance in ms
+            
+            if (collageContainer) {
+                // Clear any existing content
+                collageContainer.innerHTML = '';
+                
+                // Create and append image elements one by one
+                for (let i = 1; i <= imageCount; i++) {
+                    const imgNumber = i.toString().padStart(2, '0');
+                    const imgUrl = `images/collage-modal/collage_${imgNumber}.webp`;
+                    
+                    // Create the collage item div
+                    const collageItem = document.createElement('div');
+                    collageItem.className = 'collage-item';
+                    
+                    // Create the image element
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
+                    img.alt = `Collage Image ${i}`;
+                    img.loading = 'lazy'; // Use lazy loading for better performance
+                    
+                    // Append image to collage item
+                    collageItem.appendChild(img);
+                    
+                    // Append collage item to container
+                    collageContainer.appendChild(collageItem);
+                }
+                
+                // Add event listener to show images when the modal becomes visible
+                const aboutModal = document.getElementById('aboutModal');
+                aboutModal.addEventListener('transitionend', function(e) {
+                    if (e.propertyName === 'opacity' && this.classList.contains('visible')) {
+                        const collageItems = document.querySelectorAll('.collage-item');
+                        
+                        // Reveal images one by one with a staggered delay
+                        collageItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('visible');
+                            }, delay * index);
+                        });
+                    }
+                });
+                
+                // Reset visibility when modal is closed
+                const aboutClose = document.getElementById('aboutClose');
+                aboutClose.addEventListener('click', function() {
+                    const collageItems = document.querySelectorAll('.collage-item');
+                    collageItems.forEach(item => {
+                        item.classList.remove('visible');
+                    });
                 });
             }
         }
