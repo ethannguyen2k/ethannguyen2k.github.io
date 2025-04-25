@@ -188,6 +188,35 @@ return abs(area) / 2.0
     </div>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create mobile menu toggle button
+      const sidebar = document.querySelector('.sidebar');
+      const mobileMenuToggle = document.createElement('button');
+      mobileMenuToggle.classList.add('mobile-menu-toggle');
+      mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      
+      // Add the button to the DOM
+      document.body.insertBefore(mobileMenuToggle, document.body.firstChild);
+      
+      // Toggle sidebar visibility on mobile
+      mobileMenuToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-open');
+        this.classList.toggle('toggle-active');
+      });
+      
+      // Close sidebar when clicking on a link (for mobile)
+      const navLinks = document.querySelectorAll('#nav-bar a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove('sidebar-open');
+            mobileMenuToggle.classList.remove('toggle-active');
+          }
+        });
+      });
+    });
+</script>
 <script src="../js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
