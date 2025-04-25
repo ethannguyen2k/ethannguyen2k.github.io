@@ -510,6 +510,10 @@ aside#toc ul li {
 }
 
 aside#toc ul li a {
+    display: block;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
     text-decoration: none;
     color: var(--text-primary);
 }
@@ -517,6 +521,13 @@ aside#toc ul li a {
 aside#toc ul li a.active {
     font-weight: bold;
     color: var(--accent-color);
+}
+
+aside#toc ul li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--accent-color);
+    color: white;
 }
 
 .container2_1 {

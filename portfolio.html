@@ -287,6 +287,7 @@
             </section>
             
 
+
             <section id="achievement" class="fade-in">
                 <h2>Achievement</h2>
                 <table class="table-common">
@@ -360,6 +361,7 @@
             </section>
             
 
+
             <p><a href="index.html">Back to Home</a></p>
         </div>
     </div>
@@ -369,6 +371,50 @@
     <footer>
         <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
     </footer>
+
+    <!-- TOC-specific functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocLinks = document.querySelectorAll('#toc a');
+            const sections = document.querySelectorAll('section');
+            
+            // Smooth scrolling for TOC links
+            tocLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    document.querySelector(link.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Highlight the TOC link while scrolling
+            window.addEventListener('scroll', function() {
+                let fromTop = window.scrollY;
+                let offset = 150;  // Adjust this value if necessary
+                
+                tocLinks.forEach(function(link) {
+                    let section = document.querySelector(link.getAttribute('href'));
+                    let sectionTop = section.offsetTop - offset;
+                    let sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (fromTop >= sectionTop && fromTop < sectionBottom) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                
+                // Check if the user has scrolled to the bottom of the page
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                    tocLinks.forEach(function(link) {
+                        link.classList.remove('active');
+                    });
+                    tocLinks[tocLinks.length - 1].classList.add('active');
+                }
+            });
+        });
+    </script>
 
     <script src="js/scripts.js"></script>
 </body>

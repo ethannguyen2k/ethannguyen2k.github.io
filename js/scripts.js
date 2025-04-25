@@ -140,11 +140,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }  
 
+    // Add music to TOC links on hover
+    const tocLinks = document.querySelectorAll('#toc a');
+    if (tocLinks) {
+        tocLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                playNextNote();
+            });
+        });
+    }
+
     // Update footer with current year
     updateFooterYear();
     
     const navLinks = document.querySelectorAll('#nav-bar a');
-    const tocLinks = document.querySelectorAll('#toc a');
     const sections = document.querySelectorAll('section');
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
@@ -271,28 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Highlight the TOC link while scrolling
     window.addEventListener('scroll', function() {
-        let fromTop = window.scrollY;
         let offset = 150;  // Adjust this value if necessary
-
-        tocLinks.forEach(function(link) {
-            let section = document.querySelector(link.getAttribute('href'));
-            let sectionTop = section.offsetTop - offset;
-            let sectionBottom = sectionTop + section.offsetHeight;
-
-            if (fromTop >= sectionTop && fromTop < sectionBottom) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        });
-
-        // Check if the user has scrolled to the bottom of the page
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            tocLinks.forEach(function(link) {
-                link.classList.remove('active');
-            });
-            tocLinks[tocLinks.length - 1].classList.add('active');
-        }
 
         // Add fade-in effect
         sections.forEach(function(section) {

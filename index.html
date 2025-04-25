@@ -298,7 +298,7 @@
 
         .main-box:hover
         .secondary-box:hover {
-            z-index: 12;
+            z-index: 12
         }
 
         /* Active state when secondary box is shown */
@@ -605,23 +605,23 @@
             opacity: 1;
             transform: translateY(0);
         }
-        
+
         .collage-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease-in-out;
         }
-        
+
         .collage-item:hover img {
             transform: scale(1.1);
         }
-        
+
         /* Last row flex adjustment for better layout */
         .collage-item:last-child {
             flex-grow: 0;
         }
-        
+
         @media (max-width: 768px) {
             .collage-item {
                 height: 150px;
@@ -636,6 +636,158 @@
             }
             .collage-container {
                 gap: 8px;
+            }
+        }
+        
+        /* Add height-responsive media queries */
+        @media (max-height: 800px) {
+            #logo {
+                width: 180px;
+                margin-bottom: 10px;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+                margin: 5px 0;
+            }
+            
+            h3 {
+                font-size: 1em;
+                margin: 5px 0;
+            }
+            
+            .box {
+                padding: 20px;
+                max-width: 550px;
+            }
+            
+            .icon-circle, .social-circle {
+                width: 65px;
+                height: 65px;
+                font-size: 26px;
+                margin-bottom: 10px;
+            }
+            
+            .cycling-icon-container {
+                width: 65px;
+                height: 65px;
+                margin-bottom: 10px;
+            }
+            
+            footer {
+                padding: 10px;
+            }
+            
+            .icon-grid {
+                grid-gap: 20px;
+            }
+
+            .icon-grid .bottom-row {
+                gap: 5px;
+            }
+        }
+        
+        @media (max-height: 650px) {
+            #logo {
+                width: 120px;
+                margin-bottom: 5px;
+            }
+            
+            h1 {
+                font-size: 1.3em;
+                margin: 3px 0;
+            }
+            
+            h3 {
+                font-size: 0.8em;
+                margin: 3px 0;
+            }
+            
+            .box {
+                padding: 15px;
+                max-width: 500px;
+                overflow-y: auto;
+            }
+            
+            .icon-circle, .social-circle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+            
+            .cycling-icon-container {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 5px;
+            }
+            
+            .icon-label {
+                font-size: 0.8em;
+            }
+            
+            footer {
+                padding: 5px;
+            }
+            
+            .icon-grid {
+                grid-gap: 10px;
+            }
+            
+            .about-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                left: 15px;
+                top: 15px;
+            }
+        }
+        
+        @media (max-height: 500px) {
+            #logo {
+                width: 100px;
+            }
+            
+            .main-box {
+                justify-content: center;
+            }
+            
+            .header-content {
+                margin-bottom: 10px;
+            }
+            
+            .icon-item {
+                flex-basis: calc(33% - 15px);
+            }
+            
+            .icon-circle, .social-circle {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .cycling-icon-container {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .main-box {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-around;
+            }
+            
+            .header-content {
+                width: auto;
+                flex: 0 0 auto;
+                margin-right: 10px;
+            }
+            
+            .box {
+                flex: 1;
+                margin-left: 10px;
+                max-height: 90%;
+                overflow-y: auto;
             }
         }
     </style>
@@ -937,6 +1089,18 @@
                 
                 // Add event listener to back button
                 document.getElementById('backFromVideo').addEventListener('click', function() {
+                    // Stop the YouTube video by removing the iframe source
+                    const iframe = document.querySelector('.video-container iframe');
+                    if (iframe) {
+                        // Store the current src
+                        const currentSrc = iframe.src;
+                        // Clear the src to stop the video
+                        iframe.src = '';
+                        // Optional: Set it back to a non-playing state
+                        // iframe.src = currentSrc.replace('autoplay=1', 'autoplay=0');
+                    }
+                    
+                    // Remove active class to slide back the content container
                     contentContainer.classList.remove('active');
                 });
             });
@@ -987,7 +1151,7 @@
                         <p>the easiest way to contact me is through email! i don't really check my
                         social media messages, so please send things to my email instead</p>
 
-                        <img src="images/email-icon.webp" alt="Email me" style="max-width: 150px; margin: 20px auto; width: 100%; height: auto; display: block; border-radius: 10px; filter: drop-shadow(0 8px 15px rgba(0, 150, 226, 0.4));">
+                        <img src="images/email-icon.webp" alt="Email me" style="max-width: 130px; margin: 10px auto; width: 100%; height: auto; display: block; filter: drop-shadow(0 8px 15px rgba(0, 150, 226, 0.4));">
 
                         <p style="margin-top: 15px; font-weight: bold;">phatnguyenground@gmail.com</p>
                         <p>or press the button below to open your mail app.</p>
