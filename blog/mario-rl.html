@@ -63,6 +63,20 @@
             color: #888;
             font-style: italic;
         }
+        
+        /* New styles for SVG images to improve visibility in dark mode */
+        [data-theme="dark"] img[src$=".svg"] {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        /* Some additional styling for all SVGs to ensure they look good in both modes */
+        img[src$=".svg"] {
+            filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.2));
+            transition: background-color 0.3s, border 0.3s;
+        }
     </style>
 </head>
 
@@ -100,7 +114,7 @@
                 <p>Date Created: <span id="date-created">November 12, 2024</span></p>
                 <p>Date Modified: <span id="date-modified"></span></p>
             </div>
-            <img src="mario-images/mario-image.jpg" alt="Project header image - Mario" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
+            <img src="mario-images/mario-image.jpg" alt="Project header image - Mario" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
             <p>In a lovely day, I asked myself, how can I make a computer learn to play Mario? Well, I did just that, and I embarked on this journey to understand reinforcement learning (RL) better. This blog post documents my experiments with training an AI agent to play Super Mario Bros using a Double Deep Q-Network (DDQN).</p>
 
         <h3>What is Reinforcement Learning?</h3>
@@ -289,7 +303,7 @@ print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
             Instead, we will apply wrappers to the environment to pre-process the images and make them more manageable for the agent.
         </p>
         <img src="mario-images/env-wrapper.png" alt="Environment wrapper" style="display: block; margin-left: auto; margin-right: auto;">
-        <img src="mario-images/frame-transformation.svg" alt="Frame transformation" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+        <img src="mario-images/frame-transformation.svg" alt="Frame transformation" style="display: block; margin-left: auto; margin-right: auto; width: 69.25%;">
 
         <p>The final output is smaller by almost 85%, which means faster processing and less memory usage.
             This is much simpler than what a human sees, but contains all the essential information needed to learn how to play the game effectively.           
@@ -784,4 +798,4 @@ SimpleReplayBuffer(50000, ...)       # Smaller buffer for less memory usage
     element.parentElement.classList.toggle("open");
   };
 </script>
-</html>    
+</html>

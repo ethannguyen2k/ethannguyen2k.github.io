@@ -213,11 +213,11 @@ For each section, provide concise, data-driven insights. Use specific numbers an
             challenges we faced:</p>
             
             <ol>
-                <li><strong>Documentation:</strong> Sometimes Azure's documentation felt like a treasure hunt. 
-                    "Oh, you want these two services to work together? Here's a cryptic clue in the docs!" While slightly exaggerated, the point stands. 
+                <li><strong>Documentation:</strong> Sometimes Azure's documentation felt like a treasure hunt. <br>
+                    "Oh, you want these two services to work together? Here's a cryptic clue in the docs!" <br>While slightly exaggerated, the point stands. 
                     When designing infrastructure for clients, we couldn't say with confidence if things would work as intended. The amount of documentation diving needed to verify feature availability was too extensive for proposal phases.
                 </li>
-                <li><strong>The Integration:</strong> Getting different Azure services to work together was way harder than it should be (had to thank my teammates for figuring this out before I go ape-****). 
+                <li><strong>The Integration:</strong> Getting different Azure services to work together was way harder than it should be (had to thank my teammates for figuring this out). <br>
                     Often you have two Azure services that you expect to work together nicely, but they don't or require some roundabout way to integrate. For some services, I spent weeks trying to find ways for them to talk to each other, only to realize it wasn't documented anywhere and the only working solution was a roundabout approach using additional services. 
                     This problem might not be a big deal if you use the Azure native version of a common technology (like Azure SQL vs Postgres for Azure, Synapse vs Databricks, Cosmos vs other non-structured DBs), but then you hit point number 1 again - oops, that feature in open-source product A isn't in our version yet, it's on the road map or in preview mode.
                 </li>
@@ -225,7 +225,7 @@ For each section, provide concise, data-driven insights. Use specific numbers an
                 </li>
             </ol>
             
-            <h3>Lessons Learned (The Hard Way)</h3>
+            <h3>Lessons Learned</h3>
             
             <ul>
                 <li><strong>Reading Documentation is an Art:</strong> Beyond just reading, you need to read between 
@@ -235,10 +235,8 @@ For each section, provide concise, data-driven insights. Use specific numbers an
                 <li><strong>Integration Testing is Your Best Friend:</strong> When working with multiple services, test their interactions early. 
                     Trust me, finding out two services don't play nice together, have clunky interactions, occasional timeout errors, or bugs after building half your solution is not fun.
                 </li>
-                <li><strong>Keep It Simple:</strong> Start with the basics and add complexity gradually. 
-                    This is something that I have learned from my past mistakes and from my teammates as well. 
-                    They are very good at breaking down the problem into smaller pieces and then solving them one by one. 
-                    This is a good approach to avoid getting overwhelmed by the system's complexity.
+                <li><strong>Keep It Simple:</strong> Start with the basics and add complexity gradually.  
+                    This is a good approach to avoid getting overwhelmed by the system's complexity (or anything complex).
                 </li>
             </ul>
             
@@ -255,7 +253,7 @@ For each section, provide concise, data-driven insights. Use specific numbers an
                 <li>A chat interface for querying system data</li>
             </ul>
             
-            <p>And the best part? Everything actually worked together (after some convincing).</p>
+            <p>And the best part? Everything actually worked together.</p>
             
             <h3>Personal Takeaways</h3>
             
