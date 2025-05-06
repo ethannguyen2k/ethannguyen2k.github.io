@@ -80,7 +80,7 @@
             <h3>The Problem: Accurate Wound Measurement in Healthcare</h3>
             <p>Wound assessment is a critical component of patient care, particularly for chronic wounds like pressure ulcers, diabetic foot ulcers, and venous leg ulcers. 
                 Traditional wound measurement methods often lack consistency, are time-consuming, and can be subjective depending on the healthcare provider performing the assessment.
-                Our goal was to create a system that could:
+                The goal was to create a system that could:
             </p>
             <ul>
                 <li>Consistently detect and measure wounds with high accuracy</li>
@@ -89,13 +89,13 @@
                 <li>Integrate seamlessly into existing clinical workflows</li>
             </ul>
 
-            <h3>Our Solution: AI-Driven Detection with Reference Objects</h3>
-            <p>The core of our solution was a wound detection API powered by <a href="https://blog.roboflow.com/yolov7-breakdown/" target="_blank">YOLO (You Only Look Once)</a> object detection models. 
-                What makes our approach unique is the flexible reference system that allows healthcare providers to use one of three common objects for measurement:
+            <h3>The Solution: AI-Driven Detection with Reference Objects</h3>
+            <p>The core of the solution was a wound detection API powered by <a href="https://blog.roboflow.com/yolov7-breakdown/" target="_blank">YOLO (You Only Look Once)</a> object detection models. 
+                What makes the approach unique is the flexible reference system that allows healthcare providers to use one of three common objects for measurement:
             </p>
             <ol>
                 <li><strong>Coins</strong> - Circular reference objects with known diameters</li>
-                <li><strong>RuCardslers</strong> - Rectangular reference objects with standardized dimensions</li>
+                <li><strong>Card</strong> - Rectangular reference objects with standardized dimensions</li>
                 <li><strong>Rulers</strong> - Linear reference objects for direct measurement</li>
             </ol>
             <p>Each reference method has its advantages in different clinical scenarios:</p>
@@ -116,12 +116,12 @@
             <h4>Key Technical Challenges</h4>
             <p><strong>Learning New Technology Stacks</strong></p>
             <p>One of my first challenges was getting up to speed with PHP/Laravel/Filament, which was used for the frontend system. 
-                Coming from a different programming background, this required quick adaptation and learning while ensuring that the backend logic I was developing would integrate seamlessly.
+                Coming from a different programming background, this required quick adaptation and learning while ensuring that the backend logic I was developing would integrate well.
             </p>
 
             <p><strong>Bridging Backend-Frontend Communication</strong></p>
             <p>The most significant challenge was ensuring reliable communication between the backend (Python/FastAPI) and frontend (PHP/Laravel) systems. 
-                These different frameworks use different libraries and data structures, requiring careful design of APIs and data formats to ensure smooth integration.
+                These different frameworks use different libraries and data structures, requiring careful design of APIs and data formats.
             </p>
 
             <p><strong>Image Processing and Measurement Algorithms</strong></p>
@@ -173,8 +173,8 @@ return abs(area) / 2.0
                 It provided the opportunity to work on a project with real-world healthcare impact while developing both technical and professional skills.
             </p>
 
-            <p>The flexible approach to reference objects (coins, cards, and rulers) makes our solution particularly adaptable to different clinical scenarios, from routine wound checks to surgical procedures. 
-                As healthcare continues to embrace digital transformation, tools like ours that enhance clinical assessment through AI and computer vision will play an increasingly important role in improving patient care.
+            <p>The flexible approach to reference objects (coins, cards, and rulers) makes the solution particularly adaptable to different clinical scenarios, from routine wound checks to surgical procedures. 
+                As healthcare continues to embrace digital transformation, tools like this that enhance clinical assessment through AI and computer vision will play an increasingly important role in improving patient care.
             </p>
             
         </div>

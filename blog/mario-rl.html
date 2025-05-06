@@ -115,7 +115,9 @@
                 <p>Date Modified: <span id="date-modified"></span></p>
             </div>
             <img src="mario-images/mario-image.jpg" alt="Project header image - Mario" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
-            <p>In a lovely day, I asked myself, how can I make a computer learn to play Mario? Well, I did just that, and I embarked on this journey to understand reinforcement learning (RL) better. This blog post documents my experiments with training an AI agent to play Super Mario Bros using a Double Deep Q-Network (DDQN).</p>
+            <p>In a lovely day, I asked myself, how can I make a computer learn to play Mario? 
+                Well, I did just that, and I run on this journey to understand reinforcement learning (RL) better. 
+                This blog post documents my experiments with training an AI agent to play Super Mario Bros using a Double Deep Q-Network (DDQN).</p>
 
         <h3>What is Reinforcement Learning?</h3>
         <p>Reinforcement learning (RL) is a type of machine learning where an agent learns by interacting with its environment to achieve a specific goal. 
@@ -152,7 +154,7 @@
                 <h4>States and Observations</h4>
                 <p>The <b>state</b> is like a snapshot of everything in the game world at a specific moment. For example, where the monsters are, what items are around, and how much health you have.
                     <b>Observations</b> are what the agent can see or know about the world. Sometimes you can see everything (like in a game where you can see the whole map), and sometimes you can only see part of it (like if you're inside a building in the game and can't see the outside).
-                    This means the state is the complete picture (fully observed if agent can see the state) while the agent can only see part of it (partially observed, agent can only see a partial observation), most of the time.
+                    This means the state is the complete picture (fully observed if agent can see the state) while the agent can only see part of it (agent can only see a part of the state), most of the time.
                 </p>
                 <h4>Action Space</h4>
                 <p><b>Action space</b> is the set of all possible things you can do in the game. 
@@ -560,7 +562,7 @@ def sync_Q_target(self):
                 </div>
 
                 <p>These functions are responsible for updating the online network based on the TD estimate and TD target.
-                    It's like Mario's brain adjusting its understanding
+                    It's like Mario's brain adjusting its understanding.
                     The update_Q_online function calculates the loss between the TD estimate and TD target, backpropagates the loss to update the network weights, and returns the loss value.
                     The sync_Q_target function, which will be called occasionally, synchronises the target network with the online network by copying the weights so that the target network is updated with the latest knowledge.
                 </p>
