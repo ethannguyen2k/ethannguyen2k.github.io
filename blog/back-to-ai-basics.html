@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - Back to AI Basics</title>
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0073e6;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../images/logo2.webp" alt="Logo">
+            <div class="text-content">
+                <h1>Hi! I'm Ethan</h1>
+                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="container2 fade-in">
+        <div class="blog-content">
+            <h2>Back to AI Basics: A Refresher on Neural Network Fundamentals</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">May 14, 2025</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
+
+            <img src="back-to-ai-basics-images/lucy.jpg" alt="Project header image - back to basics" style="display: block; margin-left: auto; margin-right: auto; width: 30%;">
+
+            <p>We sometimes take for granted how our brains can do things effortlessly. We learn to recognize faces, understand language, and make decisions without even thinking about it.
+            But when it comes to teaching machines to do the same, things get complicated fast. Or at least, that's what the story is 7-10 years ago.</p>
+
+            <p>Today, tasks like image recognition and language translation are trivial. <a href="https://huggingface.co/tasks/any-to-any" target="_blank">We have LLMs that can act as anything we want, give us anything we want now</a>. What once seemed out of reach is now part of everyday tools and products.</p>
+
+            <p>However, no matter how advanced these models become, they're all built on the same core principles. This blog post serves as a refresher on neural network fundamentals — a guide I created both for myself and for anyone who needs to revisit these essential concepts.</p>
+
+            <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics" class="button">View on GitHub</a>
+            
+            <h3>The Elegant Simplicity Behind Complex AI</h3>
+            <p>Here's something that took me a while to fully appreciate: all neural networks, no matter how sophisticated — whether they're powering your smartphone's voice assistant or generating photorealistic images — are fundamentally just clever arrangements of dot products, non-linearities, and parameter updates.</p>
+            <p>That's it. The rest is architecture and engineering.</p>
+            <p>This simplicity makes us feel reassuring and powerful. Understanding this core foundation helps cut through the complexity that can make AI seem intimidating.</p>
+
+            <h3>A Single Neuron</h3>
+            <p>Despite all the biological terminology, a neuron in a neural network is just a mathematical function, act as a building block:</p>
+            <div class="code-window">
+                <div class="console">
+                    <div class="red"></div>
+                    <div class="orange"></div>
+                    <div class="green"></div>
+                </div>
+                <pre class="code-content">output = activation(weights · inputs + bias)</pre>
+            </div>
+            <p>Breaking this down:</p>
+
+            <ul>
+                <li><strong>Weights (w):</strong> The parameters that determine how important each input is</li>
+                <li><strong>Inputs (x):</strong> The data features being processed</li>
+                <li><strong>Bias (b):</strong> An offset value that helps the model fit the data better</li>
+                <li><strong>Dot product (w · x):</strong> Multiplying each input by its corresponding weight and summing them</li>
+                <li><strong>Activation:</strong> A non-linear function that allows the network to model complex relationships</li>
+            </ul>
+
+            <p>The most commonly used activation functions include:</p>
+
+            <ul>
+                <li><strong>ReLU:</strong> max(0, x) - Simple, computationally efficient, and works surprisingly well</li>
+                <li><strong>Sigmoid:</strong> 1/(1 + e^(-x)) - Maps outputs to a range between 0 and 1</li>
+                <li><strong>Tanh:</strong> (e^x - e^(-x))/(e^x + e^(-x)) - Similar to sigmoid but maps to a range of -1 to 1</li>
+                <li><strong>Softmax:</strong> Normalizes outputs into a probability distribution - Often used for classification</li>
+            </ul>
+
+            <h3>Scaling Up: Building a Neural Network</h3>
+            <p>A single neuron can only do so much. The real power comes from connecting many neurons together:</p>
+
+            <ul>
+                <li><strong>Layer:</strong> Multiple neurons that process inputs in parallel (a matrix-vector multiplication)</li>
+                <li><strong>Deep Neural Network:</strong> Multiple layers stacked together</li>
+                <li><strong>Forward Pass:</strong> Data flows through the network, with each layer processing the outputs from the previous layer</li>
+            </ul>
+
+            <p>This structure allows neural networks to learn increasingly complex representations. The early layers might detect simple features (like edges in an image), while deeper layers combine these to recognize more abstract concepts (like faces or objects).</p>
+
+            <h3>The Training Process: How Networks Learn</h3>
+            <p>Neural networks aren't born knowing how to solve problems — they learn through a process called training:</p>
+
+            <ol>
+                <li><strong>Forward Pass:</strong> Process inputs to generate predictions</li>
+                <li><strong>Loss Calculation:</strong> Compare predictions with actual targets using a loss function</li>
+                <li><strong>Backpropagation:</strong> Calculate gradients, essentially answering "how much would changing each weight affect our error?"</li>
+                <li><strong>Parameter Update:</strong> Adjust weights to reduce the error, typically using an optimizer like SGD or Adam</li>
+            </ol>
+
+            <p>The beauty of backpropagation is that it efficiently applies the chain rule from calculus to calculate these gradients, allowing even very deep networks to learn.</p>
+            
+            <h3>Neural Network Variants: Different Applications, Same Foundation</h3>
+            <p>What amazes me is how the same core principles adapt to different problems:</p>
+
+            <ul>
+                <li><strong>CNNs (Convolutional Neural Networks):</strong> Apply dot products through sliding filters over inputs. Perfect for image processing since they capture spatial relationships.</li>
+                <li><strong>RNNs/LSTMs (Recurrent Neural Networks):</strong> Apply dot products over sequences with shared weights, enabling them to process sequential data like text or time series.</li>
+                <li><strong>Transformers:</strong> Use dot products in the attention mechanism (Query · Key^T) to capture relationships between all elements in a sequence. These power models like BERT, GPT, or Claude.</li>
+                <li><strong>GNNs (Graph Neural Networks):</strong> Nodes perform dot products with their neighbors' embeddings, allowing them to process data represented as graphs.</li>
+            </ul>
+
+            <p>All of these architectures, despite their differences, rely on the same fundamental operations.</p>
+
+            <h3>Implementing Neural Networks</h3>
+            <p>While frameworks like TensorFlow and PyTorch handle most of the heavy lifting, it's valuable to implement basic networks from scratch at least once.</p>
+            <p>Other than that, here are the links to every blog post in this series:</p>
+            <ul>
+                <li><a href="back-to-ai-basics/simple-nn.html">Simple Neural Network</a></li>
+                <li>More coming soon...</li>
+            </ul>
+
+            <p>Stay tuned for more posts in this series, where we'll dive deeper into each of these architectures and their applications!</p>
+
+            <h3>The Big Picture: Why This Matters</h3>
+            <p>Understanding these fundamentals has several benefits:</p>
+
+            <ul>
+                <li><strong>Debugging:</strong> When models aren't performing as expected, knowing the basics helps identify where things might be going wrong.</li>
+                <li><strong>Architecture Design:</strong> Better understanding leads to better design decisions when creating or modifying models.</li>
+                <li><strong>Optimization:</strong> Knowing what's happening under the hood allows for more effective parameter tuning.</li>
+                <li><strong>Innovation:</strong> All advances in AI build upon these foundations. Understanding them opens the door to new techniques or methodology.</li>
+            </ul>
+
+            <h3>Simplicity in Complexity</h3>
+            <p>As I've delved deeper into AI and machine learning, I've come to appreciate the simplicity at the core of these seemingly complex systems. 
+            Neural networks, despite their remarkable capabilities, are built on straightforward mathematical principles.</p>
+
+            <p>The next time you're overwhelmed by a new AI architecture paper or the latest breakthrough model with billions of parameters, remember: at its heart, it's still just a clever arrangement of dot products, non-linearities, and parameter updates.</p>
+            <p>This perspective not only demystifies AI but also empowers us to engage with it more confidently and creatively. After all, the best innovations often come from deeply understanding the fundamentals.</p>
+
+            <p>This post is part of my ongoing exploration of AI fundamentals. I'm planning follow-up posts diving deeper into specific aspects like optimization algorithms, regularization techniques, and modern architectures.
+                In the meantime, you can view code snippets and implementations on <a href="https://github.com/ethannguyen2k/back-to-AI-basics" target="_blank">my GitHub repository</a>.
+            </p>
+        </div>
+
+        <p><a href="../index.html">Back to Home</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create mobile menu toggle button
+      const sidebar = document.querySelector('.sidebar');
+      const mobileMenuToggle = document.createElement('button');
+      mobileMenuToggle.classList.add('mobile-menu-toggle');
+      mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      
+      // Add the button to the DOM
+      document.body.insertBefore(mobileMenuToggle, document.body.firstChild);
+      
+      // Toggle sidebar visibility on mobile
+      mobileMenuToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-open');
+        this.classList.toggle('toggle-active');
+      });
+      
+      // Close sidebar when clicking on a link (for mobile)
+      const navLinks = document.querySelectorAll('#nav-bar a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove('sidebar-open');
+            mobileMenuToggle.classList.remove('toggle-active');
+          }
+        });
+      });
+    });
+</script>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
+</html>
