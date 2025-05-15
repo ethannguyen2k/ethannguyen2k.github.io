@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 750 220" xmlns="http://www.w3.org/2000/svg">
+  
+  <!-- Input Node -->
+  <rect x="30" y="90" width="70" height="40" rx="10" ry="10" fill="#2d2d2d" stroke="#444" stroke-width="2"/>
+  <text x="65" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="#3498db">input</text>
+  
+  <!-- Input Dimensions -->
+  <text x="65" y="145" font-family="Arial" font-size="12" text-anchor="middle" fill="#aaa">1×1×28×28</text>
+  
+  <!-- Arrow 1 -->
+  <line x1="100" y1="110" x2="130" y2="110" stroke="#aaa" stroke-width="2"/>
+  <polygon points="140,110 130,105 130,115" fill="#aaa"/>
+  
+  <!-- Flatten Node -->
+  <rect x="140" y="90" width="70" height="40" rx="10" ry="10" fill="#753a3a" stroke="#854a4a" stroke-width="2"/>
+  <text x="175" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="#eee">Flatten</text>
+  
+  <!-- Arrow 2 -->
+  <line x1="210" y1="110" x2="240" y2="110" stroke="#aaa" stroke-width="2"/>
+  <polygon points="250,110 240,105 240,115" fill="#aaa"/>
+  
+  <!-- First Gemm Node -->
+  <rect x="250" y="75" width="110" height="70" rx="5" ry="5" fill="#2e5f9e" stroke="#3d6eac" stroke-width="2"/>
+  <text x="305" y="100" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#eee">Gemm</text>
+  <text x="270" y="120" font-family="Arial" font-size="12" text-anchor="start" fill="#eee">B (128×784)</text>
+  <text x="270" y="140" font-family="Arial" font-size="12" text-anchor="start" fill="#eee">C (128)</text>
+  
+  <!-- Arrow 3 -->
+  <line x1="360" y1="110" x2="390" y2="110" stroke="#aaa" stroke-width="2"/>
+  <polygon points="400,110 390,105 390,115" fill="#aaa"/>
+  
+  <!-- ReLU Node -->
+  <rect x="400" y="90" width="70" height="40" rx="10" ry="10" fill="#753a3a" stroke="#854a4a" stroke-width="2"/>
+  <text x="435" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="#eee">Relu</text>
+  
+  <!-- Arrow 4 -->
+  <line x1="470" y1="110" x2="500" y2="110" stroke="#aaa" stroke-width="2"/>
+  <polygon points="510,110 500,105 500,115" fill="#aaa"/>
+  
+  <!-- Second Gemm Node -->
+  <rect x="510" y="75" width="110" height="70" rx="5" ry="5" fill="#2e5f9e" stroke="#3d6eac" stroke-width="2"/>
+  <text x="565" y="100" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#eee">Gemm</text>
+  <text x="530" y="120" font-family="Arial" font-size="12" text-anchor="start" fill="#eee">B (10×128)</text>
+  <text x="530" y="140" font-family="Arial" font-size="12" text-anchor="start" fill="#eee">C (10)</text>
+  
+  <!-- Output Dimensions -->
+  <text x="565" y="55" font-family="Arial" font-size="12" text-anchor="middle" fill="#aaa">1×10</text>
+  
+  <!-- Arrow 5 -->
+  <line x1="620" y1="110" x2="680" y2="110" stroke="#aaa" stroke-width="2"/>
+  <polygon points="670,110 660,105 660,115" fill="#aaa" transform="translate(-10,0)"/>
+  
+  <!-- Output Node -->
+  <rect x="690" y="90" width="70" height="40" rx="10" ry="10" fill="#2d2d2d" stroke="#444" stroke-width="2" transform="translate(-30,0)"/>
+  <text x="695" y="115" font-family="Arial" font-size="14" text-anchor="middle" fill="#3498db">output</text>
+</svg>

@@ -73,6 +73,16 @@
 
             <img src="back-to-ai-basics-images/lucy.jpg" alt="Project header image - back to basics" style="display: block; margin-left: auto; margin-right: auto; width: 30%;">
 
+            <p>Here are the links to every blog post in this series:</p>
+            <ul>
+                <li><a href="back-to-ai-basics/simple-nn.html">Simple Neural Network</a></li>
+                <li><a href="back-to-ai-basics/mlp-mnist.html">Vanilla MLP on MNIST</a></li>
+                <li>More coming soon...</li>
+            </ul>
+
+            <p>Stay tuned for more posts in this series, where we'll dive deeper into each of these architectures and their applications!</p>
+            <hr>
+
             <p>We sometimes take for granted how our brains can do things effortlessly. We learn to recognize faces, understand language, and make decisions without even thinking about it.
             But when it comes to teaching machines to do the same, things get complicated fast. Or at least, that's what the story is 7-10 years ago.</p>
 
@@ -83,11 +93,14 @@
             <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics" class="button">View on GitHub</a>
             
             <h3>The Elegant Simplicity Behind Complex AI</h3>
-            <p>Here's something that took me a while to fully appreciate: all neural networks, no matter how sophisticated — whether they're powering your smartphone's voice assistant or generating photorealistic images — are fundamentally just clever arrangements of dot products, non-linearities, and parameter updates.</p>
+            <p>Here's something that took me a while to fully appreciate: all neural networks, no matter how sophisticated — whether they're powering your smartphone's voice assistant or generating photorealistic images — are fundamentally just clever arrangements of 
+                <a href="https://github.com/ethannguyen2k/back-to-AI-basics?tab=readme-ov-file#the-basic-building-block-a-neuron" target="_blank">dot products</a>, 
+                <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/active_functions.ipynb" target="_blank">non-linearities</a>, 
+                and <a href="https://github.com/ethannguyen2k/back-to-AI-basics?tab=readme-ov-file#the-training-process" target="_blank">parameter updates</a>.</p>
             <p>That's it. The rest is architecture and engineering.</p>
             <p>This simplicity makes us feel reassuring and powerful. Understanding this core foundation helps cut through the complexity that can make AI seem intimidating.</p>
 
-            <h3>A Single Neuron</h3>
+            <h3 id="neuron">A Single Neuron</h3>
             <p>Despite all the biological terminology, a neuron in a neural network is just a mathematical function, act as a building block:</p>
             <div class="code-window">
                 <div class="console">
@@ -107,7 +120,7 @@
                 <li><strong>Activation:</strong> A non-linear function that allows the network to model complex relationships</li>
             </ul>
 
-            <p>The most commonly used activation functions include:</p>
+            <p>The most commonly used <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/active_functions.ipynb" target="_blank">activation functions</a> include:</p>
 
             <ul>
                 <li><strong>ReLU:</strong> max(0, x) - Simple, computationally efficient, and works surprisingly well</li>
@@ -132,14 +145,15 @@
 
             <ol>
                 <li><strong>Forward Pass:</strong> Process inputs to generate predictions</li>
-                <li><strong>Loss Calculation:</strong> Compare predictions with actual targets using a loss function</li>
-                <li><strong>Backpropagation:</strong> Calculate gradients, essentially answering "how much would changing each weight affect our error?"</li>
-                <li><strong>Parameter Update:</strong> Adjust weights to reduce the error, typically using an optimizer like SGD or Adam</li>
+                <li><strong>Loss Calculation:</strong> Compare predictions with actual targets using a <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/loss.md" target="_blank">loss function</a></li>
+                <li><strong><a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/packprop.ipynb" target="_blank">Backpropagation</a>:</strong> Calculate gradients, essentially answering "how much would changing each weight affect our error?"</li>
+                <li><strong>Parameter Update:</strong> Adjust weights to reduce the error, typically using <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/optimizers.md" target="_blank">an optimizer like SGD or Adam</a></li>
             </ol>
 
             <p>The beauty of backpropagation is that it efficiently applies the chain rule from calculus to calculate these gradients, allowing even very deep networks to learn.</p>
             
             <h3>Neural Network Variants: Different Applications, Same Foundation</h3>
+            <p>While frameworks like TensorFlow and PyTorch handle most of the heavy lifting, it's valuable to understand the underlying principles.</p>
             <p>What amazes me is how the same core principles adapt to different problems:</p>
 
             <ul>
@@ -150,16 +164,6 @@
             </ul>
 
             <p>All of these architectures, despite their differences, rely on the same fundamental operations.</p>
-
-            <h3>Implementing Neural Networks</h3>
-            <p>While frameworks like TensorFlow and PyTorch handle most of the heavy lifting, it's valuable to implement basic networks from scratch at least once.</p>
-            <p>Other than that, here are the links to every blog post in this series:</p>
-            <ul>
-                <li><a href="back-to-ai-basics/simple-nn.html">Simple Neural Network</a></li>
-                <li>More coming soon...</li>
-            </ul>
-
-            <p>Stay tuned for more posts in this series, where we'll dive deeper into each of these architectures and their applications!</p>
 
             <h3>The Big Picture: Why This Matters</h3>
             <p>Understanding these fundamentals has several benefits:</p>

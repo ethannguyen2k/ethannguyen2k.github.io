@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - Back to AI Basics - MLP on MNIST</title>
+    <meta name="description" content="Explore the basics of AI with a focus on Multi-Layer Perceptron (MLP) applied to the MNIST dataset.">
+    <link rel="stylesheet" href="../../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0073e6;
+        }
+        .dropdown-heading {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px;
+            padding-left: 30px; /* Add space for triangle on the left */
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            margin: 0;
+            position: relative;
+        }
+
+        /* Triangle icon using ::before pseudo-element */
+        .dropdown-heading::before {
+            content: '';
+            border-style: solid;
+            border-width: 5px 5px 0 5px; /* Triangle pointing down */
+            border-color: var(--text-primary) transparent transparent transparent;
+            position: absolute;
+            left: 10px; /* Position triangle on the left */
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s; /* Smooth rotation */
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+
+        /* Show content and rotate triangle when open */
+        .dropdown.open .dropdown-content {
+            display: block;
+        }
+
+        /* Rotate the triangle to point up */
+        .dropdown.open .dropdown-heading::before {
+            transform: translateY(-50%) rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../../images/logo2.webp" alt="Logo">
+            <div class="text-content">
+                <h1>Hi! I'm Ethan</h1>
+                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html">My Portfolio</a>
+            <a href="../../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="container2 fade-in">
+        <div class="blog-content">
+            <h2>Back to AI Basics: Vanilla MLP on MNIST</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">May 15, 2025</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>            
+            <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/mlp_minst.ipynb" class="button">Code for this topic on GitHub</a>
+
+            <h3>Introduction</h3>
+            <p>So my hope with this blog in particular is for you to come away with how the model's architecture works and understand what it means when people talking about Neural Networks.
+            It should not be intimidating at all.</p>
+
+            <p>Okay, so remember what I said about <a href="../back-to-ai-basics.html#neuron" target="_blank">how our brains can do things effortlessly</a>?
+            Let's picture this.</p>
+            <img src="../back-to-ai-basics-images/mnist.jpg" alt="MNIST" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 45%;">
+            <p>A bunch of sloppy digits written and rendered at a low resolution of just 28x28 pixels.</p>
+            
+            <p>But our brains can easily recognize them, no trouble at all (appreciate it, brain).
+            Different handwriting style, different thickness, different slant, different size, different color, different background.
+            Our brains can still associate this 7 or that 7 with the digit 7.</p>
+
+            <p>Is teaching a computer to do the same thing as easy as it is for us?
+            Not quite.</p>
+
+            <p>This is a classic example, and there are many others like this from easy to hard, which you can found at the <a href="#whats_next">bottom</a> of this blog.
+            I also have a notebook for it. You can click on the button at the top, download the code that does this, and play around with it if you want.</p>
+
+            <p>While more modern architectures can do a much better job at this, this one is a good starting point to know how it works and what it is doing with no background knowledge.</p>     
+
+            <h3>What is an MLP?</h3>
+            <p>An MLP (Multi-Layer Perceptron) is a type of neural network that consists of multiple layers of neurons.
+            You can call it a "vanilla" MLP because it is the most basic type of them all.</p>
+
+            <p>In case you missed it, <a href="../back-to-ai-basics.html#neuron">I talked in short about what a neuron is</a>.
+            A neuron holds a weight and a bias, and it takes an input and produces an output.</p>
+            
+            <p>At the moment, all of our neurons are fully connected, meaning that every neuron in one layer is connected to every neuron in the next layer.
+            </p>
+
+            <img src="../back-to-ai-basics-images/mlp_architecture.svg" alt="MLP Architecture" class="blog-image">
+
+            <p>Our digit images are 28x28 pixels, which means that each image has 784 pixels.
+            Each pixel is a feature, and we can think of each image as a vector of 784 features.
+            Likewise, our first layer of the MLP will have 784 neurons.</p>
+
+            <p>Each neuron in the first layer will take one of the 784 pixels as input and produce an output.
+            The output of each neuron in the first layer will be passed to the next layer, and so on.</p>
+
+            <p>The last layer of the MLP will have 10 neurons, one for each digit (0-9).
+            The output of each neuron in the last layer will be a probability from 0 to 1, representing the likelihood that the input image belongs to that digit.
+            The neuron with the highest probability will be the predicted digit.</p>
+
+            <p>Here's a simple ASCII Art Diagram (thanks Claude):</p>
+
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+            <pre class="code-content">
+        Input Layer          Hidden Layer         Output Layer
+        (784 neurons)        (128 neurons)        (10 neurons)
+                                
+           [Image]               O                    O (0)
+           28×28                 O                    O (1)
+            |                    O                    O (2)
+            v                    O                    O (3)
+            O                    O                    O (4)
+            O       -------→     O       -------→     O (5)
+            O                    O                    O (6)
+            O                    O                    O (7)
+            O                    O                    O (8)
+            :                    :                    O (9)
+                                                    
+        Flattened            ReLU Activation     Softmax
+        Input                                    Output
+
+        W: 128×784           W: 10×128
+        b: 128               b: 10
+            </pre>
+        </div>
+
+        <p>I have one hidden layer with 128 neurons, but you can have as many hidden layers as you want, as many neurons as you want.
+        In practice, there's a lot of room for experimentation.
+        </p>
+
+        <p>For our 784→128→10 architecture, we have 784×128 + 128×10 = 100,352 parameters just for a small 28×28 image!</p>
+        
+        <h3>Why "Hidden" Layer?</h3>
+
+        <p>If the neurons in the first layer are taking the input image and producing an output, and the neurons in the last layer are producing the final output, what are the neurons in the middle doing?</p>
+        <p>For fun? For the sake of innovation?</p>
+        <p>Of course not.</p>
+        
+        <p>The neurons in the middle are doing the heavy lifting.</p>
+
+        <p>Without hidden layers, a neural network is just a linear model (like logistic regression).
+        A linear model can only learn linear relationships between the input and output.
+        This means that it can only learn to separate the input space into two regions with a straight line (or hyperplane in higher dimensions).</p>
+
+        <img src="../back-to-ai-basics-images/linear_vs_xor.svg" alt="Linear vs XOR" class="blog-image">
+
+        <p>The XOR problem is a classic example of a problem that cannot be solved with a linear model.
+        A network without hidden layers cannot solve this, but one with even a single hidden layer can.</p><h4>Benefits of Hidden Layers</h4>
+        <p>Hidden layers are crucial in neural networks for several fundamental reasons:</p>
+        
+        <ul>
+            <li><strong>Non-linear Function Approximation:</strong> Hidden layers with non-linear activations (like ReLU) allow the network to learn complex, non-linear relationships in data.</li>
+            <li><strong>Feature Extraction:</strong> The hidden layers automatically learn useful features from raw input data. Early hidden layers might detect edges and simple patterns, while deeper layers combine these to recognize more complex shapes (like the digit classification we're doing).</li>
+            <li><strong>Representation Learning:</strong> They transform the input space into new representations where classification becomes easier. They essentially create a new feature space where data points from different classes become more separable.</li>
+            <li><strong>Hierarchical Pattern Recognition:</strong> Each hidden layer builds upon the previous one, forming a hierarchy of increasingly abstract representations.</li>
+        </ul>
+
+        <p>As for why they are called "hidden," I guess it is what people call them in the early days of neural networks.
+        I also found people called them that since they are not visible to the outside world, and they are not part of the input or output.</p>
+        
+        <p>So in short, hidden layers are the backbone of neural networks.
+        They allow the network to learn complex, non-linear relationships in data and automatically extract useful features from raw input data.
+        The math underneath is more complicated that this, but I write them in more details on <a href="https://github.com/ethannguyen2k/back-to-AI-basics" target="_blank">my GitHub repository</a> or <a href="../back-to-ai-basics.html" target="_blank">my first page of this series</a>.</p>            <section class="neural-network-as-function">
+        
+        <p>For the result, training completed in 63.94 seconds with a final accuracy of 97.66% on the test set.
+            So it is just a literal minute.
+        </p>
+
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+            <pre class="code-content">
+Epoch [1/5], Train Loss: 0.2858, Train Accuracy: 91.70%, Test Accuracy: 95.62%
+Epoch [2/5], Train Loss: 0.1252, Train Accuracy: 96.31%, Test Accuracy: 96.75%
+Epoch [3/5], Train Loss: 0.0864, Train Accuracy: 97.36%, Test Accuracy: 96.80%
+Epoch [4/5], Train Loss: 0.0668, Train Accuracy: 97.94%, Test Accuracy: 97.48%
+Epoch [5/5], Train Loss: 0.0515, Train Accuracy: 98.39%, Test Accuracy: 97.66%
+Training completed in 63.94 seconds
+            </pre>
+        </div>
+        
+        
+        <h3>The Neural Network is just a Function</h3>
+        <p>I will retrace my words and say it again.</p>
+        <p>Despite all the biological terminology, a neuron in a neural network is just a mathematical function, act as a building block.</p>
+        <p>And a neural network, despite its biological inspiration and complex architecture, is fundamentally just a big mathematical function that transforms a set of input numbers into a set of output numbers through a complex, tangled process of weighted combinations and non-linear transformations.</p>
+
+        <img src="../back-to-ai-basics-images/nn_as_function.svg" alt="NN as Function" class="blog-image">
+
+        <p>For me, I found it reassuring in 2 ways:</p>
+        <ol>
+            <li>It demystifies the whole thing. It is just a function, and we can understand it.</li>
+            <li>It can be complicated, and that's good. It means we can be more creative with it to solve bigger problems, which of course, we have already been so far into this.</li>
+        </ol>
+            
+        <h3 id="whats_next">What's next?</h3>
+
+        <p>Next up is the <a href="../back-to-ai-basics/convnet.html" target="_blank">Convolutional Neural Networks, or CNNs</a> and how it can solve the spatial structure of the image problem.</p>
+        <p>In case you wondering why the MLPs lead to CNNs, I have a little explanation for you.</p>
+        
+        <div class="dropdown">
+            <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Why MLPs Lead to CNNs</h4>
+            <div class="dropdown-content">
+                <p>In general, MLPs are flexible and can be used generally to learn a mapping from inputs to outputs.
+                If time is at your disposal, you can use, try, and modify them for any task.
+                But that also guarantees that they are not the best for any task.</p>
+
+                <p>When we flatten a 28×28 MNIST image into a 784-dimensional vector, we destroy the spatial structure of the image.</p>
+                <p>The MLPs does not regard for adjacency of pixels, and it treats each pixel as an independent feature.
+                This is not the best way to learn from images, as it ignores the fact that pixels that are close together in an image are likely to be related.</p>
+                
+                <p>And for tasks like image recognition, spatial relationships between features (edges, textures, shapes) are crucial.</p>
+
+                <p>Convolutional Neural Networks (CNNs) were designed to map image data to an output variable.
+                They have become the go-to approach for prediction problems where image data is used as input, due to their outstanding effectiveness.
+                You can <a href="https://machinelearningmastery.com/crash-course-convolutional-neural-networks/" target="_blank">read more about CNNs here, from Jason Brownlee's blog</a>.
+                Or <a href="https://machinelearningmastery.com/when-to-use-mlp-cnn-and-rnn-neural-networks/" target="_blank">or discover what type of work MLP, CNN, and RNN are used on</a>.</p>
+            </div>
+        </div>
+
+        <p><a href="https://youtu.be/aircAruvnKk?si=gJWY76O76wmXPbCD" target="_blank">This Youtube video</a> is my main inspiration for this blog.
+        <a href="http://neuralnetworksanddeeplearning.com/" target="_blank">A notebook that introduces neural network and deep learning</a> is also worth a look.
+        </p>
+
+    </div>
+
+        <p><a href="../back-to-ai-basics.html">Back to the top page of this series</a>
+        <p><a href="../../index.html">Back to Home</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create mobile menu toggle button
+      const sidebar = document.querySelector('.sidebar');
+      const mobileMenuToggle = document.createElement('button');
+      mobileMenuToggle.classList.add('mobile-menu-toggle');
+      mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      
+      // Add the button to the DOM
+      document.body.insertBefore(mobileMenuToggle, document.body.firstChild);
+      
+      // Toggle sidebar visibility on mobile
+      mobileMenuToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-open');
+        this.classList.toggle('toggle-active');
+      });
+      
+      // Close sidebar when clicking on a link (for mobile)
+      const navLinks = document.querySelectorAll('#nav-bar a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove('sidebar-open');
+            mobileMenuToggle.classList.remove('toggle-active');
+          }
+        });
+      });
+    });
+</script>
+<script src="../../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
+<script>
+// JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+    function toggleDropdown(element) {
+    element.parentElement.classList.toggle("open");
+  };
+</script>
+</html>

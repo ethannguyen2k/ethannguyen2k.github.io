@@ -42,7 +42,7 @@
 
 /* Dark theme */
 [data-theme="dark"] {
-    --bg-primary: #1a1a1a;
+    --bg-primary: #222;
     --bg-secondary: #2d2d2d;
     --text-primary: #cccccc;
     --text-secondary: #cccccc;
@@ -304,13 +304,14 @@ a {
 }
 
 .container2 {
-    margin-left: 290px; /* Adjust according to the sidebar width */
+    width: 800px;
     padding: 20px;
-    max-width: 1200px;
     flex: 1;
     position: relative;
     z-index: 0;
     pointer-events: none;
+    /* Center the content in the viewport, accounting for sidebar */
+    margin-left: calc(30%); /* 50% of viewport + half of sidebar width */
 }
 .container2 > * {
     pointer-events: auto;

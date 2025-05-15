@@ -60,7 +60,7 @@
 
 /* Dark theme */
 [data-theme="dark"] {
-    --bg-primary: #1a1a1a;
+    --bg-primary: #222;
     --bg-secondary: #2d2d2d;
     --text-primary: #cccccc;
     --text-secondary: #cccccc;
