@@ -130,6 +130,11 @@ body {
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: #0096E2 #f1f1f1; /* Firefox */
 }
+h3 {
+    color: var(--text-primary);
+    font-size: 1.2em;
+    margin: 20px 0;
+}
 /* WebKit browsers */
 ::-webkit-scrollbar {
     width: 12px;

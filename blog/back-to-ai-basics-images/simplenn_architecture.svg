@@ -1,0 +1,82 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" rx="10" ry="10" />
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Simple Neural Network Architecture</text>
+  
+  <!-- Layer Labels -->
+  <text x="160" y="110" font-family="Arial" font-size="18" text-anchor="middle">Input Layer</text>
+  <text x="400" y="110" font-family="Arial" font-size="18" text-anchor="middle">Hidden Layer (ReLU)</text>
+  <text x="640" y="110" font-family="Arial" font-size="18" text-anchor="middle">Output Layer (Softmax)</text>
+
+  <!-- Layer Backgrounds -->
+  <rect x="110" y="130" width="100" height="300" fill="#e6f7ff" rx="10" ry="10" opacity="0.5" />
+  <rect x="350" y="130" width="100" height="300" fill="#fff2e6" rx="10" ry="10" opacity="0.5" />
+  <rect x="590" y="130" width="100" height="300" fill="#e6ffe6" rx="10" ry="10" opacity="0.5" />
+
+  <!-- Input Layer Neurons -->
+  <circle cx="160" cy="200" r="30" fill="#66b3ff" stroke="#004d99" stroke-width="2" />
+  <text x="160" y="205" font-family="Arial" font-size="16" text-anchor="middle" fill="white">x₁</text>
+  
+  <circle cx="160" cy="360" r="30" fill="#66b3ff" stroke="#004d99" stroke-width="2" />
+  <text x="160" y="365" font-family="Arial" font-size="16" text-anchor="middle" fill="white">x₂</text>
+
+  <!-- Hidden Layer Neurons -->
+  <circle cx="400" cy="180" r="30" fill="#ffb366" stroke="#994c00" stroke-width="2" />
+  <text x="400" y="185" font-family="Arial" font-size="16" text-anchor="middle" fill="white">h₁</text>
+  
+  <circle cx="400" cy="280" r="30" fill="#ffb366" stroke="#994c00" stroke-width="2" />
+  <text x="400" y="285" font-family="Arial" font-size="16" text-anchor="middle" fill="white">h₂</text>
+  
+  <circle cx="400" cy="380" r="30" fill="#ffb366" stroke="#994c00" stroke-width="2" />
+  <text x="400" y="385" font-family="Arial" font-size="16" text-anchor="middle" fill="white">h₃</text>
+
+  <!-- Output Layer Neurons -->
+  <circle cx="640" cy="220" r="30" fill="#80ff80" stroke="#008000" stroke-width="2" />
+  <text x="640" y="225" font-family="Arial" font-size="16" text-anchor="middle" fill="black">o₁</text>
+  
+  <circle cx="640" cy="340" r="30" fill="#80ff80" stroke="#008000" stroke-width="2" />
+  <text x="640" y="345" font-family="Arial" font-size="16" text-anchor="middle" fill="black">o₂</text>
+
+  <!-- Connections from Input to Hidden Layer -->
+  <!-- From x₁ to all hidden neurons -->
+  <path d="M 190 190 Q 275 150 370 180" fill="none" stroke="#3366cc" stroke-width="2" opacity="0.7" />
+  <path d="M 190 200 Q 275 220 370 280" fill="none" stroke="#3366cc" stroke-width="2" opacity="0.7" />
+  <path d="M 190 210 Q 275 290 370 380" fill="none" stroke="#3366cc" stroke-width="2" opacity="0.7" />
+  
+  <!-- From x₂ to all hidden neurons -->
+  <path d="M 190 350 Q 275 265 370 190" fill="none" stroke="#cc3366" stroke-width="2" opacity="0.7" />
+  <path d="M 190 360 Q 275 320 370 290" fill="none" stroke="#cc3366" stroke-width="2" opacity="0.7" />
+  <path d="M 190 370 Q 275 375 370 390" fill="none" stroke="#cc3366" stroke-width="2" opacity="0.7" />
+
+  <!-- Connections from Hidden to Output Layer -->
+  <!-- From h₁ to all output neurons -->
+  <path d="M 430 170 Q 515 130 610 220" fill="none" stroke="#ff9933" stroke-width="2" opacity="0.7" />
+  <path d="M 430 190 Q 515 265 610 340" fill="none" stroke="#ff9933" stroke-width="2" opacity="0.7" />
+  
+  <!-- From h₂ to all output neurons -->
+  <path d="M 430 270 Q 515 230 610 230" fill="none" stroke="#ff9933" stroke-width="2" opacity="0.7" />
+  <path d="M 430 290 Q 515 315 610 350" fill="none" stroke="#ff9933" stroke-width="2" opacity="0.7" />
+  
+  <!-- From h₃ to all output neurons -->
+  <path d="M 430 370 Q 515 290 610 240" fill="none" stroke="#ff9933" stroke-width="2" opacity="0.7" />
+  <path d="M 430 390 Q 515 365 610 360" fill="none" stroke="#ff9933" stroke-width="2" opacity="0.7" />
+
+  <!-- Weight Labels -->
+  <text x="280" y="140" font-family="Arial" font-size="20" text-anchor="middle">W₁</text>
+  <text x="520" y="140" font-family="Arial" font-size="20" text-anchor="middle">W₂</text>
+
+  <!-- Activation Function Labels -->
+  <text x="400" y="450" font-family="Arial" font-size="16" text-anchor="middle">ReLU Activation</text>
+  <text x="640" y="450" font-family="Arial" font-size="16" text-anchor="middle">Softmax Activation</text>
+
+  <!-- Formula explanations -->
+  <text x="400" y="510" font-family="Arial" font-size="14" text-anchor="middle" font-style="italic">z₁ = X·W₁ + b₁</text>
+  <text x="400" y="530" font-family="Arial" font-size="14" text-anchor="middle" font-style="italic">a₁ = ReLU(z₁)</text>
+  <text x="640" y="510" font-family="Arial" font-size="14" text-anchor="middle" font-style="italic">z₂ = a₁·W₂ + b₂</text>
+  <text x="640" y="530" font-family="Arial" font-size="14" text-anchor="middle" font-style="italic">out = Softmax(z₂)</text>
+
+  <!-- Core operations -->
+  <text x="400" y="570" font-family="Arial" font-size="16" text-anchor="middle">Neural Networks: Matrix Operations + Activation Functions</text>
+</svg>

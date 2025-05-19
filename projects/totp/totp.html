@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Hosted TOTP Authenticator</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img id="logo" src="../../images/logo2.webp" alt="Logo">
+            <div class="text-content">
+                <h1>Hi! I'm Ethan</h1>
+                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html" class="current">My Portfolio</a>
+            <a href="../../blog.html">My Blogs</a>
+        </nav>
+    </header>
+
+    <div class="container1">
+        <div class="project-header fade-in">
+            <img src="../../images/2fa_thumbnail.jpg" alt="Project SNA Thumbnail" class="project-image">
+            <div class="project-info">
+                <h1>Self-Hosted TOTP Authenticator</h1>
+                <p>A desktop-based 2FA solution for managing multiple TOTP authenticator codes without reaching for your phone.</p>
+                <a target="_blank" href="https://github.com/ethannguyen2k/self-hosted-totp-auth" class="button">View on GitHub</a>
+                <h2>Built With</h2>
+                <div class="badges">
+                    <img src="https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=fff&style=flat" alt="Node.js Badge">
+                    <img src="https://img.shields.io/badge/Express-000000?logo=express&logoColor=fff&style=flat" alt="Express Badge">
+                    <img src="https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=fff&style=flat" alt="SQLite Badge">
+                    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=flat" alt="JavaScript Badge">
+                    <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=fff&style=flat" alt="HTML5 Badge">
+                    <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=fff&style=flat" alt="CSS3 Badge">
+                    <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=flat" alt="Docker Badge">
+                </div>
+            </div>
+        </div>
+
+        <div class="fade-in">
+            <p>This project arose from my daily workflow as a cloud computing tutor. 
+                Marking hundreds of student environments requires setting up 2FA repeatedly, which became tedious with constant phone usage. 
+                While Linux oathtool helped, forgetting to note down secret keys meant repeatedly setting up the same accounts, tedious part 2.</p>
+
+            <p>The Self-Hosted Authenticator is a desktop-based TOTP (Time-based One-Time Password) solution that eliminates the need to reach for your phone, running locally in a Docker container. 
+                It supports adding unlimited accounts and provides a clean, simple interface for managing 2FA codes.</p>
+        </div>
+
+        <div class="fade-in"><h2>Screenshots</h2></div>
+        <div class="example-images fade-in">
+            <div class="example-image">
+                <img src="dark.png" alt="Dark Interface" onclick="openLightbox(this)">
+                <p>Dark Interface</p>
+            </div>
+            <div class="example-image">
+                <img src="light.png" alt="Light Interface" onclick="openLightbox(this)">
+                <p>Light Interface</p>
+            </div>
+        </div>
+
+        <div id="lightbox" class="lightbox">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <p id="lightbox-caption"></p>
+        </div>        
+        <div class="fade-in">
+            <h2>Key Features</h2>
+            <ul>
+                <li><strong>Docker Containerization</strong> - Easy deployment on any machine</li>
+                <li><strong>QR Code Scanning</strong> - Add accounts by scanning QR codes directly through the web interface</li>
+                <li><strong>Manual Entry Support</strong> - Add accounts manually by entering TOTP secrets</li>
+                <li><strong>Visual Countdown Timers</strong> - See when each code will refresh</li>
+                <li><strong>Persistent Storage</strong> - SQLite database ensures your accounts remain saved</li>
+                <li><strong>Offline Operation</strong> - Works entirely locally for security</li>
+                <li><strong>Clean, Minimal UI</strong> - Distraction-free interface focused on functionality</li>
+                <li><strong>Bulk Account Management</strong> - Add, view, and delete accounts easily</li>
+            </ul>            <h2>Development Challenges</h2>
+            <p>During development, I encountered and overcame several technical challenges:</p>
+            
+            <h3>Challenge #1: Database Selection</h3>
+            <p>
+                Initially, I chose NeDB since it provides a MongoDB-like API for JavaScript.
+                I wanted something flexible that could be embedded directly in the app.
+                However, after implementation began, I encountered issues with permissions
+                and security alerts - NeDB is no longer maintained and has some lingering bugs.
+            </p>
+            <p>
+                <strong>Solution:</strong> Switched to SQLite for better reliability, broader community support,
+                and stronger persistence guarantees.
+            </p>
+
+            <h3>Challenge #2: Parsing TOTP URIs</h3>
+            <p>
+                When adding a TOTP URI containing an email address, characters were being
+                incorrectly parsed or dropped entirely, breaking the authentication.
+                The issue was in the parseOTPAuthURI function, where Node's URL parser
+                was struggling with the custom otpauth:// URI scheme.
+            </p>
+            <p>
+                <strong>Solution:</strong> Created a custom parser that:
+            </p>
+            <ul>
+                <li>Manually extracts the path portion of the URI</li>
+                <li>Properly decodes URL-encoded components with decodeURIComponent</li>
+                <li>Handles query parameters correctly with URLSearchParams</li>
+            </ul>
+
+            <h3>Challenge #3: QR Code Scanning Integration</h3>
+            <p>
+                Initially tried to use Canvas dependencies for QR code scanning,
+                but ran into version incompatibility issues in the containerized environment.
+            </p>
+            <p>
+                <strong>Solution:</strong> Switched to <a href="https://medium.com/@jdg2896/how-to-reliably-read-qr-codes-in-node-js-e4747fbe1545" target="_blank">jsQR library</a>, which provided more reliable
+                QR code detection with fewer dependencies.
+            </p>
+
+
+            <h2>Security Considerations</h2>
+            <p>This project is designed for personal use and implemented with basic security measures:</p>
+            <ul>
+                <li>All data is stored and processed locally - no communication with external servers</li>
+                <li>Docker containerization provides isolation from the host system</li>
+                <li>Input validation and query safety measures are implemented</li>
+                <li>CryptoJS is used for some client-side encryption capabilities</li>
+            </ul>
+            
+            <p>It's important to note that this tool lacks enterprise-grade security features like proper authentication for the web interface, advanced database encryption, audit logging, or intrusion detection. It's suitable for personal use but would need significant security enhancements for any production environment.</p>
+            <p>For the full code and documentation, visit the <a target="_blank" href="https://github.com/ethannguyen2k/self-hosted-totp-auth">GitHub repository</a>.</p>    
+        </div>
+
+                <div id="scroll-prompt"><i class="fa-solid fa-arrow-down"></i></div>
+    <footer>
+        <hr>
+        <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+    </footer>
+
+    <script src="../../js/scripts.js"></script>
+</body>
+</html>

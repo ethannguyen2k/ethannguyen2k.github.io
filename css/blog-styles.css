@@ -1150,6 +1150,17 @@ figcaption{
   
   /* Better code block display on mobile */
   @media (max-width: 480px) {
+
+    .table-common {
+        font-size: 0.8rem;
+        width: 80%;
+    }
+    
+    .table-common th, 
+    .table-common td {
+        padding: 8px;
+    }
+
     .code-window {
       max-width: 100%;
       margin: 15px 0;
@@ -1212,3 +1223,94 @@ figcaption{
       font-size: 1.1rem;
     }
   }
+
+.table-common {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: 'Geist', sans-serif;
+    box-shadow: 0 2px 3px var(--shadow-color);
+}
+
+.table-common thead {
+    background-color: var(--accent-color);
+    color: var(--bg-secondary);
+}
+
+.table-common th, .table-common td {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.table-common tbody tr:nth-child(even) {
+    background-color: var(--bg-primary);
+}
+
+.table-common tbody tr:hover {
+    background-color: var(--hover-color);
+}
+
+.table-common th {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+@media (max-width: 430px) {
+    .table-common {
+        width: 100%;
+        min-width: auto;
+        font-size: 0.75rem;
+        margin: 15px 0;
+    }
+    
+    .table-common th, 
+    .table-common td {
+        padding: 6px;
+        word-break: break-word;
+    }
+    
+    /* Convert to card layout for better mobile visibility */
+    .table-common thead {
+        display: none;
+    }
+    
+    .table-common tbody tr {
+        display: block;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        margin-bottom: 10px;
+        background-color: var(--bg-secondary);
+    }
+    
+    .table-common tbody td {
+        display: block;
+        text-align: left;
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        padding-left: 40%;
+    }
+    
+    .table-common tbody td:last-child {
+        border-bottom: none;
+    }
+    
+    .table-common tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 6px;
+        width: 35%;
+        padding-right: 10px;
+        font-weight: bold;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: var(--accent-color);
+    }
+
+    footer {
+        font-size: 0.8em;
+        padding-top: 10px;
+    }
+}
