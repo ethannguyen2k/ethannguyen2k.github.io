@@ -42,13 +42,13 @@
 
 /* Dark theme */
 [data-theme="dark"] {
-    --bg-primary: #222;
-    --bg-secondary: #2d2d2d;
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
     --text-primary: #cccccc;
     --text-secondary: #cccccc;
     --accent-color: #8ab4f8;
     --border-color: #444444;
-    --card-bg: #2d2d2d;
+    --card-bg: #162447;
     --shadow-color: rgba(255, 255, 255, 0.1);
     --hover-color: #00293f;
     /* Code window colors - Dark theme */
@@ -355,7 +355,7 @@ ul li {
 }
 
 ul li a {
-    color: #00699e;
+    color: var(--accent-color);
     text-decoration: none;
     font-weight: bold;
 }
