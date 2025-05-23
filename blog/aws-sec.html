@@ -224,7 +224,7 @@
 
             <p>Consider the architecture in diagram B - a Classic Load Balancer (to keep things simple) listening for HTTP traffic on port 80 and distributing requests to a group of EC2 instances; we'll say the health checks are on port 80 too.</p>
 
-            <img src="aws-images/archi-2.png" alt="AWS Security Groups and Network ACLs" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+            <img src="aws-images/archi-2.png" alt="AWS Security Groups and Network ACLs" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
             <figcaption>Diagram B - a load balancer sending HTTP traffic to EC2 instances</figcaption>
 
             <p>If you initiate an HTTP request to the load balancer on port 80, your request will originate from an ephemeral port on your side between 1024 and 65535.</p>
