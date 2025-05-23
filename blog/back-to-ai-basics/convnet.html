@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - Back to AI Basics - CNN</title>
+    <meta name="description" content="Explore the basics of Convolutional Neural Networks (CNNs) on the MNIST and CIFAR dataset. Learn about the architecture, training process, and practical applications of CNNs in image classification.">
+    <link rel="stylesheet" href="../../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0073e6;
+        }
+        .dropdown-heading {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px;
+            padding-left: 30px; /* Add space for triangle on the left */
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            margin: 0;
+            position: relative;
+        }
+
+        /* Triangle icon using ::before pseudo-element */
+        .dropdown-heading::before {
+            content: '';
+            border-style: solid;
+            border-width: 5px 5px 0 5px; /* Triangle pointing down */
+            border-color: var(--text-primary) transparent transparent transparent;
+            position: absolute;
+            left: 10px; /* Position triangle on the left */
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s; /* Smooth rotation */
+        }
+
+        .dropdown-content {
+            display: none;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+
+        /* Show content and rotate triangle when open */
+        .dropdown.open .dropdown-content {
+            display: block;
+        }
+
+        /* Rotate the triangle to point up */
+        .dropdown.open .dropdown-heading::before {
+            transform: translateY(-50%) rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../../images/logo2.webp" alt="Logo">
+            <div class="text-content">
+                <h1>Hi! I'm Ethan</h1>
+                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../../index.html">Homepage</a>
+            <a href="../../portfolio.html">My Portfolio</a>
+            <a href="../../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="container2 fade-in">
+        <div class="blog-content">
+            <h2>Back to AI Basics: Convolutional Neural Networks (CNNs)</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">May 15, 2025</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>            
+            <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/convnet.ipynb" class="button">Code for this topic on GitHub</a>
+            <h3>Introduction</h3>
+            <p><a href="mlp-mnist.html#mlp-cnn">Like what I have written in previous blog</a>,
+            when we need to process image data, Convolutional Neural Networks (CNNs) are a better choice than standard Multi-Layer Perceptrons.
+            But better choice how? And in what way?
+            </p>
+            <img src="https://www.theclickreader.com/wp-content/uploads/2020/07/cnn-architecture.png" alt="CNN" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>A standard CNN architecture</figcaption>
+
+            <h3>CNNs and ANNs</h3>
+            <p>One thing that I haven't touch on last post is why I used "MLP" and now "ANN".
+            The reason is that MLP is a specific type of <a href="https://www.geeksforgeeks.org/artificial-neural-networks-and-its-applications/" target="_blank">ANN</a>, which is a more general term.
+            </p>
+
+            <p>ANN is the broad term for any model inspired by the structure and function of biological neural networks.
+            MLP is a specific kind of ANN: a feedforward neural network with one or more hidden layers and fully connected neurons.
+            So, all MLPs are ANNs, but not all ANNs are MLPs.
+            </p>
+
+            <p>Okay, with that out of the way, 
+            one of the largest limitations of traditional forms of ANN is that they tend to struggle with the computational complexity required to compute image data. 
+            Common machine learning benchmarking datasets such as the MNIST database of handwritten digits are suitable for most forms of ANN, due to its relatively small image dimensionality of just 28 × 28. 
+            With this dataset a single neuron in the first hidden layer will contain 784 weights (28×28×1 where 1 bare in mind that MNIST is normalised to just black and white values), which is manageable for most forms of ANN. 
+            </p>
+
+            <img src="../back-to-ai-basics-images/ann-complexity-comparison.svg" alt="ANN Complexity Comparison" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>ANN Complexity Comparison</figcaption>
+
+            <p>If you consider a more substantial coloured image input of 64 × 64, the number of weights on just a single neuron of the first layer increases substantially to 12,288 numbers. 
+                Also take into account that to deal with this scale of input, the network will also need to be a lot larger than one used to classify colour-normalised MNIST digits, then you will understand the drawbacks of using such models.
+            </p>
+
+            <p>But why does it matter? Surely we could just increase the number of hidden layers in our network, and perhaps increase the number of neurons within them?</p>
+            <p>Well, yes, but no. There are 2 reasons for no:</p>
+            <ol>
+                <li>Simply put, not everyone has unlimited computational power and time to train these huge ANNs.</li>
+                <li>Even if you did, the more complex the model, the more likely it is to overfit to the training data.</li>
+            </ol>
+
+
+
+
+    </div>
+
+        <p><a href="../back-to-ai-basics.html">Back to the top page of this series</a>
+        <p><a href="../../index.html">Back to Home</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create mobile menu toggle button
+      const sidebar = document.querySelector('.sidebar');
+      const mobileMenuToggle = document.createElement('button');
+      mobileMenuToggle.classList.add('mobile-menu-toggle');
+      mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      
+      // Add the button to the DOM
+      document.body.insertBefore(mobileMenuToggle, document.body.firstChild);
+      
+      // Toggle sidebar visibility on mobile
+      mobileMenuToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-open');
+        this.classList.toggle('toggle-active');
+      });
+      
+      // Close sidebar when clicking on a link (for mobile)
+      const navLinks = document.querySelectorAll('#nav-bar a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove('sidebar-open');
+            mobileMenuToggle.classList.remove('toggle-active');
+          }
+        });
+      });
+    });
+</script>
+<script src="../../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
+<script>
+// JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+    function toggleDropdown(element) {
+    element.parentElement.classList.toggle("open");
+  };
+</script>
+</html>

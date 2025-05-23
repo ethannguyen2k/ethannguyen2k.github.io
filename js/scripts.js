@@ -334,3 +334,55 @@ function updateFooterYear() {
         });
     }
 }
+
+// Anchor highlight functionality for blog references
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if the URL contains a hash (anchor)
+    if (window.location.hash) {
+        // Wait a brief moment to ensure the page has scrolled to the anchor
+        setTimeout(() => {
+            const targetElement = document.getElementById(window.location.hash.substring(1));
+            
+            if (targetElement) {
+                // Remove any existing highlight
+                const previousHighlight = document.querySelector('.anchor-highlight');
+                if (previousHighlight) {
+                    previousHighlight.classList.remove('anchor-highlight');
+                }
+                
+                // Add highlight class
+                targetElement.classList.add('anchor-highlight');
+                
+                // Optional: Ensure the element is visible and centered in view
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }, 100);
+    }
+    
+    // Handle clicks on any internal anchor links
+    document.body.addEventListener('click', function(e) {
+        // Check if the clicked element is an anchor link
+        if (e.target.tagName === 'A' && e.target.hash && e.target.origin === window.location.origin) {
+            // Get the target element
+            const targetId = e.target.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                // Remove any existing highlight
+                const previousHighlight = document.querySelector('.anchor-highlight');
+                if (previousHighlight) {
+                    previousHighlight.classList.remove('anchor-highlight');
+                }
+                
+                // Wait for the browser to navigate to the anchor
+                setTimeout(() => {
+                    // Add highlight class
+                    targetElement.classList.add('anchor-highlight');
+                }, 100);
+            }
+        }
+    });
+});

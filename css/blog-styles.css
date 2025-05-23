@@ -18,6 +18,8 @@
     --console-bg: #e2e6e7;
     --code-content-bg: #e2e6e7;
     --code-window-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Highlight animation colors */
+    --highlight-color: rgba(0, 150, 226, 0.3);
 }
 
 [data-theme="light"] {
@@ -1307,10 +1309,31 @@ figcaption{
         font-size: 0.7rem;
         text-transform: uppercase;
         color: var(--accent-color);
-    }
-
-    footer {
+    }    footer {
         font-size: 0.8em;
         padding-top: 10px;
+    }
+
+    /* Anchor highlight animation */
+    @keyframes highlightFade {
+        0% {
+            background-color: var(--highlight-color);
+            box-shadow: 0 0 10px var(--highlight-color);
+        }
+        100% {
+            background-color: transparent;
+            box-shadow: none;
+        }
+    }
+
+    .anchor-highlight {
+        animation: highlightFade 2s ease-out;
+        border-radius: 3px;
+        padding: 2px;
+    }
+
+    /* Dark mode support for highlight color */
+    [data-theme="dark"] {
+        --highlight-color: rgba(0, 150, 226, 0.4);
     }
 }

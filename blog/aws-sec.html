@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - How to handle ephemeral ports in Security Groups and Network ACLs</title>
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../images/logo2.webp" alt="Logo">
+            <div class="text-content">
+                <h1>Hi! I'm Ethan</h1>
+                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="container2 fade-in">
+        <div class="blog-content">
+            <h2>How to handle ephemeral ports in Security Groups and Network ACLs</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">May 23, 2025</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
+            <img src="aws-images/AWS-Emblem.png" alt="AWS Emblem" style="display: block; margin-left: auto; margin-right: auto; width: 30%;">
+            <h3>Introduction</h3>
+            <p>Confused about ephemeral ports?</p>
+            <p>Getting a response from an HTTP request to the first-ever EC2 instance you provision is a Hello World moment, that many AWS users will have experienced.</p>
+
+            <p>But when your EC2 instance is associated with a Security Group and Network Access Control List that only allow port 80 traffic, 
+                you'll find there's a problem; the responses to your requests won't make it out.</p>
+            
+            <p>So if you've ever wondered “Why is my EC2 instance not responding to requests??” 
+                and fixed it by simply allowing All Traffic, keep reading.</p>
+
+            <p>At this point, it's worth taking a look at the primary security components within any VPC - Security Groups and Network Access Control Lists.</p>
+
+            <h3>Security Groups</h3>
+            <p>Security Groups act as virtual firewalls around resources within your VPC. 
+                You can use them to allow (but not deny) inbound and outbound traffic based on port number and a CIDR, IP address or security group.</p>
+
+            <p>They are stateful meaning allowed inbound traffic is permitted back out without an outbound rule, 
+                and allowed outbound traffic is permitted back in without an inbound rule.</p>
+
+            <h3>Network Access Control Lists (NACLs)</h3>
+            <p>Network Access Control Lists (or just Network ACLs, or NACLs) provide a similar layer of security although they act at the subnet level. 
+                They support allow and deny rules, and are stateless.</p>
+
+            <p>This means allowed inbound traffic may only return outbound if an outbound rule exists, and allowed outbound traffic may only return inbound if an inbound rule exists.</p>
+
+            <p>Network ACL rules are evaluated in order of their rule number from the lowest to the highest. 
+                The first rule to match is applied (e.g. to allow) regardless of any other later rules that contradict it (e.g. to deny).</p>
+
+            <h3>EC2 instances and Ephemeral Ports</h3>
+            <p>So why can't my EC2 instance respond to HTTP requests? There are many and varied answers to this question. 
+                But in the context of this post, it could be due to ephemeral ports.</p>
+
+            <p>Wikipedia describes ephemeral ports as being “allocated automatically from a predefined range…” and used as “…the port assignment for the client end of a client-server communication to a particular port (usually a well-known port) on a server.”</p>
+
+            <p>In other words, when a client initiates a request to a server on a well-known server port (e.g. port 80 for HTTP), the client port is chosen by the client from the ephemeral port range of the server. 
+                On AWS, the ephemeral port range for EC2 instances and Elastic Load Balancers is 1024-65535.</p>
+
+            <p>Consider the architecture in diagram A - an EC2 instance associated with a Security Group (sg-1) and located in a public subnet which is associated with a single Network ACL (nacl-1).</p>
+
+            <img src="aws-images/archi-1.png" alt="AWS Security Groups and Network ACLs" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+            <figcaption>Diagram A - a single EC2 instance accepting HTTP traffic</figcaption>
+
+            <p>If you initiate an HTTP request to this EC2 instance on port 80, 
+                your request will originate from an ephemeral port on your side between 1024 and 65535.</p>
+
+            <p>To let your request through to the EC2 instance, Security Group sg-1 must have an inbound rule allowing requests on port 80. 
+                The return path for the response back to you on your ephemeral port is automatically allowed by the Security Group.</p>
+
+            <h4>Security Group sg-1 - Inbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Source</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTTP</td>
+                        <td>TCP</td>
+                        <td>80</td>
+                        <td>0.0.0.0/0</td>
+                        <td>Allow inbound traffic on port 80 from any IP address</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Security Group sg-1 - Outbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Destination</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">No explicit outbound rules required</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>nacl-1 must also have an inbound rule allowing requests on port 80. 
+                However, due to the stateless nature of Network ACLs, 
+                it must also have an explicit rule for the response back to you on your ephemeral port between 1024 and 65535.</p>
+
+            <h4>Network ACL nacl-1 - Inbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Source</th>
+                        <th>Allow / Deny</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>100</td>
+                        <td>HTTP (80)</td>
+                        <td>TCP (6)</td>
+                        <td>80</td>
+                        <td>0.0.0.0/0</td>
+                        <td>ALLOW</td>
+                        <td>Allow inbound traffic on port 80 from any IP address</td>
+                    </tr>
+                    <tr>
+                        <td>*</td>
+                        <td>ALL Traffic</td>
+                        <td>ALL</td>
+                        <td>ALL</td>
+                        <td>0.0.0.0/0</td>
+                        <td>DENY</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Network ACL nacl-1 - Outbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Destination</th>
+                        <th>Allow / Deny</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>100</td>
+                        <td>Custom TCP Rule</td>
+                        <td>TCP (6)</td>
+                        <td>1024-65535</td>
+                        <td>0.0.0.0/0</td>
+                        <td>ALLOW</td>
+                        <td>Allow outbound traffic to any IP address; this establishes the return path for the response to a request from the outside world (client; ephemeral port) to the EC2 instance (server; port 80)</td>
+                    </tr>
+                    <tr>
+                        <td>*</td>
+                        <td>ALL Traffic</td>
+                        <td>ALL</td>
+                        <td>ALL</td>
+                        <td>0.0.0.0/0</td>
+                        <td>DENY</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Load Balancers and Ephemeral Ports</h3>
+            <p>The scenario above illustrates a point but a more realistic example would be to have an Elastic Load Balancer distributing requests between a number of EC2 instances in an Auto Scaling Group spanning multiple AZs.</p>
+
+            <p>Unless you've already gone serverless, this approach is the epitome of scalable, fault tolerant design since it allows you to scale out when needed by adding EC2 instances, and to sidestep faulty EC2 instances that have failed their health check.</p>
+
+            <p>Consider the architecture in diagram B - a Classic Load Balancer (to keep things simple) listening for HTTP traffic on port 80 and distributing requests to a group of EC2 instances; we'll say the health checks are on port 80 too.</p>
+
+            <img src="aws-images/archi-2.png" alt="AWS Security Groups and Network ACLs" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+            <figcaption>Diagram B - a load balancer sending HTTP traffic to EC2 instances</figcaption>
+
+            <p>If you initiate an HTTP request to the load balancer on port 80, your request will originate from an ephemeral port on your side between 1024 and 65535.</p>
+
+            <p>The load balancer, now acting as an effective client using its own ephemeral port between 1024 and 65535, will relay your request to port 80 on one of the EC2 instances.</p>
+
+            <p>The EC2 will respond to the load balancer on its ephemeral port, and the load balancer will then relay that response to you on your ephemeral port.</p>
+
+            <p>So… how do we configure the Security Groups? 
+                To let your request through to the load balancer and then through to one of the EC2 instances, 
+                sg-2 must have an inbound rule and an outbound allowing requests on port 80.</p>
+
+            <p>Likewise, sg-3 must have an inbound rule allowing requests on port 80 from the load balancer. 
+                The best practice way to do this is by referencing the load balancer Security Group itself within sg-3.</p>
+
+            <p>The return path for the response from an EC2 instance to the load balancer and then to you are automatically allowed by the Security Groups.</p>
+
+            <h4>Security Group sg-2 - Inbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Source</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTTP</td>
+                        <td>TCP</td>
+                        <td>80</td>
+                        <td>0.0.0.0/0</td>
+                        <td>Allow inbound traffic on port 80 from any IP address; return path is automatically allowed</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Security Group sg-2 - Outbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Destination</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTTP</td>
+                        <td>TCP</td>
+                        <td>80</td>
+                        <td>[Private subnet CIDR]</td>
+                        <td>Allow outbound traffic to the EC2 instances on their port 80; return path is automatically allowed</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Security Group sg-3 - Inbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Source</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTTP</td>
+                        <td>TCP</td>
+                        <td>80</td>
+                        <td>sg-2</td>
+                        <td>Allow inbound traffic on port 80 from the load balancer; return path is automatically allowed</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Security Group sg-3 - Outbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Destination</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">No explicit outbound rules required</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>How about the Network ACLs? 
+                In short, the config is similar to the Security Groups for sg-2 and sg-3 but with additional rules for the return paths as shown below.</p>
+
+            <h4>Network ACL nacl-2 - Inbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Source</th>
+                        <th>Allow / Deny</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>100</td>
+                        <td>HTTP (80)</td>
+                        <td>TCP (6)</td>
+                        <td>80</td>
+                        <td>0.0.0.0/0</td>
+                        <td>ALLOW</td>
+                        <td>Allow inbound traffic on port 80 from any client IP address</td>
+                    </tr>
+                    <tr>
+                        <td>200</td>
+                        <td>Custom TCP Rule</td>
+                        <td>TCP (6)</td>
+                        <td>1024-65535</td>
+                        <td>[Private subnet CIDR]</td>
+                        <td>ALLOW</td>
+                        <td>Allow inbound traffic from the EC2 instances; this establishes the return path for the response to a request from the load balancer (client; ephemeral port) to the EC2 instances (server; port 80)</td>
+                    </tr>
+                    <tr>
+                        <td>*</td>
+                        <td>ALL Traffic</td>
+                        <td>ALL</td>
+                        <td>ALL</td>
+                        <td>0.0.0.0/0</td>
+                        <td>DENY</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Network ACL nacl-2 - Outbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Destination</th>
+                        <th>Allow / Deny</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>100</td>
+                        <td>HTTP (80)</td>
+                        <td>TCP (6)</td>
+                        <td>80</td>
+                        <td>[Private subnet CIDR]</td>
+                        <td>ALLOW</td>
+                        <td>Allow outbound traffic to the EC2 instances on their port 80</td>
+                    </tr>
+                    <tr>
+                        <td>200</td>
+                        <td>Custom TCP Rule</td>
+                        <td>TCP (6)</td>
+                        <td>1024-65535</td>
+                        <td>0.0.0.0/0</td>
+                        <td>ALLOW</td>
+                        <td>Allow outbound traffic to any IP address; this establishes the return path for the response to a request from the outside world (client; ephemeral port) to the load balancer (server; port 80)</td>
+                    </tr>
+                    <tr>
+                        <td>*</td>
+                        <td>ALL Traffic</td>
+                        <td>ALL</td>
+                        <td>ALL</td>
+                        <td>0.0.0.0/0</td>
+                        <td>DENY</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Network ACL nacl-3 - Inbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Source</th>
+                        <th>Allow / Deny</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>100</td>
+                        <td>HTTP (80)</td>
+                        <td>TCP (6)</td>
+                        <td>80</td>
+                        <td>[Public subnet CIDR]</td>
+                        <td>ALLOW</td>
+                        <td>Allow inbound traffic on port 80 from the load balancer</td>
+                    </tr>
+                    <tr>
+                        <td>*</td>
+                        <td>ALL Traffic</td>
+                        <td>ALL</td>
+                        <td>ALL</td>
+                        <td>0.0.0.0/0</td>
+                        <td>DENY</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Network ACL nacl-3 - Outbound Rules</h4>
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Type</th>
+                        <th>Protocol</th>
+                        <th>Port Range</th>
+                        <th>Destination</th>
+                        <th>Allow / Deny</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>100</td>
+                        <td>Custom TCP Rule</td>
+                        <td>TCP (6)</td>
+                        <td>1024-65535</td>
+                        <td>[Public subnet CIDR]</td>
+                        <td>ALLOW</td>
+                        <td>Allow outbound traffic to the load balancer; this establishes the return path for the response to a request from the load balancer (client; ephemeral port) to the EC2 instances (server; port 80)</td>
+                    </tr>
+                    <tr>
+                        <td>*</td>
+                        <td>ALL Traffic</td>
+                        <td>ALL</td>
+                        <td>ALL</td>
+                        <td>0.0.0.0/0</td>
+                        <td>DENY</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Conclusion</h3>
+
+            <p>Even though this is examples, it is always advised to use the least privilege principle when configuring Security Groups and Network ACLs. 
+                This means only allowing the traffic you need and denying everything else.
+            </p>
+
+            <p>You can check <a href="https://docs.aws.amazon.com/vpc/latest/userguide/custom-network-acl.html" target="_blank">this AWS documentation</a> for more information on Security Groups and Network ACLs.</p>
+
+            <p>Here are four things to keep in mind:</p>
+            <ul>
+                <li>Avoid allowing ALL Traffic; define your traffic paths and build least privilege rules accordingly</li>
+                <li>Consider ports; only HTTP was mentioned here but you may need to incorporate other ports like HTTPS (443), SSH (22) and RDP (3389) in addition to ephemeral ports</li>
+                <li>Consider sources and destinations; do you need to allow 0.0.0.0/0 (the CIDR for all IP addresses) or can you restrict access to one or more trusted subnet CIDRs?</li>
+                <li>Use Network ACLs in conjunction with Security Groups so your network has two lines of defence</li>
+            </ul>
+
+            </div>
+
+        <p><a href="../index.html">Back to Home</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+    </div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create mobile menu toggle button
+      const sidebar = document.querySelector('.sidebar');
+      const mobileMenuToggle = document.createElement('button');
+      mobileMenuToggle.classList.add('mobile-menu-toggle');
+      mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      
+      // Add the button to the DOM
+      document.body.insertBefore(mobileMenuToggle, document.body.firstChild);
+      
+      // Toggle sidebar visibility on mobile
+      mobileMenuToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-open');
+        this.classList.toggle('toggle-active');
+      });
+      
+      // Close sidebar when clicking on a link (for mobile)
+      const navLinks = document.querySelectorAll('#nav-bar a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove('sidebar-open');
+            mobileMenuToggle.classList.remove('toggle-active');
+          }
+        });
+      });
+    });
+</script>
+<script src="../js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script>
+    // JavaScript to set the date modified
+    document.getElementById('date-modified').textContent = document.lastModified;
+</script>
+</html>
