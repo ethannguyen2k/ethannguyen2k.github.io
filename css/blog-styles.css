@@ -299,10 +299,13 @@ footer{
 }
 p {
     line-height: 1.6;
+    font-size: 18px;
 }
 a {
     color: var(--accent-color);
     text-decoration: none;
+    line-height: 1.6;
+    font-size: 18px;
 }
 
 .container2 {
@@ -354,6 +357,8 @@ ul li {
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px var(--shadow-color);
+    font-size: 18px;
+    line-height: 1.6;
 }
 
 ul li a {
@@ -367,6 +372,8 @@ ul li a:hover {
 }
 ol li {
     margin: 10px 0;
+    font-size: 18px;
+    line-height: 1.6;
 }
 
 /* Blogs */
@@ -1313,27 +1320,31 @@ figcaption{
         font-size: 0.8em;
         padding-top: 10px;
     }
+}
 
-    /* Anchor highlight animation */
-    @keyframes highlightFade {
-        0% {
-            background-color: var(--highlight-color);
-            box-shadow: 0 0 10px var(--highlight-color);
-        }
-        100% {
-            background-color: transparent;
-            box-shadow: none;
-        }
+/* Anchor highlight animation */
+@keyframes highlightFade {
+    0% {
+        background-color: var(--highlight-color);
+        box-shadow: 0 0 10px var(--highlight-color);
     }
+    100% {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
 
-    .anchor-highlight {
-        animation: highlightFade 2s ease-out;
-        border-radius: 3px;
-        padding: 2px;
-    }
+.anchor-highlight {
+    animation: highlightFade 2s ease-out;
+    border-radius: 3px;
+    padding: 2px;
+}
 
-    /* Dark mode support for highlight color */
-    [data-theme="dark"] {
-        --highlight-color: rgba(0, 150, 226, 0.4);
-    }
+/* Dark mode support for highlight color */
+[data-theme="dark"] {
+    --highlight-color: rgba(0, 150, 226, 0.4);
+}
+
+.step {
+    color: var(--accent-color);
 }

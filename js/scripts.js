@@ -371,6 +371,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.getElementById(targetId);
             
             if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
                 // Remove any existing highlight
                 const previousHighlight = document.querySelector('.anchor-highlight');
                 if (previousHighlight) {

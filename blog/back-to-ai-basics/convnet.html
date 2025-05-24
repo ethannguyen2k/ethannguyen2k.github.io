@@ -18,8 +18,22 @@
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
-    </script>
+    </script>    
     <style>
+        /* Define RGB variables for use with rgba() */
+        :root {
+            --accent-color-rgb-light: 0, 150, 226; /* #0096E2 */
+            --accent-color-rgb-dark: 138, 180, 248; /* #8ab4f8 */
+        }
+        
+        [data-theme="light"] {
+            --accent-color-rgb: var(--accent-color-rgb-light);
+        }
+        
+        [data-theme="dark"] {
+            --accent-color-rgb: var(--accent-color-rgb-dark);
+        }
+        
         .button {
             display: inline-block;
             padding: 10px 20px;
@@ -34,6 +48,94 @@
         .button:hover {
             background-color: #0073e6;
         }
+          /* Analogy Box Styling */
+        .analogy-box {
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border-left: 5px solid var(--accent-color);
+            transition: transform 0.3s, box-shadow 0.3s, var(--theme-transition);
+            position: relative;
+        }
+        
+        .analogy-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px var(--shadow-color);
+        }
+        
+        .analogy-header {
+            background-color: var(--accent-color);
+            color: var(--bg-secondary);
+            padding: 10px 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .analogy-box p {
+            padding: 15px;
+            margin: 0;
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }        /* Visual animation for the filter sliding over paper */
+        .analogy-visual {
+            height: 100px;
+            background-color: var(--bg-secondary);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px dashed var(--border-color);
+        }
+        
+        .paper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            z-index: 1;
+        }
+        
+        .grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(var(--border-color) 1px, transparent 1px),
+                             linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 2;
+        }
+          .filter {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(var(--accent-color-rgb, 0, 150, 226), 0.3);
+            border: 2px solid var(--accent-color);
+            z-index: 3;
+            animation: slideFilter 6s infinite ease-in-out;
+        }
+          @keyframes slideFilter {
+            /* Start at top left corner, off-screen */
+            0% { left: -50px; top: 15px; }
+            /* Move in from left edge, first row */
+            5% { left: 0px; top: 15px; }
+            /* Slide right across first row */
+            20% { left: calc(100% - 50px); top: 15px; }
+            /* Jump back to left, but one row down */
+            25% { left: 0px; top: 35px; }
+            /* Slide right across second row */
+            40% { left: calc(100% - 50px); top: 35px; }
+            /* Jump back to left, for third row */
+            45% { left: 0px; top: 55px; }
+            /* Slide right across third row */
+            60% { left: calc(100% - 50px); top: 55px; }
+            /* Animation complete, reset position (with delay) */
+            65% { left: -50px; top: 15px; }
+            100% { left: -50px; top: 15px; }
+        }
+        
         .dropdown-heading {
             cursor: pointer;
             font-weight: bold;
@@ -121,6 +223,7 @@
             <figcaption>A standard CNN architecture</figcaption>
 
             <h3>CNNs and ANNs</h3>
+            <h4>ANNs</h4>
             <p>One thing that I haven't touch on last post is why I used "MLP" and now "ANN".
             The reason is that MLP is a specific type of <a href="https://www.geeksforgeeks.org/artificial-neural-networks-and-its-applications/" target="_blank">ANN</a>, which is a more general term.
             </p>
@@ -133,7 +236,7 @@
             <p>Okay, with that out of the way, 
             one of the largest limitations of traditional forms of ANN is that they tend to struggle with the computational complexity required to compute image data. 
             Common machine learning benchmarking datasets such as the MNIST database of handwritten digits are suitable for most forms of ANN, due to its relatively small image dimensionality of just 28 × 28. 
-            With this dataset a single neuron in the first hidden layer will contain 784 weights (28×28×1 where 1 bare in mind that MNIST is normalised to just black and white values), which is manageable for most forms of ANN. 
+            With this dataset a single neuron in the first hidden layer will contain 784 weights (28×28×1 where bare in mind that MNIST is normalised to just black and white values), which is manageable for most forms of ANN. 
             </p>
 
             <img src="../back-to-ai-basics-images/ann-complexity-comparison.svg" alt="ANN Complexity Comparison" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
@@ -150,8 +253,219 @@
                 <li>Even if you did, the more complex the model, the more likely it is to overfit to the training data.</li>
             </ol>
 
+            <p>Overfitting is a critical concern in most if not all machine learning algorithms. 
+                When models become too complex, they memorize training data rather than learning generalizable patterns. 
+                In reducing ANN complexity, we decrease the number of parameters, which both lowers the risk of overfitting and improves the model's ability to make accurate predictions on new data.</p>
+
+            <h4>CNNs</h4>
+            <p>So in what way do CNNs solve this problem? And how is it better?</p>
+            <p>CNNs are a type of deep learning model specifically designed to process structured grid data, such as images. 
+                They are particularly effective for image classification tasks due to being set up in a way that best suit the structure of image data.
+            </p>
+            <p>CNN layers consist of neurons arranged in three dimensions: height, width, and depth (the number of feature maps, not layers). 
+                Unlike standard ANNs, each neuron connects only to a small region of the previous layer. 
+                For example, an input of size 64×64×3 is gradually reduced to an output of 1×1×n, where n is the number of classes.
+            </p>
+
+            <p>CNNs include 3 types of layers: <i><u>convolutional</u></i>, <i><u>pooling</u></i>, and <i><u>fully connected layers</u></i>.
+                When these layers are combined, they form a simple CNN architecture that can learn complex patterns in image data.
+            </p>
+
+            <p>To better understand this, let's start with an example architecture.</p>
+
+            <h3>The Architecture</h3>
+            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="CNN Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>A standard CNN architecture</figcaption>
+
+            <p>In this architecture, we have two conv-pool blocks, flattening, dropout regularization, and two fully connected layers ending in a 10-class output.
+                The input is a 28×28×1 image, for now, and the output is a single value representing the class of the image.
+            </p>
+
+            <table class="table-common">
+            <thead>
+                <tr>
+                <th>Layer</th>
+                <th>Type</th>
+                <th>Details</th>
+                <th>Output Shape</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>0</td>
+                <td>Input</td>
+                <td>Greyscale image, 28x28 pixels</td>
+                <td>(1, 28, 28)</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Conv2d</td>
+                <td>in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1</td>
+                <td id="pad">(32, 28, 28)</td>
+                </tr>
+                <tr>
+                <td>2</td>
+                <td>ReLU</td>
+                <td>Activation</td>
+                <td>(32, 28, 28)</td>
+                </tr>
+                <tr>
+                <td>3</td>
+                <td>MaxPool2d</td>
+                <td>kernel_size=2, stride=2</td>
+                <td>(32, 14, 14)</td>
+                </tr>
+                <tr>
+                <td>4</td>
+                <td>Conv2d</td>
+                <td>in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1</td>
+                <td>(64, 14, 14)</td>
+                </tr>
+                <tr>
+                <td>5</td>
+                <td>ReLU</td>
+                <td>Activation</td>
+                <td>(64, 14, 14)</td>
+                </tr>
+                <tr>
+                <td>6</td>
+                <td>MaxPool2d</td>
+                <td>kernel_size=2, stride=2</td>
+                <td>(64, 7, 7)</td>
+                </tr>
+                <tr>
+                <td>7</td>
+                <td>Flatten</td>
+                <td>start_dim=1</td>
+                <td>(3136,)</td>
+                </tr>
+                <tr>
+                <td>8</td>
+                <td>Dropout</td>
+                <td>p=0.25</td>
+                <td>(3136,)</td>
+                </tr>
+                <tr>
+                <td>9</td>
+                <td>Linear</td>
+                <td>in_features=3136, out_features=128</td>
+                <td>(128,)</td>
+                </tr>
+                <tr>
+                <td>10</td>
+                <td>Linear</td>
+                <td>in_features=128, out_features=10</td>
+                <td>(10,)</td>
+                </tr>
+            </tbody>
+            </table>
 
 
+            <h4 class="step">Input</h4>
+            <p>As found in other ANNs, the input layer is simply the raw pixel values of the image.
+                Or in this case of MNIST, the 28×28×1 pixel values of the image, which is 1 channel of grayscale values of height 28 and width 28, running from 0 to 255.
+            </p>
+            <h4 class="step">Convolutional Layer</h4>
+
+            <p>Imagine a photographer taking a photo of the same scene using different camera filters:</p>
+            <ul>
+                <li style="color: #d63031; background: rgba(255, 0, 0, 0.1); border-left: 3px solid #d63031;">One highlights <strong>red tones</strong> <span style="float: right;"><i class="fas fa-camera-retro"></i></span></li>
+                <li style="background: linear-gradient(to right, #dfe6e9, #2d3436); color: white; text-shadow: 1px 1px 2px black; border-left: 3px solid #ffffff;">One boosts <strong>contrast</strong> <span style="float: right;"><i class="fas fa-adjust"></i></span></li>
+                <li style="background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22100%22 height%3D%22100%22 viewBox%3D%220 0 100 100%22%3E%3Cline x1%3D%2210%22 y1%3D%2210%22 x2%3D%2290%22 y2%3D%2290%22 stroke%3D%22%23333%22 stroke-width%3D%222%22%2F%3E%3Cline x1%3D%2290%22 y1%3D%2210%22 x2%3D%2210%22 y2%3D%2290%22 stroke%3D%22%23333%22 stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E'); border-left: 3px solid #333;">One finds <strong>edges</strong> <span style="float: right;"><i class="fas fa-border-style"></i></span></li>
+            </ul>
+            <p>Each resulting image is different — but they're all based on the same original photo. 
+            That's what convolutional filters are doing — looking for different patterns in the same input.</p>
+
+            <p>A convolutional layer applies a set of learnable filters (kernels) to an input image (or feature map). 
+                These filters slide across the input spatially and compute a dot product (scalar product) between the filter weights and the input values in that region.</p>
+            <div class="analogy-box">
+                <div class="analogy-header">
+                    <i class="fas fa-lightbulb"></i> Real-World Analogy
+                </div>
+                <p>Think of a convolutional layer like using a small see-through film (the filter) to press across a sheet of paper (the image). 
+                At each position, the film checks how well the pattern it carries matches that part of the paper — giving a score (dot product). 
+                It slides over the paper, from left to right, top to bottom, building a new image that highlights where the pattern fits well.</p>
+                <div class="analogy-visual">
+                    <div class="filter"></div>
+                    <div class="paper">
+                        <div class="grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p>Each neuron in the output feature map is connected only to a small part (local region) of the input (e.g., a 3×3 patch).
+                That neuron computes a dot product between the filter weights (its parameters) and the input patch.
+                This result becomes one value in the output feature map.</p>
+
+            <p>For example, in our architecture, the first convolutional layer has 32 filters, each of size 3×3.
+                This means that each filter will produce a 26×26 feature map (28-3+1=26) after sliding across the input.
+                The output of this layer will be a 26×26×32 tensor, where 32 is the number of filters.</p>
+
+            <p>Wait.</p>
+            <p>Then how come the output shape is <a href="#pad">(32, 28, 28)</a> instead of (32, 26, 26)?</p>
+            <p>It is because we use <strong>padding</strong>.
+                Padding is used to control the spatial dimensions (height and width) of the output after a convolution. 
+                The formula for calculating the output size of a convolutional layer is:
+            </p>
+
+            <p>
+            \[
+            \text{Output Size} = \frac{\text{Input Size} + 2 \times \text{Padding} - \text{Kernel Size}}{\text{Stride}} + 1
+            \]
+            </p>
+
+            <p>In our case, we have an input size of 28, a kernel size of 3, a stride of 1, and padding of 1.</p>
+            <p>
+            \[
+            \text{Output Size} = \frac{28 + 2 \times 1 - 3}{1} + 1 = \frac{28 + 2 - 3}{1} + 1 = \frac{27}{1} + 1 = 27 + 1 = 28
+            \]
+            </p>
+            <p>If padding = 0, then the formula would become 26, meaning no padding reduces spatial size. Padding of 1 is used to preserve size.</p>
+            <p>Padding can be crucial, as it allows us to control the output size of the feature maps, which can be important for maintaining spatial dimensions throughout the network.</p>
+            <ul>
+                <li>No padding = input shrinks each time → quickly becomes too small.</li>
+                <li>With padding = output can have same spatial size → deeper networks possible, better for edge detection near borders.</li>
+            </ul>
+
+            <h4 class="step">Activation Function</h4>
+            <p>After the convolutional layer, we apply an activation function, typically ReLU (Rectified Linear Unit).
+                ReLU replaces all negative values in the feature map with zero, introducing non-linearity to the model.
+                This helps the network learn complex patterns and relationships in the data.</p>
+
+            <p>There are other activation functions used such as Leaky ReLU or Tanh/Sigmoid. 
+                Still, ReLU remains the default unless there's a specific reason to use another.</p>
+
+            <img src="../back-to-ai-basics-images/relu1.png" alt="ReLU Graph" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>A typical ReLU function being applied and resulting in a feature map with negative values replaced by 0.
+                With 32, 64, or more filters, those output feature map will have the same shape as the input feature map, but with different values in each pixel, signifying different patterns detected by each filter.
+            </figcaption>
+            <img src="../back-to-ai-basics-images/relu2.png" alt="ReLU Graph 2" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>Different kernels will produce different feature maps, each highlighting different patterns in the input image.</figcaption>
+            <img src="../back-to-ai-basics-images/relu3.png" alt="ReLU Graph 3" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
+            <figcaption>From one input image, we get multiple feature maps.</figcaption>
+
+            <h4 class="step">Pooling Layer</h4>
+            <p>Pooling layers' job is to simply reduce the spatial dimensions of the feature maps,
+                reducing (or further reducing if padding is not used) the number of parameters within that activation.</p>
+
+            <p>Like the convolutional layer, pooling layers also slide across the input feature map, usually in the 2×2 window.
+                Unlike convolutional layers, pooling layers do not have weights or learnable parameters.
+                Instead, they apply a fixed operation, such as max pooling or mean pooling, to the input feature map.
+            </p>
+
+            <p>The formula is similar to the convolutional layer.
+                Though Pooling usually has \(Padding = 0\) (no padding) and \(Stride = Kernel Size\) (no overlap).
+                So for a 2×2 pooling layer on 28×28 input, the output size is:
+            </p>
+
+            <p>
+            \[
+            \text{Output Size} = \frac{\text{Input Size} + 2 \times 0 - 2}{2} + 1 = \frac{28 - 2}{2} + 1 = \frac{26}{2} + 1 = 13 + 1 = 14
+            \]
+            </p>
+
+
+            <p>To be continued</p>
 
     </div>
 
@@ -164,7 +478,7 @@
         </footer>
     </div>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Create mobile menu toggle button
