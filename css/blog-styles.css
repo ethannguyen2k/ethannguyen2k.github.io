@@ -290,10 +290,17 @@ nav a:hover {
     animation: gradientShift 1s ease infinite;
 }
 
-footer{
+footer p {
     width: 100%;
     text-align: center;
-    font-size: x-small;
+    font-size: small;
+    clear: both;
+    margin-top: 20px;          
+}
+footer p a {
+    width: 100%;
+    text-align: center;
+    font-size: small;
     clear: both;
     margin-top: 20px;          
 }

@@ -170,13 +170,13 @@
         /* Show content and rotate triangle when open */
         .dropdown.open .dropdown-content {
             display: block;
-        }
-
+        }        
         /* Rotate the triangle to point up */
         .dropdown.open .dropdown-heading::before {
             transform: translateY(-50%) rotate(180deg);
         }
     </style>
+    <link rel="stylesheet" href="../../css/audio-player.css">
 </head>
 
 <body>
@@ -208,11 +208,33 @@
 
     <div class="container2 fade-in">
         <div class="blog-content">
-            <h2>Back to AI Basics: Convolutional Neural Networks (CNNs)</h2>
+            <h2>Back to AI Basics: Convolutional Neural Networks (CNNs)</h2>            
             <div class="blog-info">
                 <p>Date Created: <span id="date-created">May 15, 2025</span></p>
                 <p>Date Modified: <span id="date-modified"></span></p>
-            </div>            
+            </div>
+            
+            <div class="audio-player-container">
+                <h4><i class="fas fa-headphones"></i> Listen to this article</h4>
+                <audio id="blog-audio" controls>
+                    <source src="../back-to-ai-basics-images/convnet.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="audio-controls">
+                    <button id="restartBtn" class="audio-btn" aria-label="Restart"><i class="fas fa-undo"></i></button>
+                    <div class="speed-control">
+                        <span>Speed:</span>
+                        <select id="playbackSpeed">
+                            <option value="0.75">0.75x</option>
+                            <option value="1" selected>1x</option>
+                            <option value="1.25">1.25x</option>
+                            <option value="1.5">1.5x</option>
+                            <option value="2">2x</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
             <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/convnet.ipynb" class="button">Code for this topic on GitHub</a>
             <h3>Introduction</h3>
             <p><a href="mlp-mnist.html#mlp-cnn">Like what I have written in previous blog</a>,
@@ -262,6 +284,22 @@
             <p>CNNs are a type of deep learning model specifically designed to process structured grid data, such as images. 
                 They are particularly effective for image classification tasks due to being set up in a way that best suit the structure of image data.
             </p>
+
+            <div class="dropdown">
+                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Historical Context</h4>
+                <div class="dropdown-content">
+                    <p>CNNs were inspired by the visual cortex of animals, where individual neurons respond to stimuli only in a restricted region of the visual field (receptive field). 
+                        LeNet-5, developed by Yann LeCun in the 1990s, was one of the first successful applications of CNNs for digit recognition.</p>
+                    <p>The CNN revolution truly began with AlexNet in 2012, which won the ImageNet competition by a significant margin, demonstrating the power of deep convolutional architectures.</p>
+                    <img src="../back-to-ai-basics-images//imagenet.png" alt="ImageNet Competition" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+                    <figcaption>ImageNet Competition 2012 (<a href="https://paperswithcode.com/sota/image-classification-on-imagenet?ref=blog.roboflow.com" target="_blank">source</a>)</figcaption>
+                    <p>Since then, CNNs have become the backbone of many computer vision tasks, leading to breakthroughs in image classification, object detection, and segmentation.</p>
+                    <p>Some important CNN architectures include AlexNet, VGGNet, GoogLeNet, ResNet, and EfficientNet.
+                        Each of these architectures introduced innovations that improved performance and efficiency in image classification tasks.
+                    </p>
+                </div>
+            </div>
+
             <p>CNN layers consist of neurons arranged in three dimensions: height, width, and depth (the number of feature maps, not layers). 
                 Unlike standard ANNs, each neuron connects only to a small region of the previous layer. 
                 For example, an input of size 64×64×3 is gradually reduced to an output of 1×1×n, where n is the number of classes.
@@ -397,6 +435,25 @@
                 That neuron computes a dot product between the filter weights (its parameters) and the input patch.
                 This result becomes one value in the output feature map.</p>
 
+            <p>This is also how receptive field came to be.</p>
+
+            <div class="dropdown">
+                <h4 class="dropdown-heading" id="receptive" onclick="toggleDropdown(this)">What is Receptive Field?</h4>
+                <div class="dropdown-content">
+                    <p>Since each neuron only connects to a small patch (like 3×3), that patch defines its receptive field.</p>
+                    <p>The receptive field is the region of the input image that influences a single neuron's output.</p>
+                    <p>Each neuron only "sees" a small patch of the input, not the entire image. 
+                        But as the flow goes on, deeper layers have larger receptive fields due to stacking operations.</p>
+                    <img src="../back-to-ai-basics-images/receptive.png" alt="Receptive Field" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+                    <figcaption>Receptive field in CNNs</figcaption>
+                    <p>So for example, a 3×3 conv filter has a 3×3 receptive field, detecting simple features (edges, textures) in small regions.
+                        But after pooling and more conv layers, neurons might effectively see 7×7, 15×15, or larger regions, detecting complex patterns (shapes, objects) across larger regions.
+                    </p>
+                    <p>The biological inspiration comes from how neurons in the visual cortex respond only to stimuli in specific regions of the visual field.
+                        This local connectivity is what makes CNNs parameter-efficient compared to fully-connected layers that would connect every input pixel to every neuron.</p>
+                </div>
+            </div>
+
             <p>For example, in our architecture, the first convolutional layer has 32 filters, each of size 3×3.
                 This means that each filter will produce a 26×26 feature map (28-3+1=26) after sliding across the input.
                 The output of this layer will be a 26×26×32 tensor, where 32 is the number of filters.</p>
@@ -464,8 +521,101 @@
             \]
             </p>
 
+            <div class="dropdown">
+                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Why pooling operations are fixed (non-learnable)?</h4>
+                <div class="dropdown-content">
+                    <p>The purpose of pooling is purely dimensional reduction, not feature learning.
+                        The convolutional layers already handle the feature learning through their trainable weights and filters. 
+                        Pooling's job is just to downsample while preserving important information - a task that simple fixed operations handle effectively.
+                    </p>
+                    <p>The fixed operations (like max or average) are sufficient for reducing dimensions while retaining the most important features.
+                        It helps reducing the number of parameters, increase <a href="#receptive">the receptive field</a> while preserving the most important features.
+                    </p>
+                </div>
+            </div>
 
-            <p>To be continued</p>
+            <p>In our architecture, the first pooling layer reduces the 28×28 feature map to 14×14 by taking the maximum value in each 2×2 region.
+                The second pooling layer further reduces the 14×14 feature map to 7×7 and increases the feature map depth to 64, resulting in a 64×7×7 tensor.</p>
+
+            <h4 class="step">Flattening</h4>
+
+            <p>Flattening simply converts the multi-dimensional tensor into a 1D array.
+                Without flattening, we cannot connect the convolutional features to the fully connected layers.
+            </p>
+
+            <p>Convolutional layers output 3D tensors (height × width × channels), but dense/linear layers expect 1D input vectors. 
+                Flatten reshapes the data without losing information - turning the current 7×7×64 tensor into a 3136-element vector that can feed into the classifier.
+            </p>
+
+            <h4 class="step">Dropout Regularization</h4>
+            <p><a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#1-dropout" target="_blank">Dropout</a> is a regularization technique used to prevent overfitting in neural networks.
+                It randomly sets a fraction of the input units to zero during training, effectively "dropping out" some neurons.
+                This forces the network to learn more robust features that are not reliant on any specific neuron.
+            </p>
+
+            <p>In our architecture, we apply dropout with a probability of 0.25 after flattening.
+                This means that during training, 25% of the neurons in the flattened layer will be randomly set to zero, preventing overfitting.
+                The output shape remains the same, but the model learns to rely on different subsets of features each time.</p>
+            </p>
+
+            <div class="dropdown">
+                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Where should I place the dropout layers?</h4>
+                <div class="dropdown-content">
+                    <p>There have been many debates about where to place dropout layers (<a href="https://stats.stackexchange.com/questions/240305/where-should-i-place-dropout-layers-in-a-neural-network/">Here is the prominent one</a>).
+                        A few general rules of thumb are:</p>
+                        <ul>
+                            <li>Place dropout after feature extraction, before or between fully connected layers.
+                                Conv layers learn spatial features; dropout there can disrupt that structure. 
+                                Fully connected layers are dense and prone to overfitting, so dropout is more effective here.
+                            </li>
+                            <li>Avoid dropout after the final output layer. It just makes no sense, you want stable outputs there.</li>
+                            <li>Dropout before batchnorm = no.
+                                <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#3-batch-normalization" target="_blank">BatchNorm</a> neutralizes dropout's stochastic effect. 
+                                If both are used, apply dropout after batch norm + activation.
+                            </li>
+                            <li>Use dropout sparingly. Too much can hurt performance. 
+                                Use higher dropout in deeper/larger models, lower in smaller models.
+                                Typical values are 0.2 to 0.5, but it depends on the model size and dataset.
+                            </li>
+                        </ul>
+                    <p>In our case, we place dropout after flattening, before the first fully connected layer.
+                        It prevents overfitting on the flattened feature vector before the network learns high-level combinations in FC1. 
+                        It's essentially regularizing the transition from convolutional features to dense classification layers.
+                    </p>
+                    <p>However, Dropout after FC1 prevents overfitting on the high-level learned features before final classification. 
+                        Placing it before the output layer (FC2) would interfere with the final probability computation, which targets the most prone-to-overfitting layer without affecting core functionality.
+                    </p>
+                    <p>So you can experiment with different options, Dropout before FC1, Dropout after FC1, or both, and see which yields the best results for your specific task.
+                        For this architecture, we only use one Dropout after flattening, which is sufficient. 
+                    </p>
+                </div>
+            </div>
+
+            <h4 class="step">Fully Connected Layers</h4>
+            <p>The fully connected layers function just like those in standard ANNs, taking the extracted features and transforming them into class probability scores for classification. 
+                Adding ReLU activations between these layers is often recommended to enhance the network's performance and learning capacity.
+            </p>
+            <p>In our architecture, we have two fully connected layers:</p>
+            <ul>
+                <li>The first fully connected layer (FC1) takes the flattened output (3136 features) and transforms it into 128 features.</li>
+                <li>The second fully connected layer (FC2) takes the 128 features and outputs a 10-dimensional vector representing the class probabilities (0-9 for MNIST).</li>
+            </ul>
+
+            <p>Through this progressive transformation architecture, CNNs convert the original input image into representations.
+                It applies convolutional operations and downsampling techniques across multiple layers, ultimately producing class probability scores for classification tasks.</p>
+            
+                <p>You can find the code for this architecture in the <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/convnet.ipynb" target="_blank">GitHub repository</a>.
+                </p>
+
+            <h3>Conclusion</h3>
+            <p>So, we have got the glimpse of how CNNs work and how they are better than standard ANNs for image data.
+                With only around 421K parameters, just 7% of the total of equivalent MLP parameters, this architecture can achieve around 99% accuracy on the MNIST dataset.
+            </p>
+            <p>CNNs excel in preserving spatial relationships between pixels and detecting patterns regardless of where they appear in the image</p>
+            <p>But so far, we have only discussed on a simple, benchmarking dataset like MNIST.
+                We will explore more complex datasets, CIFAR-10 and ImageNet, and see what kind of architectures we need to build to capture the patterns on these datasets.
+            </p>
+            <p>You can check it out <a href="deep-convnet.html">here</a>.</p>
 
     </div>
 
@@ -522,4 +672,5 @@
     element.parentElement.classList.toggle("open");
   };
 </script>
+<script src="../../js/audio-player.js"></script>
 </html>
