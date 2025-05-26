@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs</title>
     <link rel="stylesheet" href="css/blog-styles.css">
+    <link rel="stylesheet" href="css/dropdown.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -66,7 +66,16 @@
                 <div class="blog-article-content">
                     <h3><a href="blog/back-to-ai-basics.html">Back to AI Basics: A Refresher on Neural Network Fundamentals</a></h3>
                     <p class="meta">May 14, 2025 | Tags: Neural Networks, Machine Learning, Fundamentals, Deep Learning, AI Basics</p>
-                    <p>Exploring the fundamentals of neural networks, including architecture, activation functions, and training techniques.</p>
+                    <p>Exploring the fundamentals of neural networks, including architecture, activation functions, and training techniques. Narrated!</p>
+                    <div class="dropdown">
+                        <button class="dropdown-btn">View Sub-Articles <i class="fas fa-chevron-down"></i></button>
+                        <div class="dropdown-content">
+                            <a href="blog/back-to-ai-basics/simple-nn.html">Simple Neural Networks</a>
+                            <a href="blog/back-to-ai-basics/mlp-mnist.html">Multi-Layer Perceptrons & MNIST</a>
+                            <a href="blog/back-to-ai-basics/convnet.html">Convolutional Neural Networks</a>
+                            <a href="blog/back-to-ai-basics/deep-convnet.html">Deep Convolutional Networks</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -303,4 +312,5 @@
     });
 </script>
 <script src="js/scripts.js"></script>
+<script src="js/dropdown.js"></script>
 </html>
