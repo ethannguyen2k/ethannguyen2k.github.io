@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs - How Gaming Shaped My Story</title>
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // Immediately apply the saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <style>
+        /* Game-specific themes */
+        .game-section {
+            margin: 40px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .game-header {
+            padding: 30px;
+            background: linear-gradient(135deg, var(--game-primary), var(--game-secondary));
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .game-header:hover::before {
+            left: 100%;
+        }
+
+        .game-header h3 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .game-subtitle {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-style: italic;
+            font-size: 1.1em;
+        }        
+        
+        .game-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: var(--bg-secondary);
+            border: 2px solid var(--game-primary);
+            border-top: none;
+        }
+
+        .game-content.expanded {
+            max-height: 100000px;
+        }
+
+        .game-story {
+            padding: 30px;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2em;
+        }
+
+        .game-section.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .snake {
+            --game-primary: #FF6B6B;
+            --game-secondary: #4ECDC4;
+        }
+
+        .ac3 {
+            --game-primary: #2C3E50;
+            --game-secondary: #3498DB;
+        }
+
+        .human {
+            --game-primary: #8B4513;
+            --game-secondary: #228B22;
+        }
+
+        .choice {
+            --game-primary: #8B4513;
+            --game-secondary: #228B22;
+        }
+
+        .league {
+            --game-primary: #C8AA6E;
+            --game-secondary: #0F2027;
+        }
+
+        .ghost {
+            --game-primary: #C8AA6E;
+            --game-secondary: #0F2027;
+        }
+
+        .totalwar {
+            --game-primary: #FF6B35;
+            --game-secondary: #F7931E;
+        }
+
+        .fps {
+            --game-primary: #FF6B35;
+            --game-secondary: #F7931E;
+        }
+
+        .darkest {
+            --game-primary: #FF6B6B;
+            --game-secondary: #4ECDC4;
+        }
+
+        .rdr2 {
+            --game-primary: #FF6B6B;
+            --game-secondary: #4ECDC4;
+        }
+
+        /* Interactive elements */
+        .achievement-box {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #FF8C00;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .achievement-box h4 {
+            margin: 0 0 10px 0;
+            color: #8B4513;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .achievement-box p {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .life-lesson {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--game-primary);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .game-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #2C3E50, #8B4513, #C8AA6E, #FF6B35);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Gaming stats */
+        .gaming-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 10px 0;
+        }
+
+        .floating-controller {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .floating-controller:hover {
+            transform: scale(1.1);
+            background: #007acc;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .game-header h3 {
+                font-size: 2em;
+            }
+            
+            .game-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .gaming-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="header-content">
+            <img id="logo" src="../images/logo2.webp" alt="Logo">
+            <div class="text-content">
+                <h1>Hi! I'm Ethan</h1>
+                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+        <nav id="nav-bar">
+            <a href="../index.html">Homepage</a>
+            <a href="../portfolio.html">My Portfolio</a>
+            <a href="../blog.html" class="current">My Blogs</a>
+        </nav>
+        <div class="sidebar-extra">
+            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
+                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
+                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
+        </div>
+    </aside>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container2 fade-in">
+        <div class="blog-content">
+            <h2>How Gaming Shaped My Story</h2>
+            <div class="blog-info">
+                <p>Date Created: <span id="date-created">May 27, 2025</span></p>
+                <p>Date Modified: <span id="date-modified"></span></p>
+            </div>
+
+            <img src="games-images/thumbnail.jpg" alt="Gaming setup" style="display: block; margin-left: auto; margin-right: auto; width: 85%; border-radius: 15px;">
+
+            <p>They say that books are windows to other worlds, but for me, video games were the doors. 
+                More than just entertainment, games became my teachers, my therapists, my social spaces, and my canvas for creativity. 
+                Each key pressed by my hands was a note to experiences that would fundamentally shape who I am today.</p>
+
+            <p>This isn't just about high scores or obsession. 
+                It's about the moments when it taught me about friendship, when a game made me cry, when it showed me that failure is just another step toward growth. 
+                It's about how digital worlds helped me understand the real one, or getting away from it, fo a while.</p>
+
+            <div class="gaming-stats">
+                <div class="stat-card">
+                    <div class="stat-number">20+</div>
+                    <div>Years Gaming</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div>Games Played</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div>Lessons Learned</div>
+                </div>
+            </div>
+
+            <div class="game-section snake" data-game="snake">
+                <div class="game-header">
+                    <h3>Snake
+                        <span class="expand-icon"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <div class="game-subtitle">My First Digital Adventure (Grade 6, or 7, as I can remember)</div>
+                </div>
+                <div class="game-content">
+                    <div class="game-story">
+                        <p>I remember that I never get to experience gaming when I was young. 
+                            I grew up in a fairly traditional household so I got is some times off to watch Disney Channel or Cartoon Network on TV. 
+                            Not until grade 6-7 that I got gifted by my brother a Nokia 1208 (aka "The Brick") and with it, the classic Snake game.</p>
+                        <img src="games-images/snake.png" alt="Snake Game Screenshot" style="display: block; margin-left: auto; margin-right: auto; width: 80%; border-radius: 15px;">
+                        <p>It is a fairly simple game, you, as a snake, try to eat as many apples as you can until you fit the screen and get a victory screen. 
+                            You eat your own body and you got a score screen instead.</p>
+
+                        <p>Simple, but as a kid, I felt unsatisfied. Not because of achievement hunting, but the fact that there are other kids who also familiar with the games, were so good at it. 
+                            They got very close to winning, only that, no one ever get to the victory screen. 
+                            The idea that something might be just out of reach but still possible. Frustrating, yes, but also motivating.
+                            Nonetheless, it was so hype.</p>
+                        <p>The fact that a calm afternoon in the classroom, it is break time, children is talking, and there is a group of boys and girls screaming bloody murder at each other as they traverse the 96 × 68 pixels screen is making it funnier.</p>
+
+                        <div class="life-lesson">
+                            <h4>Raw and Beautiful</h4>
+                            <p>That moment with the Nokia 1208 and Snake wasn't just about the game — it was my first taste of true(?) digital agency. 
+                                The screen was tiny, the mechanics simple, but it gave me control, challenge, and community. 
+                                For all I know, that is multiplayer, just not holding a controller.</p>
+                        </div>
+
+                        <div class="achievement-box">
+                            <h4>I would kill to go back to that time again</h4>
+                            <p>I don't just miss the game — I miss the innocence of shared obsession. The chaos. The shouting. The triumphs. That's gold.</p>
+                            <img src="games-images/corememory.jpg" alt="Core Memory Meme" style="display: block; margin-left: auto; margin-right: auto; width: 50%; border-radius: 15px;">
+                        </div>
+                        <img src="games-images/snake3d.jpg" alt="Snake Game Screenshot" style="display: block; margin-left: auto; margin-right: auto; width: 80%; border-radius: 15px;">
+                        <p>Oh, there is Snake 3D too. Still fun, though. But my obsession with it comes less prominent because of...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-section ac3" data-game="ac3">
+                <div class="game-header">
+                    <h3>Assassin's Creed III
+                        <span class="expand-icon"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <div class="game-subtitle">Learning About Loss and Growth</div>
+                </div>
+                <div class="game-content">
+                    <div class="game-story">
+                        <p>Assassin's Creed III was my first real introduction to storytelling in games. 
+                           I don't remember how I got to playing it, but I do remember starting the gameplay with high expectation.
+                        </p>
+
+                        <p>I will admit, as a little boy, I need to learn the mechanics.
+                            When you're new to gaming - especially learning movement, stealth, combat, parkour, ..., your brain is busy processing mechanics.
+                            I can't keep up with the story, so at the time, I didn't care much about it.
+                            The only single thing I remember is a concept: even in hopelessness, with action, you can always stay positive with a trust in your ability.
+                        </p>
+
+                        <div class="life-lesson">
+                            <h4>Hope in Action</h4>
+                            <p>Back then, AC3 showed me that even in hopeless situations, with action and belief in your own ability, you can stay positive.</p>
+                        </div>
+
+                        <p>I do remember Connor Kenway and his father, Haytham Kenway.</p>
+                        <p>I remember the first time I saw Haytham, I thought he was the main character.</p>
+                        <p>I remember the first time I saw Connor, I thought he was a side character.</p>
+                        <p>I remember the first time I saw them together, I thought they were brothers, or just two strangers.</p>
+                        <p>At least, until Connor called him father.</p>
+                        <p>Then they fight each other, and I was like, "Wait, what the hell?!"</p>
+                        <p>And when Connor defeated and killed his dad, I was "Wait, what the fk?!"</p>
+                        <p>Then I quickly brushed it off, because I have to prepare for an important exam, when I finished the game.</p>
+
+                        <p>But now, having started this blog, I searched up online and watched some of the old footage of AC3 again.
+                            And man, I was so stupid to not focus on the story between the father and son back then.
+                        </p>
+
+                        <div class="game-gallery">
+                            <div class="gallery-item">
+                                <img src="games-images/haytham.png" alt="Haytham Kenway" style="height: 250px; object-fit: cover;">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="games-images/connor.png" alt="Haytham Kenway 2" style="height: 250px; object-fit: cover;">
+                            </div>
+                        </div>
+
+                        <p>Okay, so they are kind of scary looking, right? Or maybe not, maybe they are just look mysterious, or badass, ... You pick your poison.</p>
+
+                        <p>You start the game playing as <a href="https://assassinscreed.fandom.com/wiki/Haytham_Kenway" target="_blank">Haytham Kenway</a>, a charismatic, cold, and calculated man.
+                            Charismatic, erudite, and level-headed, Haytham acted with authority and was a natural leader.
+                            Think of him as a natural aristocratic bearing, with a strong sense of duty and honor towards the Templar and its vision of a New World Order.
+                        </p>
+
+                        <p>He comes to America to find a First Civilization temple and expand Templar control — using order, control, and hierarchy to "bring peace."</p>
+
+                        <p>Haytham falls for Ziio, a Mohawk woman. Their child, <a href="https://assassinscreed.fandom.com/wiki/Ratonhnhak%C3%A9:ton" target="_blank">Ratonhnhaké:ton (or known by his adopted name Connor)</a>, is raised in a village with indigenous values — community, freedom, harmony with nature.
+                            His childhood is idyllic until the chaos caused by colonial powers, killing his mother and burning his village.
+                            This fuels his drive for justice.
+                        </p>
+                        <p>A mere thirteen-year-old when thrust into the outside world, Connor has a strong sense of morality, but quite naive.</p>
+                        <p>Connor is recruited by Achilles, an old Assassin, or more like pressure him into it. 
+                            Through him, Connor learns to the way of an Assassin.
+                            He doesn't just join the Assassins - he believes they'll help him protect his people, for the people, by the people, which he claimed "as they should."
+                        </p>
+
+                       <p>But as the journey goes along, the story becomes more complicated.</p>
+
+                       <p>The core conflict is philosophical. The Colonial Templars is peace through control, while the Colonial Assassins is all about Freedom at all costs.</p>
+                       <p>But that is not what Connor wants.</p>
+                       <p>Throughout the story, from initially to protect his people and seek misguided revenge on Charles Lee for burning his village and killing his mother,
+                            he participated in the American Revolution solely for these reasons.
+                            Though, he learned that this was a disillusioned endeavor.
+                       </p>
+
+                       <img src="games-images/haytham2.jpg" alt="Haytham Kenway and Connor Kenway" style="display: block; margin-left: auto; margin-right: auto; width: 80%; border-radius: 15px;">
+                       <figcaption>He also desperately believe that the Assassins and Templars could form a permanent alliance, showed in his interactions with his father.</figcaption>
+
+                        <p>Connor's breaking point started when he learnt that Washington ordered Connor's village burned when he was a boy, not Charles Lee, as Washington claim that there are certain indigenous people sides with the Loyalists.</p>
+                        <p>This makes the commander responsible for Kaniehtí:io's death and not the Templars as Connor had assumed for years.</p>
+                        <p>Despite this shattering revelation, Connor knew that his people's safety came first and immediately set off to deal with the Continental soldiers sent to attack Kanatahséton. 
+                            Although Haytham wished to accompany him, the Assassin angrily criticized his father for withholding this information from him and only revealing it when it suited the Templars' aims.</p>
+                        <p>Connor managed to kill Washington's messengers as he traveled to his village and arrived to find it unharmed. 
+                            However, once there, Connor was informed by the Clan Mother that Lee had already rallied several of the village's warriors to repel the invading Continental soldiers. Unwilling for his village to become involved in the war, the Assassin knocked out each of the warriors readying to ambush the Continentals. 
+                            However, as he ran towards the last one, Kanen'tó:kon, he threw Connor off and threatened him with a knife.
+                        </p>
+                        <p>Kanen'tó:kon angrily mentioned that he should not have believed Connor would protect their village, accusing him of turning against their people and being seduced by Washington's cause. Though Connor desperately insisted that Lee had fed him lies, Kanen'tó:kon attacked him. 
+                            After a brief struggle, Connor was forced to kill his friend, who in his final moments claimed that the British would win the war and ensure the Kanien'kehá:ka's safety.
+                        </p>
+
+                        <p>The myth of the Patriots crumbles for him: the “heroes” of the revolution are just men, capable of cruelty under the flag of liberty.</p>
+                        <p>Connor still fights for freedom, but in his own definition. 
+                            That's where his moral compass stands out—even when seemingly betrayed from all sides, he doesn't turn cynical. 
+                            He keeps going.</p>
+
+                        <p>What about Haytham, then?</p>
+                        <p>He's a Templar who truly believes in structure, control, and civilization. 
+                            As loyal as he is to templars, admits - even if indirectly - that in his eyes, Assassins did work towards something he admires, that being peace. 
+                            Despite their difference, or even his distaste for the brotherhood as it is, he recognizes subconciously that there is something he at the very least used to agree on with what is essentially his sworn enemy.</p>
+
+                        <p>And it is crazy that And Haytham does have a point. America wanted freedom from the British (American Revolutionary War), they were only united for one cause and at the end of that cause they will fight amongst themselves (American Civil War). 
+                            It is wild to see how accurate Haytham's speech is to whats going on in the past and today's society, no less.</p>
+
+                        <p>But his affection for his son got the better of him.</p>
+                        <p>This strange death of his. 
+                            He spends all his time with Connor exchanging with him, giving him tasks, helping him mature. 
+                            If he wanted to simply use Connor as a tool, he wouldn't go to such lengths, putting his own life at risk several times. 
+                            He wants to ensure Connor's survival, while sharing his world views with him. 
+                            This is evident as his last words as they fight is a warning that the Templars won't die with him. 
+                            And he slowly chokes Connor to have him learn one final lesson, to be ready to kill whoever would be a threat to him, even his own father.</p>
+                        
+                        <p>Haytham shows no bitterness in the end. If anything, he's proud of Connor</p>
+
+                        <p>"Don't think I have any intention of caressing your cheek and saying I was wrong. 
+                            I will not weep and wonder what might have been. 
+                            I'm sure you understand. Still, I'm proud of you in a way. You have shown great conviction. Strength. Courage. All noble qualities. 
+                            I should have killed you long ago."</p>
+                        <p>―Haytham's final words to his son, 1781.</p>
+
+                        <p>It ends on Connor, bleeding, standing in a country that took everything from him — his people still displaced, the land still lost.</p>
+                        <p>No one honors him. No stories. None of his patriot allies honors him. But he protects the people anyway.</p>
+                        <p>But he doesn't quit.</p>
+
+                        <p>He doesn't get a happy ending. He doesn't even get closure.</p>
+                        <p>But he rebuilds the Brotherhood.</p>
+
+                        <p>He frees slaves, quietly, without fanfare.</p>
+                        <p>He protects the Homestead, a little patch of chosen family and freedom.</p>
+                        <p>He rejects glory—because glory is a lie.</p>
+                        <p>Even with all the losses and betrayals he endured, Connor refused to abandon his idealistic vision of the world, one where peace and freedom could coexist. 
+                            However, his experiences did alter his perspective, as he eventually realized the world was much crueler than he had initially thought. 
+                            Despite agreeing with Haytham that there would always be people who pursued only their self-interest, he refused to lose hope in humankind like his father had. 
+                            Instead, he held firm to his belief that humanity had the potential to change for the better, and resolved to never stop fighting for his dream, even if it took another thousand years for it to finally come true.
+                        </p>
+
+                        <div class="achievement-box">
+                            <h4><i class="fas fa-heart-broken"></i> Emotional Milestone</h4>
+                            <p>Learning that sometimes heroes can't save everyone, and that's what makes their efforts to save anyone all the more meaningful.</p>
+                        </div>
+
+                        <div class="life-lesson">
+                            <h4>Life Lesson: Complexity of Character</h4>
+                            <p>Sephiroth wasn't evil because he was born evil—he was broken by truth and isolation. Cloud wasn't a hero because he was perfect—he was heroic because he chose to act despite his flaws and confusion. These characters taught me that people aren't simply good or bad; they're complex beings shaped by their experiences.</p>
+                        </div>
+
+                        <p>The game's themes of environmentalism, corporate corruption, and finding your true self felt incredibly relevant as I navigated high school. When I struggled with fitting in or understanding my place in the world, I remembered Cloud's journey from confused mercenary to reluctant hero to someone who finally understood himself.</p>
+
+                        <p>Every time I replay FFVII, I discover new layers. Now, as an adult working in AI and data science, I find new meaning in the story's exploration of what makes us human versus what makes us merely intelligent.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minecraft Section -->
+            <div class="game-section minecraft" data-game="minecraft">
+                <div class="game-header">
+                    <h3>
+                        <i class="fas fa-cube"></i>
+                        Minecraft
+                        <span class="expand-icon"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <div class="game-subtitle">Building Worlds and Friendships (Age 16)</div>
+                </div>
+                <div class="game-content">
+                    <div class="game-story">
+                        <p>Minecraft came into my life during a particularly isolated period. Moving to a new city, struggling to make friends, I found solace in a world made of blocks where I could build anything I could imagine.</p>
+
+                        <p>What started as building simple houses evolved into elaborate cities, redstone computers, and collaborative projects with friends scattered across the globe. Minecraft taught me that creativity has no limits—only the boundaries we place on ourselves.</p>
+
+                        <div class="achievement-box">
+                            <h4><i class="fas fa-users"></i> Social Achievement</h4>
+                            <p>Building our first community server taught me more about leadership, compromise, and collaboration than any classroom ever could.</p>
+                        </div>
+
+                        <div class="life-lesson">
+                            <h4>Life Lesson: The Joy of Creation</h4>
+                            <p>In Minecraft, you're not just consuming content—you're creating it. Every block placed is a decision, every structure a story. This game taught me that the act of creation itself is rewarding, regardless of whether anyone else ever sees or appreciates what you've built.</p>
+                        </div>
+
+                        <p>Our server became a digital neighborhood. We had town meetings, collaborative builds, and inside jokes that lasted years. When one friend was going through a tough time at home, we all pitched in to build him an elaborate castle. When another achieved something in real life, we'd commemorate it with a monument in our shared world.</p>
+
+                        <p>Today, when I approach data science projects or write code, I carry that same spirit of experimentation and iterative improvement that Minecraft fostered. Build, test, refine, rebuild.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- League of Legends Section -->
+            <div class="game-section league" data-game="league">
+                <div class="game-header">
+                    <h3>
+                        <i class="fas fa-shield-alt"></i>
+                        League of Legends
+                        <span class="expand-icon"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <div class="game-subtitle">Teamwork and Communication (Age 18-22)</div>
+                </div>
+                <div class="game-content">
+                    <div class="game-story">
+                        <p>League of Legends was my university. For four years, it taught me about teamwork, leadership, handling criticism, and maintaining composure under pressure—lessons that proved invaluable in both my academic and professional life.</p>
+
+                        <p>Playing with a consistent team taught me that individual skill means nothing without coordination. The best play is the one your team can execute together, not necessarily the most mechanically impressive one.</p>
+
+                        <div class="achievement-box">
+                            <h4><i class="fas fa-comments"></i> Communication Master</h4>
+                            <p>Learning to give and receive constructive feedback in high-pressure situations—skills that transferred directly to group projects and workplace collaboration.</p>
+                        </div>
+
+                        <div class="life-lesson">
+                            <h4>Life Lesson: Emotional Regulation</h4>
+                            <p>League taught me that tilt is real, and it's devastating. Learning to recognize when emotions were affecting my decision-making and developing strategies to reset my mental state became crucial skills in both gaming and life.</p>
+                        </div>
+
+                        <p>The game's ranking system became a metaphor for personal growth. Some days you climb, some days you fall, but the only constant is that improvement comes from honest self-reflection and consistent effort.</p>
+
+                        <p>Even now, when leading projects or collaborating with teams, I think about champion select—how do we balance our team composition? Who are our carries, and how do we enable them? How do we adapt our strategy based on what the other team is doing?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Journey Section -->
+            <div class="game-section journey" data-game="journey">
+                <div class="game-header">
+                    <h3>
+                        <i class="fas fa-mountain"></i>
+                        Journey
+                        <span class="expand-icon"><i class="fas fa-chevron-down"></i></span>
+                    </h3>
+                    <div class="game-subtitle">Finding Connection in Solitude (Age 24)</div>
+                </div>
+                <div class="game-content">
+                    <div class="game-story">
+                        <p>Journey is only two hours long, but it changed how I think about communication, empathy, and shared human experience. Playing through it during a particularly challenging period of graduate school, it reminded me of the beauty in simple connection.</p>
+
+                        <p>The game strips away everything—voice chat, usernames, complex mechanics—leaving only movement, proximity, and a shared goal. Yet somehow, traveling with anonymous strangers felt more meaningful than many "real" conversations I'd had.</p>
+
+                        <div class="achievement-box">
+                            <h4><i class="fas fa-heart"></i> Empathy Achievement</h4>
+                            <p>Realizing that you can care deeply about someone you've never spoken to, simply by sharing an experience together.</p>
+                        </div>
+
+                        <div class="life-lesson">
+                            <h4>Life Lesson: Presence Over Words</h4>
+                            <p>Journey taught me that sometimes the most powerful communication happens without words. Being present with someone, sharing their struggles and victories, can create profound connection even when you can't speak the same language.</p>
+                        </div>
+
+                        <p>When my journey partner waited for me after I fell behind, or when we huddled together during the cold mountain passage, I felt a genuine human connection that transcended the digital medium. These moments reminded me that empathy and kindness are universal languages.</p>
+
+                        <p>In my current work, I try to bring that same presence and patience. Whether I'm mentoring students or collaborating with international teams, I remember that understanding doesn't always require words—sometimes it just requires showing up and walking the path together.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>The Game Continues</h3>
+            <p>Gaming didn't just shape my childhood—it continues to influence how I approach problems, build relationships, and understand the world. Every algorithm I design carries lessons learned from optimizing build orders. Every presentation I give applies principles of narrative pacing learned from RPGs. Every team I work with benefits from the collaboration skills honed in countless multiplayer sessions.</p>
+
+            <p>Video games are often dismissed as mere entertainment, but they're so much more than that. They're interactive narratives that let us explore different versions of ourselves. They're safe spaces to fail, learn, and grow. They're communities where meaningful connections can form across any distance.</p>
+
+            <p>The stories we tell in games—about heroism, sacrifice, growth, and connection—are the same stories we tell about our own lives. And sometimes, the lessons learned with a controller in hand prepare us better for the challenges we face with our hands empty.</p>
+
+            <div class="achievement-box">
+                <h4><i class="fas fa-graduation-cap"></i> Life Achievement Unlocked</h4>
+                <p>Understanding that every game is ultimately about the player—not the character on screen, but the person holding the controller, growing with every challenge faced and every story experienced.</p>
+            </div>
+        </div>
+
+        <p><a href="../blog.html">Back to Blogs</a></p>
+
+        <footer>
+            <hr>
+            <p>Made by Ethan, 2024, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
+        </footer>
+    </div>
+
+    <div class="floating-controller" onclick="scrollToTop()">
+        <i class="fas fa-gamepad"></i>
+    </div>
+
+    <script src="../js/scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Progress bar functionality
+            function updateProgressBar() {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('progressBar').style.width = scrollPercent + '%';
+            }
+
+            window.addEventListener('scroll', updateProgressBar);
+
+            // Game section expansion functionality
+            const gameSections = document.querySelectorAll('.game-section');
+            
+            gameSections.forEach(section => {
+                const header = section.querySelector('.game-header');
+                const content = section.querySelector('.game-content');
+                
+                header.addEventListener('click', () => {
+                    const isExpanded = section.classList.contains('expanded');
+                    
+                    // Close all sections
+                    gameSections.forEach(s => {
+                        s.classList.remove('expanded');
+                        s.querySelector('.game-content').classList.remove('expanded');
+                    });
+                    
+                    // Open clicked section if it wasn't expanded
+                    if (!isExpanded) {
+                        section.classList.add('expanded');
+                        content.classList.add('expanded');
+                    }
+                });
+            });
+
+            // Scroll to top functionality
+            window.scrollToTop = function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Set date modified
+            document.getElementById('date-modified').textContent = document.lastModified;
+
+            // Intersection observer for fade-in effects
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all game sections
+            gameSections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

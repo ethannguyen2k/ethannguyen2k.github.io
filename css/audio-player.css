@@ -1,3 +1,16 @@
+:root {
+    --accent-color-rgb-light: 0, 150, 226; /* #0096E2 */
+    --accent-color-rgb-dark: 138, 180, 248; /* #8ab4f8 */
+}
+
+[data-theme="light"] {
+    --accent-color-rgb: var(--accent-color-rgb-light);
+}
+
+[data-theme="dark"] {
+    --accent-color-rgb: var(--accent-color-rgb-dark);
+}
+
 /* Audio Player Styling */
 .audio-player-container {
     background-color: var(--bg-secondary);
