@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blogs - Back to AI Basics - Deeper CNN</title>
     <meta name="description" content="Explore the basics of AI with a focus on building a deeper Convolutional Neural Network (CNN) for image classification tasks.">
-    <link rel="stylesheet" href="../../css/blog-styles.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../css/blog-styles.css">
     <script>
         // Immediately apply the saved theme
         (function() {
@@ -112,9 +112,310 @@
                 <p>Date Modified: <span id="date-modified"></span></p>
             </div>
             <!--Change the link to code  -->
-            <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/mlp_minst.ipynb" class="button">Code for this topic on GitHub</a>
+            <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics/tree/main/models" class="button">Code for this topic on GitHub</a>            
+            <h3>Introduction</h3>
+            <p>Last time, we built a basic CNN for MNIST digit classification.
+            The simplicity of MNIST allowed us to focus on the core CNN concepts without getting bogged down in complexity.
+            Now, do you think it can fair well on more challenging datasets like CIFAR-10 or CIFAR-100?
+            Probably not, but for the sake of learning and knowing, let's try it out.</p>
 
-            <p>Coming soon</p>
+            <p>In case you missed it, here is the <a href="../back-to-ai-basics/convnet.html">previous blog post</a> where we built a basic CNN for MNIST.
+            But the architecture is pretty simple: 2 convolutional blocks with 3x3 filters, ReLU activations, max pooling, and a fully connected layer, with dropout of 25%.</p>
+
+            <h3>Basic CNN for CIFAR-10</h3>
+            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="CNN Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>Revisiting the last blog's architecture</figcaption>
+
+            <p>For this task, we will only change the input channels from 1 to 3 (for RGB images) and adjust the fully connected layer input size to match CIFAR-10's spatial dimensions.</p>
+
+            <h4>Basic CNN Architecture for CIFAR-10</h4>
+            <ul>
+                <li>Input channels: 1 → 3 (RGB images)</li>
+                <li>FC layer input: 3136 → 4096 (CIFAR-10 spatial dimensions)</li>
+                <li>Same depth and structure otherwise</li>
+            </ul>
+
+            <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
+CIFAR-10 Basic CNN Results Summary
+============================================================
+Final Train Accuracy: 85.09%
+Final Test Accuracy: 74.75%
+Total Parameters: 545,098
+Total Epochs: 10
+Training Time: 185.73 seconds
+
+Train Loss: 0.4164, Train Acc: 85.09%
+Test Loss: 0.8065, Test Acc: 74.75%
+        </code></pre>
+        </div>
+
+            <p>As we can see, even though 74.75% accuracy on CIFAR-10 is decent, it is far from usable in practice.
+            Additionally, there is a significant overfitting gap of ~10% between training and test accuracy.</p>
+
+            <h3>Improving the CNN Architecture</h3>
+            <p>So in what way can we improve this basic CNN to achieve better performance on CIFAR-10?
+            Yes, we can make it deeper and more complex.
+            We will build a deeper CNN with more convolutional blocks, <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#3-batch-normalization" target="_blank">batch normalization</a>, better initialization, and <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md" target="_blank">regularization techniques like dropout and data augmentation</a>.</p>
+
+            <img src="../back-to-ai-basics-images/deeper_cnn_architecture.svg" alt="Deeper CNN Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>VGG-style Deeper CNN Architecture appropriate for a 10-class task</figcaption>
+
+            <h4>Architecture Enhancements:</h4>
+            <ul>
+                <li>4 conv blocks (vs 2): Progressive depth 3→64→128→256→512 channels</li>
+                <li>BatchNormalization: After every conv layer for stable training</li>
+                <li>Better initialization: Kaiming for ReLU networks</li>
+            </ul>
+
+            <div class="dropdown">
+                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">What is Kaiming Initialization?</h4>
+                <div class="dropdown-content">
+                    <p>One of the problems with deep networks is that gradients can vanish or explode as they propagate through many layers.
+                    These are problems during backpropagation in deep neural networks, especially deep feedforward or RNNs.</p>
+                    <p>In short:</p>
+                    <ul>
+                        <li><strong>Vanishing gradients:</strong> Gradients (partial derivatives) become very small as they're propagated backward through layers, leading to slow or stalled training. Most common with sigmoid/tanh activations or very deep networks.</li>
+                        <li><strong>Exploding gradients:</strong> Gradients become very large, causing weights to update too drastically and leading to instability or divergence during training. Common with RNNs over long sequences, poor weight initialization, or, of course, very deep networks.</li>
+                    </ul>
+                    <p>The Kaiming initialization method, also known as Kaiming He initialization or He normal initialization, is a technique for initializing the weights of artificial neural networks.</p> 
+                    <p>This method was introduced in the paper titled "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification" by Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.</p>
+                    <p>It sets the initial weights so that the variance of the activations remains stable and consistent across layers.</p>
+                    <p>The Kaiming initialization method is calculated as a random number with a Gaussian probability distribution (G) with a mean of 0.0 and a standard deviation of sqrt(2/n), where n is the number of inputs to the node.</p>
+                    <p>This is different from the Xavier initialization, which uses a uniform distribution and is more suitable for tanh or sigmoid activations.</p>
+                </div>
+            </div>
+
+            <h4>Regularization Techniques:</h4>
+            <ul>
+                <li>Data augmentation: Random crops, flips, color jitter</li>
+                <li>Dropout2d: 25% in conv blocks, 50% in classifier</li>
+                <li>Weight decay: L2 regularization in optimizer</li>
+                <li>LR scheduling: Step decay every 5 epochs</li>
+            </ul>
+
+            <p>This is a well-structured and solid CNN architecture—reminiscent of VGG-style networks but enhanced with BatchNorm after every convolutional layer, weight initialization, and a progressive increase in channel depth.
+                Its strength lies in its modular design, a reasonable depth for testing, and Kaiming initialization for ReLU-based nets.
+            It should perform much better on CIFAR-10 than the basic CNN.
+            </p>
+
+            <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
+CIFAR-10 Deeper CNN Results Summary
+============================================================
+Final Train Accuracy: 83.24%
+Final Test Accuracy: 86.45%
+Best Test Accuracy: 86.45%
+Total Parameters: 7,320,394
+Training Time: 457.63 seconds
+Overfitting Gap: -3.21%
+        </code></pre>
+        </div>
+
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
+COMPARISON: Basic CNN vs Deeper CNN
+============================================================
+Basic CNN Test Accuracy:   74.75%
+Deeper CNN Test Accuracy:  86.45%
+Improvement: +11.70%
+Basic CNN Parameters:      545,098
+Deeper CNN Parameters:     7,320,394
+Parameter Increase: 13.4x
+        </code></pre>
+        </div>
+
+        <p>Okay! So we got a pretty excellent results here.
+            86.45% test accuracy is solid for CIFAR-10, with only a 3.21% overfitting gap, and overall 11.7% improvement.
+        </p>
+        <p>It seems like BatchNorm with data augmentation really helped, the model is well regularised.
+            For 15 epochs, it took about 457 seconds to train (~30s per epoch), which is reasonable, given 7.3M parameters.
+        </p>
+
+        <div class="dropdown">
+            <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Will Deeper CCN still work without these techniques?</h4>
+            <div class="dropdown-content">
+                <p>In this problem we are placing for ourselves? The performance will likely be damaged.</p>
+                <ul>
+                    <li>Without BatchNorm, the model may struggle with internal covariate shift.</li>
+                    <li>Without Kaiming initialization, weights may be to spread out, leading to poor convergence.</li>
+                    <li>Without dropout, the model is likely to overfit on CIFAR-10, especially with 7M+ parameters.</li>
+                    <li>Without data augmentation, the model will be limited on data diversity.</li>
+                    <li>There may even be Vanishing problem as well, though it is more prominent with sigmoid/tanh activations.</li>
+                </ul>
+                <p>So, in short, worse validating accuracy, massive train-test gap, internal covariate shift, diverge early.</p>
+            </div>
+        </div>
+
+        <h3>Pushing Deeper CNN Further</h3>
+        <p>Whenever we deal with practical model that classify images, CIFAR-10 and CIFAR-100 are always our go-to, and itt is a benchmark for many papers and models.</p>
+        <p>CIFAR-10 tests "Can your model learn?"<br>
+        CIFAR-100 tests "Can your model scale?"</p>
+        <p>CIFAR-10 and CIFAR-100 form a somewhat natural difficulty ladder in terms of model capacity vs. task complexity.</p>
+        <p>So, let's try to scale our Deeper CNN to CIFAR-100, which has 100 classes, each with 600 images, and see how it performs.
+            It will be the same architecture, but the final fully connected layer will be an output of 100 classes instead of 10.</p> 
+
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
+CIFAR-100 Deeper CNN Results Summary
+============================================================
+Final Train Accuracy: 46.62%
+Final Test Accuracy: 53.57%
+Best Test Accuracy: 53.57%
+Total Parameters: 7,366,564
+Total Epochs: 20
+Training Time: 600.31 seconds
+        </code></pre>
+        </div>
+
+        <p>Tough! The model is struggling to learn on CIFAR-100:
+            53.57% test accuracy is far from usable, not to mention it is clearly underfitting.
+            Sometimes, underfitting mean the model might not have enough epochs to learn yet.
+        </p>
+
+        <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
+CIFAR-100 Deeper CNN Results Summary
+============================================================
+Final Train Accuracy: 51.25%
+Final Test Accuracy: 57.29%
+Best Test Accuracy: 57.29%
+Total Parameters: 7,366,564
+Total Epochs: 35
+Training Time: 1093.35 seconds
+        </code></pre>
+        </div>
+
+        <p>Going from 20 → 35 epochs gave only ~4% gain. It's not even worth it to increase epochs at this point.</p>
+        <p>So, what is the problem here?</p>
+        <ol>
+            <li><strong>Training Difficulty Scaling</strong>: As task complexity increases, models need to learn finer class boundaries and handle a more intra-class variance.
+                This means we might have hit a bottleneck, not due to the model's architecture, but rather its capacity to learn complex features.
+            </li>
+            <li><strong>Diminishing Returns from Depth</strong>: Adding depth past a certain point doesn't yield better performance, unless architecture supports it (e.g., residuals).
+                So with an even deeper network, we might not see significant improvements.
+            </li>
+        </ol>
+        <p>Deeper networks help only up to the point they can be optimized and generalize. 
+            When task difficulty scales up and you don't adjust other factors (like width, augmentation, learning rate, architecture), depth alone gives less return.
+        </p>
+
+        <p>To go further, we will need more than just depth.
+            We will need an improved architecture.
+        </p>
+        <img src="https://i.imgflip.com/11apvu.jpg" alt="We Need MORE FIREPOWER!" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+        <figcaption>We need more firepower!</figcaption>
+        
+        <h3>Introducing Modern CNN Architectures</h3>
+        <p>As of 2025, CNNs are still widely used, but their dominance has been overtaken in many areas—especially vision tasks—by Vision Transformers (ViTs) and hybrid models. 
+            That said, CNNs remain efficient and preferred for some real-time and resource-constrained tasks.
+        </p>
+        <ul>
+            <li>CNNs (like EfficientNet, ConvNeXt) are still faster and lighter than ViTs for many edge/real-time tasks.</li>
+            <li>ViTs (like Swin Transformer, DeiT, and SAM backbones) are state-of-the-art in accuracy for vision benchmarks but need more compute. 
+                They are more popular in research and large-scale industry models.</li>
+            <li>Hybrid architectures (e.g., CoaT, LeViT) combine CNNs + attention — best of both worlds in some tasks.</li>
+        </ul>
+        <p>The CNN is still a vast space. 
+            You can check out more from <a href="https://docs.pytorch.org/vision/stable/models.html" target="_blank">PyTorch models and pre-trained weights</a> 
+            or <a href="https://keras.io/api/applications/" target="_blank">Keras applications</a>.
+            You can also check out <a href="https://huggingface.co/docs/transformers/model_doc/vit" target="_blank">Hugging Face Vision Transformers</a> for ViTs, hybrid models, and possibly more.
+        </p>
+        <p>However, for this blog, we will focus on a handful of architectures, starting with...</p>
+
+            <h3>ResNet Architecture</h3>
+            <h4>Key ResNet-18 Features:</h4>
+            <ul>
+                <li>Skip connections: <code>out += self.shortcut(x)</code> - the core innovation</li>
+                <li>18 layers: 2+2+2+2 BasicBlocks + initial conv + final FC</li>
+                <li>Efficient: ~11M parameters vs 7.3M custom CNN</li>
+                <li>SGD + momentum: Better for ResNet training than Adam</li>
+            </ul>
+
+
+            <div class="code-block">
+            <pre><code class="language-plaintext">============================================================
+ResNet-18 on CIFAR10 Results Summary
+============================================================
+Final Train Accuracy: 91.77%
+Final Test Accuracy: 88.75%
+Best Test Accuracy: 88.84%
+Total Parameters: 11,173,962
+Total Epochs: 15
+Training Time: 545.73 seconds
+Overfitting Gap: 3.02%</code></pre>
+            </div>
+
+            <h3>Performance Comparison</h3>
+            <div class="code-block">
+            <pre><code class="language-plaintext">============================================================
+COMPARISON: Previous CNN vs ResNet-18 on CIFAR10
+============================================================
+Deeper CNN Test Accuracy:  86.45%
+ResNet-18 Test Accuracy:   88.84%
+Improvement: +2.39%
+Deeper CNN Parameters:     7,320,394
+ResNet-18 Parameters:      11,173,962
+Parameter Efficiency: 1.53x</code></pre>
+            </div>
+
+            <div class="code-block">
+            <pre><code class="language-plaintext">============================================================
+ResNet-18 on CIFAR100 Results Summary
+============================================================
+Final Train Accuracy: 84.64%
+Final Test Accuracy: 71.53%
+Best Test Accuracy: 71.75%
+Total Parameters: 11,220,132
+Total Epochs: 25
+Training Time: 893.19 seconds
+Overfitting Gap: 13.11%</code></pre>
+            </div>
+
+            <div class="code-block">
+            <pre><code class="language-plaintext">============================================================
+COMPARISON: Previous CNN vs ResNet-18 on CIFAR100
+============================================================
+Deeper CNN Test Accuracy:  53.57%
+ResNet-18 Test Accuracy:   71.75%
+Improvement: +18.18%
+Deeper CNN Parameters:     7,366,564
+ResNet-18 Parameters:      11,220,132
+Parameter Efficiency: 1.53x</code></pre>
+            </div>
+
+            <p>To be continued</p>
+            <!-- https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/ -->
     
         </div>
         <p><a href="../back-to-ai-basics.html">Back to the top page of this series</a>

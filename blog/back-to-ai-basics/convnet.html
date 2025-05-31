@@ -288,7 +288,7 @@
 
             <p>CNN layers consist of neurons arranged in three dimensions: height, width, and depth (the number of feature maps, not layers). 
                 Unlike standard ANNs, each neuron connects only to a small region of the previous layer. 
-                For example, an input of size 64×64×3 is gradually reduced to an output of 1×1×n, where n is the number of classes.
+                An input of size 64×64×3 is gradually reduced to an output of 1×1×n, where n is the number of classes.
             </p>
 
             <p>CNNs include 3 types of layers: <i><u>convolutional</u></i>, <i><u>pooling</u></i>, and <i><u>fully connected layers</u></i>.
@@ -400,11 +400,11 @@
             <p>Each resulting image is different — but they're all based on the same original photo. 
             That's what convolutional filters are doing — looking for different patterns in the same input.</p>
 
-            <p>A convolutional layer applies a set of learnable filters (kernels) to an input image (or feature map). 
+            <p>A convolutional layer applies a set of learnable filters (or kernels) to an input image (or feature map). 
                 These filters slide across the input spatially and compute a dot product (scalar product) between the filter weights and the input values in that region.</p>
             <div class="analogy-box">
                 <div class="analogy-header">
-                    <i class="fas fa-lightbulb"></i> Real-World Analogy
+                    <i class="fas fa-lightbulb"></i> What does it look like?
                 </div>
                 <p>Think of a convolutional layer like using a small see-through film (the filter) to press across a sheet of paper (the image). 
                 At each position, the film checks how well the pattern it carries matches that part of the paper — giving a score (dot product). 
@@ -417,7 +417,7 @@
                 </div>
             </div>
 
-            <p>Each neuron in the output feature map is connected only to a small part (local region) of the input (e.g., a 3×3 patch).
+            <p>Each neuron in the output feature map is connected only to a small part (local region) of the input (e.g., a 3×3 patch) <sup><a href="#update1">[1]</a></sup>.
                 That neuron computes a dot product between the filter weights (its parameters) and the input patch.
                 This result becomes one value in the output feature map.</p>
 
@@ -523,6 +523,11 @@
             <p>In our architecture, the first pooling layer reduces the 28×28 feature map to 14×14 by taking the maximum value in each 2×2 region.
                 The second pooling layer further reduces the 14×14 feature map to 7×7 and increases the feature map depth to 64, resulting in a 64×7×7 tensor.</p>
 
+            <p>The usually observed method is <strong>max pooling</strong> with the stride of 2 and kernel size of 2×2.
+                Furthermore overlapping can be used, with kernel size of 3×3 and stride of 2.
+                Due to the destructive nature of pooling, a kernel size above 3 will likely result in a decrease in performance.
+            </p>
+
             <h4 class="step">Flattening</h4>
 
             <p>Flattening simply converts the multi-dimensional tensor into a 1D array.
@@ -602,6 +607,20 @@
                 We will explore more complex datasets, CIFAR-10 and ImageNet, and see what kind of architectures we need to build to capture the patterns on these datasets.
             </p>
             <p>You can check it out <a href="deep-convnet.html">here</a>.</p>
+            <section id="references">
+                <h2>References</h2>
+                <ol>
+                    <li>
+                    O'Shea, K., & Nash, R. (2015). An Introduction to Convolutional Neural Networks. arXiv:1511.08458. Retrieved from <a href="https://arxiv.org/pdf/1511.08458" target="_blank">https://arxiv.org/pdf/1511.08458</a>
+                    </li>
+                </ol>
+            </section>  
+            <div class="update">
+                <p id="update1">Update 1: As a more detailed explanation,
+                    training ANNs on input like images can result in a large number of parameters, due to ANNs' nature of fully connected.
+                    So to mitigate this, CNNs use local connectivity, where each neuron only connects to a small region of the input.
+                </p>
+            </div>
 
     </div>
 
