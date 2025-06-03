@@ -347,13 +347,57 @@ Training Time: 1093.35 seconds
             <li>Hybrid architectures (e.g., CoaT, LeViT) combine CNNs + attention — best of both worlds in some tasks.</li>
         </ul>
         <p>The CNN is still a vast space. 
-            You can check out more from <a href="https://docs.pytorch.org/vision/stable/models.html" target="_blank">PyTorch models and pre-trained weights</a> 
+            You can check out more from <a href="https://docs.pytorch.org/vision/stable/models.html" target="_blank">PyTorch models and pre-trained weights</a>
             or <a href="https://keras.io/api/applications/" target="_blank">Keras applications</a>.
             You can also check out <a href="https://huggingface.co/docs/transformers/model_doc/vit" target="_blank">Hugging Face Vision Transformers</a> for ViTs, hybrid models, and possibly more.
         </p>
         <p>However, for this blog, we will focus on a handful of architectures, starting with...</p>
 
-            <h3>ResNet Architecture</h3>
+            <h3>Residual Network (ResNet)</h3>
+            <p>One of the common problems with deep CNNs when adding more layers is the Vanishing/Exploding gradient problem.
+            This makes it hard to train very deep networks, as gradients can become too small or too large, leading to poor convergence or divergence, which also leads to high training and test loss.
+            </p>
+            <p>Proposed in 2015, researchers at Microsoft Research introduced a new architecture called Residual Network, or ResNet.
+            </p>
+            <p>ResNet is all about minimising the Vanishing/Exploding gradient problem by introducing a core idea called <strong>skip connections</strong> (or residual connections) that allow gradients to flow more easily through the network.
+                Instead of learning a direct mapping H(x), ResNet learns the residual mapping F(x) = H(x) - x, where x is the input.
+            </p>
+            <div class="dropdown">
+                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">What is a Residual, or Residual Block?</h4>
+                <div class="dropdown-content">
+                    <p>At its core, a residual block is a neural module that computes:</p>
+                    <p>
+                    \[
+                    \text{output} = F(x) + x
+                    \]
+                    </p>
+                    <p>Where:</p>
+                    <ul>
+                        <li><code>x</code> is the original input to the block</li>
+                        <li><code>F(x)</code> is the output of the small neural network (usually a few conv + BN + ReLU layers)</li>
+                    </ul>
+                    <p>x is added back in via an identity (skip) connection. This skip path bypasses the main transformation.</p>
+                    <p>So, the residual block learns the difference between the input and output (i.e., the residual), which is easier, rather than trying to learn the output directly.</p>
+                    <p>
+                    \[
+                    F(x) = H(x) - x \implies H(x) = F(x) + x
+                    \]
+                    </p>
+                    <p>This is important in very deep network, where layers may not be needed to transform data significantly, 
+                        or the identity mappings might already be sufficient in parts of the network.
+                    </p>
+                    <p>In giving the models a shortcut path, it has the flexibility to leave the data untouched (learn F(x)=0) or apply a transformation (learn F(x)≠0) as needed.
+                    </p>
+                    <p>Think of it like this: Traditional layers try to mutate data every step - even when it doesn't help.
+                        Residual blocks can let data pass through unmodified if needed, and only nudge it when helpful.
+                        This can help to avoid degradation in performance as models go deeper.
+                    </p>
+                </div>
+            </div>
+            <p>There are multiple variations of ResNet with lots of layers.
+                We will choose 18 layers since the purpose of this blog is to discuss the underlying concept, or ResNet-18 to be precise.</p>
+            <img src="https://www.researchgate.net/profile/Chih-Hsien-Hsia/publication/353026381/figure/fig2/AS:1042698844770347@1625610185976/Color-online-ResNet-18-architecture.ppm" alt="ResNet-18 Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+            <figcaption>ResNet-18 Architecture (<a href="https://www.researchgate.net/figure/Color-online-ResNet-18-architecture_fig2_353026381" target="_blank">Source</a>)</figcaption>
             <h4>Key ResNet-18 Features:</h4>
             <ul>
                 <li>Skip connections: <code>out += self.shortcut(x)</code> - the core innovation</li>
@@ -362,9 +406,41 @@ Training Time: 1093.35 seconds
                 <li>SGD + momentum: Better for ResNet training than Adam</li>
             </ul>
 
+            <p>Now, we have 2 ways to get ResNet-18: build it from scratch or use a pre-trained model.
+                To use a pre-trained model, you can invoke a simple function below.
+                For building from scratch, it is demonstrated in my <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/cifar100_resnet.ipynb" target="_blank">notebook</a>, feel free to poke around. 
+            </p>
 
-            <div class="code-block">
-            <pre><code class="language-plaintext">============================================================
+            <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-python"><code>
+from torchvision.models import resnet18, ResNet18_Weights
+
+# Load model with pretrained weights
+weights = ResNet18_Weights.DEFAULT
+model = resnet18(weights=weights)
+        </code></pre>
+        </div>
+
+        <p>Though you might be careful with using the pre-trained model above.
+            The weights that specified is used for ImageNet, which is 224x224 high-res natural images dataset, completely different from 32x32 low-res images CIFAR dataset.
+            You will might want to modify the fist conv layer and use smaller learning rates if you want to use it.
+            Anyhow, here is the building from scratch performance:
+        </p>
+
+        <h4>ResNet-18 on CIFAR-10</h4>
+            <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
 ResNet-18 on CIFAR10 Results Summary
 ============================================================
 Final Train Accuracy: 91.77%
@@ -373,12 +449,18 @@ Best Test Accuracy: 88.84%
 Total Parameters: 11,173,962
 Total Epochs: 15
 Training Time: 545.73 seconds
-Overfitting Gap: 3.02%</code></pre>
-            </div>
+Overfitting Gap: 3.02%
+        </code></pre>
+        </div>
 
-            <h3>Performance Comparison</h3>
-            <div class="code-block">
-            <pre><code class="language-plaintext">============================================================
+            <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
 COMPARISON: Previous CNN vs ResNet-18 on CIFAR10
 ============================================================
 Deeper CNN Test Accuracy:  86.45%
@@ -386,11 +468,19 @@ ResNet-18 Test Accuracy:   88.84%
 Improvement: +2.39%
 Deeper CNN Parameters:     7,320,394
 ResNet-18 Parameters:      11,173,962
-Parameter Efficiency: 1.53x</code></pre>
-            </div>
+Parameter Efficiency: 1.53x
+        </code></pre>
+        </div>
 
-            <div class="code-block">
-            <pre><code class="language-plaintext">============================================================
+        <h4>ResNet-18 on CIFAR-100</h4>
+            <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
 ResNet-18 on CIFAR100 Results Summary
 ============================================================
 Final Train Accuracy: 84.64%
@@ -399,11 +489,18 @@ Best Test Accuracy: 71.75%
 Total Parameters: 11,220,132
 Total Epochs: 25
 Training Time: 893.19 seconds
-Overfitting Gap: 13.11%</code></pre>
-            </div>
+Overfitting Gap: 13.11%
+        </code></pre>
+        </div>
 
-            <div class="code-block">
-            <pre><code class="language-plaintext">============================================================
+            <div class="code-window">
+            <div class="console">
+                <div class="red"></div>
+                <div class="orange"></div>
+                <div class="green"></div>
+            </div>
+        <pre class="code-content language-plaintext"><code>
+============================================================
 COMPARISON: Previous CNN vs ResNet-18 on CIFAR100
 ============================================================
 Deeper CNN Test Accuracy:  53.57%
@@ -411,11 +508,39 @@ ResNet-18 Test Accuracy:   71.75%
 Improvement: +18.18%
 Deeper CNN Parameters:     7,366,564
 ResNet-18 Parameters:      11,220,132
-Parameter Efficiency: 1.53x</code></pre>
-            </div>
+Parameter Efficiency: 1.53x
+        </code></pre>
+        </div>
 
-            <p>To be continued</p>
-            <!-- https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/ -->
+        <p>Okay, we got some good insights here:</p>
+        <ul>
+            <li>Both models perform well on simpler 10-class problem, with only 2.39% increase.
+                We can't really tell if skip connections method provide a benefit here or just a good weights initialization.
+            </li>
+            <li>For 100-class problem, ResNet-18 outperforms the previous Deeper CNN by 18.18%!
+                We have already said that the previous deeper CNN can't handle the complex gradient flow issues.
+                ResNet, with 1.53x more parameters, its identity mappings has delivered a better result, and potentially even better with more epochs.
+            </li>
+        </ul>
+
+        <h3>Conclusion</h3>
+        <p>It is no doubt that for understanding and exploring, the simplest of CNNs can give you a glimpse of how convolutional neural networks work and how it benefits the image classification domains, and possibly more.
+            However, as we have seen, the more complex imageries, or bigger the number of pixels, the harder for these basics models to comprehend.
+            The deeper CNNs with BatchNorm, Kaiming initialization, and regularization techniques can help us achieve better performance on more complex imageries.
+            We also get to know a new architecture called ResNet, which is a great example of how to solve the vanishing/exploding gradient problem in deep networks.
+        </p>
+
+        <p>In the next part of this Deep CNNs series, we will continue to explore other modern CNNs and its effectiveness in its own areas.</p>
+        <section id="references">
+            <h2>References</h2>
+            <ol>
+                <li>He, K., Zhang, X., Ren, S., & Sun, J. (2015). Deep Residual Learning for Image Recognition. arXiv:1512.03385v1. Retrieved from <a href="https://arxiv.org/pdf/1512.03385" target="_blank">https://arxiv.org/pdf/1512.03385</a></li>
+                <li>PyTorch. (n.d.). torchvision.models.resnet18. Retrieved from <a href="https://docs.pytorch.org/vision/main/models/generated/torchvision.models.resnet18.html" target="_blank">https://docs.pytorch.org/vision/main/models/generated/torchvision.models.resnet18.html</a></li>
+                <li>GeeksforGeeks. (2025). Kaiming Initialization in Deep Learning. Last Updated: 02 Apr, 2025. Retrieved from <a href="https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/" target="_blank">https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/</a></li>
+                <li>GeeksforGeeks. (2025). Residual Networks (ResNet) - Deep Learning. Last Updated: 07 Apr, 2025. Retrieved from <a href="https://www.geeksforgeeks.org/residual-networks-resnet-deep-learning/" target="_blank">https://www.geeksforgeeks.org/residual-networks-resnet-deep-learning/</a></li>
+                <li>GeeksforGeeks. (2025). ResNet18 from Scratch Using PyTorch. Last Updated: 21 Apr, 2025. Retrieved from <a href="https://www.geeksforgeeks.org/resnet18-from-scratch-using-pytorch/" target="_blank">https://www.geeksforgeeks.org/resnet18-from-scratch-using-pytorch/</a></li>
+            </ol>
+        </section>  
     
         </div>
         <p><a href="../back-to-ai-basics.html">Back to the top page of this series</a>
