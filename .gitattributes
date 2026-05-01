@@ -1,0 +1,19 @@
+# Normalize line endings to LF in the repo for all text files.
+# Working tree checkout uses native line endings; the repo stores LF.
+* text=auto eol=lf
+
+# Binary file types — never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.mp3 binary
+*.mp4 binary
+*.webm binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
