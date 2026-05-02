@@ -109,9 +109,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     }    
     
-    // Update footer with current year
-    updateFooterYear();
-    
+    // Footer year
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
     // Always show audio nudge when page loads
     const audioNudge = document.getElementById('audio-nudge');
     if (audioNudge) {
@@ -242,17 +243,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-// Function to update the footer year dynamically
-function updateFooterYear() {
-    const footerYear = document.querySelectorAll('footer p');
-    if (footerYear.length > 0) {
-        const currentYear = new Date().getFullYear();
-        footerYear.forEach(p => {
-            p.innerHTML = p.innerHTML.replace(/\d{4}/, currentYear);
-        });
-    }
-}
 
 // Anchor highlight functionality for blog references
 document.addEventListener('DOMContentLoaded', function() {
