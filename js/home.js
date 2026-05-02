@@ -92,7 +92,7 @@ function showPanel(html) {
         { id: 'OPf0YbXqDm0', desc: 'Bruno Mars funky never fails ~(=^‥^)/<br>the surprise ends here, but click again if you want to start over!' },
     ];
     let i = 0;
-    document.getElementById('surpriseBtn').addEventListener('click', () => {
+    function renderSurprise() {
         const { id, desc } = videos[i];
         i = (i + 1) % videos.length;
         showPanel(`
@@ -106,8 +106,16 @@ function showPanel(html) {
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen></iframe>
                 <p class="video-description">${desc}</p>
+                <button type="button" class="surprise-again" data-surprise-again>
+                    <i class="fas fa-shuffle shuffle-ico"></i>
+                    <span>surprise me again</span>
+                    <i class="fas fa-arrow-right arrow-ico"></i>
+                </button>
             </div>`);
-    });
+        dynamicBox.querySelector('[data-surprise-again]')
+            .addEventListener('click', renderSurprise);
+    }
+    document.getElementById('surpriseBtn').addEventListener('click', renderSurprise);
 }
 
 // Social links
