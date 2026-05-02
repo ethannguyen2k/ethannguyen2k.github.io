@@ -10,8 +10,6 @@ applyTheme();
 let audioContext = null;
 let currentNoteIndex = 0;
 let audioInitialized = false;
-// Remove the localStorage check so nudge appears on every visit
-// const nudgeShown = localStorage.getItem('audioNudgeShown') === 'true';
 const noteFrequencies = [
     261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, // C4–B4
     523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77  // C5–B5
@@ -26,8 +24,6 @@ function initAudioContext() {
         const audioNudge = document.getElementById('audio-nudge');
         if (audioNudge) {
             audioNudge.style.display = 'none';
-            // Remove this to prevent storing the nudge shown state
-            // localStorage.setItem('audioNudgeShown', 'true');
         }
     }
 }
@@ -65,8 +61,6 @@ function playNextNote() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded");
-
     // Scroll Prompt functionality
     const scrollPrompt = document.getElementById('scroll-prompt');
 
@@ -150,84 +144,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Update footer with current year
-    updateFooterYear();
-    
     const navLinks = document.querySelectorAll('#nav-bar a');
     const sections = document.querySelectorAll('section');
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxCaption = document.getElementById("lightbox-caption");
     const divs = document.querySelectorAll('div.fade-in');
-    const tooltipTrigger = document.getElementById("tooltip-trigger");
-    const tooltipContainer = document.getElementById("tooltip-container");
-    const surpriseMeBtn = document.getElementById('surpriseMe');
-    const videoSection = document.getElementById('videoSection');
-    const videoDescription = document.getElementById('videoDescription');
-    const videoIds = [
-        'CiHfAO1XE4U', // My own
-        'dQw4w9WgXcQ', // Rick Astley - Never Gonna Give You Up
-        '6GCNUeTFSbA',  // Micheal Sembello - Maniac
-        '6b5DkEzP9Jw', // Luke Chiang - Home
-        'nrZNzc9AjP8', // Good Kid - Second Rate Town
-        'OPf0YbXqDm0', // Mark Ronson - Uptown Funk ft. Bruno Mars
-    ];
-    const videoDescriptions = [
-        'A heartfelt thanks to my friends for an amazing gift, still searching for the perfect spot.<br>Click Surprise me for more!',
-        'Rick...<br>Click Surprise me for more!',
-        '༼ つ ◕_◕ ༽つ༼ つ ◕_◕ ༽つ<br>Click Surprise me for more!',
-        'no matter where you are<br>Click Surprise me for more!',
-        'disillusionment<br>Click Surprise me for more!',
-        'Bruno Mars funky never fails ~(=^‥^)/<br>The surprise ends here, but click again if you want to start over!',
-    ];
-
-    let currentVideoIndex = 0;
-
-    if (surpriseMeBtn && videoSection && videoDescription) {
-        surpriseMeBtn.addEventListener('click', function() {
-            const videoId = videoIds[currentVideoIndex];
-            const description = videoDescriptions[currentVideoIndex];
-    
-            videoSection.innerHTML = `
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" 
-                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            `;
-            videoDescription.innerHTML = description;
-            
-            videoSection.classList.remove('hidden');
-            setTimeout(() => {
-                videoSection.classList.add('visible');
-            }, 50); // small delay to ensure transition
-            
-            // Scroll to video section
-            videoSection.scrollIntoView({ behavior: 'smooth' });
-    
-            // Move to the next video, loop back to the start if we've reached the end
-            currentVideoIndex = (currentVideoIndex + 1) % videoIds.length;
-        });
-    }
-
-    // Tooltip functionality
-    let tooltipTimeout;
-    if (tooltipTrigger && tooltipContainer) {
-        tooltipTrigger.addEventListener("mouseenter", function() {
-            tooltipTimeout = setTimeout(function() {
-                tooltipContainer.style.display = "block";
-            });
-        });
-
-        tooltipTrigger.addEventListener("mouseleave", function() {
-            tooltipContainer.style.display = "none";
-        });
-
-        document.addEventListener("mousemove", function(event) {
-            if (tooltipContainer.style.display === "block") {
-                tooltipContainer.style.top = (event.clientY + 20) + "px";
-                tooltipContainer.style.left = (event.clientX + 20) + "px";
-            }
-        });
-    }
 
     // Highlight the current nav link
     let currentUrl = window.location.pathname.split('/').pop();
@@ -273,9 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
-        
-        // Debug log
-        console.log('Theme switched to:', newTheme);
     });
 
     // Highlight the TOC link while scrolling
