@@ -1143,7 +1143,7 @@ figcaption{
       position: sticky;
       top: 0;
       background-color: var(--bg-primary);
-      padding: 10px;
+      padding: 10px 10px 10px 60px;  /* extra left padding so the mobile-menu button doesn't overlap the title text */
       z-index: 100;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       margin-top: 0;

@@ -395,3 +395,28 @@ document.addEventListener('DOMContentLoaded', function() {
 function toggleAccordion(element) {
     element.parentElement.classList.toggle('open');
 }
+
+// Mobile menu toggle for blog page sidebars. No-op if the page has no .sidebar.
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.querySelector('.sidebar');
+    if (!sidebar) return;
+
+    const toggle = document.createElement('button');
+    toggle.classList.add('mobile-menu-toggle');
+    toggle.innerHTML = '<i class="fas fa-bars"></i>';
+    document.body.insertBefore(toggle, document.body.firstChild);
+
+    toggle.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-open');
+        toggle.classList.toggle('toggle-active');
+    });
+
+    document.querySelectorAll('#nav-bar a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('sidebar-open');
+                toggle.classList.remove('toggle-active');
+            }
+        });
+    });
+});
