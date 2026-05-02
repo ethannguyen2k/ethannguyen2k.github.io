@@ -34,46 +34,6 @@
         .button:hover {
             background-color: #0073e6;
         }
-        .dropdown-heading {
-            cursor: pointer;
-            font-weight: bold;
-            padding: 10px;
-            padding-left: 30px; /* Add space for triangle on the left */
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
-            margin: 0;
-            position: relative;
-        }
-
-        /* Triangle icon using ::before pseudo-element */
-        .dropdown-heading::before {
-            content: '';
-            border-style: solid;
-            border-width: 5px 5px 0 5px; /* Triangle pointing down */
-            border-color: var(--text-primary) transparent transparent transparent;
-            position: absolute;
-            left: 10px; /* Position triangle on the left */
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.3s; /* Smooth rotation */
-        }
-
-        .dropdown-content {
-            display: none;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-top: none;
-        }
-
-        /* Show content and rotate triangle when open */
-        .dropdown.open .dropdown-content {
-            display: block;
-        }
-
-        /* Rotate the triangle to point up */
-        .dropdown.open .dropdown-heading::before {
-            transform: translateY(-50%) rotate(180deg);
-        }
     </style>
 </head>
 
@@ -174,9 +134,9 @@ Test Loss: 0.8065, Test Acc: 74.75%
                 <li>Better initialization: Kaiming for ReLU networks</li>
             </ul>
 
-            <div class="dropdown">
-                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">What is Kaiming Initialization?</h4>
-                <div class="dropdown-content">
+            <div class="accordion">
+                <h4 class="accordion-heading" onclick="toggleAccordion(this)">What is Kaiming Initialization?</h4>
+                <div class="accordion-content">
                     <p>One of the problems with deep networks is that gradients can vanish or explode as they propagate through many layers.
                     These are problems during backpropagation in deep neural networks, especially deep feedforward or RNNs.</p>
                     <p>In short:</p>
@@ -250,9 +210,9 @@ Parameter Increase: 13.4x
             For 15 epochs, it took about 457 seconds to train (~30s per epoch), which is reasonable, given 7.3M parameters.
         </p>
 
-        <div class="dropdown">
-            <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Will Deeper CCN still work without these techniques?</h4>
-            <div class="dropdown-content">
+        <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Will Deeper CCN still work without these techniques?</h4>
+            <div class="accordion-content">
                 <p>In this problem we are placing for ourselves? The performance will likely be damaged.</p>
                 <ul>
                     <li>Without BatchNorm, the model may struggle with internal covariate shift.</li>
@@ -362,9 +322,9 @@ Training Time: 1093.35 seconds
             <p>ResNet is all about minimising the Vanishing/Exploding gradient problem by introducing a core idea called <strong>skip connections</strong> (or residual connections) that allow gradients to flow more easily through the network.
                 Instead of learning a direct mapping H(x), ResNet learns the residual mapping F(x) = H(x) - x, where x is the input.
             </p>
-            <div class="dropdown">
-                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">What is a Residual, or Residual Block?</h4>
-                <div class="dropdown-content">
+            <div class="accordion">
+                <h4 class="accordion-heading" onclick="toggleAccordion(this)">What is a Residual, or Residual Block?</h4>
+                <div class="accordion-content">
                     <p>At its core, a residual block is a neural module that computes:</p>
                     <p>
                     \[
@@ -588,12 +548,5 @@ Parameter Efficiency: 1.53x
 <script>
     // JavaScript to set the date modified
     document.getElementById('date-modified').textContent = document.lastModified;
-</script>
-<script>
-// JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-    function toggleDropdown(element) {
-    element.parentElement.classList.toggle("open");
-  };
 </script>
 </html>

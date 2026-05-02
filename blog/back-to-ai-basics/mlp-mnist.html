@@ -34,46 +34,6 @@
         .button:hover {
             background-color: #0073e6;
         }
-        .dropdown-heading {
-            cursor: pointer;
-            font-weight: bold;
-            padding: 10px;
-            padding-left: 30px; /* Add space for triangle on the left */
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
-            margin: 0;
-            position: relative;
-        }
-
-        /* Triangle icon using ::before pseudo-element */
-        .dropdown-heading::before {
-            content: '';
-            border-style: solid;
-            border-width: 5px 5px 0 5px; /* Triangle pointing down */
-            border-color: var(--text-primary) transparent transparent transparent;
-            position: absolute;
-            left: 10px; /* Position triangle on the left */
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.3s; /* Smooth rotation */
-        }
-
-        .dropdown-content {
-            display: none;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-top: none;
-        }
-
-        /* Show content and rotate triangle when open */
-        .dropdown.open .dropdown-content {
-            display: block;
-        }
-
-        /* Rotate the triangle to point up */
-        .dropdown.open .dropdown-heading::before {
-            transform: translateY(-50%) rotate(180deg);
-        }
     </style>
     <link rel="stylesheet" href="../../css/audio-player.css">
 </head>
@@ -286,9 +246,9 @@ Training completed in 63.94 seconds
         <p>Next up is the <a href="convnet.html">Convolutional Neural Networks, or CNNs</a> and how it can solve the spatial structure of the image problem.</p>
         <p>In case you wondering why the MLPs lead to CNNs, I have a little explanation for you.</p>
         
-        <div class="dropdown">
-            <h4 class="dropdown-heading" id="mlp-cnn" onclick="toggleDropdown(this)">Why MLPs Lead to CNNs</h4>
-            <div class="dropdown-content">
+        <div class="accordion">
+            <h4 class="accordion-heading" id="mlp-cnn" onclick="toggleAccordion(this)">Why MLPs Lead to CNNs</h4>
+            <div class="accordion-content">
                 <p>In general, MLPs are flexible and can be used generally to learn a mapping from inputs to outputs.
                 If time is at your disposal, you can use, try, and modify them for any task.
                 But that also guarantees that they are not the best for any task.</p>
@@ -357,13 +317,6 @@ Training completed in 63.94 seconds
 <script>
     // JavaScript to set the date modified
     document.getElementById('date-modified').textContent = document.lastModified;
-</script>
-<script>
-// JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-    function toggleDropdown(element) {
-    element.parentElement.classList.toggle("open");
-  };
 </script>
 <script src="../../js/audio-player.js"></script>
 </html>

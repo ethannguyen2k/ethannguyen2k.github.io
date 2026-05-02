@@ -19,46 +19,6 @@
         })();
     </script>
     <style>
-        .dropdown-heading {
-            cursor: pointer;
-            font-weight: bold;
-            padding: 10px;
-            padding-left: 30px; /* Add space for triangle on the left */
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
-            margin: 0;
-            position: relative;
-        }
-
-        /* Triangle icon using ::before pseudo-element */
-        .dropdown-heading::before {
-            content: '';
-            border-style: solid;
-            border-width: 5px 5px 0 5px; /* Triangle pointing down */
-            border-color: var(--text-primary) transparent transparent transparent;
-            position: absolute;
-            left: 10px; /* Position triangle on the left */
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.3s; /* Smooth rotation */
-        }
-
-        .dropdown-content {
-            display: none;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-top: none;
-        }
-
-        /* Show content and rotate triangle when open */
-        .dropdown.open .dropdown-content {
-            display: block;
-        }
-
-        /* Rotate the triangle to point up */
-        .dropdown.open .dropdown-heading::before {
-            transform: translateY(-50%) rotate(180deg);
-        }
         .note {
             color: #888;
             font-style: italic;
@@ -144,9 +104,9 @@
             This trade-off between exploration and exploitation is a key challenge in reinforcement learning.
         </p>
 
-        <div class="dropdown">
-            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Core Concepts</h3>
-            <div class="dropdown-content">
+        <div class="accordion">
+            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Core Concepts</h3>
+            <div class="accordion-content">
                 <img src="https://spinningup.openai.com/en/latest/_images/rl_diagram_transparent_bg.png" alt="Agent-environment interaction loop" style="display: block; margin-left: auto; margin-right: auto;">
                 <p>Imagine you're playing a video game. You are the <b>agent</b> (the character you control), and the environment is the game world (the levels, obstacles, and everything around you).
                     You can see things happening in the game (like a monster coming toward you) and decide what to do next (maybe jump, run away, or fight back), which is the <b>environment</b>.
@@ -393,9 +353,9 @@ print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
         </ul>
         <img src="mario-images/mario-agent-overview.svg" alt="Mario agent overview" style="display: block; margin-left: auto; margin-right: auto;">
 
-        <div class="dropdown">
-            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Act</h3>
-            <div class="dropdown-content">
+        <div class="accordion">
+            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Act</h3>
+            <div class="accordion-content">
                 <div class="code-window">
                     <div class="console">
                         <div class="red"></div>
@@ -432,9 +392,9 @@ def act(self, state):
             </div>
         </div>
         
-        <div class="dropdown">
-            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Remember (Cache and Recall)</h3>
-            <div class="dropdown-content">
+        <div class="accordion">
+            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Remember (Cache and Recall)</h3>
+            <div class="accordion-content">
                 <div class="code-window">
                     <div class="console">
                         <div class="red"></div>
@@ -479,9 +439,9 @@ def recall(self):
             </div>
         </div>
 
-        <div class="dropdown">
-            <h3 class="dropdown-heading" onclick="toggleDropdown(this)">Learn</h3>
-            <div class="dropdown-content">
+        <div class="accordion">
+            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Learn</h3>
+            <div class="accordion-content">
                 <h4>MarioNet</h4>
                 <div class="code-window">
                     <div class="console">
@@ -794,10 +754,7 @@ SimpleReplayBuffer(50000, ...)       # Smaller buffer for less memory usage
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 <script>
-// JavaScript to set the date modified
+    // JavaScript to set the date modified
     document.getElementById('date-modified').textContent = document.lastModified;
-    function toggleDropdown(element) {
-    element.parentElement.classList.toggle("open");
-  };
 </script>
 </html>

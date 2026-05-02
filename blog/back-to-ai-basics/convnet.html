@@ -122,45 +122,6 @@
             100% { left: -50px; top: 15px; }
         }
         
-        .dropdown-heading {
-            cursor: pointer;
-            font-weight: bold;
-            padding: 10px;
-            padding-left: 30px; /* Add space for triangle on the left */
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-secondary);
-            margin: 0;
-            position: relative;
-        }
-
-        /* Triangle icon using ::before pseudo-element */
-        .dropdown-heading::before {
-            content: '';
-            border-style: solid;
-            border-width: 5px 5px 0 5px; /* Triangle pointing down */
-            border-color: var(--text-primary) transparent transparent transparent;
-            position: absolute;
-            left: 10px; /* Position triangle on the left */
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.3s; /* Smooth rotation */
-        }
-
-        .dropdown-content {
-            display: none;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-top: none;
-        }
-
-        /* Show content and rotate triangle when open */
-        .dropdown.open .dropdown-content {
-            display: block;
-        }        
-        /* Rotate the triangle to point up */
-        .dropdown.open .dropdown-heading::before {
-            transform: translateY(-50%) rotate(180deg);
-        }
     </style>
     <link rel="stylesheet" href="../../css/audio-player.css">
 </head>
@@ -271,9 +232,9 @@
                 They are particularly effective for image classification tasks due to being set up in a way that best suit the structure of image data.
             </p>
 
-            <div class="dropdown">
-                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Historical Context</h4>
-                <div class="dropdown-content">
+            <div class="accordion">
+                <h4 class="accordion-heading" onclick="toggleAccordion(this)">Historical Context</h4>
+                <div class="accordion-content">
                     <p>CNNs were inspired by the visual cortex of animals, where individual neurons respond to stimuli only in a restricted region of the visual field (receptive field). 
                         LeNet-5, developed by Yann LeCun in the 1990s, was one of the first successful applications of CNNs for digit recognition.</p>
                     <p>The CNN revolution truly began with AlexNet in 2012, which won the ImageNet competition by a significant margin, demonstrating the power of deep convolutional architectures.</p>
@@ -423,9 +384,9 @@
 
             <p>This is also how receptive field came to be.</p>
 
-            <div class="dropdown">
-                <h4 class="dropdown-heading" id="receptive" onclick="toggleDropdown(this)">What is Receptive Field?</h4>
-                <div class="dropdown-content">
+            <div class="accordion">
+                <h4 class="accordion-heading" id="receptive" onclick="toggleAccordion(this)">What is Receptive Field?</h4>
+                <div class="accordion-content">
                     <p>Since each neuron only connects to a small patch (like 3×3), that patch defines its receptive field.</p>
                     <p>The receptive field is the region of the input image that influences a single neuron's output.</p>
                     <p>Each neuron only "sees" a small patch of the input, not the entire image. 
@@ -507,9 +468,9 @@
             \]
             </p>
 
-            <div class="dropdown">
-                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Why pooling operations are fixed (non-learnable)?</h4>
-                <div class="dropdown-content">
+            <div class="accordion">
+                <h4 class="accordion-heading" onclick="toggleAccordion(this)">Why pooling operations are fixed (non-learnable)?</h4>
+                <div class="accordion-content">
                     <p>The purpose of pooling is purely dimensional reduction, not feature learning.
                         The convolutional layers already handle the feature learning through their trainable weights and filters. 
                         Pooling's job is just to downsample while preserving important information - a task that simple fixed operations handle effectively.
@@ -549,9 +510,9 @@
                 The output shape remains the same, but the model learns to rely on different subsets of features each time.</p>
             </p>
 
-            <div class="dropdown">
-                <h4 class="dropdown-heading" onclick="toggleDropdown(this)">Where should I place the dropout layers?</h4>
-                <div class="dropdown-content">
+            <div class="accordion">
+                <h4 class="accordion-heading" onclick="toggleAccordion(this)">Where should I place the dropout layers?</h4>
+                <div class="accordion-content">
                     <p>There have been many debates about where to place dropout layers (<a href="https://stats.stackexchange.com/questions/240305/where-should-i-place-dropout-layers-in-a-neural-network/">Here is the prominent one</a>).
                         A few general rules of thumb are:</p>
                         <ul>
@@ -669,13 +630,6 @@
 <script>
     // JavaScript to set the date modified
     document.getElementById('date-modified').textContent = document.lastModified;
-</script>
-<script>
-// JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-    function toggleDropdown(element) {
-    element.parentElement.classList.toggle("open");
-  };
 </script>
 <script src="../../js/audio-player.js"></script>
 </html>

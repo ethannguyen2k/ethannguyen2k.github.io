@@ -390,3 +390,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Accordion toggle (used by .accordion-heading onclick attributes in long blog posts).
+function toggleAccordion(element) {
+    element.parentElement.classList.toggle('open');
+}

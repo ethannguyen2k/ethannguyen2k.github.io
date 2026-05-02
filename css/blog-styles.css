@@ -1392,3 +1392,43 @@ figcaption{
     transform: translateY(-2px);
     box-shadow: 0 4px 12px var(--shadow-color);
 }
+
+/* ---- Accordion (click-to-toggle) -------------------------------------
+   Distinct from .dropdown in css/dropdown.css, which is hover-based.
+   Used by long blog posts to collapse supplementary sections. */
+.accordion-heading {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px 10px 10px 30px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+    margin: 0;
+    position: relative;
+}
+
+.accordion-heading::before {
+    content: '';
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    border-color: var(--text-primary) transparent transparent transparent;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+.accordion-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-top: none;
+}
+
+.accordion.open .accordion-content {
+    display: block;
+}
+
+.accordion.open .accordion-heading::before {
+    transform: translateY(-50%) rotate(180deg);
+}
