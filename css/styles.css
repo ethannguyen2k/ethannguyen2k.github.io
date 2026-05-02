@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 
 :root {
-    /* Light theme (default) */
+    /* Light theme is the default; [data-theme="dark"] overrides below. */
     --bg-primary: #f4f4f4;
     --bg-secondary: #ffffff;
     --text-primary: #333333;
@@ -12,7 +12,7 @@
     --shadow-color: rgba(0, 0, 0, 0.1);
     --hover-color: #dcf3ff;
     --lightbox: rgba(255, 255, 255, 0.9);
-    /* Code window colors - Light theme */
+    /* Code window colors */
     --code-window-bg: #121d20;
     --code-window-border: #e2e6e7;
     --code-window-text: #333;
@@ -28,34 +28,13 @@
     --wave-color-3: #b3e0ff;
     --tech-bubble-bg: #f5f5f5;
     --tech-bubble-text: #333;
-}
-
-[data-theme="light"] {
-    /* Light theme (default) */
-    --bg-primary: #f4f4f4;
-    --bg-secondary: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --accent-color: #0096E2;
-    --border-color: #dddddd;
-    --card-bg: #fff;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --hover-color: #dcf3ff;
-    --lightbox: rgba(255, 255, 255, 0.9);
-    /* Code window colors - Light theme */
-    --code-window-bg: #121d20;
-    --code-window-border: #e2e6e7;
-    --code-window-text: #333;
-    --console-bg: #e2e6e7;
-    --code-content-bg: #f3f3f3;
-    --code-window-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    /* Box shadow and wave */
-    --box-bg: rgba(255, 255, 255, 0.9);
-    --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    --box-border: rgba(0, 0, 0, 0.1);
-    --wave-color-1: #0096E2;
-    --wave-color-2: #65ccff;
-    --wave-color-3: #b3e0ff;
+    /* Theme transition shorthand */
+    --transition-time: 0.2s;
+    --transition-timing: ease;
+    --theme-transition: background-color var(--transition-time) var(--transition-timing),
+                color var(--transition-time) var(--transition-timing),
+                border var(--transition-time) var(--transition-timing),
+                box-shadow var(--transition-time) var(--transition-timing);
 }
 
 /* Dark theme */
@@ -86,15 +65,6 @@
     --wave-color-3: #65ccff;
     --tech-bubble-bg: #2a2a2a;
     --tech-bubble-text: #e0e0e0;
-}
-
-:root {
-    --transition-time: 0.2s;
-    --transition-timing: ease;
-    --theme-transition: background-color var(--transition-time) var(--transition-timing),
-                color var(--transition-time) var(--transition-timing),
-                border var(--transition-time) var(--transition-timing),
-                box-shadow var(--transition-time) var(--transition-timing);
 }
 
 /* Apply transitions to all color and background changes */
@@ -629,16 +599,6 @@ section ul li {
 
 .intro-details p a:hover {
     color: var(--accent-color);
-}
-
-.tech-bubble {
-    display: inline-block;
-    background-color: var(--accent-color);
-    padding: 5px 10px;
-    border-radius: 20px;
-    margin: 5px 2px 0 0;
-    font-size: 14px;
-    color: var(--bg-secondary);
 }
 
 /* Projects section styling */
