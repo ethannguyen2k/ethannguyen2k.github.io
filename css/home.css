@@ -224,6 +224,13 @@ footer {
     overflow: hidden;
     z-index: 1;
     pointer-events: none;
+    transition: filter 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+/* When a panel is active, defocus the waves to match the main-box. */
+body:has(.content-container.active) .waves {
+    filter: blur(4px);
+    opacity: 0.5;
 }
 
 .wave {
@@ -304,8 +311,10 @@ footer {
 
 .content-container.active .main-box {
     width: 50%;
-    transform: translateX(-22%);
-    pointer-events: auto;
+    transform: translateX(-22%) scale(0.92);
+    pointer-events: none;
+    filter: blur(4px);
+    opacity: 0.5;
 }
 
 .content-container.active .secondary-box {
