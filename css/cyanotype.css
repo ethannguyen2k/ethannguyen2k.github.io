@@ -1,0 +1,595 @@
+/* =========================================================================
+   cyanotype.css — shared foundation
+   Loaded by every page in the cyanotype design. Page-specific styles
+   live in css/{page}-cyanotype.css and extend these primitives.
+
+   Index:
+     1.  Variables & themes
+     2.  Reset & base
+     3.  Typography
+     4.  Page atmosphere (grain, exposure)
+     5.  Botanical decorations
+     6.  Topbar (breadcrumb + controls)
+     7.  Hero / Folio block
+     8.  Specimen plate primitives
+     9.  Marginalia note
+    10.  Buttons & links
+    11.  Footer print-stamp
+    12.  Lightbox
+    13.  Reveal animations
+    14.  Responsive
+   ========================================================================= */
+
+
+/* 1. Variables & themes -------------------------------------------------- */
+
+:root {
+  /* Palette */
+  --ink-deep:  #061a36;
+  --ink:       #0a2f5c;
+  --ink-mid:   #1a4d8c;
+  --ink-soft:  #6b9dc7;
+  --cream:     #f4ecd5;
+  --cream-mute:#c9bfa3;
+  --paper:     #e8dfc8;
+  --paper-edge:#d8ccaf;
+  --warm:      #c47e4d;       /* sand/rust accent (used sparingly) */
+
+  /* Theme tokens — overridden by [data-theme] below */
+  --bg:           var(--paper);
+  --surface:      var(--cream);
+  --fg:           var(--ink-deep);
+  --fg-mute:      var(--ink-mid);
+  --accent:       var(--ink);
+  --line:         rgba(10, 47, 92, 0.28);
+  --plate-bg:     var(--ink);
+  --plate-fg:     var(--cream);
+  --plate-shadow: 0 18px 36px -14px rgba(10, 47, 92, 0.45),
+                  inset 0 0 60px rgba(0, 0, 0, 0.06);
+  --grain-blend:  multiply;
+  --grain-opacity: 0.22;
+  --exposure:
+    radial-gradient(ellipse at 18% 8%, rgba(10, 47, 92, 0.10), transparent 55%),
+    radial-gradient(ellipse at 82% 92%, rgba(10, 47, 92, 0.18), transparent 60%);
+  --exposure-blend: multiply;
+
+  /* Motion */
+  --ease:       cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-fast:     180ms;
+  --t-med:      400ms;
+  --t-theme:    600ms;
+}
+
+[data-theme="night"] {
+  --bg:           var(--ink-deep);
+  --surface:      var(--ink);
+  --fg:           var(--cream);
+  --fg-mute:      var(--cream-mute);
+  --accent:       var(--ink-soft);
+  --line:         rgba(244, 236, 213, 0.22);
+  --plate-bg:     #0e3666;
+  --plate-fg:     var(--cream);
+  --plate-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.55),
+                  inset 0 0 80px rgba(255, 255, 255, 0.04);
+  --grain-blend:  overlay;
+  --grain-opacity: 0.18;
+  --exposure:
+    radial-gradient(ellipse at 18% 8%, rgba(255, 255, 255, 0.06), transparent 55%),
+    radial-gradient(ellipse at 82% 92%, rgba(0, 0, 0, 0.35), transparent 60%);
+  --exposure-blend: soft-light;
+}
+
+
+/* 2. Reset & base -------------------------------------------------------- */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  font-optical-sizing: auto;
+  font-feature-settings: "liga" 1, "kern" 1;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  letter-spacing: 0.005em;
+  line-height: 1.55;
+  transition: background var(--t-theme) ease, color var(--t-theme) ease;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+
+a { color: var(--accent); text-decoration: none; transition: color var(--t-fast) ease; }
+a:hover { color: var(--fg); }
+
+
+/* 3. Typography ---------------------------------------------------------- */
+
+.display, h1.display {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: normal;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.display em, .display i, em.display { font-style: italic; font-weight: 400; }
+
+.serif    { font-family: 'Fraunces', serif; }
+.italic   { font-style: italic; }
+
+.mono {
+  font-family: 'IBM Plex Mono', ui-monospace, 'Menlo', monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.label {
+  font-family: 'IBM Plex Mono', ui-monospace, 'Menlo', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+
+.caption {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.92em;
+  color: var(--fg-mute);
+  line-height: 1.6;
+}
+
+
+/* 4. Page atmosphere ----------------------------------------------------- */
+
+/* Paper grain — SVG fractal noise, blended with surface */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+}
+
+/* Uneven exposure — sun-bright top-left, shadow bottom-right */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: var(--exposure);
+  mix-blend-mode: var(--exposure-blend);
+}
+
+
+/* 5. Botanical decorations ---------------------------------------------- */
+
+.botanical {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.18;
+  z-index: 0;
+  color: var(--fg);
+}
+.botanical svg { display: block; width: 100%; height: 100%; }
+.botanical svg path { fill: currentColor; }
+.botanical.left  { top: -40px; left: -60px; width: 380px; height: 520px; transform: rotate(-12deg); }
+.botanical.right { bottom: -80px; right: -80px; width: 460px; height: 600px; transform: rotate(8deg) scaleX(-1); }
+[data-theme="paper"] .botanical { opacity: 0.22; }
+
+
+/* 6. Topbar -------------------------------------------------------------- */
+
+.topbar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 32px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.topbar .meta { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.topbar .meta > * { display: inline-flex; align-items: center; gap: 8px; }
+.topbar .controls { display: flex; gap: 12px; align-items: center; }
+
+/* Breadcrumb folio strip */
+.breadcrumb {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumb a {
+  color: var(--fg-mute);
+  letter-spacing: 0.22em;
+}
+.breadcrumb a.current {
+  color: var(--fg);
+  border-bottom: 1px solid var(--fg);
+  padding-bottom: 1px;
+}
+.breadcrumb a:hover { color: var(--fg); }
+.breadcrumb .sep { opacity: 0.4; }
+
+/* Topbar icon button (theme toggle, about, etc.) */
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  transition: background var(--t-fast) ease,
+              transform var(--t-med) var(--ease),
+              border-color var(--t-fast) ease,
+              color var(--t-fast) ease;
+}
+.icon-btn:hover {
+  background: var(--accent);
+  color: var(--surface);
+  border-color: var(--accent);
+  transform: rotate(20deg);
+}
+
+
+/* 7. Hero / Folio block -------------------------------------------------- */
+
+.stage {
+  position: relative;
+  z-index: 5;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+}
+
+.plate-no {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.plate-no::before { content: ""; flex: 0 0 36px; height: 1px; background: var(--line); }
+.plate-no::after  { content: ""; flex: 1;        height: 1px; background: var(--line); }
+
+.folio-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+.folio-title em { font-style: italic; font-weight: 400; color: var(--fg-mute); }
+
+.folio-subtitle {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  max-width: 640px;
+  line-height: 1.9;
+  margin-bottom: 56px;
+}
+
+
+/* 8. Specimen plate primitives ------------------------------------------ */
+
+.plate {
+  position: relative;
+  background: var(--plate-bg);
+  color: var(--plate-fg);
+  border: 1px solid var(--line);
+  padding: 22px 20px 18px;
+  overflow: hidden;
+  box-shadow: var(--plate-shadow);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--t-med) var(--ease),
+              box-shadow var(--t-med) ease;
+}
+.plate:hover { transform: translateY(-4px); }
+.plate.is-link { cursor: pointer; }
+
+/* Subtle paper grain inside the plate (optional) */
+.plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.9  0 0 0 0 0.93  0 0 0 0 0.84  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.10;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Registration corner marks (4 per plate) */
+.plate .corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(244, 236, 213, 0.4);
+  pointer-events: none;
+}
+.plate .corner.tl { top: 8px;    left: 8px;    border-right: none; border-bottom: none; }
+.plate .corner.tr { top: 8px;    right: 8px;   border-left: none;  border-bottom: none; }
+.plate .corner.bl { bottom: 8px; left: 8px;    border-right: none; border-top: none; }
+.plate .corner.br { bottom: 8px; right: 8px;   border-left: none;  border-top: none; }
+
+.plate .plate-id {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(244, 236, 213, 0.6);
+  position: relative;
+  z-index: 1;
+}
+
+.plate .plate-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.plate .plate-label {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  border-top: 1px solid rgba(244, 236, 213, 0.3);
+  padding-top: 10px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.plate .plate-label .latin {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* Cream-framed image inside a plate (specimen card) */
+.plate-image {
+  background: var(--cream);
+  padding: 6px;
+  border: 1px solid rgba(244, 236, 213, 0.35);
+  position: relative;
+  z-index: 1;
+}
+.plate-image img { display: block; width: 100%; height: auto; }
+
+
+/* 9. Marginalia note ----------------------------------------------------- */
+
+.marginalia {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--fg-mute);
+  max-width: 320px;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+}
+.marginalia .attr {
+  display: block;
+  margin-top: 8px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+
+/* 10. Buttons & links --------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--line);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--t-fast) ease,
+              color var(--t-fast) ease,
+              border-color var(--t-fast) ease;
+}
+.btn:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.btn-ghost { border-color: transparent; padding-left: 0; padding-right: 0; }
+.btn-ghost:hover { background: transparent; color: var(--fg); border-color: transparent; text-decoration: underline; }
+
+a.text-link {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: border-color var(--t-fast) ease;
+}
+a.text-link:hover { border-color: currentColor; }
+
+
+/* 11. Footer print-stamp ------------------------------------------------ */
+
+.print-stamp {
+  margin-top: 80px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.print-stamp .seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+.print-stamp .seal::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(107, 157, 199, 0.18);
+}
+
+
+/* 12. Lightbox ---------------------------------------------------------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 26, 54, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--t-med) ease,
+              visibility var(--t-med) ease;
+  cursor: zoom-out;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; }
+
+.lightbox-frame {
+  max-width: 90vw;
+  max-height: 88vh;
+  background: var(--cream);
+  padding: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lightbox-frame img {
+  max-width: 100%;
+  max-height: calc(88vh - 80px);
+  object-fit: contain;
+  display: block;
+}
+.lightbox-caption {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-deep);
+  text-align: center;
+  padding: 4px 8px 6px;
+}
+.lightbox-close {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: transparent;
+  border: 1px solid rgba(244, 236, 213, 0.4);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.lightbox-close:hover { background: rgba(244, 236, 213, 0.12); }
+
+
+/* 13. Reveal animations ------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise 900ms var(--ease) forwards;
+}
+.reveal.d1 { animation-delay:  80ms; }
+.reveal.d2 { animation-delay: 200ms; }
+.reveal.d3 { animation-delay: 360ms; }
+.reveal.d4 { animation-delay: 520ms; }
+.reveal.d5 { animation-delay: 680ms; }
+.reveal.d6 { animation-delay: 840ms; }
+
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; animation: none; }
+  .icon-btn:hover { transform: none; }
+  .plate:hover { transform: none; }
+}
+
+
+/* 14. Responsive -------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .topbar { padding: 16px 22px; flex-wrap: wrap; gap: 14px; }
+  .topbar .meta { gap: 16px; font-size: 10px; }
+  .stage { padding: 24px 22px 60px; }
+  .folio-subtitle { margin-bottom: 36px; }
+}
+
+@media (max-width: 600px) {
+  .breadcrumb { gap: 8px; font-size: 10px; }
+  .breadcrumb .sep { display: none; }
+  .botanical.left  { width: 240px; height: 320px; opacity: 0.10; }
+  .botanical.right { width: 280px; height: 360px; opacity: 0.10; }
+  .print-stamp { font-size: 9px; }
+}

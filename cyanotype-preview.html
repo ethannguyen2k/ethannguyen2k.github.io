@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethan — Cyanotype Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+:root {
+  --paper:        #e8dfc8;
+  --paper-edge:   #d8ccaf;
+  --ink:          #0a2f5c;
+  --ink-deep:     #061a36;
+  --ink-mid:      #1a4d8c;
+  --ink-soft:     #6b9dc7;
+  --cream:        #f4ecd5;
+  --cream-mute:   #c9bfa3;
+  --rule:         rgba(10, 47, 92, 0.22);
+  --grain-opacity: 0.18;
+
+  --bg:        var(--ink-deep);
+  --surface:   var(--ink);
+  --fg:        var(--cream);
+  --fg-mute:   var(--cream-mute);
+  --accent:    var(--ink-soft);
+  --line:      rgba(244, 236, 213, 0.22);
+  --plate-bg:  #0e3666;
+  --plate-shadow: 0 24px 48px -16px rgba(0,0,0,0.55), inset 0 0 80px rgba(255,255,255,0.04);
+}
+
+[data-theme="paper"] {
+  --bg:        var(--paper);
+  --surface:   var(--cream);
+  --fg:        var(--ink-deep);
+  --fg-mute:   var(--ink-mid);
+  --accent:    var(--ink);
+  --line:      rgba(10, 47, 92, 0.28);
+  --plate-bg:  var(--ink);
+  --plate-shadow: 0 18px 36px -14px rgba(10,47,92,0.45), inset 0 0 60px rgba(0,0,0,0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  font-optical-sizing: auto;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  letter-spacing: 0.005em;
+  transition: background 600ms ease, color 600ms ease;
+}
+
+/* ------- Paper grain & uneven exposure ------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    radial-gradient(ellipse at 18% 8%, rgba(255,255,255,0.06), transparent 55%),
+    radial-gradient(ellipse at 82% 92%, rgba(0,0,0,0.35), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+[data-theme="paper"] body::before { mix-blend-mode: multiply; opacity: 0.22; }
+[data-theme="paper"] body::after {
+  background:
+    radial-gradient(ellipse at 18% 8%, rgba(10,47,92,0.10), transparent 55%),
+    radial-gradient(ellipse at 82% 92%, rgba(10,47,92,0.18), transparent 60%);
+  mix-blend-mode: multiply;
+}
+
+/* ------- Decorative botanical silhouettes ------- */
+.botanical {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.18;
+  z-index: 0;
+}
+.botanical svg { display: block; width: 100%; height: 100%; }
+.botanical path { fill: var(--fg); }
+.botanical.left  { top: -40px; left: -60px; width: 380px; height: 520px; transform: rotate(-12deg); }
+.botanical.right { bottom: -80px; right: -80px; width: 460px; height: 600px; transform: rotate(8deg) scaleX(-1); }
+[data-theme="paper"] .botanical { opacity: 0.22; }
+
+/* ------- Top bar ------- */
+.topbar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 32px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.topbar .meta { display: flex; gap: 28px; }
+.topbar .meta span { display: flex; align-items: center; gap: 8px; }
+.topbar .meta i { font-size: 9px; opacity: 0.6; }
+
+.controls { display: flex; gap: 14px; }
+.icon-btn {
+  width: 34px; height: 34px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid; place-items: center;
+  font-size: 14px;
+  transition: background 240ms ease, transform 400ms ease, border-color 240ms ease;
+}
+.icon-btn:hover {
+  background: var(--accent);
+  color: var(--surface);
+  border-color: var(--accent);
+  transform: rotate(20deg);
+}
+
+/* ------- Hero ------- */
+.stage {
+  position: relative;
+  z-index: 5;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+}
+
+.plate-no {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.plate-no::before, .plate-no::after {
+  content: "";
+  flex: 0 0 36px;
+  height: 1px;
+  background: var(--line);
+}
+.plate-no::after { flex: 1; }
+
+.headline {
+  font-size: clamp(54px, 8vw, 120px);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  margin: 0 0 18px;
+}
+.headline em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--fg-mute);
+}
+.headline .amp {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.7em;
+  vertical-align: 0.04em;
+  margin: 0 0.04em;
+  color: var(--accent);
+}
+
+.subhead {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  max-width: 540px;
+  line-height: 1.9;
+  margin-bottom: 64px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+/* ------- Specimen grid (former icon grid) ------- */
+.specimens {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 22px;
+}
+
+.specimen {
+  position: relative;
+  grid-column: span 2;
+  aspect-ratio: 3 / 4;
+  background: var(--plate-bg);
+  border: 1px solid var(--line);
+  padding: 22px 20px 18px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--cream);
+  text-decoration: none;
+  box-shadow: var(--plate-shadow);
+  transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 600ms ease;
+}
+.specimen:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 64px -22px rgba(0,0,0,0.7), inset 0 0 80px rgba(255,255,255,0.06);
+}
+.specimen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.9  0 0 0 0 0.93  0 0 0 0 0.84  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.specimen .corner {
+  position: absolute;
+  width: 14px; height: 14px;
+  border: 1px solid rgba(244,236,213,0.4);
+}
+.specimen .corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+.specimen .corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+.specimen .corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+.specimen .corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+.specimen .plate-id {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: rgba(244,236,213,0.6);
+}
+
+.specimen .silhouette {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.specimen .silhouette svg {
+  width: 60%;
+  height: 60%;
+  filter: drop-shadow(0 0 24px rgba(255,255,255,0.08));
+}
+.specimen .silhouette path,
+.specimen .silhouette circle,
+.specimen .silhouette line {
+  stroke: var(--cream);
+  fill: none;
+  stroke-width: 1.4;
+}
+.specimen .silhouette .filled { fill: var(--cream); stroke: none; }
+
+.specimen .label {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  border-top: 1px solid rgba(244,236,213,0.3);
+  padding-top: 10px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.specimen .label .latin {
+  font-family: 'IBM Plex Mono', monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+/* Featured "surprise" specimen — taller, centered like a developing print */
+.specimen.feature {
+  grid-column: span 2;
+  background:
+    radial-gradient(circle at 50% 40%, var(--ink-soft) 0%, var(--ink-mid) 35%, var(--ink-deep) 78%);
+}
+.specimen.feature .silhouette svg { width: 70%; height: 70%; animation: drift 9s ease-in-out infinite; }
+@keyframes drift {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%     { transform: translateY(-6px) rotate(-3deg); }
+}
+
+/* Smaller variant on bottom row — wide cards */
+.specimen.wide { grid-column: span 2; aspect-ratio: 5 / 4; }
+
+/* ------- Footer stamp ------- */
+.stamp {
+  margin-top: 80px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.stamp .seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+.stamp .seal::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(107,157,199,0.18);
+}
+
+/* ------- Reveal on load ------- */
+.reveal { opacity: 0; transform: translateY(14px); animation: rise 900ms cubic-bezier(0.2,0.8,0.2,1) forwards; }
+.reveal.d1 { animation-delay: 80ms; }
+.reveal.d2 { animation-delay: 200ms; }
+.reveal.d3 { animation-delay: 360ms; }
+.reveal.d4 { animation-delay: 520ms; }
+.specimens .specimen { opacity: 0; transform: translateY(20px); animation: rise 900ms cubic-bezier(0.2,0.8,0.2,1) forwards; }
+.specimens .specimen:nth-child(1) { animation-delay: 600ms; }
+.specimens .specimen:nth-child(2) { animation-delay: 700ms; }
+.specimens .specimen:nth-child(3) { animation-delay: 800ms; }
+.specimens .specimen:nth-child(4) { animation-delay: 900ms; }
+.specimens .specimen:nth-child(5) { animation-delay: 1000ms; }
+.specimens .specimen:nth-child(6) { animation-delay: 1100ms; }
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ------- Responsive ------- */
+@media (max-width: 900px) {
+  .specimens { grid-template-columns: repeat(2, 1fr); }
+  .specimen, .specimen.feature, .specimen.wide { grid-column: span 1; aspect-ratio: 3/4; }
+  .stage { padding: 24px 22px 60px; }
+  .topbar { padding: 16px 22px; }
+  .topbar .meta { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Botanical silhouettes anchored to the corners -->
+<div class="botanical left" aria-hidden="true">
+  <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+  </svg>
+</div>
+<div class="botanical right" aria-hidden="true">
+  <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+  </svg>
+</div>
+
+<header class="topbar reveal d1">
+  <div class="meta">
+    <span><i class="fa-solid fa-circle"></i> CYANOTYPE</span>
+    <span>FOLIO N°01</span>
+    <span id="dateStamp">—</span>
+  </div>
+  <div class="controls">
+    <button class="icon-btn" id="aboutBtn" title="About"><i class="fa-solid fa-hand-peace"></i></button>
+    <button class="icon-btn" id="themeToggle" title="Toggle theme"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+  </div>
+</header>
+
+<main class="stage">
+
+  <div class="plate-no reveal d2">Plate I — Self-Portrait of the Author</div>
+
+  <h1 class="headline reveal d2">
+    hi, i&rsquo;m <em>ethan</em>
+    <span class="amp">·</span>
+    a study in <em>blue</em>.
+  </h1>
+
+  <p class="subhead reveal d3">
+    Hard learning &nbsp;·&nbsp; hardworking &nbsp;·&nbsp; hard playing<br>
+    Ready for what&rsquo;s next.
+  </p>
+
+  <section class="specimens" aria-label="Specimens">
+
+    <a class="specimen" href="portfolio.html">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="plate-id">PL.01</div>
+      <div class="silhouette">
+        <svg viewBox="0 0 100 100">
+          <rect x="20" y="32" width="60" height="46" rx="2"/>
+          <line x1="38" y1="32" x2="38" y2="22"/>
+          <line x1="62" y1="32" x2="62" y2="22"/>
+          <line x1="38" y1="22" x2="62" y2="22"/>
+          <line x1="20" y1="48" x2="80" y2="48"/>
+        </svg>
+      </div>
+      <div class="label">Portfolio<span class="latin">opus &middot; works</span></div>
+    </a>
+
+    <a class="specimen" href="blog.html">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="plate-id">PL.02</div>
+      <div class="silhouette">
+        <svg viewBox="0 0 100 100">
+          <path d="M30 78 L30 24 L62 24 L74 36 L74 78 Z"/>
+          <path d="M62 24 L62 36 L74 36"/>
+          <line x1="38" y1="46" x2="66" y2="46"/>
+          <line x1="38" y1="56" x2="66" y2="56"/>
+          <line x1="38" y1="66" x2="58" y2="66"/>
+        </svg>
+      </div>
+      <div class="label">Blogs<span class="latin">folia &middot; notes</span></div>
+    </a>
+
+    <a class="specimen" href="#" id="socialLinksBtn">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="plate-id">PL.03</div>
+      <div class="silhouette">
+        <svg viewBox="0 0 100 100">
+          <path d="M40 50 a14 14 0 0 1 14 -14 l8 0 a14 14 0 0 1 0 28 l-4 0"/>
+          <path d="M60 50 a14 14 0 0 1 -14 14 l-8 0 a14 14 0 0 1 0 -28 l4 0"/>
+        </svg>
+      </div>
+      <div class="label">Links<span class="latin">nodi &middot; threads</span></div>
+    </a>
+
+    <a class="specimen" href="playlist.html">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="plate-id">PL.04</div>
+      <div class="silhouette">
+        <svg viewBox="0 0 100 100">
+          <path d="M40 70 L40 28 L70 22 L70 64"/>
+          <ellipse cx="34" cy="70" rx="8" ry="6" class="filled"/>
+          <ellipse cx="64" cy="64" rx="8" ry="6" class="filled"/>
+        </svg>
+      </div>
+      <div class="label">Playlist<span class="latin">cantus &middot; songs</span></div>
+    </a>
+
+    <a class="specimen feature" href="#" id="surpriseBtn">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="plate-id">PL.05 &middot; LATENT</div>
+      <div class="silhouette">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="22"/>
+          <circle cx="50" cy="50" r="34"/>
+          <circle cx="50" cy="50" r="6" class="filled"/>
+          <line x1="50" y1="8" x2="50" y2="18"/>
+          <line x1="50" y1="82" x2="50" y2="92"/>
+          <line x1="8" y1="50" x2="18" y2="50"/>
+          <line x1="82" y1="50" x2="92" y2="50"/>
+        </svg>
+      </div>
+      <div class="label"><em>Surprise</em><span class="latin">mira &middot; ?</span></div>
+    </a>
+
+    <a class="specimen" href="#" id="contactBtn">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="plate-id">PL.06</div>
+      <div class="silhouette">
+        <svg viewBox="0 0 100 100">
+          <path d="M22 36 L78 36 L78 70 L22 70 Z"/>
+          <path d="M22 36 L50 56 L78 36"/>
+        </svg>
+      </div>
+      <div class="label">Contact<span class="latin">epistula</span></div>
+    </a>
+
+  </section>
+
+  <div class="stamp">
+    <div class="seal">Exposed in cyan, <span style="margin: 0 6px">·</span> 2026</div>
+    <div>Ethan &middot; Nguyễn Đức Phát</div>
+    <div>Made with <span style="color: var(--accent)">▲</span> &nbsp; intent</div>
+  </div>
+
+</main>
+
+<script>
+  // Theme toggle
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const saved = localStorage.getItem('cyanotype-theme') || 'night';
+  root.setAttribute('data-theme', saved);
+  syncIcon();
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'night' ? 'paper' : 'night';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('cyanotype-theme', next);
+    syncIcon();
+  });
+  function syncIcon() {
+    const isNight = root.getAttribute('data-theme') === 'night';
+    themeIcon.className = isNight ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+  }
+
+  // Date stamp like a herbarium label
+  const d = new Date();
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  document.getElementById('dateStamp').textContent =
+    String(d.getDate()).padStart(2,'0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+</script>
+
+</body>
+</html>

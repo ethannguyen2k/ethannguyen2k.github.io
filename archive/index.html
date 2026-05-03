@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Folio I · The Archive · Ethan</title>
+  <meta name="description" content="A capsule of the previous iteration of this site.">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/cyanotype.css">
+
+  <script>
+    // Apply saved theme before paint
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const initial = saved === 'night' || saved === 'paper'
+        ? saved
+        : (saved === 'dark' ? 'night' : 'paper');
+      document.documentElement.setAttribute('data-theme', initial);
+    })();
+  </script>
+
+  <style>
+    /* Archive-specific layout */
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      margin-top: 40px;
+    }
+    @media (max-width: 720px) {
+      .archive-grid { grid-template-columns: 1fr; gap: 20px; }
+    }
+
+    .archive-plate {
+      cursor: zoom-in;
+    }
+    .archive-plate .plate-image {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      margin: 6px 0 10px;
+    }
+    .archive-plate .plate-image img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: top center;
+      transition: filter var(--t-med) ease;
+    }
+    @media (max-width: 720px) {
+      .archive-plate .plate-image img { height: 220px; }
+    }
+
+    .archive-intro {
+      max-width: 640px;
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--fg);
+      margin-bottom: 12px;
+    }
+    .archive-intro p + p { margin-top: 14px; }
+
+    .topbar .back-link {
+      color: var(--fg-mute);
+      letter-spacing: 0.22em;
+    }
+    .topbar .back-link:hover { color: var(--fg); }
+  </style>
+</head>
+<body>
+
+  <!-- Botanical decorations -->
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
+
+  <header class="topbar reveal d1">
+    <div class="meta">
+      <a href="../" class="back-link">← Current site</a>
+    </div>
+    <div class="controls">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="stage">
+
+    <div class="plate-no reveal d2">Plate 0 — The Archive</div>
+
+    <h1 class="folio-title reveal d2">
+      <em>Folio I</em><br>2024 – 2026
+    </h1>
+
+    <div class="folio-subtitle reveal d3">
+      The first iteration of this site &nbsp;·&nbsp; preserved as a record
+    </div>
+
+    <div class="archive-intro reveal d3">
+      <p>
+        The site you are looking at now is the second iteration. Before this,
+        for two years, it lived in a different palette — Geist sans, soft
+        waves, friendly blue. A CRT-terminal
+        playlist page or bubbles that played a musical scale when you
+        hovered them.
+      </p>
+      <p>
+        That version is gone from the live site, but kept here as eight plates.
+        Each capture is something of thoughts and tears before the redesign.
+      </p>
+    </div>
+
+    <section class="archive-grid" aria-label="Archived pages">
+
+      <a class="plate archive-plate reveal d3" data-caption="Pl. 0.1 — Homepage (paper). Soft waves, peace-hand modal, friendly blue. The cycling surprise icon lived in the bottom row.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.1 — Homepage · Paper</div>
+        <div class="plate-image"><img src="captures/home-paper.webp" alt="Homepage in light theme"></div>
+        <div class="plate-label">Homepage <em>· paper</em>
+          <span class="latin">domus &middot; light theme</span>
+        </div>
+      </a>
+
+      <a class="plate archive-plate reveal d3" data-caption="Pl. 0.2 — Homepage (night). The same icon grid in dark mode. A purple moon replaced the yellow sun in the toggle.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.2 — Homepage · Night</div>
+        <div class="plate-image"><img src="captures/home-night.webp" alt="Homepage in dark theme"></div>
+        <div class="plate-label">Homepage <em>· night</em>
+          <span class="latin">domus &middot; dark theme</span>
+        </div>
+      </a>
+
+      <a class="plate archive-plate reveal d4" data-caption="Pl. 0.3 — Portfolio. Saturated blue subject card, gradient-bordered intro box. Hovering a tech bubble played a triangle-wave musical note.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.3 — Portfolio</div>
+        <div class="plate-image"><img src="captures/portfolio.webp" alt="Portfolio page"></div>
+        <div class="plate-label">Portfolio
+          <span class="latin">opus &middot; bubbles played notes</span>
+        </div>
+      </a>
+
+      <a class="plate archive-plate reveal d4" data-caption="Pl. 0.4 — Blog index. Left fixed sidebar with logo + nav + socials. First-party writings stacked above a list of recommended reading.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.4 — Blog Index</div>
+        <div class="plate-image"><img src="captures/blog-index.webp" alt="Blog index page"></div>
+        <div class="plate-label">Blog index
+          <span class="latin">folia &middot; sidebar layout</span>
+        </div>
+      </a>
+
+      <a class="plate archive-plate reveal d4" data-caption="Pl. 0.5 — Blog post. Geist sans body type, dark-grey code windows with red/orange/green traffic-light dots, default highlight.js syntax.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.5 — Blog Post</div>
+        <div class="plate-image"><img src="captures/blog-post.webp" alt="Blog post page"></div>
+        <div class="plate-label">Blog post <em>· typical</em>
+          <span class="latin">essay &middot; geist body</span>
+        </div>
+      </a>
+
+      <a class="plate archive-plate reveal d5" data-caption="Pl. 0.6 — Playlist. The most distinctive page on the site: black background, neon green Courier, flicker animation. Hovering a tile triggered a fullscreen CRT takeover with judder, ghosting, and a real screen-glass overlay.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.6 — Playlist</div>
+        <div class="plate-image"><img src="captures/playlist.webp" alt="Playlist page in CRT theme"></div>
+        <div class="plate-label">Playlist <em>· CRT</em>
+          <span class="latin">cantus &middot; terminal</span>
+        </div>
+      </a>
+
+      <a class="plate archive-plate reveal d5" data-caption="Pl. 0.7 — About modal. Triggered by the peace-hand FAB. Twenty photos cascaded into the collage with a 150ms stagger when the modal opened.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.7 — About Modal</div>
+        <div class="plate-image"><img src="captures/about-modal.webp" alt="About modal with photo collage"></div>
+        <div class="plate-label">About <em>· modal</em>
+          <span class="latin">vita &middot; collage cascaded in</span>
+        </div>
+      </a>
+
+      <a class="plate archive-plate reveal d5" data-caption="Pl. 0.8 — 404. Two-column card on dark navy: text and buttons on the left, a hand-drawn man-and-dog illustration on the right, with a bouncing 💜 below.">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="plate-id">Pl. 0.8 — 404</div>
+        <div class="plate-image"><img src="captures/404.webp" alt="404 page"></div>
+        <div class="plate-label">Not Found <em>· 404</em>
+          <span class="latin">erratum &middot; bouncing heart</span>
+        </div>
+      </a>
+
+    </section>
+
+    <footer class="print-stamp">
+      <div class="seal">Archived in cyan, 2026</div>
+      <div>Ethan &middot; Nguyễn Đức Phát</div>
+      <div><a href="../" class="text-link">return to current site →</a></div>
+    </footer>
+
+  </main>
+
+  <!-- Lightbox (re-uses cyanotype.css primitive) -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-frame" role="dialog" aria-modal="true" aria-label="Plate detail">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close">close ×</button>
+      <img id="lightboxImg" src="" alt="">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle — icon swaps between sun (paper) and moon (night)
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function syncIcon() {
+      const isNight = root.getAttribute('data-theme') === 'night';
+      themeIcon.innerHTML = isNight
+        // moon
+        ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>'
+        // sun
+        : '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>';
+    }
+    syncIcon();
+
+    themeBtn.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'night' ? 'paper' : 'night';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      syncIcon();
+    });
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCap = document.getElementById('lightboxCaption');
+    const lbClose = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('.archive-plate').forEach(plate => {
+      plate.addEventListener('click', e => {
+        e.preventDefault();
+        const img = plate.querySelector('.plate-image img');
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lbCap.textContent = plate.dataset.caption || '';
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+    });
+  </script>
+
+</body>
+</html>
