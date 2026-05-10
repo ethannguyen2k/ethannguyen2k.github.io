@@ -211,24 +211,73 @@ body::after {
 .topbar .meta > * { display: inline-flex; align-items: center; gap: 8px; }
 .topbar .controls { display: flex; gap: 12px; align-items: center; }
 
-/* Breadcrumb folio strip */
-.breadcrumb {
+/* Folio running header — used on every page except the index.
+   Left: prominent current-folio block (mono eyebrow + serif title).
+   Right: small mono links to the other folios + controls. */
+.folio-running {
+  position: relative;
+  z-index: 10;
   display: flex;
-  gap: 14px;
-  align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 22px 32px 18px;
+  border-bottom: 1px solid var(--line);
 }
-.breadcrumb a {
+.folio-running .here { line-height: 1; }
+.folio-running .here .eyebrow {
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
   color: var(--fg-mute);
-  letter-spacing: 0.22em;
+  margin-bottom: 8px;
 }
-.breadcrumb a.current {
+.folio-running .here .title {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.4vw, 26px);
+  letter-spacing: 0.005em;
   color: var(--fg);
-  border-bottom: 1px solid var(--fg);
-  padding-bottom: 1px;
 }
-.breadcrumb a:hover { color: var(--fg); }
-.breadcrumb .sep { opacity: 0.4; }
+.folio-running .links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.folio-running .links a {
+  color: var(--fg-mute);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: color var(--t-fast) ease, border-color var(--t-fast) ease;
+}
+.folio-running .links a:hover {
+  color: var(--fg);
+  border-bottom-color: var(--line);
+}
+.folio-running .links a.home { color: var(--fg); }
+.folio-running .links a.home::before {
+  content: "↩";
+  font-family: inherit;
+  letter-spacing: 0;
+  margin-right: 2px;
+  opacity: 0.85;
+}
+.folio-running .controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-left: 4px;
+}
 
 /* Topbar icon button (theme toggle, about, etc.) */
 .icon-btn {
@@ -590,9 +639,18 @@ a.text-link:hover { border-color: currentColor; }
   .folio-subtitle { margin-bottom: 36px; }
 }
 
+@media (max-width: 900px) {
+  .folio-running {
+    padding: 16px 22px 14px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .folio-running .links { gap: 14px; font-size: 9px; letter-spacing: 0.22em; }
+}
+
 @media (max-width: 600px) {
-  .breadcrumb { gap: 8px; font-size: 10px; }
-  .breadcrumb .sep { display: none; }
+  .folio-running .here .title { font-size: 18px; }
+  .folio-running .links { gap: 10px; }
   .botanical.left  { width: 240px; height: 320px; opacity: 0.10; }
   .botanical.right { width: 280px; height: 360px; opacity: 0.10; }
   .print-stamp { font-size: 9px; }

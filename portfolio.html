@@ -1,431 +1,565 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-    <style>
-        #audio-nudge {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            border: 1px solid var(--box-border);
-            padding: 10px 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: none;
-            animation: bounce 1s infinite alternate;
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-        
-        @keyframes bounce {
-            from {
-                transform: translateX(-50%) translateY(0);
-            }
-            to {
-                transform: translateX(-50%) translateY(-5px);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ethan — Catalog of Works. Folio II of a study in blue.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Folio II — Catalog of Works</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="css/cyanotype.css">
+  <link rel="stylesheet" href="css/portfolio-cyanotype.css">
+
+  <script>
+    // Apply theme before paint. Migrate legacy light/dark → paper/night.
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
 <body class="portfolio-page">
-    <header>
-        <div class="header-content">
-            <img id="logo" src="images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
-        </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="index.html">Homepage</a>
-            <a href="portfolio.html" class="current">My Portfolio</a>
-            <a href="blog.html">My Blogs</a>
-        </nav>
-    </header>
 
-    <div class="main-content">
-        <aside id="toc">
-            <h2>Table of Contents</h2>
-            <ul>
-                <li><a href="#intro">Introduction</a></li>
-                <li><a href="#current-roles">Current Roles</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#achievement">Achievement</a></li>
-                <li><a href="#certifications">Certifications</a></li>
-            </ul>
-        </aside>
+  <!-- Botanical decorations -->
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-        <div class="container2_1 fade-in">
-            <div class="intro-box fade-in">
-                <p>I am a student based in Melbourne, looking for opportunities in Data Science & AI. Currently, I am focusing on improving my statistical knowledge, CI/CD, and cloud techs.</p>
-                <p>I continually update my content, so I hope you will return for future updates. Regardless, I wish you a productive and positive day.</p>
-            </div>
-            
-            <h1>My Portfolio</h1>
-
-            <section id="intro" class="fade-in">
-                <h2>Introduction</h2>
-                <div class="intro-content">
-                    <img src="images/avatar.jpg" alt="My Avatar" class="avatar">
-                    <div class="intro-details">
-                        <h3>Duc Phat Nguyen (Ethan)</h3>
-                        <p>Based in: Melbourne, Australia</p>
-                        <p>
-                            <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                            <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                            <a href="https://bit.ly/EthanNguyenCV" target="_blank"><i class="fa-solid fa-file-lines"></i></a>
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="tech-stack">
-                    <!-- Programming Languages -->
-                    <div class="tech-category">
-                        <h4>Programming Languages</h4>
-                        <span class="tech-bubble">Python</span>
-                        <span class="tech-bubble">R</span>
-                        <span class="tech-bubble">SQL</span>
-                        <span class="tech-bubble">PHP</span>
-                    </div>
-                    
-                    <!-- Frameworks & Libraries -->
-                    <div class="tech-category">
-                        <h4>Frameworks & Libraries</h4>
-                        <span class="tech-bubble">TensorFlow</span>
-                        <span class="tech-bubble">PyTorch</span>
-                        <span class="tech-bubble">OpenCV</span>
-                        <span class="tech-bubble">YOLOv8</span>
-                        <span class="tech-bubble">Flask</span>
-                        <span class="tech-bubble">Laravel</span>
-                        <span class="tech-bubble">Filament</span>
-                        <span class="tech-bubble">XGBoost</span>
-                    </div>
-                    
-                    <!-- Data Visualization -->
-                    <div class="tech-category">
-                        <h4>Data Visualization</h4>
-                        <span class="tech-bubble">Tableau</span>
-                        <span class="tech-bubble">Power BI</span>
-                        <span class="tech-bubble">Advanced Excel</span>
-                        <span class="tech-bubble">Dash</span>
-                        <span class="tech-bubble">Cytoscape</span>
-                    </div>
-                    
-                    <!-- Databases -->
-                    <div class="tech-category">
-                        <h4>Databases</h4>
-                        <span class="tech-bubble">MySQL</span>
-                        <span class="tech-bubble">PostgreSQL</span>
-                        <span class="tech-bubble">MongoDB</span>
-                        <span class="tech-bubble">SQLite</span>
-                        <span class="tech-bubble">Chroma</span>
-                    </div>
-                    
-                    <!-- Cloud Technologies -->
-                    <div class="tech-category">
-                        <h4>Cloud Technologies</h4>
-                        <span class="tech-bubble">AWS</span>
-                        <span class="tech-bubble">Oracle Cloud</span>
-                        <span class="tech-bubble">Azure</span>
-                    </div>
-                    
-                    <!-- AI/ML Specialties -->
-                    <div class="tech-category">
-                        <h4>AI/ML Specialties</h4>
-                        <span class="tech-bubble">Machine Learning</span>
-                        <span class="tech-bubble">Deep Learning</span>
-                        <span class="tech-bubble">Computer Vision</span>
-                        <span class="tech-bubble">NLP</span>
-                        <span class="tech-bubble">LLM Fine-tuning</span>
-                        <span class="tech-bubble">Reinforcement Learning</span>
-                    </div>
-                    
-                    <!-- DevOps & Tools -->
-                    <div class="tech-category">
-                        <h4>DevOps & Tools</h4>
-                        <span class="tech-bubble">Docker</span>
-                        <span class="tech-bubble">Kubernetes</span>
-                        <span class="tech-bubble">Git</span>
-                    </div>
-                    
-                    <!-- Analytics & Modeling -->
-                    <div class="tech-category">
-                        <h4>Analytics & Modeling</h4>
-                        <span class="tech-bubble">Statistical Modeling</span>
-                        <span class="tech-bubble">Economic Modeling</span>
-                        <span class="tech-bubble">Forecasting</span>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="current-roles" class="fade-in">
-                <h2>Current Roles</h2>
-                <ul>
-                    <li><b>Tutor - Cloud Computing Architecture & Cloud Engineering</b> at Swinburne University of Technology</li>
-                    <li><b>Science Intern</b> at ITConnexion</li>
-                </ul>
-            </section>
-
-            <section id="projects" class="fade-in">
-                <h2>Projects</h2>
-                <div class="projects-grid">
-                    <div class="project">
-                        <a href="projects/mario/mario.html">
-                            <img src="https://user-images.githubusercontent.com/2184469/40949613-7542733a-6834-11e8-895b-ce1cc3af9dbb.gif" alt="Project RL Mario Thumbnail">
-                            <div class="project-details">
-                                <h3>Play Mario with Reinforcement Learning</h3>
-                                <p>Double Deep Q-Learning model to play Super Mario Bros</p>
-                                <div class="tech-stack">Built with: Python, PyTorch, OpenAI Gym</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="project">
-                        <a href="projects/sna/sna.html">
-                            <img src="images/sna_thumbnail.jpg" alt="Project SNA Thumbnail">
-                            <div class="project-details">
-                                <h3>Social Network Analysis</h3>
-                                <p>Statnet33 - Social Network Analyzer app using statistical model and visualisation.</p>
-                                <div class="tech-stack">Built with: Python, R</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="project">
-                        <a href="projects/psy/psy.html">
-                            <img src="images/psy_thumbnail.webp" alt="Project Psychological Analysis Thumbnail">
-                            <div class="project-details">
-                                <h3>Research Automation Project</h3>
-                                <p>Automating the process of psychological research with BeautifulSoup and Google Gemini</p>
-                                <div class="tech-stack">Built with: Python, BeautifulSoup4, Google Gemini</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="project">
-                        <a href="projects/uciadult/uciadult.html">
-                            <img src="images/uciadult_thumbnail.jpg" alt="Project Income Disparity Thumbnail">
-                            <div class="project-details">
-                                <h3>Income Disparity Analysis</h3>
-                                <p>A Full-stack Analysis of Demographics through Tree-Based Models</p>
-                                <div class="tech-stack">Built with: Python, Jupyter Notebook</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="project">
-                        <a href="projects/privacy/privacy.html">
-                            <img src="images/privacy_thumbnail.jpeg" alt="Project Privacy Policies Thumbnail">
-                            <div class="project-details">
-                                <h3>Privacy Policies AI System</h3>
-                                <p>A system of NLP model with web app for interpreting Privacy Policies and Terms of Conditions</p>
-                                <div class="tech-stack">Built with: Python, Python Transformers</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="project">
-                        <a href="projects/poker/poker.html">
-                            <img src="images/poker_thumbnail.webp" alt="Project Poker Trees-based Models Thumbnail">
-                            <div class="project-details">
-                                <h3>Poker Hand Classification</h3>
-                                <p>A machine learning project exploring tree-based models for poker hand classification, featuring custom preprocessing and model optimization</p>
-                                <div class="tech-stack">Built with: Python, Jupyter Notebook</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="project">
-                        <a href="projects/totp/totp.html">
-                            <img src="images/2fa_thumbnail.jpg" alt="Project TOTP Thumbnail">
-                            <div class="project-details">
-                                <h3>Self-Hosted TOTP Authenticator</h3>
-                                <p>A desktop-based 2FA solution for managing multiple TOTP authenticator codes without reaching for your phone</p>
-                                <div class="tech-stack">Built with: Node.js, Express, SQLite, Docker</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
-                       
-
-            <section id="education" class="fade-in">
-                <h2>Education</h2>
-                <table class="table-common">
-                    <thead>
-                        <tr>
-                            <th>Degree</th>
-                            <th>Years</th>
-                            <th>Institution</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Degree">Master of Data Science</td>
-                            <td data-label="Years">2023 - 2024</td>
-                            <td data-label="Institution"><a href="https://www.swinburne.edu.au/" target="_blank">Swinburne University of Technology</a></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Degree">Bachelor of Economics and Foreign Trade</td>
-                            <td data-label="Years">2018 - 2022</td>
-                            <td data-label="Institution"><a href="http://eng.vimaru.edu.vn/" target="_blank">Vietnam Maritime University (VMU)</a></td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-            </section>
-            
-
-
-            <section id="achievement" class="fade-in">
-                <h2>Achievement</h2>
-                <table class="table-common">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Description">Microsoft & Certiport: Vietnam Excel Microsoft Office Specialist (MOS) Ambassador of 2021 and a <a target="_blank" href="https://certiport.pearsonvue.com/Blog/2021/November/2021-Microsoft-Office-Specialist-World-Champions.aspx">Silver medal</a> in MOS Excel 2016 - World Office Informatics Championship</td>
-                            <td data-label="Date">November 2021</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Description">VMU: Merit for excellent achievements in the youth Union - Association and for excellent academic achievements</td>
-                            <td data-label="Date">October 2021</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Description">VMU: Outstanding Student - An award for students in achieving outstanding achievements in various fields</td>
-                            <td data-label="Date">November 2020 & November 2021</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Description">VMU: Elected as a Vice-President of Faculty of Economics' English Club for two years</td>
-                            <td data-label="Date">2019-2020</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-            
-            <section id="certifications" class="fade-in">
-                <h2>Certifications</h2>
-                <table class="table-common">
-                    <thead>
-                        <tr>
-                            <th>Certification</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td data-label="Certification"><a target="_blank" href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=603857223394A8AF6E56CD65FB01C80799C1BA67A344D5FF5E024BC1BCD28A15">Oracle: OCI Certified Foundations Associate</a></td>
-                            <td data-label="Date">December 2024</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Certification"><a target="_blank" href="https://cp.certmetrics.com/amazon/en/public/verify/credential/479c4ea2f14b41f4809f835190d1fc4d">AWS: AWS Certified Cloud Practitioner</a></td>
-                            <td data-label="Date">November 2024</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Certification"><a target="_blank" href="https://coursera.org/share/f14e3a6ec7f59a3523eea4f5fefcc375">DeepLearning.AI: Mathematics for Machine Learning and Data Science</a></td>
-                            <td data-label="Date">August 2024</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Certification"><a target="_blank" href="https://coursera.org/share/11f4af5ea2463f4ef76308a23ce6588f">IBM on Coursera: IBM Data Science</a></td>
-                            <td data-label="Date">December 2023</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Certification"><a target="_blank" href="https://coursera.org/share/89f5ad985b8cf900ab5c69cb87bb6049">IBM on Coursera: IBM AI Engineering</a></td>
-                            <td data-label="Date">December 2023</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Certification"><a target="_blank" href="https://learn.microsoft.com/api/credentials/share/en-us/PhatNguyenDuc-9364/A6420F1A9EF0B2B3?sharingId=61344080E32ABB00">Microsoft Certified: Azure AI Fundamentals</a></td>
-                            <td data-label="Date">June 2023</td>
-                        </tr>
-                        <tr>
-                            <td data-label="Certification">Microsoft Office Specialist: Expert on Microsoft Office</td>
-                            <td data-label="Date">January 2021</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-            
-
-
-            <p><a href="index.html">Back to Home</a></p>
-        </div>
+  <!-- Folio running header -->
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio II</span>
+      <span class="title">Catalog of Works</span>
     </div>
-    <div id="scroll-prompt"><i class="fa-solid fa-arrow-down"></i></div>
-    <div id="audio-nudge">Click anywhere to enable sound on those tech bubbles 🎵</div>
+    <div class="links">
+      <a class="home" href="index.html">Folio I</a>
+      <a href="blog.html">III · Notes</a>
+      <a href="playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <footer>
-        <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-    </footer>
+  <main class="stage with-toc">
 
-    <!-- TOC-specific functionality -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tocLinks = document.querySelectorAll('#toc a');
-            const sections = document.querySelectorAll('section');
-            
-            // Smooth scrolling for TOC links
-            tocLinks.forEach(function(link) {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    document.querySelector(link.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-            
-            // Highlight the TOC link while scrolling
-            window.addEventListener('scroll', function() {
-                let fromTop = window.scrollY;
-                let offset = 150;  // Adjust this value if necessary
-                
-                tocLinks.forEach(function(link) {
-                    let section = document.querySelector(link.getAttribute('href'));
-                    let sectionTop = section.offsetTop - offset;
-                    let sectionBottom = sectionTop + section.offsetHeight;
-                    
-                    if (fromTop >= sectionTop && fromTop < sectionBottom) {
-                        link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
-                    }
-                });
-                
-                // Check if the user has scrolled to the bottom of the page
-                if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                    tocLinks.forEach(function(link) {
-                        link.classList.remove('active');
-                    });
-                    tocLinks[tocLinks.length - 1].classList.add('active');
-                }
-            });
+    <aside id="toc">
+      <h2>Index</h2>
+      <ul>
+        <li><a href="#intro"><span class="roman">I.</span><span>Introduction</span></a></li>
+        <li><a href="#current-roles"><span class="roman">II.</span><span>Current Roles</span></a></li>
+        <li><a href="#projects"><span class="roman">III.</span><span>Projects</span></a></li>
+        <li><a href="#education"><span class="roman">IV.</span><span>Education</span></a></li>
+        <li><a href="#achievement"><span class="roman">V.</span><span>Achievement</span></a></li>
+        <li><a href="#certifications"><span class="roman">VI.</span><span>Certifications</span></a></li>
+      </ul>
+    </aside>
+
+    <div class="folio-content">
+
+      <!-- Folio II hero -->
+      <div class="folio-block reveal d2">
+        <div class="plate-no">Plate II.0 — Frontispiece</div>
+        <h1 class="folio-title display"><em>catalog</em> of works</h1>
+        <p class="folio-subtitle">A printed register of projects, studies, and credentials. Updated as the catalog grows.</p>
+      </div>
+
+      <!-- Publisher's note -->
+      <div class="publishers-note reveal d3">
+        <p>AI Applied Scientist in Melbourne, working on LLMs and multimodal pipelines. The plates that follow are the projects, studies, and credentials gathered along the way.</p>
+        <p>New entries are added as the catalog grows. Have a good one.</p>
+      </div>
+
+      <!-- §intro -->
+      <section id="intro" class="fade-in">
+        <h2 data-numeral="I.">Introduction</h2>
+
+        <div class="subject-card">
+          <div class="subject-frame">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <img src="images/ava.jpg" alt="Ethan — duotoned subject portrait">
+          </div>
+          <div class="subject-details">
+            <div class="subject-name">Duc Phat Nguyen <em>(Ethan)</em></div>
+            <div class="subject-loc">Melbourne, Australia</div>
+            <div class="subject-socials">
+              <a href="https://github.com/ethannguyen2k" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github-alt"></i>
+                <span class="key">GH</span>
+              </a>
+              <a href="https://linkedin.com/in/ethan-2k" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+                <span class="key">LI</span>
+              </a>
+              <a href="mailto:phatnguyenground@gmail.com" aria-label="Email">
+                <i class="fa-solid fa-at"></i>
+                <span class="key">@</span>
+              </a>
+              <a href="https://bit.ly/EthanNguyenCV" target="_blank" rel="noopener" aria-label="CV">
+                <i class="fa-solid fa-file-lines"></i>
+                <span class="key">CV</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-stack-grid">
+          <div class="tech-category">
+            <h4 data-numeral="i.">Programming Languages</h4>
+            <div class="tags">
+              <span class="tech-bubble">Python</span>
+              <span class="tech-bubble">R</span>
+              <span class="tech-bubble">SQL</span>
+              <span class="tech-bubble">PHP</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4 data-numeral="ii.">Frameworks &amp; Libraries</h4>
+            <div class="tags">
+              <span class="tech-bubble">TensorFlow</span>
+              <span class="tech-bubble">PyTorch</span>
+              <span class="tech-bubble">OpenCV</span>
+              <span class="tech-bubble">YOLOv8</span>
+              <span class="tech-bubble">Flask</span>
+              <span class="tech-bubble">Laravel</span>
+              <span class="tech-bubble">Filament</span>
+              <span class="tech-bubble">XGBoost</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4 data-numeral="iii.">Data Visualization</h4>
+            <div class="tags">
+              <span class="tech-bubble">Tableau</span>
+              <span class="tech-bubble">Power BI</span>
+              <span class="tech-bubble">Advanced Excel</span>
+              <span class="tech-bubble">Dash</span>
+              <span class="tech-bubble">Cytoscape</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4 data-numeral="iv.">Databases</h4>
+            <div class="tags">
+              <span class="tech-bubble">MySQL</span>
+              <span class="tech-bubble">PostgreSQL</span>
+              <span class="tech-bubble">MongoDB</span>
+              <span class="tech-bubble">SQLite</span>
+              <span class="tech-bubble">Chroma</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4 data-numeral="v.">Cloud Technologies</h4>
+            <div class="tags">
+              <span class="tech-bubble">AWS</span>
+              <span class="tech-bubble">Oracle Cloud</span>
+              <span class="tech-bubble">Azure</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4 data-numeral="vi.">AI / ML Specialties</h4>
+            <div class="tags">
+              <span class="tech-bubble">Machine Learning</span>
+              <span class="tech-bubble">Deep Learning</span>
+              <span class="tech-bubble">Computer Vision</span>
+              <span class="tech-bubble">NLP</span>
+              <span class="tech-bubble">LLM Fine-tuning</span>
+              <span class="tech-bubble">Reinforcement Learning</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4 data-numeral="vii.">DevOps &amp; Tools</h4>
+            <div class="tags">
+              <span class="tech-bubble">Docker</span>
+              <span class="tech-bubble">Kubernetes</span>
+              <span class="tech-bubble">Git</span>
+            </div>
+          </div>
+
+          <div class="tech-category">
+            <h4 data-numeral="viii.">Analytics &amp; Modeling</h4>
+            <div class="tags">
+              <span class="tech-bubble">Statistical Modeling</span>
+              <span class="tech-bubble">Economic Modeling</span>
+              <span class="tech-bubble">Forecasting</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- §current-roles -->
+      <section id="current-roles" class="fade-in">
+        <h2 data-numeral="II.">Current Roles</h2>
+        <ul class="current-roles-list">
+          <li>
+            <b>Tutor — Cloud Computing Architecture &amp; Cloud Engineering</b>
+            <span class="leader"></span>
+            <span class="at">Swinburne University</span>
+          </li>
+          <li>
+            <b>Applied Scientist</b>
+            <span class="leader"></span>
+            <span class="at">Openstream.ai</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- §projects -->
+      <section id="projects" class="fade-in">
+        <h2 data-numeral="III.">Projects</h2>
+        <div class="projects-grid">
+          <div class="project">
+            <a href="projects/mario/mario.html">
+              <div class="plate-mark">Pl. II.1</div>
+              <img src="https://user-images.githubusercontent.com/2184469/40949613-7542733a-6834-11e8-895b-ce1cc3af9dbb.gif" alt="Project RL Mario thumbnail">
+              <div class="project-details">
+                <h3>Play Mario with Reinforcement Learning</h3>
+                <p>Double Deep Q-Learning model to play Super Mario Bros.</p>
+                <div class="tech-stack">
+                  <span>Python</span><span>PyTorch</span><span>OpenAI Gym</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="project">
+            <a href="projects/sna/sna.html">
+              <div class="plate-mark">Pl. II.2</div>
+              <img src="images/sna_thumbnail.jpg" alt="Project SNA thumbnail">
+              <div class="project-details">
+                <h3>Social Network Analysis</h3>
+                <p>Statnet33 — a social network analyzer using statistical models and visualisation.</p>
+                <div class="tech-stack">
+                  <span>Python</span><span>R</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="project">
+            <a href="projects/psy/psy.html">
+              <div class="plate-mark">Pl. II.3</div>
+              <img src="images/psy_thumbnail.webp" alt="Project Psychological Analysis thumbnail">
+              <div class="project-details">
+                <h3>Research Automation Project</h3>
+                <p>Automating psychological research with BeautifulSoup and Google Gemini.</p>
+                <div class="tech-stack">
+                  <span>Python</span><span>BeautifulSoup4</span><span>Google Gemini</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="project">
+            <a href="projects/uciadult/uciadult.html">
+              <div class="plate-mark">Pl. II.4</div>
+              <img src="images/uciadult_thumbnail.jpg" alt="Project Income Disparity thumbnail">
+              <div class="project-details">
+                <h3>Income Disparity Analysis</h3>
+                <p>A full-stack analysis of demographics through tree-based models.</p>
+                <div class="tech-stack">
+                  <span>Python</span><span>Jupyter Notebook</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="project">
+            <a href="projects/privacy/privacy.html">
+              <div class="plate-mark">Pl. II.5</div>
+              <img src="images/privacy_thumbnail.jpeg" alt="Project Privacy Policies thumbnail">
+              <div class="project-details">
+                <h3>Privacy Policies AI System</h3>
+                <p>An NLP model + web app for interpreting Privacy Policies and Terms of Conditions.</p>
+                <div class="tech-stack">
+                  <span>Python</span><span>Transformers</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="project">
+            <a href="projects/poker/poker.html">
+              <div class="plate-mark">Pl. II.6</div>
+              <img src="images/poker_thumbnail.webp" alt="Project Poker Tree-based Models thumbnail">
+              <div class="project-details">
+                <h3>Poker Hand Classification</h3>
+                <p>Tree-based models for poker hand classification, with custom preprocessing and model optimisation.</p>
+                <div class="tech-stack">
+                  <span>Python</span><span>Jupyter Notebook</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="project">
+            <a href="projects/totp/totp.html">
+              <div class="plate-mark">Pl. II.7</div>
+              <img src="images/2fa_thumbnail.jpg" alt="Project TOTP thumbnail">
+              <div class="project-details">
+                <h3>Self-Hosted TOTP Authenticator</h3>
+                <p>A desktop 2FA solution for managing multiple TOTP authenticator codes without reaching for your phone.</p>
+                <div class="tech-stack">
+                  <span>Node.js</span><span>Express</span><span>SQLite</span><span>Docker</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- §education -->
+      <section id="education" class="fade-in">
+        <h2 data-numeral="IV.">Education</h2>
+        <table class="table-common">
+          <thead>
+            <tr>
+              <th>Degree</th>
+              <th>Years</th>
+              <th>Institution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Degree">Master of Data Science</td>
+              <td data-label="Years">2023 – 2024</td>
+              <td data-label="Institution"><a href="https://www.swinburne.edu.au/" target="_blank" rel="noopener">Swinburne University of Technology</a></td>
+            </tr>
+            <tr>
+              <td data-label="Degree">Bachelor of Economics &amp; Foreign Trade</td>
+              <td data-label="Years">2018 – 2022</td>
+              <td data-label="Institution"><a href="http://eng.vimaru.edu.vn/" target="_blank" rel="noopener">Vietnam Maritime University (VMU)</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- §achievement -->
+      <section id="achievement" class="fade-in">
+        <h2 data-numeral="V.">Achievement</h2>
+
+        <div class="mos-callout">
+          <div class="medal" aria-hidden="true"><i class="fa-solid fa-medal"></i></div>
+          <div class="text">
+            Silver medal · Microsoft Office Specialist World Championship · Excel 2016 — <a target="_blank" rel="noopener" href="https://certiport.pearsonvue.com/Blog/2021/November/2021-Microsoft-Office-Specialist-World-Champions.aspx">Vietnam Ambassador, 2021</a>
+            <span class="when">November 2021</span>
+          </div>
+        </div>
+
+        <table class="table-common">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Description">VMU: Merit for excellent achievements in the Youth Union – Association and for outstanding academic results</td>
+              <td data-label="Date">October 2021</td>
+            </tr>
+            <tr>
+              <td data-label="Description">VMU: Outstanding Student — for students achieving distinction across multiple fields</td>
+              <td data-label="Date">November 2020 &amp; November 2021</td>
+            </tr>
+            <tr>
+              <td data-label="Description">VMU: Elected as Vice-President of the Faculty of Economics' English Club for two years</td>
+              <td data-label="Date">2019 – 2020</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- §certifications -->
+      <section id="certifications" class="fade-in">
+        <h2 data-numeral="VI.">Certifications</h2>
+        <table class="table-common">
+          <thead>
+            <tr>
+              <th>Certification</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Certification"><a target="_blank" rel="noopener" href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=603857223394A8AF6E56CD65FB01C80799C1BA67A344D5FF5E024BC1BCD28A15">Oracle: OCI Certified Foundations Associate</a></td>
+              <td data-label="Date">December 2024</td>
+            </tr>
+            <tr>
+              <td data-label="Certification"><a target="_blank" rel="noopener" href="https://cp.certmetrics.com/amazon/en/public/verify/credential/479c4ea2f14b41f4809f835190d1fc4d">AWS: Certified Cloud Practitioner</a></td>
+              <td data-label="Date">November 2024</td>
+            </tr>
+            <tr>
+              <td data-label="Certification"><a target="_blank" rel="noopener" href="https://coursera.org/share/f14e3a6ec7f59a3523eea4f5fefcc375">DeepLearning.AI: Mathematics for Machine Learning &amp; Data Science</a></td>
+              <td data-label="Date">August 2024</td>
+            </tr>
+            <tr>
+              <td data-label="Certification"><a target="_blank" rel="noopener" href="https://coursera.org/share/11f4af5ea2463f4ef76308a23ce6588f">IBM on Coursera: IBM Data Science</a></td>
+              <td data-label="Date">December 2023</td>
+            </tr>
+            <tr>
+              <td data-label="Certification"><a target="_blank" rel="noopener" href="https://coursera.org/share/89f5ad985b8cf900ab5c69cb87bb6049">IBM on Coursera: IBM AI Engineering</a></td>
+              <td data-label="Date">December 2023</td>
+            </tr>
+            <tr>
+              <td data-label="Certification"><a target="_blank" rel="noopener" href="https://learn.microsoft.com/api/credentials/share/en-us/PhatNguyenDuc-9364/A6420F1A9EF0B2B3?sharingId=61344080E32ABB00">Microsoft Certified: Azure AI Fundamentals</a></td>
+              <td data-label="Date">June 2023</td>
+            </tr>
+            <tr>
+              <td data-label="Certification">Microsoft Office Specialist: Expert on Microsoft Office</td>
+              <td data-label="Date">January 2021</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <a href="index.html" class="back-link">back to folio I</a>
+
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Folio II · Catalog of Works</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
+    </div>
+  </main>
+
+  <div id="scroll-prompt"><i class="fa-solid fa-arrow-up"></i></div>
+  <div id="audio-nudge">[ click anywhere to enable bubble notes ♪ ]</div>
+
+  <script src="js/scripts.js"></script>
+  <script>
+    // Override theme toggle from scripts.js to write paper/night + sync sun/moon icon.
+    // Replacing the button after DOMContentLoaded drops the legacy light/dark listener
+    // (which scripts.js attached to the original node) cleanly.
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+
+      const fresh = btn.cloneNode(true);
+      btn.parentNode.replaceChild(fresh, btn);
+
+      const sun  = fresh.querySelector('#themeIconSun');
+      const moon = fresh.querySelector('#themeIconMoon');
+
+      function syncIcon() {
+        const isNight = document.documentElement.getAttribute('data-theme') === 'night';
+        sun.style.display  = isNight ? 'none' : '';
+        moon.style.display = isNight ? '' : 'none';
+      }
+      syncIcon();
+
+      fresh.addEventListener('click', () => {
+        const cur  = document.documentElement.getAttribute('data-theme');
+        const next = cur === 'night' ? 'paper' : 'night';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        syncIcon();
+      });
+    });
+  </script>
+
+  <!-- Override scripts.js scroll-prompt: jump back to the tech-stack grid
+       (not the very top), and only show the prompt while you're below it. -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const old = document.getElementById('scroll-prompt');
+      if (!old) return;
+      // Clone-replace drops the legacy click handler scripts.js attached
+      // (which scrolled to window.innerHeight, i.e. effectively "to top").
+      const sp = old.cloneNode(true);
+      old.parentNode.replaceChild(sp, old);
+
+      function update() {
+        const target = document.querySelector('.tech-stack-grid');
+        if (!target) return;
+        const targetBottom = target.getBoundingClientRect().bottom + window.scrollY;
+        const y  = window.scrollY;
+        const wh = window.innerHeight;
+        const dh = document.documentElement.scrollHeight;
+        const past = y > targetBottom - 40;
+        const nearBottom = y + wh >= dh - 80;
+        sp.style.display = (past && !nearBottom) ? 'flex' : 'none';
+      }
+
+      setTimeout(update, 600);
+      window.addEventListener('scroll', update, { passive: true });
+
+      sp.addEventListener('click', () => {
+        const target = document.querySelector('.tech-stack-grid');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+
+  <!-- TOC-specific functionality (kept verbatim from prior version) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('#toc a');
+
+      // Smooth scrolling for TOC links
+      tocLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+          event.preventDefault();
+          document.querySelector(link.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
         });
-    </script>
+      });
 
-    <script src="js/scripts.js"></script>
+      // Highlight the TOC link while scrolling
+      window.addEventListener('scroll', function() {
+        let fromTop = window.scrollY;
+        let offset = 150;
+
+        tocLinks.forEach(function(link) {
+          let section = document.querySelector(link.getAttribute('href'));
+          if (!section) return;
+          let sectionTop = section.offsetTop - offset;
+          let sectionBottom = sectionTop + section.offsetHeight;
+
+          if (fromTop >= sectionTop && fromTop < sectionBottom) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+
+        // Highlight the last link when at the very bottom
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          tocLinks.forEach(function(link) { link.classList.remove('active'); });
+          tocLinks[tocLinks.length - 1].classList.add('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

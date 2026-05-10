@@ -33,26 +33,52 @@ function playNote(frequency) {
         initAudioContext();
     }
 
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    const panNode = audioContext.createStereoPanner();
+    const t = audioContext.currentTime;
+    const dur = 1.2;  // total note length — long natural decay
 
-    oscillator.type = 'triangle'; // slightly richer tone
-    oscillator.frequency.setValueAtTime(frequency - 10, audioContext.currentTime);
-    oscillator.frequency.linearRampToValueAtTime(frequency, audioContext.currentTime + 0.1);
+    // Two-oscillator voice: sine fundamental + soft detuned octave for shimmer
+    const osc1 = audioContext.createOscillator();
+    const osc2 = audioContext.createOscillator();
+    osc1.type = 'sine';
+    osc2.type = 'triangle';
+    osc1.frequency.setValueAtTime(frequency, t);
+    osc2.frequency.setValueAtTime(frequency * 2, t);
+    osc2.detune.setValueAtTime(6, t);  // ~6 cents up — chorus shimmer
 
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.03);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.35);
+    const mix1 = audioContext.createGain();
+    const mix2 = audioContext.createGain();
+    mix1.gain.value = 1.0;
+    mix2.gain.value = 0.10;  // octave is decoration, not lead
 
-    panNode.pan.value = Math.random() * 2 - 1;
+    // Warm low-pass to file off triangle harshness
+    const filter = audioContext.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(2600, t);
+    filter.Q.setValueAtTime(0.6, t);
 
-    oscillator.connect(gainNode);
-    gainNode.connect(panNode);
-    panNode.connect(audioContext.destination);
+    // Envelope: exponential attack avoids click, long exp release rings out.
+    // exponentialRampToValueAtTime requires a positive target → use 0.0001.
+    const env = audioContext.createGain();
+    env.gain.setValueAtTime(0.0001, t);
+    env.gain.exponentialRampToValueAtTime(0.16, t + 0.05);
+    env.gain.exponentialRampToValueAtTime(0.0001, t + dur);
 
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.4);
+    // Narrow random pan so rapid hovers don't whip across the head
+    const pan = audioContext.createStereoPanner();
+    pan.pan.setValueAtTime((Math.random() - 0.5) * 0.6, t);
+
+    osc1.connect(mix1);
+    osc2.connect(mix2);
+    mix1.connect(filter);
+    mix2.connect(filter);
+    filter.connect(env);
+    env.connect(pan);
+    pan.connect(audioContext.destination);
+
+    osc1.start(t);
+    osc2.start(t);
+    osc1.stop(t + dur + 0.05);
+    osc2.stop(t + dur + 0.05);
 }
 
 function playNextNote() {
