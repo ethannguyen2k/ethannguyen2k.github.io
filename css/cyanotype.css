@@ -42,10 +42,12 @@
   --fg-mute:      var(--ink-mid);
   --accent:       var(--ink);
   --line:         rgba(10, 47, 92, 0.28);
-  --plate-bg:     var(--ink);
-  --plate-fg:     var(--cream);
-  --plate-shadow: 0 18px 36px -14px rgba(10, 47, 92, 0.45),
-                  inset 0 0 60px rgba(0, 0, 0, 0.06);
+  --plate-bg:     var(--cream);
+  --plate-fg:     var(--ink-deep);
+  --plate-rule:   rgba(10, 47, 92, 0.28);
+  --plate-id-fg:  rgba(10, 47, 92, 0.55);
+  --plate-shadow: 0 14px 28px -14px rgba(10, 47, 92, 0.30),
+                  inset 0 0 60px rgba(10, 47, 92, 0.04);
   --grain-blend:  multiply;
   --grain-opacity: 0.22;
   --exposure:
@@ -69,6 +71,8 @@
   --line:         rgba(244, 236, 213, 0.22);
   --plate-bg:     #0e3666;
   --plate-fg:     var(--cream);
+  --plate-rule:   rgba(244, 236, 213, 0.30);
+  --plate-id-fg:  rgba(244, 236, 213, 0.6);
   --plate-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.55),
                   inset 0 0 80px rgba(255, 255, 255, 0.04);
   --grain-blend:  overlay;
@@ -334,7 +338,7 @@ body::after {
   position: absolute;
   width: 14px;
   height: 14px;
-  border: 1px solid rgba(244, 236, 213, 0.4);
+  border: 1px solid var(--plate-rule);
   pointer-events: none;
 }
 .plate .corner.tl { top: 8px;    left: 8px;    border-right: none; border-bottom: none; }
@@ -347,7 +351,7 @@ body::after {
   font-size: 10px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(244, 236, 213, 0.6);
+  color: var(--plate-id-fg);
   position: relative;
   z-index: 1;
 }
@@ -366,7 +370,7 @@ body::after {
   font-weight: 400;
   font-size: 22px;
   letter-spacing: 0.01em;
-  border-top: 1px solid rgba(244, 236, 213, 0.3);
+  border-top: 1px solid var(--plate-rule);
   padding-top: 10px;
   margin-top: 8px;
   display: flex;
@@ -389,7 +393,7 @@ body::after {
 .plate-image {
   background: var(--cream);
   padding: 6px;
-  border: 1px solid rgba(244, 236, 213, 0.35);
+  border: 1px solid var(--plate-rule);
   position: relative;
   z-index: 1;
 }

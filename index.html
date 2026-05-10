@@ -1,168 +1,312 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="paper">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Homepage">
-    <meta name="author" content="Ethan">
-    <title>My Front Page</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        // Apply saved theme before paint to avoid FOUC.
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-    <script src="js/home.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ethan — engineer by training, builder by habit. A study in blue.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Folio I</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="css/cyanotype.css">
+  <link rel="stylesheet" href="css/home-cyanotype.css">
+
+  <script>
+    // Apply theme before paint. Migrate legacy light/dark → paper/night.
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <script src="js/home.js" defer></script>
 </head>
 <body>
-    <div class="waves">
-        <div class="wave wave-1"></div>
-        <div class="wave wave-2"></div>
-        <div class="wave wave-3"></div>
-    </div>
 
-    <header>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <button class="about-btn" id="aboutBtn" aria-label="About Me">
-            <i class="fa-solid fa-hand-peace"></i>
+  <!-- Botanical decorations -->
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
+
+  <div class="content-container" id="contentContainer">
+
+    <header class="topbar reveal d1">
+      <div class="meta">
+        <span class="location">Melbourne · AUS</span>
+        <span class="sep">·</span>
+        <span id="dateStamp">—</span>
+      </div>
+      <div class="controls">
+        <button class="icon-btn" id="aboutBtn" aria-label="About">
+          <i class="fa-solid fa-hand-peace"></i>
         </button>
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
     </header>
 
-    <div id="quote-tooltip" class="quote-tooltip">
-        <p>"If you are wrong, you can walk away and slam the door. If your mother is wrong, she can only shed tears while cleaning the house.</p>
-        <p>Everyone wants to save the world, but no one wants to help their mother with the housework."</p>
-        <footer>-Anonymous-</footer>
-    </div>
+    <main class="stage">
 
-    <main>
-        <div class="content-container" id="contentContainer">
-            <div class="main-box">
-                <div class="header-content">
-                    <img id="logo" src="images/logo2.webp" alt="Logo">
-                    <div class="text-content">
-                        <h1>hi! i'm ethan</h1>
-                        <h3>hard learning. hardworking. hard playing. ready for what's next</h3>
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="icon-grid">
-                        <div class="icon-item" onclick="window.location.href='portfolio.html'">
-                            <div class="icon-circle">
-                                <i class="fas fa-briefcase"></i>
-                            </div>
-                            <span class="icon-label">portfolio</span>
-                        </div>
-                        <div class="icon-item" onclick="window.location.href='blog.html'">
-                            <div class="icon-circle">
-                                <i class="fas fa-pen-fancy"></i>
-                            </div>
-                            <span class="icon-label">blogs</span>
-                        </div>
-                        <div class="icon-item" id="socialLinksBtn">
-                            <div class="icon-circle">
-                                <i class="fa-solid fa-link"></i>
-                            </div>
-                            <span class="icon-label">links</span>
-                        </div>
-
-                        <div class="bottom-row">
-                            <div class="icon-item" onclick="window.location.href='playlist.html'">
-                                <div class="icon-circle">
-                                    <i class="fas fa-music"></i>
-                                </div>
-                                <span class="icon-label">playlist</span>
-                            </div>
-                            <div class="icon-item" id="surpriseBtn">
-                                <div class="cycling-icon-container">
-                                    <img id="cyclingIcon" src="images/surpriseicon/SurpriseIcon.webp" alt="Surprise Icon" class="cycling-icon">
-                                </div>
-                                <span class="icon-label">surprise me</span>
-                            </div>
-                            <div class="icon-item" id="contactBtn">
-                                <div class="icon-circle">
-                                    <i class="fa-solid fa-paper-plane"></i>
-                                </div>
-                                <span class="icon-label">contact</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="secondary-box">
-                <div class="box" id="dynamicBox"></div>
-            </div>
+      <!-- Hero -------------------------------------------------------- -->
+      <section class="hero">
+        <div class="hero-portrait reveal d2" id="logo">
+          <img src="images/ava.jpg" alt="Ethan">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
         </div>
+        <div class="hero-text">
+          <div class="plate-no reveal d2">Plate I — Self-Portrait of the Author</div>
+          <h1 class="headline reveal d2">
+            hi, i'm <em>ethan</em>
+            <span class="amp">·</span>
+            a study in <em>blue</em>.
+          </h1>
+          <div class="hero-subhead reveal d3">
+            (Novice) Engineer by training. Builder by habit.<br>
+            Curious about the rest.
+          </div>
+        </div>
+      </section>
+
+      <!-- Specimens ---------------------------------------------------- -->
+      <section class="specimens" aria-label="Specimens">
+
+        <div class="specimens-row primary">
+
+          <a class="specimen" href="portfolio.html" aria-label="Portfolio">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <div class="plate-id">Pl. I.1</div>
+            <div class="silhouette">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <rect x="20" y="32" width="60" height="46" rx="2"/>
+                <line x1="38" y1="32" x2="38" y2="22"/>
+                <line x1="62" y1="32" x2="62" y2="22"/>
+                <line x1="38" y1="22" x2="62" y2="22"/>
+                <line x1="20" y1="48" x2="80" y2="48"/>
+              </svg>
+            </div>
+            <div class="plate-label">
+              <span class="name">Portfolio</span>
+              <span class="latin">opus &middot; tuyển tập</span>
+            </div>
+          </a>
+
+          <a class="specimen" href="blog.html" aria-label="Blogs">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <div class="plate-id">Pl. I.2</div>
+            <div class="silhouette">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M30 78 L30 24 L62 24 L74 36 L74 78 Z"/>
+                <path d="M62 24 L62 36 L74 36"/>
+                <line x1="38" y1="46" x2="66" y2="46"/>
+                <line x1="38" y1="56" x2="66" y2="56"/>
+                <line x1="38" y1="66" x2="58" y2="66"/>
+              </svg>
+            </div>
+            <div class="plate-label">
+              <span class="name">Blogs</span>
+              <span class="latin">folia &middot; nhật ký</span>
+            </div>
+          </a>
+
+          <a class="specimen" href="#" id="contactBtn" aria-label="Contact">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <div class="plate-id">Pl. I.3</div>
+            <div class="silhouette">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M22 36 L78 36 L78 70 L22 70 Z"/>
+                <path d="M22 36 L50 56 L78 36"/>
+              </svg>
+            </div>
+            <div class="plate-label">
+              <span class="name">Contact</span>
+              <span class="latin">epistula &middot; thư từ</span>
+            </div>
+          </a>
+
+        </div>
+
+        <div class="specimen-divider">
+          <span>↓ also worth a look — odds and ends, songs, hidden things ↓</span>
+        </div>
+
+        <div class="specimens-row secondary">
+
+          <a class="specimen" href="#" id="socialLinksBtn" aria-label="Links">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <div class="plate-id">Pl. I.4</div>
+            <div class="silhouette">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M40 50 a14 14 0 0 1 14 -14 l8 0 a14 14 0 0 1 0 28 l-4 0"/>
+                <path d="M60 50 a14 14 0 0 1 -14 14 l-8 0 a14 14 0 0 1 0 -28 l4 0"/>
+              </svg>
+            </div>
+            <div class="plate-label">
+              <span class="name">Links</span>
+              <span class="latin">nodi &middot; đầu mối</span>
+            </div>
+          </a>
+
+          <a class="specimen" href="playlist.html" aria-label="Playlist">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <div class="plate-id">Pl. I.5</div>
+            <div class="silhouette">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M40 70 L40 28 L70 22 L70 64"/>
+                <ellipse cx="34" cy="70" rx="8" ry="6" class="filled"/>
+                <ellipse cx="64" cy="64" rx="8" ry="6" class="filled"/>
+              </svg>
+            </div>
+            <div class="plate-label">
+              <span class="name">Playlist</span>
+              <span class="latin">cantus &middot; khúc nhạc</span>
+            </div>
+          </a>
+
+          <a class="specimen gacha" href="#" id="surpriseBtn" aria-label="Surprise">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <div class="plate-id">Pl. I.6 · Latent</div>
+            <div class="silhouette">
+              <svg viewBox="0 0 100 100" aria-hidden="true">
+                <circle cx="50" cy="50" r="22"/>
+                <circle cx="50" cy="50" r="34"/>
+                <circle cx="50" cy="50" r="6" class="filled"/>
+              </svg>
+            </div>
+            <div class="gacha-stage" id="gachaStage" aria-hidden="true"></div>
+            <div class="plate-label">
+              <span class="name"><em>Surprise</em></span>
+              <span class="latin">mira &middot; kỳ ngộ</span>
+            </div>
+          </a>
+
+        </div>
+
+      </section>
+
+      <!-- Marginalia (mother quote) ----------------------------------- -->
+      <aside class="hero-marginalia reveal d4">
+        <div class="quote">
+          <p>"If you are wrong, you can walk away and slam the door. If your mother is wrong, she can only shed tears while cleaning the house.</p>
+          <p>Everyone wants to save the world, but no one wants to help their mother with the housework."</p>
+        </div>
+        <span class="attr">— anonymous</span>
+      </aside>
+
+      <!-- Footer print stamp ------------------------------------------ -->
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <div>Ethan &middot; Nguyễn Đức Phát</div>
+        <div>Made with <span style="color: var(--accent)">▲</span> &nbsp; intent</div>
+      </footer>
+
     </main>
 
-    <footer>
-        <p>made by ethan, <span id="year"></span>, with 💜</p>
-    </footer>
+    <!-- Side pane (surprise / links / contact / about) -------------- -->
+    <aside class="secondary-pane" id="secondaryPane" aria-hidden="true">
+      <button class="pane-back" id="paneBack" aria-label="Back">← back</button>
+      <div class="pane-inner" id="paneInner"></div>
+    </aside>
 
-    <div class="about-modal" id="aboutModal">
-        <div class="about-content">
-            <button class="about-close" id="aboutClose">&times;</button>
-            <div class="about-header">
-                <img src="images/ava.png" alt="ethan's avatar" class="about-avatar">
-                <div class="about-title">
-                    <h2>Ethan</h2>
-                    <p class="about-vname">Nguyễn Đức Phát</p>
-                    <p class="about-job-title">AI whisperer & occasional slur shouter <br>
-                        <small>(this is more whimsical version. for a more professional version, check out my <a href="portfolio.html" class="about-link">portfolio</a>)</small></p>
-                </div>
-            </div>
-            <div class="about-section">
-                <h3>a short introduction</h3>
-                <p style="margin-bottom: 15px; font-weight: 550;">xin chào! i'm ethan, a data sci graduate and a tutor. i...</p>
-                <ul class="about-list">
-                    <li><i class="fa-solid fa-chart-line"></i> have background in econ and data</li>
-                    <li><i class="fa-solid fa-robot"></i> explore and create a bunch of AI agents</li>
-                    <li><i class="fa-solid fa-laptop-code"></i> have an old laptop that refused to serve certain models in its GPU, sometimes</li>
-                    <li><i class="fa-solid fa-brain"></i> do ML/AI engineering. the world is vast.</li>
-                </ul>
-            </div>
-            <div class="about-section">
-                <h3>other interests</h3>
-                <ul class="about-list">
-                    <li><i class="fa-solid fa-gamepad"></i> game development (thanks&nbsp; <a href="https://www.youtube.com/@GMTK" target="_blank" class="about-link">GMTK</a>)</li>
-                    <li><i class="fa-solid fa-music"></i> chill with my own&nbsp; <a href="playlist.html" class="about-link">music playlist</a></li>
-                    <li><i class="fa-solid fa-film"></i> looking up movie quotes on&nbsp; <a href="https://playphrase.me" target="_blank" class="about-link">playphrase.me</a></li>
-                    <li><i class="fa-solid fa-code"></i> frontend dev. still trying to figure things out</li>
-                    <li><i class="fa-solid fa-chess"></i> games like total war series, strategic coop shooter games</li>
-                    <li><i class="fa-solid fa-beer-mug-empty"></i> hanging out with friends. has to touch grass once in a while</li>
-                </ul>
-            </div>
-            <div class="about-section">
-                <h3>fun facts</h3>
-                <ul class="about-list">
-                    <li><i class="fa-solid fa-trophy"></i> i am once a&nbsp; <a href="https://ybox.vn/guong-mat/doi-ban-than-cung-nhau-chinh-phuc-cuoc-thi-vo-dich-tin-hoc-van-phong-the-gioi-61aadb03ae21b47a994c6855" target="_blank" class="about-link">runner up in an international competition</a></li>
-                    <li><i class="fa-solid fa-utensils"></i> i prefer a dinner over lunch, it's more fun to hang out with the boys at night</li>
-                    <li><i class="fa-solid fa-graduation-cap"></i> top 4 15mins english tests in high school</li>
-                    <li><i class="fa-solid fa-comment-dots"></i> it bugs me when people call one thing 'superior' to another, like it's a fact, even when it's really just a matter of opinion or context</li>
-                    <li><i class="fa-solid fa-tooth"></i> did you know? snails can have between 10,000 and 25,000 teeth, depending on the species</li>
-                    <li><i class="fa-solid fa-language"></i> english is hard sometimes</li>
-                </ul>
-            </div>
-
-            <div class="about-section">
-                <h3>photo collage</h3>
-                <p>moments with friends and family that make life special...</p>
-                <div class="collage-container" id="photoCollage"></div>
-            </div>
-        </div>
+    <!-- Collage lightbox (held-print preview) ----------------------- -->
+    <div class="collage-lightbox" id="collageLightbox" aria-hidden="true">
+      <div class="collage-lightbox-frame">
+        <img alt="" />
+      </div>
     </div>
+
+  </div>
+
+  <!-- About panel content (cloned by JS into the side pane) -------- -->
+  <template id="aboutTemplate">
+    <div class="pane-eyebrow">Pl. I.0 · Self-Portrait</div>
+    <h2 class="pane-heading">about ethan</h2>
+
+    <div class="about-header">
+      <div class="about-avatar-frame">
+        <img src="images/ava.jpg" alt="Ethan's avatar">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+      </div>
+      <div class="about-title">
+        <h2>Ethan</h2>
+        <p class="about-vname">Nguyễn Đức Phát</p>
+        <p class="about-job">
+          AI whisperer &amp; occasional slur shouter<br>
+          <small>(this is the more whimsical version. for a more professional version, check out my <a href="portfolio.html" class="about-link">portfolio</a>)</small>
+        </p>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h3>a short introduction</h3>
+      <p style="font-style: italic;">xin chào! i'm ethan, a data sci graduate and a tutor. i&hellip;</p>
+      <ul class="about-list">
+        <li><i class="fa-solid fa-chart-line"></i><span>have background in econ and data</span></li>
+        <li><i class="fa-solid fa-robot"></i><span>explore and create a bunch of AI agents</span></li>
+        <li><i class="fa-solid fa-laptop-code"></i><span>have an old laptop that refused to serve certain models in its GPU, sometimes</span></li>
+        <li><i class="fa-solid fa-brain"></i><span>do ML/AI engineering. the world is vast.</span></li>
+      </ul>
+    </div>
+
+    <div class="about-section">
+      <h3>other interests</h3>
+      <ul class="about-list">
+        <li><i class="fa-solid fa-gamepad"></i><span>game development (thanks <a href="https://www.youtube.com/@GMTK" target="_blank" class="about-link">GMTK</a>)</span></li>
+        <li><i class="fa-solid fa-music"></i><span>chill with my own <a href="playlist.html" class="about-link">music playlist</a></span></li>
+        <li><i class="fa-solid fa-film"></i><span>looking up movie quotes on <a href="https://playphrase.me" target="_blank" class="about-link">playphrase.me</a></span></li>
+        <li><i class="fa-solid fa-code"></i><span>frontend dev. still trying to figure things out</span></li>
+        <li><i class="fa-solid fa-chess"></i><span>games like total war series, strategic coop shooter games</span></li>
+        <li><i class="fa-solid fa-beer-mug-empty"></i><span>hanging out with friends. has to touch grass once in a while</span></li>
+      </ul>
+    </div>
+
+    <div class="about-section">
+      <h3>fun facts</h3>
+      <ul class="about-list">
+        <li><i class="fa-solid fa-trophy"></i><span>i am once a <a href="https://ybox.vn/guong-mat/doi-ban-than-cung-nhau-chinh-phuc-cuoc-thi-vo-dich-tin-hoc-van-phong-the-gioi-61aadb03ae21b47a994c6855" target="_blank" class="about-link">runner up in an international competition</a></span></li>
+        <li><i class="fa-solid fa-utensils"></i><span>i prefer a dinner over lunch, it's more fun to hang out with the boys at night</span></li>
+        <li><i class="fa-solid fa-graduation-cap"></i><span>top 4 15-mins english tests in high school</span></li>
+        <li><i class="fa-solid fa-comment-dots"></i><span>it bugs me when people call one thing 'superior' to another, like it's a fact, even when it's really just a matter of opinion or context</span></li>
+        <li><i class="fa-solid fa-tooth"></i><span>did you know? snails can have between 10,000 and 25,000 teeth, depending on the species</span></li>
+        <li><i class="fa-solid fa-language"></i><span>english is hard sometimes</span></li>
+      </ul>
+    </div>
+
+    <div class="about-section">
+      <h3>photo collage</h3>
+      <p>moments with friends and family that make life special&hellip;</p>
+      <div class="collage-container" data-collage data-count="25"></div>
+    </div>
+  </template>
+
 </body>
 </html>

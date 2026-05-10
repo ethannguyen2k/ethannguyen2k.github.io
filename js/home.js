@@ -1,199 +1,268 @@
-// Home page interactivity. Loaded with `defer`, so DOM is ready by the time
-// this runs — no DOMContentLoaded wrapper needed.
+// Home page interactivity (cyanotype). Loaded with `defer`, so DOM is ready.
 
-// ---- Footer year -------------------------------------------------------
-const yearEl = document.getElementById('year');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+// ---- Footer year + date stamp -----------------------------------------
+{
+  const y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
+
+  const d = new Date();
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const stamp = document.getElementById('dateStamp');
+  if (stamp) {
+    stamp.textContent =
+      String(d.getDate()).padStart(2,'0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+}
 
 // ---- Theme toggle ------------------------------------------------------
-document.getElementById('themeToggle').addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'light' ? 'dark' : 'light';
+{
+  const btn  = document.getElementById('themeToggle');
+  const sun  = document.getElementById('themeIconSun');
+  const moon = document.getElementById('themeIconMoon');
+
+  function syncIcon() {
+    const isNight = document.documentElement.getAttribute('data-theme') === 'night';
+    sun.style.display  = isNight ? 'none' : '';
+    moon.style.display = isNight ? '' : 'none';
+  }
+  syncIcon();
+
+  btn.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'night' ? 'paper' : 'night';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-});
-
-// ---- Logo quote tooltip ------------------------------------------------
-{
-    const logo = document.getElementById('logo');
-    const tooltip = document.getElementById('quote-tooltip');
-    let timer;
-
-    logo.addEventListener('mouseenter', () => {
-        const r = logo.getBoundingClientRect();
-        tooltip.style.top = (r.bottom + 10) + 'px';
-        tooltip.style.left = (r.left + r.width / 2 - 250) + 'px';
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            tooltip.style.display = 'block';
-            setTimeout(() => tooltip.classList.add('visible'), 10);
-        }, 100);
-    });
-
-    logo.addEventListener('mouseleave', () => {
-        clearTimeout(timer);
-        tooltip.classList.remove('visible');
-        setTimeout(() => { tooltip.style.display = 'none'; }, 300);
-    });
+    syncIcon();
+  });
 }
 
-// ---- Cycling surprise icon --------------------------------------------
+// ---- Gacha hover on the Surprise plate --------------------------------
+// At rest: silhouette. On hover: 14 stickers burst in with random
+// positions, rotations, and stagger. Each hover regenerates positions
+// so it never feels static.
 {
-    const icon = document.getElementById('cyclingIcon');
-    const sources = [
-        'images/surpriseicon/SurpriseIcon.webp',
-        'images/surpriseicon/SurpriseIcon2.webp',
-        'images/surpriseicon/SurpriseIcon2 (2).jpg',
-        'images/surpriseicon/SurpriseIcon3.webp',
-        'images/surpriseicon/SurpriseIcon4.webp',
-        'images/surpriseicon/SurpriseIcon5.webp',
-        'images/surpriseicon/SurpriseIcon6.webp',
-        'images/surpriseicon/SurpriseIcon7.webp',
-        'images/surpriseicon/SurpriseIcon8.webp',
-        'images/surpriseicon/SurpriseIcon9.webp',
-        'images/surpriseicon/SurpriseIcon10.webp',
-        'images/surpriseicon/SurpriseIcon11.webp',
-        'images/surpriseicon/SurpriseIcon12.webp',
-        'images/surpriseicon/SurpriseIcon13.gif',
-    ];
-    let i = 0;
-    document.querySelector('.cycling-icon-container').addEventListener('mouseenter', () => {
-        i = (i + 1) % sources.length;
-        icon.src = sources[i];
+  const stage = document.getElementById('gachaStage');
+  const plate = document.getElementById('surpriseBtn');
+  const sources = [
+    'images/surpriseicon/SurpriseIcon.webp',
+    'images/surpriseicon/SurpriseIcon2.webp',
+    'images/surpriseicon/SurpriseIcon2 (2).jpg',
+    'images/surpriseicon/SurpriseIcon3.webp',
+    'images/surpriseicon/SurpriseIcon4.webp',
+    'images/surpriseicon/SurpriseIcon5.webp',
+    'images/surpriseicon/SurpriseIcon6.webp',
+    'images/surpriseicon/SurpriseIcon7.webp',
+    'images/surpriseicon/SurpriseIcon8.webp',
+    'images/surpriseicon/SurpriseIcon9.webp',
+    'images/surpriseicon/SurpriseIcon10.webp',
+    'images/surpriseicon/SurpriseIcon11.webp',
+    'images/surpriseicon/SurpriseIcon12.webp',
+    'images/surpriseicon/SurpriseIcon13.gif',
+  ];
+
+  // Pre-create the 14 sticker elements. Each one is positioned at the
+  // plate's center; hover sets per-element CSS variables to scatter them.
+  const stickers = sources.map((src, i) => {
+    const el = document.createElement('div');
+    el.className = 'gacha-sticker';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.draggable = false;
+    el.appendChild(img);
+    stage.appendChild(el);
+    return el;
+  });
+
+  function scatter() {
+    const rect = plate.getBoundingClientRect();
+    // Spread radius scaled to plate dimensions.
+    const rx = rect.width  * 0.36;
+    const ry = rect.height * 0.36;
+    stickers.forEach((el, i) => {
+      const tx = (Math.random() * 2 - 1) * rx;
+      const ty = (Math.random() * 2 - 1) * ry;
+      const r  = (Math.random() * 2 - 1) * 28;       // ±28°
+      const d  = i * 28 + Math.random() * 60;         // staggered delay
+      el.style.setProperty('--tx', tx.toFixed(1) + 'px');
+      el.style.setProperty('--ty', ty.toFixed(1) + 'px');
+      el.style.setProperty('--r',  r.toFixed(1) + 'deg');
+      el.style.setProperty('--d',  d.toFixed(0) + 'ms');
     });
+  }
+
+  plate.addEventListener('mouseenter', scatter);
+  // Click also triggers the side-panel surprise video — see below.
 }
 
-// ---- Secondary-box panels (surprise / social / contact) ---------------
-const contentContainer = document.getElementById('contentContainer');
-const dynamicBox = document.getElementById('dynamicBox');
-
-function showPanel(html) {
-    dynamicBox.innerHTML = html + `
-        <button class="back-button" data-back>
-            <i class="fas fa-arrow-left"></i> Back
-        </button>`;
-    contentContainer.classList.add('active');
-    dynamicBox.querySelector('[data-back]').addEventListener('click', () => {
-        // Stop any embedded video by clearing its src.
-        const iframe = dynamicBox.querySelector('iframe');
-        if (iframe) iframe.src = '';
-        contentContainer.classList.remove('active');
-    });
-}
-
-// Surprise me
+// ---- Side panel (surprise / links / contact) --------------------------
 {
+  const container = document.getElementById('contentContainer');
+  const pane      = document.getElementById('secondaryPane');
+  const inner     = document.getElementById('paneInner');
+  const back      = document.getElementById('paneBack');
+
+  function showPanel(html) {
+    inner.innerHTML = html;
+    container.classList.add('active');
+    pane.setAttribute('aria-hidden', 'false');
+    inner.scrollTop = 0;
+  }
+
+  function closePanel() {
+    const iframe = inner.querySelector('iframe');
+    if (iframe) iframe.src = '';   // stop YouTube playback
+    container.classList.remove('active');
+    pane.setAttribute('aria-hidden', 'true');
+    setTimeout(() => { inner.innerHTML = ''; }, 480);
+  }
+
+  back.addEventListener('click', closePanel);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && container.classList.contains('active')) closePanel();
+  });
+
+  // ---- Surprise: cycling YouTube embeds -------------------------------
+  {
     const videos = [
-        { id: 'CiHfAO1XE4U', desc: 'a heartfelt thanks to my friends for an amazing gift, still searching for the perfect spot.<br>click surprise me for more!' },
-        { id: 'dQw4w9WgXcQ', desc: 'dQw4w9WgXcQ...<br>click surprise me for more!' },
-        { id: '6GCNUeTFSbA', desc: '༼ つ ◕_◕ ༽つ༼ つ ◕_◕ ༽つ<br>click surprise me for more!' },
-        { id: '6b5DkEzP9Jw', desc: 'no matter where you are<br>click surprise me for more!' },
-        { id: 'nrZNzc9AjP8', desc: 'disillusionment<br>click surprise me for more!' },
-        { id: 'OPf0YbXqDm0', desc: 'Bruno Mars funky never fails ~(=^‥^)/<br>the surprise ends here, but click again if you want to start over!' },
+      { id: 'CiHfAO1XE4U', desc: 'a heartfelt thanks to my friends for an amazing gift, still searching for the perfect spot.' },
+      { id: 'dQw4w9WgXcQ', desc: 'dQw4w9WgXcQ…' },
+      { id: '6GCNUeTFSbA', desc: '༼ つ ◕_◕ ༽つ ༼ つ ◕_◕ ༽つ' },
+      { id: '6b5DkEzP9Jw', desc: 'no matter where you are' },
+      { id: 'nrZNzc9AjP8', desc: 'disillusionment' },
+      { id: 'OPf0YbXqDm0', desc: 'Bruno Mars funky never fails ~(=^‥^)/' },
     ];
     let i = 0;
+
     function renderSurprise() {
-        const { id, desc } = videos[i];
-        i = (i + 1) % videos.length;
-        showPanel(`
-            <div class="video-container">
-                <iframe
-                    width="560" height="315"
-                    src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen></iframe>
-                <p class="video-description">${desc}</p>
-                <button type="button" class="surprise-again" data-surprise-again>
-                    <i class="fas fa-shuffle shuffle-ico"></i>
-                    <span>surprise me again</span>
-                    <i class="fas fa-arrow-right arrow-ico"></i>
-                </button>
-            </div>`);
-        dynamicBox.querySelector('[data-surprise-again]')
-            .addEventListener('click', renderSurprise);
-    }
-    document.getElementById('surpriseBtn').addEventListener('click', renderSurprise);
-}
-
-// Social links
-document.getElementById('socialLinksBtn').addEventListener('click', () => {
-    showPanel(`
-        <h2 class="panel-heading">connect with me</h2>
-        <div class="social-links">
-            <a href="https://github.com/ethannguyen2k" target="_blank" class="social-link">
-                <div class="social-circle"><i class="fab fa-github"></i></div>
-                <span class="social-label">github</span>
-            </a>
-            <a href="https://linkedin.com/in/ethan-2k" target="_blank" class="social-link">
-                <div class="social-circle"><i class="fab fa-linkedin"></i></div>
-                <span class="social-label">linkedin</span>
-            </a>
-            <a href="https://www.facebook.com/killthemallpro" target="_blank" class="social-link">
-                <div class="social-circle"><i class="fa-brands fa-facebook"></i></div>
-                <span class="social-label">facebook</span>
-            </a>
+      const { id, desc } = videos[i];
+      const isLast = i === videos.length - 1;
+      i = (i + 1) % videos.length;
+      showPanel(`
+        <div class="pane-eyebrow">Pl. I.6 · Latent</div>
+        <h2 class="pane-heading">a small surprise</h2>
+        <div class="video-mount">
+          <iframe
+            src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+          <div class="caption">${desc}</div>
         </div>
-        <p class="panel-center" style="margin-top: 20px;">click any icons will open up a new tab!</p>`);
-});
+        <button type="button" class="surprise-again" data-again>
+          ${isLast ? 'start over →' : 'surprise me again →'}
+        </button>
+      `);
+      inner.querySelector('[data-again]').addEventListener('click', renderSurprise);
+    }
 
-// Contact
-document.getElementById('contactBtn').addEventListener('click', () => {
-    showPanel(`
-        <h2 class="panel-heading">something something email</h2>
-        <div class="panel-center">
-            <p>the easiest way to contact me is through email! i don't really check my
-            social media messages, so please send things to my email instead</p>
-            <img src="images/email-icon.webp" alt="Email me" class="contact-icon">
-            <p class="contact-email">phatnguyenground@gmail.com</p>
-            <p>or press the button below to open your mail app.</p>
-            <div style="margin-top: 20px;">
-                <a href="mailto:phatnguyenground@gmail.com" style="text-decoration: none;">
-                    <button class="contact-send-btn">send me an email!</button>
-                </a>
-            </div>
-        </div>`);
-});
-
-// ---- About modal ------------------------------------------------------
-{
-    const modal = document.getElementById('aboutModal');
-    const closeBtn = document.getElementById('aboutClose');
-
-    document.getElementById('aboutBtn').addEventListener('click', () => modal.classList.add('visible'));
-    closeBtn.addEventListener('click', () => modal.classList.remove('visible'));
-    window.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('visible');
+    document.getElementById('surpriseBtn').addEventListener('click', e => {
+      e.preventDefault();
+      renderSurprise();
     });
+  }
 
-    // Photo collage: build once, fade in on modal open, reset on close.
-    const collage = document.getElementById('photoCollage');
-    const COUNT = 20;
-    const STAGGER_MS = 150;
+  // ---- Links panel ---------------------------------------------------
+  document.getElementById('socialLinksBtn').addEventListener('click', e => {
+    e.preventDefault();
+    showPanel(`
+      <div class="pane-eyebrow">Pl. I.4 · Nodi</div>
+      <h2 class="pane-heading">connect with me</h2>
+      <ul class="links-list">
+        <li>
+          <span class="num">01</span>
+          <a href="https://github.com/ethannguyen2k" target="_blank" rel="noopener">github</a>
+          <span class="handle">@ethannguyen2k</span>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <a href="https://linkedin.com/in/ethan-2k" target="_blank" rel="noopener">linkedin</a>
+          <span class="handle">/ethan-2k</span>
+        </li>
+        <li>
+          <span class="num">03</span>
+          <a href="https://www.facebook.com/killthemallpro" target="_blank" rel="noopener">facebook</a>
+          <span class="handle">/killthemallpro</span>
+        </li>
+      </ul>
+      <p class="contact-note" style="font-style: italic;">each opens in a new tab.</p>
+    `);
+  });
 
-    for (let n = 1; n <= COUNT; n++) {
+  // ---- Contact panel -------------------------------------------------
+  document.getElementById('contactBtn').addEventListener('click', e => {
+    e.preventDefault();
+    showPanel(`
+      <div class="pane-eyebrow">Pl. I.3 · Epistula</div>
+      <h2 class="pane-heading">say hello</h2>
+      <div class="contact-block">
+        <div class="contact-eyebrow">the easiest way</div>
+        <a href="mailto:phatnguyenground@gmail.com" class="contact-email">phatnguyenground@gmail.com</a>
+        <p class="contact-note">i don't really check social messages — email lands best. or use the button below to open your mail app.</p>
+        <a href="mailto:phatnguyenground@gmail.com" class="contact-send">send → email</a>
+      </div>
+    `);
+  });
+
+  // ---- About panel — cloned from <template id="aboutTemplate"> ------
+  document.getElementById('aboutBtn').addEventListener('click', () => {
+    const tpl = document.getElementById('aboutTemplate');
+    const frag = tpl.content.cloneNode(true);
+
+    // Fill any [data-collage] containers with the requested number of items.
+    frag.querySelectorAll('[data-collage]').forEach(host => {
+      const count = parseInt(host.dataset.count, 10) || 20;
+      for (let n = 1; n <= count; n++) {
         const num = String(n).padStart(2, '0');
         const div = document.createElement('div');
         div.className = 'collage-item';
         const img = document.createElement('img');
         img.src = `images/collage-modal/collage_${num}.webp`;
-        img.alt = `Collage Image ${n}`;
+        img.alt = `Collage ${n}`;
         img.loading = 'lazy';
         div.appendChild(img);
-        collage.appendChild(div);
+        host.appendChild(div);
+      }
+    });
+
+    // Replace pane content with the cloned template.
+    inner.innerHTML = '';
+    inner.appendChild(frag);
+    container.classList.add('active');
+    pane.setAttribute('aria-hidden', 'false');
+    inner.scrollTop = 0;
+
+    // Stagger the collage into view after the panel slide-in.
+    const items = inner.querySelectorAll('.collage-item');
+    items.forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 480 + 60 * i);
+      el.addEventListener('click', () => {
+        const src = el.querySelector('img')?.src;
+        if (src) openCollageLightbox(src);
+      });
+    });
+  });
+
+  // ---- Collage lightbox ----------------------------------------------
+  const lightbox = document.getElementById('collageLightbox');
+  const lightboxImg = lightbox.querySelector('img');
+
+  function openCollageLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+  }
+  function closeCollageLightbox() {
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    setTimeout(() => { lightboxImg.src = ''; }, 240);
+  }
+  lightbox.addEventListener('click', closeCollageLightbox);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeCollageLightbox();
     }
-
-    modal.addEventListener('transitionend', e => {
-        if (e.propertyName === 'opacity' && modal.classList.contains('visible')) {
-            collage.querySelectorAll('.collage-item').forEach((item, idx) => {
-                setTimeout(() => item.classList.add('visible'), STAGGER_MS * idx);
-            });
-        }
-    });
-
-    closeBtn.addEventListener('click', () => {
-        collage.querySelectorAll('.collage-item').forEach(item => item.classList.remove('visible'));
-    });
+  });
 }
