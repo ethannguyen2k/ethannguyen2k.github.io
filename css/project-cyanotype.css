@@ -1,0 +1,629 @@
+/* =========================================================================
+   project-cyanotype.css — project sub-pages (Plate II.n writeups)
+   Loaded after css/cyanotype.css. Extends the foundation with the plate
+   writeup hero, body prose treatment, video/image specimen cards, lightbox
+   restyle, code window cyanotype palette, and ad-hoc callouts.
+
+   Index:
+     1.  Stage layout
+     2.  Project plate hero (.project-header)
+     3.  Built With tags (.tech-tag)
+     4.  Body prose (paragraphs, lists, h2/h3)
+     5.  Example image / video specimen cards
+     6.  Lightbox restyle (works with scripts.js's existing markup)
+     7.  Code windows (cyanotype palette)
+     8.  Ad-hoc callouts (psy: .callout, .pipeline-stage; poker: .evolution-*)
+     9.  Floating UI (scroll prompt, anchor highlight)
+    10.  Back-to-portfolio link
+    11.  Reveal animation hook for .fade-in
+    12.  Responsive
+   ========================================================================= */
+
+
+/* 1. Stage layout -------------------------------------------------------- */
+
+.project-page main.stage {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+  position: relative;
+  z-index: 5;
+}
+
+/* Replaces the legacy .container1 wrapper class — selector kept so existing
+   HTML doesn't need to drop the class. */
+.project-page .container1 {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+  position: relative;
+  z-index: 5;
+}
+
+
+/* 2. Project plate hero -------------------------------------------------- */
+
+/* Stack vertically: plate-no, framed thumbnail, then info block. */
+.project-page .project-header {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-bottom: 56px;
+}
+
+/* Theme-aware specimen frame — paper-cream in light theme, deep-blue plate
+   in night theme. Image colors are unaffected; only the surrounding mat flips. */
+.project-page .project-image-frame {
+  position: relative;
+  background: var(--plate-bg);
+  padding: 12px;
+  border: 1px solid var(--plate-rule);
+  box-shadow: 0 14px 28px -14px rgba(10, 47, 92, 0.30);
+}
+.project-page .project-image-frame .corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--plate-rule);
+  pointer-events: none;
+}
+.project-page .project-image-frame .corner.tl { top: -1px;    left: -1px;    border-right: none; border-bottom: none; }
+.project-page .project-image-frame .corner.tr { top: -1px;    right: -1px;   border-left: none;  border-bottom: none; }
+.project-page .project-image-frame .corner.bl { bottom: -1px; left: -1px;    border-right: none; border-top: none; }
+.project-page .project-image-frame .corner.br { bottom: -1px; right: -1px;   border-left: none;  border-top: none; }
+
+.project-page .project-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 480px;
+  object-fit: cover;
+}
+
+.project-page .project-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.project-page .project-info h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  margin: 0;
+}
+
+.project-page .project-info > p {
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--fg);
+  max-width: 60ch;
+}
+
+/* GitHub button — map .button to our .btn style for minimal HTML changes */
+.project-page .project-info .button,
+.project-page a.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+  padding: 10px 18px;
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--line);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--t-fast) ease,
+              color var(--t-fast) ease,
+              border-color var(--t-fast) ease;
+}
+.project-page .project-info .button::before {
+  content: "↗";
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+.project-page .project-info .button:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+/* "Built With" header */
+.project-page .project-info h2 {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-weight: 400;
+}
+
+.project-page .project-info .badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: -4px;
+}
+
+
+/* 3. Built With tags ----------------------------------------------------- */
+
+.project-page .tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--line);
+  transition: background var(--t-fast) ease,
+              color var(--t-fast) ease,
+              border-color var(--t-fast) ease;
+}
+.project-page .tech-tag:hover {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+
+/* 4. Body prose ---------------------------------------------------------- */
+
+.project-page .container1 > div,
+.project-page .container1 > section {
+  margin-bottom: 36px;
+}
+
+.project-page .container1 p {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--fg);
+  margin: 12px 0;
+  max-width: 70ch;
+}
+
+.project-page .container1 h2 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.7rem;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  margin: 36px 0 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+/* The Built-With h2 inside .project-info is mono-cap'd above; don't double-style it. */
+.project-page .project-info h2 { border-top: 1px solid var(--line); }
+
+.project-page .container1 h3 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: var(--fg);
+  margin: 24px 0 8px;
+}
+
+.project-page .container1 ol,
+.project-page .container1 ul {
+  margin: 12px 0 12px 28px;
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--fg);
+  max-width: 70ch;
+}
+.project-page .container1 li { margin: 6px 0; }
+
+.project-page .container1 ul ul,
+.project-page .container1 ol ul,
+.project-page .container1 ol ol {
+  margin: 4px 0 8px 22px;
+}
+
+.project-page .container1 a {
+  color: var(--fg);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1px;
+  transition: border-color var(--t-fast) ease;
+}
+.project-page .container1 a:hover { border-bottom-color: currentColor; }
+
+/* Inline color overrides removed via HTML scrub; these defensive resets
+   keep older inline styles from leaking through if any remain. */
+.project-page .container1 a[style] {
+  color: var(--fg) !important;
+  text-decoration: none !important;
+}
+
+.project-page .container1 strong,
+.project-page .container1 b {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+
+/* 5. Example image / video specimen cards -------------------------------- */
+
+.project-page .example-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 20px 0 28px;
+}
+
+.project-page .example-image {
+  background: var(--plate-bg);
+  padding: 10px;
+  border: 1px solid var(--plate-rule);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 10px 22px -14px rgba(10, 47, 92, 0.28);
+}
+.project-page .example-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+.project-page .example-image p {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--plate-fg);
+  text-align: center;
+  margin: 0;
+  padding: 4px 6px 2px;
+  line-height: 1.4;
+}
+
+.project-page .video-container {
+  background: var(--plate-bg);
+  padding: 10px;
+  border: 1px solid var(--plate-rule);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 10px 22px -14px rgba(10, 47, 92, 0.28);
+}
+.project-page .video-container video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+.project-page .video-container .video-caption {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--plate-fg);
+  text-align: center;
+  margin: 0;
+  padding: 4px 6px 2px;
+  line-height: 1.4;
+}
+
+
+/* 6. Lightbox restyle --------------------------------------------------- */
+/* The project HTMLs ship with the legacy <div id="lightbox" class="lightbox">
+   markup that scripts.js toggles via display:block/none. Restyle in place. */
+
+/* cyanotype-chrome.js opens the lightbox via inline style="display: flex".
+   That inline value wins over CSS, so the default below is just the closed
+   state; opening lets the flex layout center the content.
+   We override opacity/visibility because cyanotype.css's base .lightbox rule
+   keeps them at 0/hidden until a .is-open class is toggled — a system the
+   project-page lightbox doesn't use (it toggles display directly). */
+.project-page #lightbox.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 26, 54, 0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: zoom-out;
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+}
+
+.project-page #lightbox .lightbox-content {
+  max-width: 88vw;
+  max-height: 80vh;
+  object-fit: contain;
+  background: var(--plate-bg);
+  padding: 12px;
+  border: 1px solid var(--plate-rule);
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.55);
+  cursor: default;
+}
+
+.project-page #lightbox #lightbox-caption {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--cream);
+  padding: 0 32px;
+}
+
+.project-page #lightbox .close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 22px;
+  letter-spacing: 0;
+  color: var(--cream);
+  background: transparent;
+  border: 1px solid rgba(244, 236, 213, 0.4);
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--t-fast) ease, border-color var(--t-fast) ease;
+}
+.project-page #lightbox .close:hover {
+  background: rgba(244, 236, 213, 0.12);
+  border-color: var(--cream);
+}
+
+
+/* 7. Code windows (cyanotype palette) ----------------------------------- */
+
+.project-page .code-window {
+  background: var(--ink);
+  color: var(--cream);
+  border: 1px solid var(--plate-rule);
+  margin: 18px 0;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  box-shadow: 0 10px 22px -14px rgba(10, 47, 92, 0.4);
+}
+
+.project-page .code-window .console {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: rgba(6, 26, 54, 0.5);
+  border-bottom: 1px solid rgba(244, 236, 213, 0.18);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(244, 236, 213, 0.7);
+}
+/* Cyanotype-discipline traffic lights: keep the three-dot affordance but
+   render in cream tones instead of red/orange/green so the palette stays
+   one-color-print. Slight tonal variation reads as "three buttons" without
+   shouting. */
+.project-page .code-window .console .red,
+.project-page .code-window .console .orange,
+.project-page .code-window .console .green {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(244, 236, 213, 0.85);
+}
+.project-page .code-window .console .orange { background: rgba(244, 236, 213, 0.55); }
+.project-page .code-window .console .green  { background: rgba(244, 236, 213, 0.30); }
+.project-page .code-window .console::after {
+  content: "stdout";
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+.project-page .code-window .code-content {
+  margin: 0;
+  padding: 16px 18px;
+  background: transparent;
+  color: var(--cream);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
+}
+.project-page .code-window .code-content code {
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+
+/* 8. Ad-hoc callouts ---------------------------------------------------- */
+
+/* psy.html — replace the inline-style .callout (#0096E2 left border) */
+.project-page .callout {
+  background: rgba(10, 47, 92, 0.04);
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+  padding: 16px 20px;
+  margin: 20px 0;
+  color: var(--fg);
+}
+[data-theme="night"] .project-page .callout {
+  background: rgba(244, 236, 213, 0.05);
+  border-left-color: var(--ink-soft);
+}
+.project-page .callout-title {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.project-page .callout p { margin: 6px 0; }
+
+/* psy.html — pipeline stages (5 of them) */
+.project-page .pipeline-stage {
+  background: rgba(10, 47, 92, 0.04);
+  padding: 18px 22px;
+  margin: 14px 0;
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+}
+[data-theme="night"] .project-page .pipeline-stage {
+  background: rgba(244, 236, 213, 0.04);
+  border-left-color: var(--ink-soft);
+}
+.project-page .pipeline-stage h3 {
+  margin-top: 0;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--fg);
+}
+
+/* poker.html — evolution stages (4 of them in a card) */
+.project-page .card {
+  border: 1px solid var(--plate-rule);
+  background: var(--plate-bg);
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--plate-shadow);
+}
+.project-page .evolution-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+.project-page .evolution-step {
+  padding: 14px;
+  border: 1px solid var(--plate-rule);
+  background: transparent;
+  border-radius: 0;
+}
+.project-page .evolution-step h3 {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin: 0 0 6px;
+  font-weight: 400;
+  border: none;
+  padding: 0;
+}
+.project-page .evolution-step p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--fg);
+}
+
+
+/* 9. Floating UI -------------------------------------------------------- */
+
+.project-page #scroll-prompt {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  cursor: pointer;
+  transition: color var(--t-fast) ease, border-color var(--t-fast) ease;
+}
+.project-page #scroll-prompt::before {
+  content: "scroll ↓";
+}
+.project-page #scroll-prompt i { display: none; }
+.project-page #scroll-prompt:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+/* Anchor highlight (cream outline on hash navigation) */
+.project-page .anchor-highlight {
+  outline: 1px solid var(--cream);
+  outline-offset: 6px;
+  transition: outline-color 1.6s ease;
+}
+
+
+/* 10. Back-to-portfolio link -------------------------------------------- */
+
+.project-page .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 40px 0 0;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  text-decoration: none;
+  border: none;
+  padding: 0;
+  transition: color var(--t-fast) ease;
+}
+.project-page .back-link::before { content: "←"; letter-spacing: 0; opacity: 0.85; }
+.project-page .back-link:hover { color: var(--fg); }
+
+
+/* 11. Reveal animation hook --------------------------------------------- */
+/* scripts.js toggles .visible on .fade-in elements that scroll into view. */
+.project-page .fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 700ms var(--ease, ease), transform 700ms var(--ease, ease);
+}
+.project-page .fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* 12. Responsive -------------------------------------------------------- */
+
+@media (max-width: 760px) {
+  .project-page main.stage,
+  .project-page .container1 {
+    padding: 24px 22px 60px;
+  }
+  .project-page .project-info h1 { font-size: clamp(28px, 6vw, 38px); }
+  .project-page .example-images { grid-template-columns: 1fr; }
+  .project-page #scroll-prompt { bottom: 18px; right: 18px; padding: 6px 10px; font-size: 9px; }
+}

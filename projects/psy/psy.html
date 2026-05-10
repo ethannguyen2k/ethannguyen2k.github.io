@@ -3,86 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Automation Project</title>
-    <link rel="stylesheet" href="../../css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <meta name="description" content="Research Automation — Plate II.3 of Folio II. Gemini-powered web scraping for clinic data.">
+    <meta name="author" content="Ethan">
+    <title>Ethan · Pl. II.3 — Research Automation</title>
+
     <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
     <link rel="manifest" href="../../site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="../../css/cyanotype.css">
+    <link rel="stylesheet" href="../../css/project-cyanotype.css">
+
     <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
+      (function () {
+        const raw = localStorage.getItem('theme');
+        let theme = 'paper';
+        if (raw === 'paper' || raw === 'night') theme = raw;
+        else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+        else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
     </script>
-    <style>
-        .callout {
-            background-color: var(--card-bg);
-            border-left: 4px solid #0096E2;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 5px 5px 0;
-        }
-        .callout-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: var(--text-primary);
-        }
-        .pipeline-stage {
-            background-color: var(--bg-secondary);
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 5px;
-            border-left: 5px solid var(--accent-color);
-        }
-        
-        .pipeline-stage h3 {
-            margin-top: 0;
-            color: var(--text-primary);
-        }
-    </style>
 </head>
-<body>
-    <header>
-        <div class="header-content">
-            <img id="logo" src="../../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
+<body class="project-page">
+
+    <div class="botanical left" aria-hidden="true">
+      <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+      </svg>
+    </div>
+    <div class="botanical right" aria-hidden="true">
+      <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+      </svg>
+    </div>
+
+    <header class="folio-running reveal d1">
+      <div class="here">
+        <span class="eyebrow">Pl. II.3</span>
+        <span class="title"><em>research</em> automation</span>
+      </div>
+      <div class="links">
+        <a class="home" href="../../index.html">Folio I</a>
+        <a href="../../portfolio.html">II · Works</a>
+        <a href="../../blog.html">III · Notes</a>
+        <a href="../../playlist.html">IV · Sound</a>
+        <div class="controls">
+          <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+            <i class="fa-solid fa-sun" id="themeIconSun"></i>
+            <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+          </button>
         </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../../index.html">Homepage</a>
-            <a href="../../portfolio.html" class="current">My Portfolio</a>
-            <a href="../../blog.html">My Blogs</a>
-        </nav>
+      </div>
     </header>
 
     <div class="container1">
         <div class="project-header fade-in">
-            <img src="../../images/psy_thumbnail.webp" alt="Project Psychological Analysis Thumbnail" class="project-image">
+            <div class="project-image-frame">
+                <span class="corner tl"></span><span class="corner tr"></span>
+                <span class="corner bl"></span><span class="corner br"></span>
+                <img src="../../images/psy_thumbnail.webp" alt="Project Research Automation thumbnail" class="project-image">
+            </div>
             <div class="project-info">
                 <h1>Research Automation</h1>
-                <p>Streamlining clinic data collection with Gemini-powered web scraping</p>
+                <p>Streamlining clinic data collection with Gemini-powered web scraping.</p>
                 <a target="_blank" href="https://github.com/ethannguyen2k/psy-automation" class="button">View on GitHub</a>
                 <h2>Built With</h2>
                 <div class="badges">
-                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
-                    <img src="https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff&style=flat" alt="Pandas Badge">
-                    <img src="https://img.shields.io/badge/BeautifulSoup4-FFC107?logo=python&logoColor=000&style=flat" alt="BeautifulSoup4 Badge">
-                    <img src="https://img.shields.io/badge/Requests-007EC6?logo=python&logoColor=fff&style=flat" alt="Requests Badge">
-                    <img src="https://img.shields.io/badge/Google%20Gemini%20API-4285F4?logo=google&logoColor=fff&style=flat" alt="Google Gemini API Badge">
-                    <img src="https://img.shields.io/badge/Openpyxl-217346?logo=microsoft-excel&logoColor=fff&style=flat" alt="Openpyxl Badge">
-                    <img src="https://img.shields.io/badge/Pydantic-5E81AC?logo=python&logoColor=fff&style=flat" alt="Pydantic Badge">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Pandas</span>
+                    <span class="tech-tag">BeautifulSoup4</span>
+                    <span class="tech-tag">Requests</span>
+                    <span class="tech-tag">Google Gemini API</span>
+                    <span class="tech-tag">Openpyxl</span>
+                    <span class="tech-tag">Pydantic</span>
                 </div>
             </div>
         </div>
@@ -222,13 +222,18 @@
             <p>For the full code and documentation, visit the <a target="_blank" href="https://github.com/ethannguyen2k/poker-hands">GitHub repository</a>.</p>
         </div>
 
+        <a href="../../portfolio.html" class="back-link">back to folio II</a>
+
+        <footer class="print-stamp">
+            <div class="seal">Exposed in cyan, <span id="year"></span></div>
+            <span>Folio II · Plate II.3</span>
+            <a href="mailto:phatnguyenground@gmail.com">email me</a>
+        </footer>
     </div>
+
     <div id="scroll-prompt"><i class="fa-solid fa-arrow-down"></i></div>
-    <footer>
-        <hr>
-        <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-    </footer>
 
     <script src="../../js/scripts.js"></script>
+    <script src="../../js/cyanotype-chrome.js"></script>
 </body>
 </html>

@@ -3,61 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statnet33 - Social Network Analysis</title>
-    <link rel="stylesheet" href="../../css/styles.css">
+    <meta name="description" content="Statnet33 — Social Network Analysis. Plate II.2 of Folio II.">
+    <meta name="author" content="Ethan">
+    <title>Ethan · Pl. II.2 — Social Network Analysis</title>
+
     <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
     <link rel="manifest" href="../../site.webmanifest">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="../../css/cyanotype.css">
+    <link rel="stylesheet" href="../../css/project-cyanotype.css">
+
     <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
+      (function () {
+        const raw = localStorage.getItem('theme');
+        let theme = 'paper';
+        if (raw === 'paper' || raw === 'night') theme = raw;
+        else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+        else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
     </script>
 </head>
-<body>
-    <header>
-        <div class="header-content">
-            <img id="logo" src="../../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
+<body class="project-page">
+
+    <div class="botanical left" aria-hidden="true">
+      <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+      </svg>
+    </div>
+    <div class="botanical right" aria-hidden="true">
+      <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+      </svg>
+    </div>
+
+    <header class="folio-running reveal d1">
+      <div class="here">
+        <span class="eyebrow">Pl. II.2</span>
+        <span class="title"><em>statnet33</em> — social network analysis</span>
+      </div>
+      <div class="links">
+        <a class="home" href="../../index.html">Folio I</a>
+        <a href="../../portfolio.html">II · Works</a>
+        <a href="../../blog.html">III · Notes</a>
+        <a href="../../playlist.html">IV · Sound</a>
+        <div class="controls">
+          <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+            <i class="fa-solid fa-sun" id="themeIconSun"></i>
+            <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+          </button>
         </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../../index.html">Homepage</a>
-            <a href="../../portfolio.html" class="current">My Portfolio</a>
-            <a href="../../blog.html">My Blogs</a>
-        </nav>
+      </div>
     </header>
 
     <div class="container1">
         <div class="project-header fade-in">
-            <img src="../../images/sna_thumbnail.jpg" alt="Project SNA Thumbnail" class="project-image">
+            <div class="project-image-frame">
+                <span class="corner tl"></span><span class="corner tr"></span>
+                <span class="corner bl"></span><span class="corner br"></span>
+                <img src="../../images/sna_thumbnail.jpg" alt="Project SNA thumbnail" class="project-image">
+            </div>
             <div class="project-info">
-                <h1>Statnet33 - Social Network Analysis</h1>
+                <h1>Statnet33 — Social Network Analysis</h1>
                 <p>A Social Network Analyzer application with a flexible and user-friendly, cross-platform tool for social network analysis and visualisation.</p>
                 <a target="_blank" href="https://github.com/ethannguyen2k/Statnet33" class="button">View on GitHub</a>
                 <h2>Built With</h2>
                 <div class="badges">
-                    <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat" alt="Python Badge">
-                    <img src="https://img.shields.io/badge/R-276DC3?logo=r&logoColor=fff&style=flat" alt="R Badge">
-                    <img src="https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=fff&style=flat" alt="NumPy Badge">
-                    <img src="https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=fff&style=flat" alt="pandas Badge">
-                    <img src="https://img.shields.io/badge/NetworkX-4D4D7D?logo=networkx&logoColor=fff&style=flat" alt="NetworkX Badge">
-                    <img src="https://img.shields.io/badge/Seaborn-4EABE1?logo=seaborn&logoColor=fff&style=flat" alt="Seaborn Badge">
-                    <img src="https://img.shields.io/badge/Statnet-0047AB?logo=statnet&logoColor=fff&style=flat" alt="Statnet Badge">
-                    <img src="https://img.shields.io/badge/rpy2-2E2E2E?logo=r&logoColor=fff&style=flat" alt="rpy2 Badge">
-                    <img src="https://img.shields.io/badge/Dash-1380C3?logo=dash&logoColor=fff&style=flat" alt="Dash Badge">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">R</span>
+                    <span class="tech-tag">NumPy</span>
+                    <span class="tech-tag">pandas</span>
+                    <span class="tech-tag">NetworkX</span>
+                    <span class="tech-tag">Seaborn</span>
+                    <span class="tech-tag">Statnet</span>
+                    <span class="tech-tag">rpy2</span>
+                    <span class="tech-tag">Dash</span>
                 </div>
             </div>
         </div>
@@ -65,29 +92,29 @@
         <div class="fade-in"><h2>Example</h2></div>
         <div class="example-images fade-in">
             <div class="example-image">
-                <img src="Picture1.png" alt="Home Page" onclick="openLightbox(this)">
+                <img src="Picture1.png" alt="Home Page">
                 <p>Home Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture2.png" alt="General Metrics Page" onclick="openLightbox(this)">
+                <img src="Picture2.png" alt="General Metrics Page">
                 <p>General Metrics Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture3.png" alt="Visualization Page" onclick="openLightbox(this)">
+                <img src="Picture3.png" alt="Visualization Page">
                 <p>Visualization Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture4.png" alt="ERGM Model Page" onclick="openLightbox(this)">
+                <img src="Picture4.png" alt="ERGM Model Page">
                 <p>ERGM Model Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture5.png" alt="Simulation Page" onclick="openLightbox(this)">
+                <img src="Picture5.png" alt="Simulation Page">
                 <p>Simulation Page</p>
             </div>
         </div>
 
         <div id="lightbox" class="lightbox">
-            <span class="close" onclick="closeLightbox()">&times;</span>
+            <span class="close">&times;</span>
             <img class="lightbox-content" id="lightbox-img">
             <p id="lightbox-caption"></p>
         </div>        
@@ -105,13 +132,18 @@
             <h2>Visit the GitHub Repository</h2>
             <p>For the full code and documentation, visit the <a target="_blank" href="https://github.com/ethannguyen2k/Statnet33">GitHub repository</a>.</p>
         </div>
+        <a href="../../portfolio.html" class="back-link">back to folio II</a>
+
+        <footer class="print-stamp">
+            <div class="seal">Exposed in cyan, <span id="year"></span></div>
+            <span>Folio II · Plate II.2</span>
+            <a href="mailto:phatnguyenground@gmail.com">email me</a>
+        </footer>
     </div>
+
     <div id="scroll-prompt"><i class="fa-solid fa-arrow-down"></i></div>
-    <footer>
-        <hr>
-        <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-    </footer>
 
     <script src="../../js/scripts.js"></script>
+    <script src="../../js/cyanotype-chrome.js"></script>
 </body>
 </html>
