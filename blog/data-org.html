@@ -1,535 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Organization in Spreadsheets</title>
-    <link rel="stylesheet" href="../css/blog-styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Data organisation in spreadsheets — clarity, consistency, and ease of analysis, drawn from Broman and Woo's guide.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.9 — Data Organisation in Spreadsheets</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/cyanotype.css">
+  <link rel="stylesheet" href="../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../css/cyanotype-syntax.css">
+
+  <script>
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>hard learning. hardworking. hard playing. ready for what's next</h3>
-            </div>
-        </div>
-        <nav id="nav-bar">
-            <a href="../index.html">Homepage</a>
-            <a href="../portfolio.html">My Portfolio</a>
-            <a href="../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
-    
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>Data Organization in Spreadsheets</h2>
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">July 5, 2024</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
-            </div>
-            <img src="https://datacarpentry.org/spreadsheet-ecology-lesson/fig/conditional_formating.png" alt="Article Image" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-            <p>Organizing data in spreadsheets may seem straightforward, but improper techniques can lead to errors and inefficiencies. 
-                This blog post explores some fundementals for organizing spreadsheet data, drawing insights from <a href="https://doi.org/10.1080/00031305.2017.1375989">W. Broman and Kara H. Woo's comprehensive guide in "Data Organization in Spreadsheets," published in The American Statistician</a>. 
-                These principles, in my opinion, are essential for anyone handling data. It will ensure clarity, consistency, and ease of analysis.</p>
+<body class="post-page">
 
-            <h3>Be Consistent</h3>
-            <p>Consistency is crucial in data organization. Here's how you can maintain it across your spreadsheets:</p>
-            <ul>
-                <li><strong>Consistent Values for Categorical Variables:</strong> Ensure that values for categorical variables are consistent. 
-                    For example, use "male" and "female" or "M" and "F" without mixing these altogether. 
-                    Similarly, for missing values, use a standard representation such as <code>NA</code> (a favourite in R) or a hyphen (<code>-</code>). 
-                    <strong>Never use different notations interchangeably.</strong> And never explain why it is missing in place of the missing value. You should make a seperate column for that.
-                </li>
-                <li><strong>Consistent Naming and Layouts:</strong>
-                    <ul>
-                        <li><strong>Variable and Subject Names:</strong> Use the same format throughout. Choose either underscores or hyphens for spaces in names, but not both.</li>
-                        <li><strong>Date Formats:</strong> Use a consistent date format, preferably the ISO 8601 standard (<code>yyyy-mm-dd</code>).</li>
-                        <li><strong>Phrases in Notes:</strong> Ensure phrases used in notes are uniform.</li>
-                        <li><strong>No Extra Spaces:</strong> Avoid extra spaces within cells as they can cause inconsistencies and errors in data analysis.</li>
-                    </ul>
-                </li>
-            </ul>
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-            <h3>Succinct Name for Subjects</h3>
-            <p>Choosing clear and concise names for your subjects is vital for readability and analysis.</p>
-            <ul>
-                <li><strong>Avoid Spaces:</strong> Spaces in names can lead to errors and inconsistencies when importing data into software for analysis. Use underscores (_) or hyphens (-) instead.</li>
-                <li><strong>Be Consistent:</strong> Again, decide on either underscores or hyphens and stick to that choice throughout your dataset. Inconsistencies can make data processing scripts more complicated and error-prone.</li>
-                <li><strong>Avoid Special Characters:</strong> Special characters can interfere with data parsing and cause unexpected issues. Stick to letters, numbers, underscores, and hyphens. "</li>
-            </ul>
-            <table>
-                <caption>Example of Good and Bad Subject Names</caption>
-                <thead>
-                    <tr>
-                        <th>Good Name</th>
-                        <th>Good Alternative</th>
-                        <th>Avoid</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Max_temp_C</td>
-                        <td>MaxTemp</td>
-                        <td>Maximum Temp (◦C)</td>
-                    </tr>
-                    <tr>
-                        <td>Precipitation_mm</td>
-                        <td>Precipitation</td>
-                        <td>precmm</td>
-                    </tr>
-                    <tr>
-                        <td>Mean_year_growth</td>
-                        <td>MeanYearGrowth</td>
-                        <td>Mean growth/year</td>
-                    </tr>
-                    <tr>
-                        <td>sex</td>
-                        <td>sex</td>
-                        <td>M/F</td>
-                    </tr>
-                    <tr>
-                        <td>weight</td>
-                        <td>weight</td>
-                        <td>w.</td>
-                    </tr>
-                    <tr>
-                        <td>cell_type</td>
-                        <td>CellType</td>
-                        <td>Cell Type</td>
-                    </tr>
-                    <tr>
-                        <td>Observation_01</td>
-                        <td>first_observation</td>
-                        <td>1st Obs.</td>
-                    </tr>
-                </tbody>
-            </table>
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
+    </div>
+    <div class="links">
+      <a class="home" href="../index.html">Folio I</a>
+      <a href="../portfolio.html">II · Works</a>
+      <a href="../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
-            <h3>Write Dates in a Consistent Manner</h3>
-            <ul>
-                <li><strong>Use a Single Date Format:</strong> Choose a single date format and stick to it throughout your dataset. Mixing date formats can lead to confusion and errors.</li>
-                <li><strong>Use ISO 8601 Standard:</strong> The ISO 8601 standard (<code>yyyy-mm-dd</code>) is widely accepted and avoids ambiguity. It is also compatible with most software and programming languages.</li>
-                <li><strong>Prevent Automatic Conversions:</strong> To prevent automatic conversions by spreadsheet software, set the text format for the date column before entering dates, or add an apostrophe (<code>'</code>) before the date ('2014-06-14).</li>
-            </ul>
-            <p>Other ways of writing dates is to use seperate columns for day, month and year or a straight 8-digit integer of form YYYYMMDD.</p>
+  <main class="stage">
+    <div class="folio-content">
 
-            <table>
-                <caption>Example of Consistent Date Entry</caption>
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>date</th>
-                        <th>glucose</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>101</td>
-                        <td>2015-06-14</td>
-                        <td>149.3</td>
-                    </tr>
-                    <tr>
-                        <td>102</td>
-                        <td>2015-06-15</td>
-                        <td>95.6</td>
-                    </tr>
-                    <tr>
-                        <td>103</td>
-                        <td>2015-06-18</td>
-                        <td>97.5</td>
-                    </tr>
-                    <tr>
-                        <td>104</td>
-                        <td>2015-06-19</td>
-                        <td>121.2</td>
-                    </tr>
-                    <tr>
-                        <td>105</td>
-                        <td>2015-06-20</td>
-                        <td>111.6</td>
-                    </tr>
-                    <tr>
-                        <td>106</td>
-                        <td>2015-06-21</td>
-                        <td>108.6</td>
-                    </tr>
-                    <tr>
-                        <td>107</td>
-                        <td>2015-06-22</td>
-                        <td>169.4</td>
-                    </tr>
-                </tbody>
-            </table>
+      <article class="post">
 
-            <h3>No Empty Cells</h3>
-            <p>Never leave cells empty unintentionally. Use <code>NA</code> or a hyphen (<code>-</code>) to indicate missing data. 
-                Define categorical variables explicitly and fill them in, avoiding merged cells which complicate data analysis in programming languages.</p>
+        <header class="post-hero reveal d2">
+          <div class="plate-no">Plate III.9 — Data Organisation in Spreadsheets</div>
+          <h1 class="post-title">Data organisation in <em>spreadsheets</em></h1>
+          <div class="post-meta">
+            <span class="post-date">Jul 5, 2024</span>
+            <span class="sep">·</span>
+            <span>Data</span>
+            <span class="sep">·</span>
+            <span>Spreadsheets</span>
+          </div>
+        </header>
 
-            <table>
-                <caption>Example of Proper Data Entry without Empty Cells</caption>
-                <thead>
-                    <tr>
-                        <th>strain</th>
-                        <th>genotype</th>
-                        <th>min</th>
-                        <th>replicate</th>
-                        <th>response</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>370</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>160</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>356</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>355</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>252</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="post-prose fade-in">
 
-            <h3>One Type of Data per Cell</h3>
-            <p>Each cell should contain only one type of data. 
-                Avoid combining multiple data types in a single cell.</p>
+          <p class="lede">Organising data in spreadsheets seems straightforward, but improper techniques lead to errors and inefficiencies fast. This plate covers some fundamentals for organising spreadsheet data, drawing from <a href="https://doi.org/10.1080/00031305.2017.1375989" target="_blank" rel="noopener">W. Broman and K. H. Woo's "Data Organization in Spreadsheets"</a> in <em>The American Statistician</em>. These principles ensure clarity, consistency, and ease of analysis.</p>
 
-            <table>
-                <caption>Good Example: One Type of Data per Cell</caption>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price (USD)</th>
-                        <th>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Apples</td>
-                        <td>1.20</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td>Bananas</td>
-                        <td>0.80</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>Cherries</td>
-                        <td>3.00</td>
-                        <td>7</td>
-                    </tr>
-                </tbody>
-            </table>
-        
-            <table>
-                <caption>Bad Example: Multiple Types of Data in a Single Cell</caption>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price and Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Apples</td>
-                        <td>$1.20 for 10</td>
-                    </tr>
-                    <tr>
-                        <td>Bananas</td>
-                        <td>$0.80 for 5</td>
-                    </tr>
-                    <tr>
-                        <td>Cherries</td>
-                        <td>$3.00 for 7</td>
-                    </tr>
-                </tbody>
-            </table>
+          <h3>Be consistent</h3>
+          <p>Consistency is crucial. Maintain it across your sheets:</p>
+          <ul>
+            <li><strong>Consistent values for categorical variables.</strong> Use <code>"male"</code> and <code>"female"</code> OR <code>"M"</code> and <code>"F"</code> — never mix. Same for missing values: pick one notation (e.g. <code>NA</code>, a favourite in R, or a hyphen <code>-</code>) and stick to it. Never explain <em>why</em> a value is missing in place of the value — use a separate column for that.</li>
+            <li><strong>Consistent naming and layouts.</strong>
+              <ul>
+                <li><strong>Variable and subject names.</strong> Same format throughout. Choose underscores OR hyphens for spaces in names, but not both.</li>
+                <li><strong>Date formats.</strong> Use a consistent format — preferably ISO 8601 (<code>yyyy-mm-dd</code>).</li>
+                <li><strong>Phrases in notes.</strong> Uniform.</li>
+                <li><strong>No extra spaces.</strong> Extra spaces inside cells cause subtle errors in analysis.</li>
+              </ul>
+            </li>
+          </ul>
 
-            <h3>Use a Clear Layout</h3>
-            <p>The best layout for data within a spreadsheet is a single, large rectangle where rows correspond to subjects and columns correspond to variables. 
-                For CSV files, keep each table in one file. 
-                If using multiple tables, place them in separate worksheets but maintain consistency.</p>
+          <h3>Succinct names for subjects</h3>
+          <p>Clear, concise names are vital for readability and analysis.</p>
+          <ul>
+            <li><strong>Avoid spaces.</strong> Spaces cause errors and inconsistencies when importing data. Use underscores (<code>_</code>) or hyphens (<code>-</code>) instead.</li>
+            <li><strong>Be consistent.</strong> Pick one of underscore or hyphen and stick to it. Mixing makes data-processing scripts more complicated and error-prone.</li>
+            <li><strong>Avoid special characters.</strong> They interfere with parsing and cause unexpected issues. Stick to letters, numbers, underscores, and hyphens.</li>
+          </ul>
 
-            <p>So, instead of complicated layouts with merged cells:</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>1 min</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>5 min</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th>strain</th>
-                        <th>normal</th>
-                        <th></th>
-                        <th>mutant</th>
-                        <th></th>
-                        <th>normal</th>
-                        <th></th>
-                        <th>mutant</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>A</td>
-                        <td>261</td>
-                        <td>379</td>
-                        <td>192</td>
-                        <td>340</td>
-                        <td>329</td>
-                        <td>335</td>
-                        <td>443</td>
-                        <td>294</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>407</td>
-                        <td>388</td>
-                        <td>350</td>
-                        <td>257</td>
-                        <td>268</td>
-                        <td>305</td>
-                        <td>276</td>
-                        <td>451</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>Use a tidy version:</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>strain</th>
-                        <th>genotype</th>
-                        <th>min</th>
-                        <th>replicate</th>
-                        <th>response</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>370</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>160</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>356</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>355</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>252</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>320</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>397</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>314</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>227</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>187</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>453</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>normal</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>283</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>267</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>425</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>1</td>
-                        <td>283</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>mutant</td>
-                        <td>5</td>
-                        <td>2</td>
-                        <td>273</td>
-                    </tr>
-                </tbody>
-            </table>
+          <table class="table-common">
+            <caption>Good and bad subject names</caption>
+            <thead>
+              <tr><th>Good name</th><th>Good alternative</th><th>Avoid</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Max_temp_C</td><td>MaxTemp</td><td>Maximum Temp (◦C)</td></tr>
+              <tr><td>Precipitation_mm</td><td>Precipitation</td><td>precmm</td></tr>
+              <tr><td>Mean_year_growth</td><td>MeanYearGrowth</td><td>Mean growth/year</td></tr>
+              <tr><td>sex</td><td>sex</td><td>M/F</td></tr>
+              <tr><td>weight</td><td>weight</td><td>w.</td></tr>
+              <tr><td>cell_type</td><td>CellType</td><td>Cell Type</td></tr>
+              <tr><td>Observation_01</td><td>first_observation</td><td>1st Obs.</td></tr>
+            </tbody>
+          </table>
 
-            <h3>Create a Metadata Table</h3>
-            <p>Include a separate table explaining all the variables. This metadata table should have:</p>
-            <img src="data-org-images/metadata-image.png" alt="Metadata Table" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            <ul>
-                <li>The exact variable name as in the data file.</li>
-                <li>A version of the variable name that might be used in data visualizations.</li>
-                <li>A longer explanation of what the variable means.</li>
-                <li>The measurement units.</li>
-                <li>Expected minimum and maximum values.</li>
-            </ul>
+          <h3>Write dates in a consistent manner</h3>
+          <ul>
+            <li><strong>Use a single date format.</strong> Pick one and stick to it. Mixing formats leads to confusion and errors.</li>
+            <li><strong>Use ISO 8601.</strong> The <code>yyyy-mm-dd</code> standard is widely accepted and unambiguous. It's also compatible with most software and programming languages.</li>
+            <li><strong>Prevent automatic conversions.</strong> To stop spreadsheet software from auto-converting dates, set the column to text format before entering data, or prefix the date with an apostrophe (<code>'2014-06-14</code>).</li>
+          </ul>
+          <p>You can also write dates as separate day / month / year columns, or as a single 8-digit integer in <code>YYYYMMDD</code> form.</p>
 
-            <h3>Additional Tips</h3>
-            <ul>
-                <li><strong>Create README file:</strong> Keep the description of the dataset, its source, and any important details such as explaining the structure of the data, including the layout of the spreadsheet and the meaning of each column.
-                </li>
-                <li><strong>No Calculations in Raw Data Files:</strong> Keep calculations separate from raw data to avoid accidental alterations.</li>
-                <li><strong>Use Data Validation:</strong> This helps prevent data entry errors by restricting the type of data that can be entered.</li>
-                <li><strong>No Formatting in Data:</strong> Avoid using colors or highlighting in raw data files. Formatting should be applied in a copy of the data if needed for presentation.</li>
-                <li><strong>Make Backups:</strong> Store backups in multiple locations. Consider using a formal version control system and write-protect files to prevent accidental changes.</li>
-            </ul>
+          <table class="table-common">
+            <caption>Consistent date entry</caption>
+            <thead>
+              <tr><th>id</th><th>date</th><th class="numeric">glucose</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="shape">101</td><td class="shape">2015-06-14</td><td class="numeric">149.3</td></tr>
+              <tr><td class="shape">102</td><td class="shape">2015-06-15</td><td class="numeric">95.6</td></tr>
+              <tr><td class="shape">103</td><td class="shape">2015-06-18</td><td class="numeric">97.5</td></tr>
+              <tr><td class="shape">104</td><td class="shape">2015-06-19</td><td class="numeric">121.2</td></tr>
+              <tr><td class="shape">105</td><td class="shape">2015-06-20</td><td class="numeric">111.6</td></tr>
+              <tr><td class="shape">106</td><td class="shape">2015-06-21</td><td class="numeric">108.6</td></tr>
+              <tr><td class="shape">107</td><td class="shape">2015-06-22</td><td class="numeric">169.4</td></tr>
+            </tbody>
+          </table>
 
-            <p>In adhering to these practices, you can ensure that your data is consistent and well-organized. 
-                Proper data organization not only facilitates accurate analysis but also enhances the reproducibility and integrity of your work.</p>
+          <h3>No empty cells</h3>
+          <p>Never leave cells empty unintentionally. Use <code>NA</code> or a hyphen (<code>-</code>) to mark missing data. Define categorical variables explicitly and fill them in. Avoid merged cells — they complicate analysis in any programming language.</p>
 
-            <h3>More Examples of Bad and Good Data Organization</h3>
-            <img src="data-org-images/bad-examples.png" alt="Bad Data Organization" style="width: 90%; display: block; margin-left: auto; margin-right: auto;">
-            <figcaption>Some layouts that are causing problems</figcaption>
-            <img src="data-org-images/good-examples.png" alt="Good Data Organization" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            <figcaption>Reorganization of the table D above</figcaption>
-            <img src="data-org-images/bad-examples2.png" alt="Bad Data Organization" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
-            <figcaption>Instead of this, we can use a single header and name them date_W4, date_W6, …</figcaption>
-            <img src="data-org-images/good-examples2.png" alt="Good Data Organization" style="width: 80%; display: block; margin-left: auto; margin-right: auto;">
+          <table class="table-common">
+            <caption>Proper data entry without empty cells</caption>
+            <thead>
+              <tr><th>strain</th><th>genotype</th><th class="numeric">min</th><th class="numeric">replicate</th><th class="numeric">response</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>A</td><td>normal</td><td class="numeric">1</td><td class="numeric">1</td><td class="numeric">370</td></tr>
+              <tr><td>A</td><td>normal</td><td class="numeric">1</td><td class="numeric">2</td><td class="numeric">160</td></tr>
+              <tr><td>B</td><td>normal</td><td class="numeric">1</td><td class="numeric">1</td><td class="numeric">356</td></tr>
+              <tr><td>B</td><td>normal</td><td class="numeric">1</td><td class="numeric">2</td><td class="numeric">355</td></tr>
+              <tr><td>A</td><td>mutant</td><td class="numeric">1</td><td class="numeric">1</td><td class="numeric">252</td></tr>
+            </tbody>
+          </table>
+
+          <h3>One type of data per cell</h3>
+          <p>Each cell should contain only one type of data. Avoid combining multiple types in a single cell.</p>
+
+          <table class="table-common">
+            <caption>Good — one type of data per cell</caption>
+            <thead>
+              <tr><th>Product</th><th class="numeric">Price (USD)</th><th class="numeric">Quantity</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Apples</td><td class="numeric">1.20</td><td class="numeric">10</td></tr>
+              <tr><td>Bananas</td><td class="numeric">0.80</td><td class="numeric">5</td></tr>
+              <tr><td>Cherries</td><td class="numeric">3.00</td><td class="numeric">7</td></tr>
+            </tbody>
+          </table>
+
+          <table class="table-common">
+            <caption>Bad — multiple types of data in one cell</caption>
+            <thead>
+              <tr><th>Product</th><th>Price and Quantity</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Apples</td><td>$1.20 for 10</td></tr>
+              <tr><td>Bananas</td><td>$0.80 for 5</td></tr>
+              <tr><td>Cherries</td><td>$3.00 for 7</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Use a clear layout</h3>
+          <p>The best layout for data within a spreadsheet is a single large rectangle where rows are subjects and columns are variables. For CSV files, keep each table in one file. If you must use multiple tables, place them in separate worksheets but maintain consistency.</p>
+
+          <p>Instead of complicated layouts with merged cells:</p>
+          <table class="table-common">
+            <caption>Wide format with merged headers (avoid)</caption>
+            <thead>
+              <tr>
+                <th></th>
+                <th colspan="4">1 min</th>
+                <th colspan="4">5 min</th>
+              </tr>
+              <tr>
+                <th>strain</th>
+                <th colspan="2">normal</th><th colspan="2">mutant</th>
+                <th colspan="2">normal</th><th colspan="2">mutant</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>A</td><td class="numeric">261</td><td class="numeric">379</td><td class="numeric">192</td><td class="numeric">340</td><td class="numeric">329</td><td class="numeric">335</td><td class="numeric">443</td><td class="numeric">294</td></tr>
+              <tr><td>B</td><td class="numeric">407</td><td class="numeric">388</td><td class="numeric">350</td><td class="numeric">257</td><td class="numeric">268</td><td class="numeric">305</td><td class="numeric">276</td><td class="numeric">451</td></tr>
+            </tbody>
+          </table>
+
+          <p>Use a tidy version:</p>
+          <table class="table-common">
+            <caption>Tidy long format (prefer)</caption>
+            <thead>
+              <tr><th>strain</th><th>genotype</th><th class="numeric">min</th><th class="numeric">replicate</th><th class="numeric">response</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>A</td><td>normal</td><td class="numeric">1</td><td class="numeric">1</td><td class="numeric">370</td></tr>
+              <tr><td>A</td><td>normal</td><td class="numeric">1</td><td class="numeric">2</td><td class="numeric">160</td></tr>
+              <tr><td>B</td><td>normal</td><td class="numeric">1</td><td class="numeric">1</td><td class="numeric">356</td></tr>
+              <tr><td>B</td><td>normal</td><td class="numeric">1</td><td class="numeric">2</td><td class="numeric">355</td></tr>
+              <tr><td>A</td><td>mutant</td><td class="numeric">1</td><td class="numeric">1</td><td class="numeric">252</td></tr>
+              <tr><td>A</td><td>mutant</td><td class="numeric">1</td><td class="numeric">2</td><td class="numeric">320</td></tr>
+              <tr><td>B</td><td>mutant</td><td class="numeric">1</td><td class="numeric">1</td><td class="numeric">397</td></tr>
+              <tr><td>B</td><td>mutant</td><td class="numeric">1</td><td class="numeric">2</td><td class="numeric">314</td></tr>
+              <tr><td>A</td><td>normal</td><td class="numeric">5</td><td class="numeric">1</td><td class="numeric">227</td></tr>
+              <tr><td>A</td><td>normal</td><td class="numeric">5</td><td class="numeric">2</td><td class="numeric">187</td></tr>
+              <tr><td>B</td><td>normal</td><td class="numeric">5</td><td class="numeric">1</td><td class="numeric">453</td></tr>
+              <tr><td>B</td><td>normal</td><td class="numeric">5</td><td class="numeric">2</td><td class="numeric">283</td></tr>
+              <tr><td>A</td><td>mutant</td><td class="numeric">5</td><td class="numeric">1</td><td class="numeric">267</td></tr>
+              <tr><td>A</td><td>mutant</td><td class="numeric">5</td><td class="numeric">2</td><td class="numeric">425</td></tr>
+              <tr><td>B</td><td>mutant</td><td class="numeric">5</td><td class="numeric">1</td><td class="numeric">283</td></tr>
+              <tr><td>B</td><td>mutant</td><td class="numeric">5</td><td class="numeric">2</td><td class="numeric">273</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Create a metadata table</h3>
+          <p>Include a separate table explaining all the variables. This metadata table should have:</p>
+
+          <img src="data-org-images/metadata-image.png" alt="Example metadata table" class="blog-image">
+
+          <ul>
+            <li>The exact variable name as it appears in the data file.</li>
+            <li>A display-friendly version of the variable name (for plots).</li>
+            <li>A longer explanation of what the variable means.</li>
+            <li>The measurement units.</li>
+            <li>Expected minimum and maximum values.</li>
+          </ul>
+
+          <h3>Additional tips</h3>
+          <ul>
+            <li><strong>Create a README.</strong> Describe the dataset, its source, and important details — the structure of the data, the layout of the spreadsheet, and the meaning of each column.</li>
+            <li><strong>No calculations in raw-data files.</strong> Keep calculations separate to avoid accidental alterations.</li>
+            <li><strong>Use data validation.</strong> Restrict the type of data that can be entered so errors are caught at entry.</li>
+            <li><strong>No formatting in data.</strong> Avoid colours or highlighting in raw-data files. Format a copy if needed for presentation.</li>
+            <li><strong>Make backups.</strong> Multiple locations. Consider a formal version-control system and write-protect files to prevent accidental changes.</li>
+          </ul>
+
+          <p>Adhering to these practices keeps your data consistent and well-organised. Proper data organisation facilitates accurate analysis and enhances the reproducibility and integrity of the work.</p>
+
+          <h3>More examples — bad and good</h3>
+
+          <figure>
+            <img src="data-org-images/bad-examples.png" alt="Layouts that cause problems" class="blog-image">
+            <figcaption>Layouts that are causing problems</figcaption>
+          </figure>
+
+          <figure>
+            <img src="data-org-images/good-examples.png" alt="Reorganised version of bad example D" class="blog-image">
+            <figcaption>Reorganisation of table D above</figcaption>
+          </figure>
+
+          <figure>
+            <img src="data-org-images/bad-examples2.png" alt="Bad column-per-week layout" class="blog-image">
+            <figcaption>Instead of this, use a single header — date_W4, date_W6, …</figcaption>
+          </figure>
+
+          <figure>
+            <img src="data-org-images/good-examples2.png" alt="Tidy long-format alternative" class="blog-image">
             <figcaption>Or like this</figcaption>
+          </figure>
+
         </div>
+      </article>
 
-        <p><a href="../index.html">Back to Home</a></p>
+      <a href="../blog.html" class="back-link">back to folio III · field notes</a>
 
-        <footer>
-            <hr>
-            <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-        </footer>
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.9 · Data Organisation in Spreadsheets</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
 
     </div>
-</body>
+  </main>
 
-<script src="../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cyanotype-chrome.js"></script>
+</body>
 </html>

@@ -1,284 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Cloud-Based Manufacturing Optimisation</title>
-    <link rel="stylesheet" href="../css/blog-styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-    <style>
-        [data-theme="light"] {
-            --text-highlight-color: #0057b8;
-        }
-        [data-theme="dark"] {
-            --text-highlight-color: #ffcc00;
-        }
-        .highlight {
-            color: var(--text-highlight-color);
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cloud-based manufacturing optimisation — a student's story building on Azure and AI services.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.7 — A student's Azure story</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/cyanotype.css">
+  <link rel="stylesheet" href="../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../css/cyanotype-syntax.css">
+
+  <script>
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
-        </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../index.html">Homepage</a>
-            <a href="../portfolio.html">My Portfolio</a>
-            <a href="../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
+<body class="post-page">
 
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>Cloud-Based Manufacturing Optimisation: A Student's Story with Azure and AI</h2>
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">November 08, 2024</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
-            </div>
-            <img src="azure-images/header images.png" alt="Project header image" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
-            <p>Have you ever tried to create something while simultaneously learning how to use the tools? 
-            My team and I got to experience that in our project with Azure services in our final semester
-            to create a manufacturing optimisation solution.</p>
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-            <p><span class="spoiler"> We survived, 
-                learned a ton, and even managed to build something pretty cool.
-            It would be nice to have a demo, but it's our client's. However, please strap in for the ride if you have time.</span></p>
-            
-            <p>While the work was divided equally among team members, I took on the role of team leader where I 
-            provided a broad overview of the project, architecture design, set expectations, and orchestrated the 
-            team's efforts into a coherent product - in this case, a software module integrated into our client's 
-            existing system.</p>
-            
-            <h3>The Challenge: Making Machines Smarter</h3>
-            
-            <p><span class="highlight">The Picture:</span> You have manufacturing machines generating tons of data 
-            through sensors, but that data is just sitting there, not really doing much. So we wanted to create a software 
-            solution that could not just monitor these machines, but actually make sense of all that data and help 
-            engineers optimise operations.</p>
-            
-            <p>The core idea was to build a system that could:</p>
-            <ul>
-                <li>Monitor machines through sensor data</li>
-                <li>Store historical performance data</li>
-                <li>Use generative AI to query data, create reports, recognize faults, and raise alerts</li>
-                <li>Visualise everything in a user-friendly format</li>
-            </ul>
-
-            <h3>IoT Sensor Data Analysis, Anomaly Detection and LLM Integration System</h3>
-            <h4>1. Data Collection and Ingestion</h4>
-            <p>Our system was designed to collect key parameters like temperature, speed, torque, and positional data from various sensors installed on the machines.
-                Along with Raspberry Pi devices as edge computing units, we used OPC UA protocol via PLCs (Programmable Logic Controllers) to translate machine signals into readable data.
-            </p>
-            <p>So the pipeline looks like this:</p>
-
-            <div class="output-cell">
-                <div class="output-line">Edge Device (Raspberry Pi) → Azure IoT Hub → Azure Event Hub → Azure Function Apps → Azure Cosmos DB</div>
-            </div>
-
-            <h4>2. Data Storage and Processing</h4>
-            <p>Once the data was collected, 2 databases were used:
-                <ul>
-                    <li><strong>Azure Cosmos DB:</strong> Stores raw IoT messages</li>
-                    <li><strong>Azure Blob Storage:</strong> Stores processed performance metrics (OEE, OT, OE) for LLM consumption</li>
-                </ul>
-            </p>
-
-            <p>For data processing, we implement an Event Hub Trigger Azure Function with Python 3.11 runtime to:
-                <ul>
-                    <li>Parse incoming IoT telemetry</li>
-                    <li>Update Digital Twin properties</li>
-                    <li>Calculate statistical metrics</li>
-                    <li>Store processed data in Blob Storage</li>
-                </ul>
-            </p>
-
-            <h4>3. Anomaly Detection and LLM Integration</h4>
-            <p>For anomaly detection, we used Azure Machine Learning to train a simple model that could predict machine failures based on historical data. 
-                The model was then deployed as a web service and integrated into the Azure Function App to raise alerts when anomalies were detected.</p>
-
-            <p>Workflow:
-                <ul>
-                    <li>The backend retrieves data from Cosmos DB</li>
-                    <li>Data is scaled using a pre-trained scaler</li>
-                    <li>The maintenance alert model predicts and raise result toward frontend dashboard</li>
-                </ul>
-            </p>
-
-            <h4>4. Digital Twin Integration</h4>
-            <h5>Digital Twin Setup</h5>
-            <ul>
-                <li>Create Azure Digital Twin models for the manufacturing system (e.g., Gantry System)</li>
-                <li>Define relationships between components:
-                    <ul>
-                        <li>Vacuum → Storage: have_access_to</li>
-                        <li>ControlPad → Vacuum: controls</li>
-                        <li>Conveyor → Sensors: linked_to</li>
-                    </ul>
-            </ul>
-            <h5>Real-time Monitoring</h5>
-            <ul>
-                <li>IoT data updates Digital Twin properties via Function App</li>
-                <li>The Digital Twin model provides a virtual representation of the physical system</li>
-                <li>Use 3D visualization (Azure Digital Twins 3D Scenes) and in-house dashboard to monitor machinery status in real-time</li>
-            </ul>
-
-            <h4>5. LLM Integration for Log Processing and Optimization</h4>
-            <h5>Azure OpenAI Services Setup</h5>
-            <ul>
-                <li>Deploy GPT-4o model in Azure OpenAI Services</li>
-                <li>Set up text-embedding-ada-002 model for vector search capabilities</li>
-                <li>Configure system message and parameters</li>
-            </ul>
-
-            <h5>Integrating Machine Data with LLM</h5>
-            <ul>
-                <li>Process and store machine performance metrics in Azure Blob Storage</li>
-                <li>Set up Azure AI Search to index this data</li>
-                <li>Configure vector search for semantically relevant retrieval</li>
-                <li>Connect the Azure OpenAI Service to search this indexed data</li>
-            </ul>
-
-            <h5>Optimization Suggestion Workflow</h5>
-            <ul>
-                <li>Users interact with the LLM via a chat interface</li>
-                <li>The LLM queries Azure AI Search for relevant machine data</li>
-                <li>The system combines its knowledge with real-time and historical data</li>
-                <li>It generates reports and optimization suggestions based on this integrated information</li>
-            </ul>
-
-            <p>For an example prompt, it goes something like this:</p>
-
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-            <pre class="code-content"><code>
-"Analyse the raw data and statistics from the time period and generate a summary.
-Your report should include the following sections:
-1. Executive Summary
-2. Variable Trends
-3. Anomalies Detected
-4. Potential Faults
-5. Optimization Strategies
-For each section, provide concise, data-driven insights. Use specific numbers and percentages where relevant."
-            </code></pre>
-            </div>
-            
-            <h3>Azure: A Maze</h3>
-            
-            <p>Working with Azure was like exploring a city where every service is its own neighborhood. 
-            Some neighborhoods are friendly and work great together, while others... let's just say they need better 
-            public transportation.</p>
-            
-            <p>We used various Azure services for storing data, processing it, and running AI models. But here's 
-            where it gets interesting (and by interesting, I mean challenging 🎢).</p>
-            
-            <p>Combining Azure services is a bit like following a recipe with missing instructions. Here are some fun 
-            challenges we faced:</p>
-            
-            <ol>
-                <li><strong>Documentation:</strong> Sometimes Azure's documentation felt like a treasure hunt. <br>
-                    "Oh, you want these two services to work together? Here's a cryptic clue in the docs!" <br>While slightly exaggerated, the point stands. 
-                    When designing infrastructure for clients, we couldn't say with confidence if things would work as intended. The amount of documentation diving needed to verify feature availability was too extensive for proposal phases.
-                </li>
-                <li><strong>The Integration:</strong> Getting different Azure services to work together was way harder than it should be (had to thank my teammates for figuring this out). <br>
-                    Often you have two Azure services that you expect to work together nicely, but they don't or require some roundabout way to integrate. For some services, I spent weeks trying to find ways for them to talk to each other, only to realize it wasn't documented anywhere and the only working solution was a roundabout approach using additional services. 
-                    This problem might not be a big deal if you use the Azure native version of a common technology (like Azure SQL vs Postgres for Azure, Synapse vs Databricks, Cosmos vs other non-structured DBs), but then you hit point number 1 again - oops, that feature in open-source product A isn't in our version yet, it's on the road map or in preview mode.
-                </li>
-                <li><strong>The "It's Not You, It's Me" Moments:</strong> Azure services occasionally decided to take their sweet time responding, like waiting for a text reply that never comes (something like this -> <img src="azure-images/read.png" style="vertical-align:middle; display: inline;">).
-                </li>
-            </ol>
-            
-            <h3>Lessons Learned</h3>
-            
-            <ul>
-                <li><strong>Reading Documentation is an Art:</strong> Beyond just reading, you need to read between 
-                    the lines. Often, what's missing is as important as what's included. To add to this, the number of things that are poorly or ambiguously documented across multiple locations is too high. 
-                    Maybe it's just me.
-                </li>
-                <li><strong>Integration Testing is Your Best Friend:</strong> When working with multiple services, test their interactions early. 
-                    Trust me, finding out two services don't play nice together, have clunky interactions, occasional timeout errors, or bugs after building half your solution is not fun.
-                </li>
-                <li><strong>Keep It Simple:</strong> Start with the basics and add complexity gradually.  
-                    This is a good approach to avoid getting overwhelmed by the system's complexity (or anything complex).
-                </li>
-            </ul>
-            
-            <p>Don't get me wrong, Azure has the most compelling storyline because it produces the top BI tool on the planet (PowerBI), the most common enterprise RDBMS (SqlServer), the most common business productivity suite (O365), and the most common authentication service (AAD). 
-                If I have to guess, probably MSFT doesn't pay as much attention to the DE or developers' side of the business, as many DEs are code-heavy.</p>
-            
-            <h3>The Silver Linings</h3>
-            
-            <p>Despite the challenges, we built something genuinely useful:</p>
-            <ul>
-                <li>A real-time monitoring system</li>
-                <li>AI-powered insights for optimisation</li>
-                <li>Interactive 3D visualisations</li>
-                <li>A chat interface for querying system data</li>
-            </ul>
-            
-            <p>And the best part? Everything actually worked together.</p>
-            
-            <h3>Personal Takeaways</h3>
-            
-            <p>Looking back, this project was more of a proof of concept, a prototype for our client rather than an actual staging product, like solving a puzzle where the pieces keep changing shape. 
-                Frustrating? Sometimes. Educational? It taught me that in the real world, technical skills are just part of the equation. 
-                Problem-solving, persistence, and being able to shrug it off are equally important.</p>
-            
-            <p>Want to see how it all came together? Check out our <a class="link" href="https://youtu.be/bpuhwgohZMo" target="_blank">
-            project presentation video</a> where we demonstrate the system in action. Our teachers seemed impressed, so 
-            we must have done something right.</p>
-            
-            <img src="https://i.imgflip.com/996x4q.jpg" title="made at imgflip.com" style="display: block; margin-left: auto; margin-right: auto; width: 25%;"/>
-        </div>
-
-        <p><a href="../index.html">Back to Home</a></p>
-
-        <footer>
-            <hr>
-            <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-        </footer>
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
     </div>
+    <div class="links">
+      <a class="home" href="../index.html">Folio I</a>
+      <a href="../portfolio.html">II · Works</a>
+      <a href="../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
+  <main class="stage">
+    <div class="folio-content">
+
+      <article class="post">
+
+        <header class="post-hero reveal d2">
+          <div class="plate-no">Plate III.7 — A Student's Azure Story</div>
+          <h1 class="post-title">Cloud-based <em>manufacturing optimisation</em></h1>
+          <div class="post-meta">
+            <span class="post-date">Nov 8, 2024</span>
+            <span class="sep">·</span>
+            <span>Azure</span>
+            <span class="sep">·</span>
+            <span>IoT</span>
+            <span class="sep">·</span>
+            <span>LLM</span>
+            <span class="sep">·</span>
+            <span>Team Project</span>
+          </div>
+        </header>
+
+        <div class="post-prose fade-in">
+
+          <p class="lede">Have you ever tried to create something while simultaneously learning how to use the tools? My team and I lived that during our final semester, building a manufacturing-optimisation solution on Azure services.</p>
+
+          <p class="spoiler">We survived, learned a ton, and built something pretty cool. A demo would be nice, but it belongs to the client. Strap in for the ride if you have time.</p>
+
+          <p>While the work was split equally, I took on the team-lead role — providing a broad overview of the project, designing the architecture, setting expectations, and orchestrating our efforts into a coherent product. In this case, a software module integrated into our client's existing system.</p>
+
+          <h3>The challenge: making machines smarter</h3>
+          <p><strong>The picture.</strong> You have manufacturing machines generating tons of sensor data, but the data is just sitting there. We wanted to build something that didn't just monitor the machines, but actually made sense of the data and helped engineers optimise operations.</p>
+          <p>The core idea was a system that could:</p>
+          <ul>
+            <li>Monitor machines through sensor data.</li>
+            <li>Store historical performance data.</li>
+            <li>Use generative AI to query data, generate reports, recognise faults, and raise alerts.</li>
+            <li>Visualise everything in a user-friendly format.</li>
+          </ul>
+
+          <h3>IoT data, anomaly detection, and an LLM</h3>
+
+          <h4>1. Data collection and ingestion</h4>
+          <p>The system collected key parameters — temperature, speed, torque, positional data — from various sensors on the machines. Raspberry Pi devices acted as edge computing units, and we used the OPC UA protocol via PLCs (Programmable Logic Controllers) to translate machine signals into readable data.</p>
+          <p>The ingest pipeline:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content">Edge Device (Raspberry Pi) → Azure IoT Hub → Azure Event Hub → Azure Function Apps → Azure Cosmos DB</pre>
+          </div>
+
+          <h4>2. Storage and processing</h4>
+          <p>Once collected, we used two datastores:</p>
+          <ul>
+            <li><strong>Azure Cosmos DB</strong> — stores raw IoT messages.</li>
+            <li><strong>Azure Blob Storage</strong> — stores processed performance metrics (OEE, OT, OE) for the LLM to consume.</li>
+          </ul>
+          <p>For processing, an Event Hub Trigger Azure Function (Python 3.11 runtime) would:</p>
+          <ul>
+            <li>Parse incoming IoT telemetry.</li>
+            <li>Update Digital Twin properties.</li>
+            <li>Calculate statistical metrics.</li>
+            <li>Store processed data in Blob Storage.</li>
+          </ul>
+
+          <h4>3. Anomaly detection + LLM integration</h4>
+          <p>For anomaly detection we used Azure Machine Learning to train a simple model that could predict machine failures from historical data. The model was deployed as a web service and wired into the Azure Function App so it could raise alerts when anomalies were detected.</p>
+          <p>The runtime workflow:</p>
+          <ul>
+            <li>The backend retrieves data from Cosmos DB.</li>
+            <li>Data is scaled using a pre-trained scaler.</li>
+            <li>The maintenance-alert model predicts and returns results to the frontend dashboard.</li>
+          </ul>
+
+          <h4>4. Digital Twin integration</h4>
+          <h5>Digital Twin setup</h5>
+          <ul>
+            <li>Create Azure Digital Twin models for the manufacturing system (e.g., Gantry System).</li>
+            <li>Define relationships between components:
+              <ul>
+                <li>Vacuum → Storage: <code>have_access_to</code></li>
+                <li>ControlPad → Vacuum: <code>controls</code></li>
+                <li>Conveyor → Sensors: <code>linked_to</code></li>
+              </ul>
+            </li>
+          </ul>
+
+          <h5>Real-time monitoring</h5>
+          <ul>
+            <li>IoT data updates Digital Twin properties via the Function App.</li>
+            <li>The Digital Twin model provides a virtual representation of the physical system.</li>
+            <li>3D visualisation (Azure Digital Twins 3D Scenes) and an in-house dashboard show machinery status in real time.</li>
+          </ul>
+
+          <h4>5. LLM integration for log processing and optimisation</h4>
+          <h5>Azure OpenAI services setup</h5>
+          <ul>
+            <li>Deploy a GPT-4o model in Azure OpenAI Services.</li>
+            <li>Set up <code>text-embedding-ada-002</code> for vector search capabilities.</li>
+            <li>Configure system message and parameters.</li>
+          </ul>
+
+          <h5>Integrating machine data with the LLM</h5>
+          <ul>
+            <li>Process and store machine performance metrics in Azure Blob Storage.</li>
+            <li>Set up Azure AI Search to index the data.</li>
+            <li>Configure vector search for semantically relevant retrieval.</li>
+            <li>Connect Azure OpenAI Service to that indexed data.</li>
+          </ul>
+
+          <h5>The optimisation suggestion workflow</h5>
+          <ul>
+            <li>Users interact with the LLM via a chat interface.</li>
+            <li>The LLM queries Azure AI Search for relevant machine data.</li>
+            <li>The system combines its knowledge with real-time and historical data.</li>
+            <li>It generates reports and optimisation suggestions from that integrated picture.</li>
+          </ul>
+
+          <p>An example prompt looks like this:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content">"Analyse the raw data and statistics from the time period and generate a summary.
+Your report should include the following sections:
+  1. Executive Summary
+  2. Variable Trends
+  3. Anomalies Detected
+  4. Potential Faults
+  5. Optimization Strategies
+For each section, provide concise, data-driven insights. Use specific
+numbers and percentages where relevant."</pre>
+          </div>
+
+          <h3>Azure: a maze</h3>
+          <p>Working with Azure was like exploring a city where every service is its own neighbourhood. Some neighbourhoods are friendly and work great together. Others… let's say they need better public transportation.</p>
+
+          <p>We used various Azure services for storing data, processing it, and running AI models. Here's where it got interesting — and by interesting I mean challenging.</p>
+
+          <p>Combining Azure services is a bit like following a recipe with missing instructions. Some of the fun challenges we faced:</p>
+
+          <ol>
+            <li><strong>Documentation.</strong> Sometimes Azure's docs felt like a treasure hunt. "Oh, you want these two services to work together? Here's a cryptic clue!" Exaggerated, but the point stands — when designing infrastructure for clients we couldn't say with confidence if things would work as intended. The amount of doc-diving needed to verify feature availability was too much for the proposal phase.</li>
+            <li><strong>Integration.</strong> Getting different Azure services to talk to each other was way harder than it should be (thanks to my teammates for figuring this out). Often two Azure services you'd expect to integrate cleanly require some roundabout path, and sometimes that path isn't documented anywhere. This is less of a problem if you use the Azure-native version of a common tech (Azure SQL vs Postgres, Synapse vs Databricks, Cosmos vs other non-structured DBs) — but then point 1 hits you again. "Oh, that feature in open-source product A isn't in our version yet — it's on the road map / in preview."</li>
+            <li><strong>"It's not you, it's me" moments.</strong> Azure services occasionally took their sweet time responding. Like waiting for a text reply that never comes.</li>
+          </ol>
+
+          <h3>Lessons learned</h3>
+          <ul>
+            <li><strong>Reading docs is an art.</strong> Beyond just reading, you need to read between the lines. Often what's missing is as important as what's included. The number of things poorly or ambiguously documented across multiple locations is too high. Maybe it's just me.</li>
+            <li><strong>Integration testing is your best friend.</strong> When working with multiple services, test their interactions early. Finding out two services don't play nicely after building half your solution is not fun.</li>
+            <li><strong>Keep it simple.</strong> Start with the basics and add complexity gradually — a good approach for any complex system.</li>
+          </ul>
+
+          <p>Don't get me wrong — Azure has the most compelling storyline because it produces the top BI tool on the planet (PowerBI), the most common enterprise RDBMS (SqlServer), the most common business productivity suite (O365), and the most common authentication service (AAD). If I had to guess, MSFT just doesn't pay as much attention to the data-engineering or developer side of the business.</p>
+
+          <h3>The silver linings</h3>
+          <p>Despite the challenges, we built something genuinely useful:</p>
+          <ul>
+            <li>A real-time monitoring system.</li>
+            <li>AI-powered insights for optimisation.</li>
+            <li>Interactive 3D visualisations.</li>
+            <li>A chat interface for querying system data.</li>
+          </ul>
+          <p>And the best part — everything actually worked together.</p>
+
+          <h3>Personal takeaways</h3>
+          <p>Looking back, this project was more of a proof of concept — a prototype for our client rather than an actual staging product — like solving a puzzle where the pieces keep changing shape. Frustrating? Sometimes. Educational? Absolutely. It taught me that in the real world, technical skills are just part of the equation. Problem-solving, persistence, and being able to shrug it off are equally important.</p>
+
+          <p>Want to see how it all came together? Check out our <a href="https://youtu.be/bpuhwgohZMo" target="_blank" rel="noopener">project presentation video</a> for a demo of the system in action.</p>
+
+        </div>
+      </article>
+
+      <a href="../blog.html" class="back-link">back to folio III · field notes</a>
+
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.7 · A Student's Azure Story</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
+
+    </div>
+  </main>
+
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cyanotype-chrome.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
-
-<script src="../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
 </html>

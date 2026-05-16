@@ -1,508 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Back to AI Basics - Deeper CNN</title>
-    <meta name="description" content="Explore the basics of AI with a focus on building a deeper Convolutional Neural Network (CNN) for image classification tasks.">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../../css/blog-styles.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Back to AI Basics, part 4 — building a deeper CNN for CIFAR, then graduating to ResNet-18.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.3.d — Deeper CNN + ResNet-18</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../../css/cyanotype.css">
+  <link rel="stylesheet" href="../../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../../css/cyanotype-syntax.css">
+
+  <script>
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
+<body class="post-page">
 
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
-        </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../../index.html">Homepage</a>
-            <a href="../../portfolio.html">My Portfolio</a>
-            <a href="../../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>Back to AI Basics: Deeper Convolutional Neural Network (CNN)</h2>
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">May 15, 2025</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
-            </div>
-            <!--Change the link to code  -->
-            <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics/tree/main/models" class="button">Code for this topic on GitHub</a>            
-            <h3>Introduction</h3>
-            <p>Last time, we built a basic CNN for MNIST digit classification.
-            The simplicity of MNIST allowed us to focus on the core CNN concepts without getting bogged down in complexity.
-            Now, do you think it can fair well on more challenging datasets like CIFAR-10 or CIFAR-100?
-            Probably not, but for the sake of learning and knowing, let's try it out.</p>
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
+    </div>
+    <div class="links">
+      <a class="home" href="../../index.html">Folio I</a>
+      <a href="../../portfolio.html">II · Works</a>
+      <a href="../../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
-            <p>In case you missed it, here is the <a href="../back-to-ai-basics/convnet.html">previous blog post</a> where we built a basic CNN for MNIST.
-            But the architecture is pretty simple: 2 convolutional blocks with 3x3 filters, ReLU activations, max pooling, and a fully connected layer, with dropout of 25%.</p>
+  <main class="stage">
+    <div class="folio-content">
 
-            <h3>Basic CNN for CIFAR-10</h3>
-            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="CNN Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-            <figcaption>Revisiting the last blog's architecture</figcaption>
+      <article class="post">
 
-            <p>For this task, we will only change the input channels from 1 to 3 (for RGB images) and adjust the fully connected layer input size to match CIFAR-10's spatial dimensions.</p>
+        <header class="post-hero reveal d2">
+          <div class="series-tag">From the series · <a href="../back-to-ai-basics.html">Back to AI Basics</a></div>
+          <div class="plate-no">Plate III.3.d — Deeper CNN + ResNet-18</div>
+          <h1 class="post-title">Going <em>deeper</em> — CIFAR, BatchNorm, ResNet</h1>
+          <div class="post-meta">
+            <span class="post-date">May 15, 2025</span>
+            <span class="sep">·</span>
+            <span>Series · Part 4</span>
+            <span class="sep">·</span>
+            <span>Python · PyTorch</span>
+            <span class="sep">·</span>
+            <span>CIFAR</span>
+          </div>
+        </header>
 
-            <h4>Basic CNN Architecture for CIFAR-10</h4>
-            <ul>
-                <li>Input channels: 1 → 3 (RGB images)</li>
-                <li>FC layer input: 3136 → 4096 (CIFAR-10 spatial dimensions)</li>
-                <li>Same depth and structure otherwise</li>
-            </ul>
+        <div class="post-prose fade-in">
 
-            <div class="code-window">
+          <a target="_blank" rel="noopener" href="https://github.com/ethannguyen2k/back-to-AI-basics/tree/main/models" class="button">Notebooks on GitHub</a>
+
+          <h3>Introduction</h3>
+          <p class="lede">Last time we built a basic CNN for MNIST digit classification. MNIST's simplicity let us focus on the core CNN ideas without getting bogged down. Now — do you think the same architecture will fare well on more challenging datasets like CIFAR-10 or CIFAR-100?</p>
+
+          <p>Probably not. But for the sake of learning, let's try.</p>
+
+          <p>In case you missed it, here's the <a href="convnet.html">previous plate</a> where we built the basic CNN for MNIST. The architecture is pretty simple: 2 convolutional blocks with 3×3 filters, ReLU activations, max pooling, a fully-connected layer, and 25% dropout.</p>
+
+          <h3>Basic CNN for CIFAR-10</h3>
+
+          <figure>
+            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="The previous plate's CNN architecture" class="blog-image">
+            <figcaption>Revisiting the last plate's architecture</figcaption>
+          </figure>
+
+          <p>For this task we only change the input channels from 1 to 3 (RGB) and adjust the fully-connected layer's input size to match CIFAR-10's spatial dimensions.</p>
+
+          <h4>Basic CNN architecture for CIFAR-10</h4>
+          <ul>
+            <li>Input channels: 1 → 3 (RGB).</li>
+            <li>FC layer input: 3136 → 4096 (CIFAR-10 spatial dimensions).</li>
+            <li>Same depth and structure otherwise.</li>
+          </ul>
+
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 CIFAR-10 Basic CNN Results Summary
 ============================================================
 Final Train Accuracy: 85.09%
-Final Test Accuracy: 74.75%
-Total Parameters: 545,098
-Total Epochs: 10
-Training Time: 185.73 seconds
+Final Test Accuracy:  74.75%
+Total Parameters:     545,098
+Total Epochs:         10
+Training Time:        185.73 seconds
 
 Train Loss: 0.4164, Train Acc: 85.09%
-Test Loss: 0.8065, Test Acc: 74.75%
-        </code></pre>
-        </div>
+Test Loss:  0.8065, Test Acc:  74.75%</code></pre>
+          </div>
 
-            <p>As we can see, even though 74.75% accuracy on CIFAR-10 is decent, it is far from usable in practice.
-            Additionally, there is a significant overfitting gap of ~10% between training and test accuracy.</p>
+          <p>74.75% on CIFAR-10 is decent, but it's far from usable in practice — and there's a significant overfitting gap of ~10% between train and test.</p>
 
-            <h3>Improving the CNN Architecture</h3>
-            <p>So in what way can we improve this basic CNN to achieve better performance on CIFAR-10?
-            Yes, we can make it deeper and more complex.
-            We will build a deeper CNN with more convolutional blocks, <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#3-batch-normalization" target="_blank">batch normalization</a>, better initialization, and <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md" target="_blank">regularization techniques like dropout and data augmentation</a>.</p>
+          <h3>Improving the CNN architecture</h3>
+          <p>How do we improve this basic CNN for better CIFAR-10 performance? Make it deeper and more complex. We'll build a deeper CNN with more convolutional blocks, <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#3-batch-normalization" target="_blank" rel="noopener">batch normalisation</a>, better initialisation, and <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md" target="_blank" rel="noopener">regularisation techniques like dropout and data augmentation</a>.</p>
 
-            <img src="../back-to-ai-basics-images/deeper_cnn_architecture.svg" alt="Deeper CNN Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-            <figcaption>VGG-style Deeper CNN Architecture appropriate for a 10-class task</figcaption>
+          <figure>
+            <img src="../back-to-ai-basics-images/deeper_cnn_architecture.svg" alt="VGG-style deeper CNN architecture" class="blog-image">
+            <figcaption>VGG-style deeper CNN for a 10-class task</figcaption>
+          </figure>
 
-            <h4>Architecture Enhancements:</h4>
-            <ul>
-                <li>4 conv blocks (vs 2): Progressive depth 3→64→128→256→512 channels</li>
-                <li>BatchNormalization: After every conv layer for stable training</li>
-                <li>Better initialization: Kaiming for ReLU networks</li>
-            </ul>
+          <h4>Architecture enhancements</h4>
+          <ul>
+            <li>4 conv blocks (vs 2): progressive depth 3 → 64 → 128 → 256 → 512 channels.</li>
+            <li>BatchNormalisation: after every conv layer for stable training.</li>
+            <li>Better initialisation: Kaiming for ReLU networks.</li>
+          </ul>
 
-            <div class="accordion">
-                <h4 class="accordion-heading" onclick="toggleAccordion(this)">What is Kaiming Initialization?</h4>
-                <div class="accordion-content">
-                    <p>One of the problems with deep networks is that gradients can vanish or explode as they propagate through many layers.
-                    These are problems during backpropagation in deep neural networks, especially deep feedforward or RNNs.</p>
-                    <p>In short:</p>
-                    <ul>
-                        <li><strong>Vanishing gradients:</strong> Gradients (partial derivatives) become very small as they're propagated backward through layers, leading to slow or stalled training. Most common with sigmoid/tanh activations or very deep networks.</li>
-                        <li><strong>Exploding gradients:</strong> Gradients become very large, causing weights to update too drastically and leading to instability or divergence during training. Common with RNNs over long sequences, poor weight initialization, or, of course, very deep networks.</li>
-                    </ul>
-                    <p>The Kaiming initialization method, also known as Kaiming He initialization or He normal initialization, is a technique for initializing the weights of artificial neural networks.</p> 
-                    <p>This method was introduced in the paper titled "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification" by Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.</p>
-                    <p>It sets the initial weights so that the variance of the activations remains stable and consistent across layers.</p>
-                    <p>The Kaiming initialization method is calculated as a random number with a Gaussian probability distribution (G) with a mean of 0.0 and a standard deviation of sqrt(2/n), where n is the number of inputs to the node.</p>
-                    <p>This is different from the Xavier initialization, which uses a uniform distribution and is more suitable for tanh or sigmoid activations.</p>
-                </div>
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">What is Kaiming initialization?</h4>
+            <div class="accordion-content">
+              <p>One of the problems with deep networks is that gradients can vanish or explode as they propagate through many layers. These are problems during backpropagation in deep feedforward networks or RNNs.</p>
+              <p>In short:</p>
+              <ul>
+                <li><strong>Vanishing gradients.</strong> Partial derivatives become very small as they propagate backward through layers, leading to slow or stalled training. Most common with sigmoid/tanh activations or very deep networks.</li>
+                <li><strong>Exploding gradients.</strong> Gradients become very large, causing weight updates to spiral and leading to instability or divergence. Common with RNNs over long sequences, poor weight initialisation, or very deep networks.</li>
+              </ul>
+              <p>Kaiming initialisation (also known as Kaiming He or He-normal initialisation) is a technique for initialising the weights of artificial neural networks. It was introduced in "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification" by He, Zhang, Ren, and Sun.</p>
+              <p>It sets the initial weights so the variance of activations remains stable across layers. Specifically: weights are drawn from a Gaussian with mean 0 and standard deviation <code>sqrt(2/n)</code>, where <code>n</code> is the number of inputs to the node.</p>
+              <p>This differs from Xavier initialisation, which uses a uniform distribution and is more suitable for tanh or sigmoid activations.</p>
             </div>
+          </div>
 
-            <h4>Regularization Techniques:</h4>
-            <ul>
-                <li>Data augmentation: Random crops, flips, color jitter</li>
-                <li>Dropout2d: 25% in conv blocks, 50% in classifier</li>
-                <li>Weight decay: L2 regularization in optimizer</li>
-                <li>LR scheduling: Step decay every 5 epochs</li>
-            </ul>
+          <h4>Regularisation techniques</h4>
+          <ul>
+            <li>Data augmentation — random crops, flips, colour jitter.</li>
+            <li>Dropout2d — 25% in conv blocks, 50% in the classifier.</li>
+            <li>Weight decay — L2 regularisation in the optimiser.</li>
+            <li>LR scheduling — step decay every 5 epochs.</li>
+          </ul>
 
-            <p>This is a well-structured and solid CNN architecture—reminiscent of VGG-style networks but enhanced with BatchNorm after every convolutional layer, weight initialization, and a progressive increase in channel depth.
-                Its strength lies in its modular design, a reasonable depth for testing, and Kaiming initialization for ReLU-based nets.
-            It should perform much better on CIFAR-10 than the basic CNN.
-            </p>
+          <p>This is a well-structured, solid CNN — reminiscent of VGG-style networks but enhanced with BatchNorm after every conv layer, careful weight initialisation, and a progressive channel-depth increase. Modular, reasonable depth for testing, Kaiming initialisation for ReLU. It should do much better on CIFAR-10.</p>
 
-            <div class="code-window">
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 CIFAR-10 Deeper CNN Results Summary
 ============================================================
 Final Train Accuracy: 83.24%
-Final Test Accuracy: 86.45%
-Best Test Accuracy: 86.45%
-Total Parameters: 7,320,394
-Training Time: 457.63 seconds
-Overfitting Gap: -3.21%
-        </code></pre>
-        </div>
+Final Test Accuracy:  86.45%
+Best Test Accuracy:   86.45%
+Total Parameters:     7,320,394
+Training Time:        457.63 seconds
+Overfitting Gap:      -3.21%</code></pre>
+          </div>
 
-        <div class="code-window">
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 COMPARISON: Basic CNN vs Deeper CNN
 ============================================================
 Basic CNN Test Accuracy:   74.75%
 Deeper CNN Test Accuracy:  86.45%
-Improvement: +11.70%
+Improvement:               +11.70%
 Basic CNN Parameters:      545,098
 Deeper CNN Parameters:     7,320,394
-Parameter Increase: 13.4x
-        </code></pre>
-        </div>
+Parameter Increase:        13.4×</code></pre>
+          </div>
 
-        <p>Okay! So we got a pretty excellent results here.
-            86.45% test accuracy is solid for CIFAR-10, with only a 3.21% overfitting gap, and overall 11.7% improvement.
-        </p>
-        <p>It seems like BatchNorm with data augmentation really helped, the model is well regularised.
-            For 15 epochs, it took about 457 seconds to train (~30s per epoch), which is reasonable, given 7.3M parameters.
-        </p>
+          <p>Excellent results. 86.45% on CIFAR-10 is solid, with only a 3.21% overfitting gap and an overall 11.7% improvement.</p>
+          <p>BatchNorm with data augmentation really helped — the model is well regularised. For 15 epochs it took ~457 seconds (~30s per epoch), which is reasonable given the 7.3M parameters.</p>
 
-        <div class="accordion">
-            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Will Deeper CCN still work without these techniques?</h4>
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Will the deeper CNN still work without these techniques?</h4>
             <div class="accordion-content">
-                <p>In this problem we are placing for ourselves? The performance will likely be damaged.</p>
-                <ul>
-                    <li>Without BatchNorm, the model may struggle with internal covariate shift.</li>
-                    <li>Without Kaiming initialization, weights may be to spread out, leading to poor convergence.</li>
-                    <li>Without dropout, the model is likely to overfit on CIFAR-10, especially with 7M+ parameters.</li>
-                    <li>Without data augmentation, the model will be limited on data diversity.</li>
-                    <li>There may even be Vanishing problem as well, though it is more prominent with sigmoid/tanh activations.</li>
-                </ul>
-                <p>So, in short, worse validating accuracy, massive train-test gap, internal covariate shift, diverge early.</p>
+              <p>For this problem? Performance will degrade.</p>
+              <ul>
+                <li>Without BatchNorm — the model may struggle with internal covariate shift.</li>
+                <li>Without Kaiming initialisation — weights may be too spread out, leading to poor convergence.</li>
+                <li>Without dropout — the model will likely overfit on CIFAR-10, especially with 7M+ parameters.</li>
+                <li>Without data augmentation — the model is limited in data diversity.</li>
+                <li>There may even be vanishing-gradient issues, though those are more prominent with sigmoid/tanh activations.</li>
+              </ul>
+              <p>In short: worse validation accuracy, a massive train–test gap, internal covariate shift, early divergence.</p>
             </div>
-        </div>
+          </div>
 
-        <h3>Pushing Deeper CNN Further</h3>
-        <p>Whenever we deal with practical model that classify images, CIFAR-10 and CIFAR-100 are always our go-to, and itt is a benchmark for many papers and models.</p>
-        <p>CIFAR-10 tests "Can your model learn?"<br>
-        CIFAR-100 tests "Can your model scale?"</p>
-        <p>CIFAR-10 and CIFAR-100 form a somewhat natural difficulty ladder in terms of model capacity vs. task complexity.</p>
-        <p>So, let's try to scale our Deeper CNN to CIFAR-100, which has 100 classes, each with 600 images, and see how it performs.
-            It will be the same architecture, but the final fully connected layer will be an output of 100 classes instead of 10.</p> 
+          <h3>Pushing the deeper CNN further</h3>
+          <p>When working with practical image-classification models, CIFAR-10 and CIFAR-100 are the go-to benchmarks for many papers and architectures.</p>
+          <p>CIFAR-10 tests "<em>Can your model learn?</em>"<br>CIFAR-100 tests "<em>Can your model scale?</em>"</p>
+          <p>The two form a natural difficulty ladder in terms of model capacity vs. task complexity.</p>
+          <p>Let's scale our Deeper CNN to CIFAR-100, which has 100 classes with 600 images each. Same architecture, but the final fully-connected layer outputs 100 classes instead of 10.</p>
 
-        <div class="code-window">
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 CIFAR-100 Deeper CNN Results Summary
 ============================================================
 Final Train Accuracy: 46.62%
-Final Test Accuracy: 53.57%
-Best Test Accuracy: 53.57%
-Total Parameters: 7,366,564
-Total Epochs: 20
-Training Time: 600.31 seconds
-        </code></pre>
-        </div>
+Final Test Accuracy:  53.57%
+Best Test Accuracy:   53.57%
+Total Parameters:     7,366,564
+Total Epochs:         20
+Training Time:        600.31 seconds</code></pre>
+          </div>
 
-        <p>Tough! The model is struggling to learn on CIFAR-100:
-            53.57% test accuracy is far from usable, not to mention it is clearly underfitting.
-            Sometimes, underfitting mean the model might not have enough epochs to learn yet.
-        </p>
+          <p>Tough. The model is struggling: 53.57% on CIFAR-100 is far from usable, and it's clearly underfitting. Sometimes underfitting just means the model hasn't had enough epochs yet.</p>
 
-        <div class="code-window">
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 CIFAR-100 Deeper CNN Results Summary
 ============================================================
 Final Train Accuracy: 51.25%
-Final Test Accuracy: 57.29%
-Best Test Accuracy: 57.29%
-Total Parameters: 7,366,564
-Total Epochs: 35
-Training Time: 1093.35 seconds
-        </code></pre>
-        </div>
+Final Test Accuracy:  57.29%
+Best Test Accuracy:   57.29%
+Total Parameters:     7,366,564
+Total Epochs:         35
+Training Time:        1093.35 seconds</code></pre>
+          </div>
 
-        <p>Going from 20 → 35 epochs gave only ~4% gain. It's not even worth it to increase epochs at this point.</p>
-        <p>So, what is the problem here?</p>
-        <ol>
-            <li><strong>Training Difficulty Scaling</strong>: As task complexity increases, models need to learn finer class boundaries and handle a more intra-class variance.
-                This means we might have hit a bottleneck, not due to the model's architecture, but rather its capacity to learn complex features.
-            </li>
-            <li><strong>Diminishing Returns from Depth</strong>: Adding depth past a certain point doesn't yield better performance, unless architecture supports it (e.g., residuals).
-                So with an even deeper network, we might not see significant improvements.
-            </li>
-        </ol>
-        <p>Deeper networks help only up to the point they can be optimized and generalize. 
-            When task difficulty scales up and you don't adjust other factors (like width, augmentation, learning rate, architecture), depth alone gives less return.
-        </p>
+          <p>Going from 20 → 35 epochs gave only ~4% gain. Not worth pushing epochs at this point.</p>
+          <p>So what's the problem?</p>
+          <ol>
+            <li><strong>Training difficulty scaling.</strong> As task complexity increases, models need to learn finer class boundaries and handle more intra-class variance. We've hit a bottleneck — not in the architecture, but in its capacity to learn complex features.</li>
+            <li><strong>Diminishing returns from depth.</strong> Adding depth past a certain point doesn't yield better performance, unless the architecture supports it (e.g. residual connections). An even deeper network won't help much.</li>
+          </ol>
+          <p>Deeper networks help only as far as they can be optimised and generalised. When task difficulty scales up and you don't adjust other factors (width, augmentation, learning rate, architecture), depth alone gives diminishing returns.</p>
 
-        <p>To go further, we will need more than just depth.
-            We will need an improved architecture.
-        </p>
-        <img src="https://i.imgflip.com/11apvu.jpg" alt="We Need MORE FIREPOWER!" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-        <figcaption>We need more firepower!</figcaption>
-        
-        <h3>Introducing Modern CNN Architectures</h3>
-        <p>As of 2025, CNNs are still widely used, but their dominance has been overtaken in many areas—especially vision tasks—by Vision Transformers (ViTs) and hybrid models. 
-            That said, CNNs remain efficient and preferred for some real-time and resource-constrained tasks.
-        </p>
-        <ul>
-            <li>CNNs (like EfficientNet, ConvNeXt) are still faster and lighter than ViTs for many edge/real-time tasks.</li>
-            <li>ViTs (like Swin Transformer, DeiT, and SAM backbones) are state-of-the-art in accuracy for vision benchmarks but need more compute. 
-                They are more popular in research and large-scale industry models.</li>
-            <li>Hybrid architectures (e.g., CoaT, LeViT) combine CNNs + attention — best of both worlds in some tasks.</li>
-        </ul>
-        <p>The CNN is still a vast space. 
-            You can check out more from <a href="https://docs.pytorch.org/vision/stable/models.html" target="_blank">PyTorch models and pre-trained weights</a>
-            or <a href="https://keras.io/api/applications/" target="_blank">Keras applications</a>.
-            You can also check out <a href="https://huggingface.co/docs/transformers/model_doc/vit" target="_blank">Hugging Face Vision Transformers</a> for ViTs, hybrid models, and possibly more.
-        </p>
-        <p>However, for this blog, we will focus on a handful of architectures, starting with...</p>
+          <p>To go further, we'll need more than just depth. We'll need a better architecture.</p>
 
-            <h3>Residual Network (ResNet)</h3>
-            <p>One of the common problems with deep CNNs when adding more layers is the Vanishing/Exploding gradient problem.
-            This makes it hard to train very deep networks, as gradients can become too small or too large, leading to poor convergence or divergence, which also leads to high training and test loss.
-            </p>
-            <p>Proposed in 2015, researchers at Microsoft Research introduced a new architecture called Residual Network, or ResNet.
-            </p>
-            <p>ResNet is all about minimising the Vanishing/Exploding gradient problem by introducing a core idea called <strong>skip connections</strong> (or residual connections) that allow gradients to flow more easily through the network.
-                Instead of learning a direct mapping H(x), ResNet learns the residual mapping F(x) = H(x) - x, where x is the input.
-            </p>
-            <div class="accordion">
-                <h4 class="accordion-heading" onclick="toggleAccordion(this)">What is a Residual, or Residual Block?</h4>
-                <div class="accordion-content">
-                    <p>At its core, a residual block is a neural module that computes:</p>
-                    <p>
-                    \[
-                    \text{output} = F(x) + x
-                    \]
-                    </p>
-                    <p>Where:</p>
-                    <ul>
-                        <li><code>x</code> is the original input to the block</li>
-                        <li><code>F(x)</code> is the output of the small neural network (usually a few conv + BN + ReLU layers)</li>
-                    </ul>
-                    <p>x is added back in via an identity (skip) connection. This skip path bypasses the main transformation.</p>
-                    <p>So, the residual block learns the difference between the input and output (i.e., the residual), which is easier, rather than trying to learn the output directly.</p>
-                    <p>
-                    \[
-                    F(x) = H(x) - x \implies H(x) = F(x) + x
-                    \]
-                    </p>
-                    <p>This is important in very deep network, where layers may not be needed to transform data significantly, 
-                        or the identity mappings might already be sufficient in parts of the network.
-                    </p>
-                    <p>In giving the models a shortcut path, it has the flexibility to leave the data untouched (learn F(x)=0) or apply a transformation (learn F(x)≠0) as needed.
-                    </p>
-                    <p>Think of it like this: Traditional layers try to mutate data every step - even when it doesn't help.
-                        Residual blocks can let data pass through unmodified if needed, and only nudge it when helpful.
-                        This can help to avoid degradation in performance as models go deeper.
-                    </p>
-                </div>
+          <h3>Modern CNN architectures</h3>
+          <p>As of 2025, CNNs are still widely used, but their dominance has been overtaken in many areas — especially vision tasks — by Vision Transformers (ViTs) and hybrid models. That said, CNNs remain efficient and preferred for many real-time and resource-constrained tasks.</p>
+          <ul>
+            <li>CNNs (EfficientNet, ConvNeXt) — still faster and lighter than ViTs for many edge / real-time tasks.</li>
+            <li>ViTs (Swin Transformer, DeiT, SAM backbones) — state of the art in accuracy for vision benchmarks but need more compute. More popular in research and large-scale industry models.</li>
+            <li>Hybrid architectures (CoaT, LeViT) — combine CNNs + attention. Best of both worlds in some tasks.</li>
+          </ul>
+          <p>The CNN landscape is still vast. See <a href="https://docs.pytorch.org/vision/stable/models.html" target="_blank" rel="noopener">PyTorch models and pre-trained weights</a> or <a href="https://keras.io/api/applications/" target="_blank" rel="noopener">Keras applications</a>. For ViTs and hybrids, see <a href="https://huggingface.co/docs/transformers/model_doc/vit" target="_blank" rel="noopener">Hugging Face's Vision Transformers</a>.</p>
+
+          <p>For this plate, we'll focus on one architecture in particular — ResNet.</p>
+
+          <h3>Residual Network (ResNet)</h3>
+          <p>One common problem with deep CNNs when you add more layers is the vanishing / exploding gradient problem. It's hard to train very deep networks because gradients can become too small or too large, leading to poor convergence (or outright divergence), which also leads to high training and test loss.</p>
+          <p>In 2015, researchers at Microsoft Research introduced a new architecture: Residual Network, or <strong>ResNet</strong>.</p>
+          <p>ResNet is all about minimising the vanishing/exploding gradient problem by introducing a core idea — <strong>skip connections</strong> (or residual connections) — that let gradients flow more easily through the network. Instead of learning a direct mapping <code>H(x)</code>, ResNet learns the residual mapping <code>F(x) = H(x) − x</code>, where <code>x</code> is the input.</p>
+
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">What is a residual, or residual block?</h4>
+            <div class="accordion-content">
+              <p>At its core, a residual block computes:</p>
+              <p>\[ \text{output} = F(x) + x \]</p>
+              <p>Where:</p>
+              <ul>
+                <li><code>x</code> is the original input to the block.</li>
+                <li><code>F(x)</code> is the output of a small neural network (usually a few conv + BN + ReLU layers).</li>
+              </ul>
+              <p><code>x</code> is added back in via an identity (skip) connection. This skip path bypasses the main transformation. So the residual block learns the difference between input and output (the residual), which is easier than trying to learn the output directly.</p>
+              <p>\[ F(x) = H(x) - x \implies H(x) = F(x) + x \]</p>
+              <p>This is important in very deep networks, where layers may not need to transform the data significantly — identity mappings might already be sufficient in parts of the network. Giving the model a shortcut path gives it the flexibility to leave the data untouched (<code>F(x)=0</code>) or apply a transformation (<code>F(x)≠0</code>) as needed.</p>
+              <p>Traditional layers try to mutate data every step, even when it doesn't help. Residual blocks can let data pass through unmodified when needed, and only nudge it when helpful. This avoids degradation in performance as models go deeper.</p>
             </div>
-            <p>There are multiple variations of ResNet with lots of layers.
-                We will choose 18 layers since the purpose of this blog is to discuss the underlying concept, or ResNet-18 to be precise.</p>
-            <img src="https://www.researchgate.net/profile/Chih-Hsien-Hsia/publication/353026381/figure/fig2/AS:1042698844770347@1625610185976/Color-online-ResNet-18-architecture.ppm" alt="ResNet-18 Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-            <figcaption>ResNet-18 Architecture (<a href="https://www.researchgate.net/figure/Color-online-ResNet-18-architecture_fig2_353026381" target="_blank">Source</a>)</figcaption>
-            <h4>Key ResNet-18 Features:</h4>
-            <ul>
-                <li>Skip connections: <code>out += self.shortcut(x)</code> - the core innovation</li>
-                <li>18 layers: 2+2+2+2 BasicBlocks + initial conv + final FC</li>
-                <li>Efficient: ~11M parameters vs 7.3M custom CNN</li>
-                <li>SGD + momentum: Better for ResNet training than Adam</li>
-            </ul>
+          </div>
 
-            <p>Now, we have 2 ways to get ResNet-18: build it from scratch or use a pre-trained model.
-                To use a pre-trained model, you can invoke a simple function below.
-                For building from scratch, it is demonstrated in my <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/cifar100_resnet.ipynb" target="_blank">notebook</a>, feel free to poke around. 
-            </p>
+          <p>There are several variations of ResNet with different depths. We'll choose 18 layers since this plate is about the underlying concept — so, <strong>ResNet-18</strong>.</p>
 
-            <div class="code-window">
+          <figure>
+            <img src="https://www.researchgate.net/profile/Chih-Hsien-Hsia/publication/353026381/figure/fig2/AS:1042698844770347@1625610185976/Color-online-ResNet-18-architecture.ppm" alt="ResNet-18 architecture diagram" class="blog-image">
+            <figcaption>ResNet-18 architecture (<a href="https://www.researchgate.net/figure/Color-online-ResNet-18-architecture_fig2_353026381" target="_blank" rel="noopener">source</a>)</figcaption>
+          </figure>
+
+          <h4>Key ResNet-18 features</h4>
+          <ul>
+            <li>Skip connections: <code>out += self.shortcut(x)</code> — the core innovation.</li>
+            <li>18 layers: 2+2+2+2 BasicBlocks + initial conv + final FC.</li>
+            <li>Efficient: ~11M parameters vs 7.3M for the custom deeper CNN.</li>
+            <li>SGD + momentum: better for ResNet training than Adam.</li>
+          </ul>
+
+          <p>There are two ways to get ResNet-18: build it from scratch or use a pre-trained model. To use pre-trained, invoke a single function:</p>
+
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-python"><code>
-from torchvision.models import resnet18, ResNet18_Weights
+<pre class="code-content"><code class="language-python">from torchvision.models import resnet18, ResNet18_Weights
 
 # Load model with pretrained weights
 weights = ResNet18_Weights.DEFAULT
-model = resnet18(weights=weights)
-        </code></pre>
-        </div>
+model = resnet18(weights=weights)</code></pre>
+          </div>
 
-        <p>Though you might be careful with using the pre-trained model above.
-            The weights that specified is used for ImageNet, which is 224x224 high-res natural images dataset, completely different from 32x32 low-res images CIFAR dataset.
-            You will might want to modify the fist conv layer and use smaller learning rates if you want to use it.
-            Anyhow, here is the building from scratch performance:
-        </p>
+          <p>Be careful with the pretrained version — those weights are for ImageNet, a 224×224 high-resolution natural-image dataset, completely different from CIFAR's 32×32 low-resolution images. You'll likely want to modify the first conv layer and use smaller learning rates if you go that route. Building from scratch is demonstrated in <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/cifar100_resnet.ipynb" target="_blank" rel="noopener">my notebook</a>.</p>
 
-        <h4>ResNet-18 on CIFAR-10</h4>
-            <div class="code-window">
+          <h4>ResNet-18 on CIFAR-10</h4>
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 ResNet-18 on CIFAR10 Results Summary
 ============================================================
 Final Train Accuracy: 91.77%
-Final Test Accuracy: 88.75%
-Best Test Accuracy: 88.84%
-Total Parameters: 11,173,962
-Total Epochs: 15
-Training Time: 545.73 seconds
-Overfitting Gap: 3.02%
-        </code></pre>
-        </div>
+Final Test Accuracy:  88.75%
+Best Test Accuracy:   88.84%
+Total Parameters:     11,173,962
+Total Epochs:         15
+Training Time:        545.73 seconds
+Overfitting Gap:      3.02%</code></pre>
+          </div>
 
-            <div class="code-window">
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 COMPARISON: Previous CNN vs ResNet-18 on CIFAR10
 ============================================================
 Deeper CNN Test Accuracy:  86.45%
 ResNet-18 Test Accuracy:   88.84%
-Improvement: +2.39%
+Improvement:               +2.39%
 Deeper CNN Parameters:     7,320,394
 ResNet-18 Parameters:      11,173,962
-Parameter Efficiency: 1.53x
-        </code></pre>
-        </div>
+Parameter Efficiency:      1.53×</code></pre>
+          </div>
 
-        <h4>ResNet-18 on CIFAR-100</h4>
-            <div class="code-window">
+          <h4>ResNet-18 on CIFAR-100</h4>
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 ResNet-18 on CIFAR100 Results Summary
 ============================================================
 Final Train Accuracy: 84.64%
-Final Test Accuracy: 71.53%
-Best Test Accuracy: 71.75%
-Total Parameters: 11,220,132
-Total Epochs: 25
-Training Time: 893.19 seconds
-Overfitting Gap: 13.11%
-        </code></pre>
-        </div>
+Final Test Accuracy:  71.53%
+Best Test Accuracy:   71.75%
+Total Parameters:     11,220,132
+Total Epochs:         25
+Training Time:        893.19 seconds
+Overfitting Gap:      13.11%</code></pre>
+          </div>
 
-            <div class="code-window">
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content language-plaintext"><code>
-============================================================
+<pre class="code-content"><code class="language-plaintext">============================================================
 COMPARISON: Previous CNN vs ResNet-18 on CIFAR100
 ============================================================
 Deeper CNN Test Accuracy:  53.57%
 ResNet-18 Test Accuracy:   71.75%
-Improvement: +18.18%
+Improvement:               +18.18%
 Deeper CNN Parameters:     7,366,564
 ResNet-18 Parameters:      11,220,132
-Parameter Efficiency: 1.53x
-        </code></pre>
-        </div>
+Parameter Efficiency:      1.53×</code></pre>
+          </div>
 
-        <p>Okay, we got some good insights here:</p>
-        <ul>
-            <li>Both models perform well on simpler 10-class problem, with only 2.39% increase.
-                We can't really tell if skip connections method provide a benefit here or just a good weights initialization.
-            </li>
-            <li>For 100-class problem, ResNet-18 outperforms the previous Deeper CNN by 18.18%!
-                We have already said that the previous deeper CNN can't handle the complex gradient flow issues.
-                ResNet, with 1.53x more parameters, its identity mappings has delivered a better result, and potentially even better with more epochs.
-            </li>
-        </ul>
+          <p>Some good insights:</p>
+          <ul>
+            <li>Both models perform well on the simpler 10-class problem, with only a 2.39% increase from skip connections. We can't really tell whether skip connections provided the benefit or just better weight flow.</li>
+            <li>For the 100-class problem, ResNet-18 outperforms the previous Deeper CNN by 18.18%. We already saw that the previous Deeper CNN couldn't handle the complex gradient flow. ResNet, with 1.53× more parameters, used its identity mappings to deliver a substantially better result — and would likely improve further with more epochs.</li>
+          </ul>
 
-        <h3>Conclusion</h3>
-        <p>It is no doubt that for understanding and exploring, the simplest of CNNs can give you a glimpse of how convolutional neural networks work and how it benefits the image classification domains, and possibly more.
-            However, as we have seen, the more complex imageries, or bigger the number of pixels, the harder for these basics models to comprehend.
-            The deeper CNNs with BatchNorm, Kaiming initialization, and regularization techniques can help us achieve better performance on more complex imageries.
-            We also get to know a new architecture called ResNet, which is a great example of how to solve the vanishing/exploding gradient problem in deep networks.
-        </p>
+          <h3>Conclusion</h3>
+          <p>For learning and exploring, the simplest CNNs give you a glimpse of how convolutional neural networks work and where they shine in image classification. But as imagery gets more complex (or larger), those basic models struggle. Deeper CNNs with BatchNorm, Kaiming initialisation, and regularisation get us further. And ResNet — with its skip-connection innovation — gives us a way to scale depth without sliding into the vanishing-gradient pit.</p>
+          <p>In the next part of this Deep CNNs series, we'll explore other modern CNNs and where they earn their keep.</p>
 
-        <p>In the next part of this Deep CNNs series, we will continue to explore other modern CNNs and its effectiveness in its own areas.</p>
-        <section id="references">
+          <section class="references" id="references">
             <h2>References</h2>
             <ol>
-                <li>He, K., Zhang, X., Ren, S., & Sun, J. (2015). Deep Residual Learning for Image Recognition. arXiv:1512.03385v1. Retrieved from <a href="https://arxiv.org/pdf/1512.03385" target="_blank">https://arxiv.org/pdf/1512.03385</a></li>
-                <li>PyTorch. (n.d.). torchvision.models.resnet18. Retrieved from <a href="https://docs.pytorch.org/vision/main/models/generated/torchvision.models.resnet18.html" target="_blank">https://docs.pytorch.org/vision/main/models/generated/torchvision.models.resnet18.html</a></li>
-                <li>GeeksforGeeks. (2025). Kaiming Initialization in Deep Learning. Last Updated: 02 Apr, 2025. Retrieved from <a href="https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/" target="_blank">https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/</a></li>
-                <li>GeeksforGeeks. (2025). Residual Networks (ResNet) - Deep Learning. Last Updated: 07 Apr, 2025. Retrieved from <a href="https://www.geeksforgeeks.org/residual-networks-resnet-deep-learning/" target="_blank">https://www.geeksforgeeks.org/residual-networks-resnet-deep-learning/</a></li>
-                <li>GeeksforGeeks. (2025). ResNet18 from Scratch Using PyTorch. Last Updated: 21 Apr, 2025. Retrieved from <a href="https://www.geeksforgeeks.org/resnet18-from-scratch-using-pytorch/" target="_blank">https://www.geeksforgeeks.org/resnet18-from-scratch-using-pytorch/</a></li>
+              <li>He, K., Zhang, X., Ren, S., &amp; Sun, J. (2015). Deep Residual Learning for Image Recognition. arXiv:1512.03385v1. <a href="https://arxiv.org/pdf/1512.03385" target="_blank" rel="noopener">arxiv.org/pdf/1512.03385</a></li>
+              <li>PyTorch. <a href="https://docs.pytorch.org/vision/main/models/generated/torchvision.models.resnet18.html" target="_blank" rel="noopener">torchvision.models.resnet18</a></li>
+              <li>GeeksforGeeks (2025). <a href="https://www.geeksforgeeks.org/kaiming-initialization-in-deep-learning/" target="_blank" rel="noopener">Kaiming Initialization in Deep Learning</a>.</li>
+              <li>GeeksforGeeks (2025). <a href="https://www.geeksforgeeks.org/residual-networks-resnet-deep-learning/" target="_blank" rel="noopener">Residual Networks (ResNet) — Deep Learning</a>.</li>
+              <li>GeeksforGeeks (2025). <a href="https://www.geeksforgeeks.org/resnet18-from-scratch-using-pytorch/" target="_blank" rel="noopener">ResNet-18 from scratch using PyTorch</a>.</li>
             </ol>
-        </section>  
-    
+          </section>
+
         </div>
-        <p><a href="../back-to-ai-basics.html">Back to the top page of this series</a>
-        <p><a href="../../index.html">Back to Home</a></p>
+      </article>
 
-        <footer>
-            <hr>
-            <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-        </footer>
+      <a href="../back-to-ai-basics.html" class="back-link">back to the series · back to ai basics</a>
+
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.3.d · Deeper CNN + ResNet-18</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
+
     </div>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </main>
 
-<script src="../../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
+  <script src="../../js/scripts.js"></script>
+  <script src="../../js/cyanotype-chrome.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
 </html>

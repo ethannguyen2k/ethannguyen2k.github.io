@@ -1,593 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Back to AI Basics - CNN</title>
-    <meta name="description" content="Explore the basics of Convolutional Neural Networks (CNNs) on the MNIST and CIFAR dataset. Learn about the architecture, training process, and practical applications of CNNs in image classification.">
-    <link rel="stylesheet" href="../../css/blog-styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>    
-    <style>
-        /* Analogy Box Styling */
-        .analogy-box {
-            margin: 25px 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px var(--shadow-color);
-            overflow: hidden;
-            background: var(--bg-secondary);
-            border-left: 5px solid var(--accent-color);
-            transition: transform 0.3s, box-shadow 0.3s, var(--theme-transition);
-            position: relative;
-        }
-        
-        .analogy-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px var(--shadow-color);
-        }
-        
-        .analogy-header {
-            background-color: var(--accent-color);
-            color: var(--bg-secondary);
-            padding: 10px 15px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .analogy-box p {
-            padding: 15px;
-            margin: 0;
-            font-size: 1.05em;
-            line-height: 1.6;
-            color: var(--text-primary);
-        }        /* Visual animation for the filter sliding over paper */
-        .analogy-visual {
-            height: 100px;
-            background-color: var(--bg-secondary);
-            position: relative;
-            overflow: hidden;
-            border-top: 1px dashed var(--border-color);
-        }
-        
-        .paper {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-secondary);
-            z-index: 1;
-        }
-        
-        .grid {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(var(--border-color) 1px, transparent 1px),
-                             linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
-            background-size: 20px 20px;
-            z-index: 2;
-        }
-          .filter {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: rgba(var(--accent-color-rgb, 0, 150, 226), 0.3);
-            border: 2px solid var(--accent-color);
-            z-index: 3;
-            animation: slideFilter 6s infinite ease-in-out;
-        }
-          @keyframes slideFilter {
-            /* Start at top left corner, off-screen */
-            0% { left: -50px; top: 15px; }
-            /* Move in from left edge, first row */
-            5% { left: 0px; top: 15px; }
-            /* Slide right across first row */
-            20% { left: calc(100% - 50px); top: 15px; }
-            /* Jump back to left, but one row down */
-            25% { left: 0px; top: 35px; }
-            /* Slide right across second row */
-            40% { left: calc(100% - 50px); top: 35px; }
-            /* Jump back to left, for third row */
-            45% { left: 0px; top: 55px; }
-            /* Slide right across third row */
-            60% { left: calc(100% - 50px); top: 55px; }
-            /* Animation complete, reset position (with delay) */
-            65% { left: -50px; top: 15px; }
-            100% { left: -50px; top: 15px; }
-        }
-        
-    </style>
-    <link rel="stylesheet" href="../../css/audio-player.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Back to AI Basics, part 3 — Convolutional Neural Networks (CNNs) on MNIST. With a reading of the plate.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.3.c — Convolutional Neural Networks</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../../css/cyanotype.css">
+  <link rel="stylesheet" href="../../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../../css/cyanotype-syntax.css">
+  <link rel="stylesheet" href="../../css/audio-player.css">
+
+  <script>
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
+<body class="post-page">
 
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
-        </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../../index.html">Homepage</a>
-            <a href="../../portfolio.html">My Portfolio</a>
-            <a href="../../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>Back to AI Basics: Convolutional Neural Networks (CNNs)</h2>            
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">May 15, 2025</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
+    </div>
+    <div class="links">
+      <a class="home" href="../../index.html">Folio I</a>
+      <a href="../../portfolio.html">II · Works</a>
+      <a href="../../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="folio-content">
+
+      <article class="post">
+
+        <header class="post-hero reveal d2">
+          <div class="series-tag">From the series · <a href="../back-to-ai-basics.html">Back to AI Basics</a></div>
+          <div class="plate-no">Plate III.3.c — Convolutional Neural Networks</div>
+          <h1 class="post-title">Why <em>convolutions</em> changed how machines see</h1>
+          <div class="post-meta">
+            <span class="post-date">May 15, 2025</span>
+            <span class="sep">·</span>
+            <span>Series · Part 3</span>
+            <span class="sep">·</span>
+            <span>Python · PyTorch</span>
+            <span class="sep">·</span>
+            <span>CNN</span>
+          </div>
+        </header>
+
+        <div class="post-prose fade-in">
+
+          <figure class="audio-plate">
+            <figcaption class="audio-meta">
+              <span class="audio-label">Listen</span>
+              <span>A reading of this plate</span>
+            </figcaption>
+            <audio id="blog-audio" preload="metadata">
+              <source src="../back-to-ai-basics-images/convnet.mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+            <div class="audio-row">
+              <button id="playBtn" class="audio-btn" aria-label="Play / pause">
+                <i class="fa-solid fa-play"></i>
+              </button>
+              <div class="audio-time" id="audioTime"><span class="now">0:00</span> / 0:00</div>
+              <div class="audio-progress" id="audioProgress" role="slider" aria-label="Seek">
+                <div class="audio-progress-fill" id="audioProgressFill"></div>
+              </div>
+              <button id="restartBtn" class="audio-btn small" aria-label="Restart">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+              <div class="audio-speed">
+                <label for="playbackSpeed">×</label>
+                <select id="playbackSpeed">
+                  <option value="0.75">0.75</option>
+                  <option value="1" selected>1</option>
+                  <option value="1.25">1.25</option>
+                  <option value="1.5">1.5</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
             </div>
-            
-            <div class="audio-player-container">
-                <h4><i class="fas fa-headphones"></i> Listen to this article</h4>
-                <audio id="blog-audio" controls>
-                    <source src="../back-to-ai-basics-images/convnet.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-                <div class="audio-controls">
-                    <button id="restartBtn" class="audio-btn" aria-label="Restart"><i class="fas fa-undo"></i></button>
-                    <div class="speed-control">
-                        <span>Speed:</span>
-                        <select id="playbackSpeed">
-                            <option value="0.75">0.75x</option>
-                            <option value="1" selected>1x</option>
-                            <option value="1.25">1.25x</option>
-                            <option value="1.5">1.5x</option>
-                            <option value="2">2x</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <a target="_blank" href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/convnet.ipynb" class="button">Code for this topic on GitHub</a>
-            <h3>Introduction</h3>
-            <p><a href="mlp-mnist.html#mlp-cnn">Like what I have written in previous blog</a>,
-            when we need to process image data, Convolutional Neural Networks (CNNs) are a better choice than standard Multi-Layer Perceptrons.
-            But better choice how? And in what way?
-            </p>
-            <img src="https://www.theclickreader.com/wp-content/uploads/2020/07/cnn-architecture.png" alt="CNN" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+          </figure>
+
+          <a target="_blank" rel="noopener" href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/convnet.ipynb" class="button">Notebook on GitHub</a>
+
+          <h3>Introduction</h3>
+          <p class="lede"><a href="mlp-mnist.html#mlp-cnn">As I mentioned in the previous plate</a>, when we need to process image data, Convolutional Neural Networks (CNNs) are a better choice than standard Multi-Layer Perceptrons. But better how? And in what way?</p>
+
+          <figure>
+            <img src="https://www.theclickreader.com/wp-content/uploads/2020/07/cnn-architecture.png" alt="A standard CNN architecture" class="blog-image">
             <figcaption>A standard CNN architecture</figcaption>
+          </figure>
 
-            <h3>CNNs and ANNs</h3>
-            <h4>ANNs</h4>
-            <p>One thing that I haven't touch on last post is why I used "MLP" and now "ANN".
-            The reason is that MLP is a specific type of <a href="https://www.geeksforgeeks.org/artificial-neural-networks-and-its-applications/" target="_blank">ANN</a>, which is a more general term.
-            </p>
+          <h3>CNNs and ANNs</h3>
 
-            <p>ANN is the broad term for any model inspired by the structure and function of biological neural networks.
-            MLP is a specific kind of ANN: a feedforward neural network with one or more hidden layers and fully connected neurons.
-            So, all MLPs are ANNs, but not all ANNs are MLPs.
-            </p>
+          <h4>ANNs</h4>
+          <p>One thing I didn't touch on last post: why I used "MLP" then and "ANN" now. MLP is a specific type of <a href="https://www.geeksforgeeks.org/artificial-neural-networks-and-its-applications/" target="_blank" rel="noopener">ANN</a>, which is a more general term.</p>
 
-            <p>Okay, with that out of the way, 
-            one of the largest limitations of traditional forms of ANN is that they tend to struggle with the computational complexity required to compute image data. 
-            Common machine learning benchmarking datasets such as the MNIST database of handwritten digits are suitable for most forms of ANN, due to its relatively small image dimensionality of just 28 × 28. 
-            With this dataset a single neuron in the first hidden layer will contain 784 weights (28×28×1 where bare in mind that MNIST is normalised to just black and white values), which is manageable for most forms of ANN. 
-            </p>
+          <p>ANN is the broad term for any model inspired by the structure and function of biological neural networks. MLP is a specific kind of ANN: a feedforward network with one or more hidden layers and fully connected neurons. So all MLPs are ANNs, but not all ANNs are MLPs.</p>
 
-            <img src="../back-to-ai-basics-images/ann-complexity-comparison.svg" alt="ANN Complexity Comparison" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-            <figcaption>ANN Complexity Comparison</figcaption>
+          <p>With that out of the way — one of the largest limitations of traditional ANNs is that they struggle with the computational complexity required to process image data. Benchmarks like MNIST handwritten digits are workable for most ANNs thanks to the small image dimensionality (28×28). A single neuron in the first hidden layer would carry 784 weights (28×28×1, since MNIST is normalised to black and white), which is manageable.</p>
 
-            <p>If you consider a more substantial coloured image input of 64 × 64, the number of weights on just a single neuron of the first layer increases substantially to 12,288 numbers. 
-                Also take into account that to deal with this scale of input, the network will also need to be a lot larger than one used to classify colour-normalised MNIST digits, then you will understand the drawbacks of using such models.
-            </p>
+          <figure>
+            <img src="../back-to-ai-basics-images/ann-complexity-comparison.svg" alt="Parameter explosion as image size grows" class="blog-image">
+            <figcaption>ANN complexity comparison</figcaption>
+          </figure>
 
-            <p>But why does it matter? Surely we could just increase the number of hidden layers in our network, and perhaps increase the number of neurons within them?</p>
-            <p>Well, yes, but no. There are 2 reasons for no:</p>
-            <ol>
-                <li>Simply put, not everyone has unlimited computational power and time to train these huge ANNs.</li>
-                <li>Even if you did, the more complex the model, the more likely it is to overfit to the training data.</li>
-            </ol>
+          <p>If you consider a more substantial coloured image input of 64×64, the number of weights on just a single neuron in the first layer balloons to 12,288. Also factor in that to deal with this scale of input, the whole network needs to be a lot larger than one for colour-normalised MNIST — and the drawbacks come into focus.</p>
 
-            <p>Overfitting is a critical concern in most if not all machine learning algorithms. 
-                When models become too complex, they memorize training data rather than learning generalizable patterns. 
-                In reducing ANN complexity, we decrease the number of parameters, which both lowers the risk of overfitting and improves the model's ability to make accurate predictions on new data.</p>
+          <p>But why does it matter? Surely we could just increase the number of hidden layers, and perhaps the number of neurons within them?</p>
+          <p>Well — yes, but no. Two reasons:</p>
+          <ol>
+            <li>Not everyone has unlimited computational power and time to train huge ANNs.</li>
+            <li>Even if you did, the more complex the model, the more likely it is to overfit.</li>
+          </ol>
 
-            <h4>CNNs</h4>
-            <p>So in what way do CNNs solve this problem? And how is it better?</p>
-            <p>CNNs are a type of deep learning model specifically designed to process structured grid data, such as images. 
-                They are particularly effective for image classification tasks due to being set up in a way that best suit the structure of image data.
-            </p>
+          <p>Overfitting is a critical concern in just about any machine-learning algorithm. When models become too complex, they memorise training data rather than learning generalisable patterns. Reducing ANN complexity decreases the number of parameters, which both lowers the risk of overfitting and improves the model's ability to make accurate predictions on new data.</p>
 
-            <div class="accordion">
-                <h4 class="accordion-heading" onclick="toggleAccordion(this)">Historical Context</h4>
-                <div class="accordion-content">
-                    <p>CNNs were inspired by the visual cortex of animals, where individual neurons respond to stimuli only in a restricted region of the visual field (receptive field). 
-                        LeNet-5, developed by Yann LeCun in the 1990s, was one of the first successful applications of CNNs for digit recognition.</p>
-                    <p>The CNN revolution truly began with AlexNet in 2012, which won the ImageNet competition by a significant margin, demonstrating the power of deep convolutional architectures.</p>
-                    <img src="../back-to-ai-basics-images//imagenet.png" alt="ImageNet Competition" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-                    <figcaption>ImageNet Competition 2012 (<a href="https://paperswithcode.com/sota/image-classification-on-imagenet?ref=blog.roboflow.com" target="_blank">source</a>)</figcaption>
-                    <p>Since then, CNNs have become the backbone of many computer vision tasks, leading to breakthroughs in image classification, object detection, and segmentation.</p>
-                    <p>Some important CNN architectures include AlexNet, VGGNet, GoogLeNet, ResNet, and EfficientNet.
-                        Each of these architectures introduced innovations that improved performance and efficiency in image classification tasks.
-                    </p>
-                </div>
+          <h4>CNNs</h4>
+          <p>So how do CNNs solve this problem, and how are they better?</p>
+          <p>CNNs are a type of deep learning model specifically designed to process structured grid data — like images. They are particularly effective for image classification tasks because they're set up to suit the structure of image data.</p>
+
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Historical context</h4>
+            <div class="accordion-content">
+              <p>CNNs were inspired by the visual cortex of animals, where individual neurons respond to stimuli only in a restricted region of the visual field (a receptive field). LeNet-5, developed by Yann LeCun in the 1990s, was one of the first successful applications of CNNs for digit recognition.</p>
+              <p>The CNN revolution truly began with AlexNet in 2012, which won the ImageNet competition by a significant margin and demonstrated the power of deep convolutional architectures.</p>
+              <figure>
+                <img src="../back-to-ai-basics-images/imagenet.png" alt="ImageNet competition 2012 results" class="blog-image">
+                <figcaption>ImageNet competition 2012 (<a href="https://paperswithcode.com/sota/image-classification-on-imagenet?ref=blog.roboflow.com" target="_blank" rel="noopener">source</a>)</figcaption>
+              </figure>
+              <p>Since then, CNNs have become the backbone of many computer-vision tasks, leading to breakthroughs in image classification, object detection, and segmentation.</p>
+              <p>Some important CNN architectures: AlexNet, VGGNet, GoogLeNet, ResNet, EfficientNet. Each introduced innovations that improved performance and efficiency.</p>
             </div>
+          </div>
 
-            <p>CNN layers consist of neurons arranged in three dimensions: height, width, and depth (the number of feature maps, not layers). 
-                Unlike standard ANNs, each neuron connects only to a small region of the previous layer. 
-                An input of size 64×64×3 is gradually reduced to an output of 1×1×n, where n is the number of classes.
-            </p>
+          <p>CNN layers consist of neurons arranged in three dimensions: height, width, and depth (the number of feature maps, not layers). Unlike standard ANNs, each neuron connects only to a small region of the previous layer. An input of size 64×64×3 is gradually reduced to an output of 1×1×n, where n is the number of classes.</p>
 
-            <p>CNNs include 3 types of layers: <i><u>convolutional</u></i>, <i><u>pooling</u></i>, and <i><u>fully connected layers</u></i>.
-                When these layers are combined, they form a simple CNN architecture that can learn complex patterns in image data.
-            </p>
+          <p>CNNs use three types of layers: <em>convolutional</em>, <em>pooling</em>, and <em>fully connected</em>. Combined, they form a simple CNN architecture that can learn complex patterns in image data.</p>
 
-            <p>To better understand this, let's start with an example architecture.</p>
+          <p>To make this concrete, let's start with an example architecture.</p>
 
-            <h3>The Architecture</h3>
-            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="CNN Architecture" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
+          <h3>The architecture</h3>
+          <figure>
+            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="A standard CNN architecture diagram" class="blog-image">
             <figcaption>A standard CNN architecture</figcaption>
+          </figure>
 
-            <p>In this architecture, we have two conv-pool blocks, flattening, dropout regularization, and two fully connected layers ending in a 10-class output.
-                The input is a 28×28×1 image, for now, and the output is a single value representing the class of the image.
-            </p>
+          <p>In this architecture we have two conv-pool blocks, flattening, dropout regularisation, and two fully-connected layers ending in a 10-class output. The input is a 28×28×1 image; the output is a single value representing the class.</p>
 
-            <table class="table-common">
+          <table class="table-common">
             <thead>
-                <tr>
-                <th>Layer</th>
-                <th>Type</th>
-                <th>Details</th>
-                <th>Output Shape</th>
-                </tr>
+              <tr><th class="numeric">Layer</th><th>Type</th><th>Details</th><th>Output Shape</th></tr>
             </thead>
             <tbody>
-                <tr>
-                <td>0</td>
-                <td>Input</td>
-                <td>Greyscale image, 28x28 pixels</td>
-                <td>(1, 28, 28)</td>
-                </tr>
-                <tr>
-                <td>1</td>
-                <td>Conv2d</td>
-                <td>in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1</td>
-                <td id="pad">(32, 28, 28)</td>
-                </tr>
-                <tr>
-                <td>2</td>
-                <td>ReLU</td>
-                <td>Activation</td>
-                <td>(32, 28, 28)</td>
-                </tr>
-                <tr>
-                <td>3</td>
-                <td>MaxPool2d</td>
-                <td>kernel_size=2, stride=2</td>
-                <td>(32, 14, 14)</td>
-                </tr>
-                <tr>
-                <td>4</td>
-                <td>Conv2d</td>
-                <td>in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1</td>
-                <td>(64, 14, 14)</td>
-                </tr>
-                <tr>
-                <td>5</td>
-                <td>ReLU</td>
-                <td>Activation</td>
-                <td>(64, 14, 14)</td>
-                </tr>
-                <tr>
-                <td>6</td>
-                <td>MaxPool2d</td>
-                <td>kernel_size=2, stride=2</td>
-                <td>(64, 7, 7)</td>
-                </tr>
-                <tr>
-                <td>7</td>
-                <td>Flatten</td>
-                <td>start_dim=1</td>
-                <td>(3136,)</td>
-                </tr>
-                <tr>
-                <td>8</td>
-                <td>Dropout</td>
-                <td>p=0.25</td>
-                <td>(3136,)</td>
-                </tr>
-                <tr>
-                <td>9</td>
-                <td>Linear</td>
-                <td>in_features=3136, out_features=128</td>
-                <td>(128,)</td>
-                </tr>
-                <tr>
-                <td>10</td>
-                <td>Linear</td>
-                <td>in_features=128, out_features=10</td>
-                <td>(10,)</td>
-                </tr>
+              <tr><td class="numeric">0</td><td>Input</td><td>Greyscale image, 28×28 pixels</td><td class="shape">(1, 28, 28)</td></tr>
+              <tr><td class="numeric">1</td><td>Conv2d</td><td>in_channels=1, out_channels=32, kernel=3, stride=1, padding=1</td><td class="shape" id="pad">(32, 28, 28)</td></tr>
+              <tr><td class="numeric">2</td><td>ReLU</td><td>Activation</td><td class="shape">(32, 28, 28)</td></tr>
+              <tr><td class="numeric">3</td><td>MaxPool2d</td><td>kernel=2, stride=2</td><td class="shape">(32, 14, 14)</td></tr>
+              <tr><td class="numeric">4</td><td>Conv2d</td><td>in_channels=32, out_channels=64, kernel=3, stride=1, padding=1</td><td class="shape">(64, 14, 14)</td></tr>
+              <tr><td class="numeric">5</td><td>ReLU</td><td>Activation</td><td class="shape">(64, 14, 14)</td></tr>
+              <tr><td class="numeric">6</td><td>MaxPool2d</td><td>kernel=2, stride=2</td><td class="shape">(64, 7, 7)</td></tr>
+              <tr><td class="numeric">7</td><td>Flatten</td><td>start_dim=1</td><td class="shape">(3136,)</td></tr>
+              <tr><td class="numeric">8</td><td>Dropout</td><td>p=0.25</td><td class="shape">(3136,)</td></tr>
+              <tr><td class="numeric">9</td><td>Linear</td><td>in_features=3136, out_features=128</td><td class="shape">(128,)</td></tr>
+              <tr><td class="numeric">10</td><td>Linear</td><td>in_features=128, out_features=10</td><td class="shape">(10,)</td></tr>
             </tbody>
-            </table>
+          </table>
 
+          <h4 class="step">Input</h4>
+          <p>As in other ANNs, the input layer is the raw pixel values. For MNIST, the 28×28×1 pixels — 1 channel of greyscale values (height 28, width 28), each running from 0 to 255.</p>
 
-            <h4 class="step">Input</h4>
-            <p>As found in other ANNs, the input layer is simply the raw pixel values of the image.
-                Or in this case of MNIST, the 28×28×1 pixel values of the image, which is 1 channel of grayscale values of height 28 and width 28, running from 0 to 255.
-            </p>
-            <h4 class="step">Convolutional Layer</h4>
+          <h4 class="step">Convolutional layer</h4>
+          <p>Imagine a photographer taking a photo of the same scene with different camera filters: one highlights red tones, one boosts contrast, one finds edges. Each resulting image is different — but all based on the same original photo. That's what convolutional filters are doing — looking for different patterns in the same input.</p>
 
-            <p>Imagine a photographer taking a photo of the same scene using different camera filters:</p>
-            <ul>
-                <li style="color: #d63031; background: rgba(255, 0, 0, 0.1); border-left: 3px solid #d63031;">One highlights <strong>red tones</strong> <span style="float: right;"><i class="fas fa-camera-retro"></i></span></li>
-                <li style="background: linear-gradient(to right, #dfe6e9, #2d3436); color: white; text-shadow: 1px 1px 2px black; border-left: 3px solid #ffffff;">One boosts <strong>contrast</strong> <span style="float: right;"><i class="fas fa-adjust"></i></span></li>
-                <li style="background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%22100%22 height%3D%22100%22 viewBox%3D%220 0 100 100%22%3E%3Cline x1%3D%2210%22 y1%3D%2210%22 x2%3D%2290%22 y2%3D%2290%22 stroke%3D%22%23333%22 stroke-width%3D%222%22%2F%3E%3Cline x1%3D%2290%22 y1%3D%2210%22 x2%3D%2210%22 y2%3D%2290%22 stroke%3D%22%23333%22 stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E'); border-left: 3px solid #333;">One finds <strong>edges</strong> <span style="float: right;"><i class="fas fa-border-style"></i></span></li>
-            </ul>
-            <p>Each resulting image is different — but they're all based on the same original photo. 
-            That's what convolutional filters are doing — looking for different patterns in the same input.</p>
+          <p>A convolutional layer applies a set of learnable filters (or kernels) to an input image (or feature map). These filters slide across the input spatially and compute a dot product between the filter weights and the input values in that region.</p>
 
-            <p>A convolutional layer applies a set of learnable filters (or kernels) to an input image (or feature map). 
-                These filters slide across the input spatially and compute a dot product (scalar product) between the filter weights and the input values in that region.</p>
-            <div class="analogy-box">
-                <div class="analogy-header">
-                    <i class="fas fa-lightbulb"></i> What does it look like?
-                </div>
-                <p>Think of a convolutional layer like using a small see-through film (the filter) to press across a sheet of paper (the image). 
-                At each position, the film checks how well the pattern it carries matches that part of the paper — giving a score (dot product). 
-                It slides over the paper, from left to right, top to bottom, building a new image that highlights where the pattern fits well.</p>
-                <div class="analogy-visual">
-                    <div class="filter"></div>
-                    <div class="paper">
-                        <div class="grid"></div>
-                    </div>
-                </div>
+          <div class="note">
+            <span class="note-label">▸ Intuition</span>
+            <p>Think of a convolutional layer like using a small see-through film (the filter) to press across a sheet of paper (the image). At each position, the film checks how well the pattern it carries matches that part of the paper — giving a score (the dot product). It slides over the paper, left to right, top to bottom, building a new image that highlights where the pattern fits well.</p>
+          </div>
+
+          <p>Each neuron in the output feature map is connected only to a small part (local region) of the input — e.g. a 3×3 patch <sup><a href="#update1">[1]</a></sup>. That neuron computes a dot product between the filter weights (its parameters) and the input patch. This result becomes one value in the output feature map.</p>
+
+          <p>This is also how the receptive field comes to be.</p>
+
+          <div class="accordion">
+            <h4 class="accordion-heading" id="receptive" onclick="toggleAccordion(this)">What is a receptive field?</h4>
+            <div class="accordion-content">
+              <p>Since each neuron only connects to a small patch (like 3×3), that patch defines its receptive field. The receptive field is the region of the input image that influences a single neuron's output.</p>
+              <p>Each neuron only "sees" a small patch of the input, not the entire image. But as you go deeper, layers have larger receptive fields due to stacking operations.</p>
+              <figure>
+                <img src="../back-to-ai-basics-images/receptive.png" alt="Receptive field growth across CNN layers" class="blog-image">
+                <figcaption>Receptive field in CNNs</figcaption>
+              </figure>
+              <p>So a 3×3 conv filter has a 3×3 receptive field, detecting simple features (edges, textures) in small regions. But after pooling and more conv layers, neurons might effectively see 7×7, 15×15, or larger regions — detecting complex patterns (shapes, objects) across larger areas.</p>
+              <p>The biological inspiration comes from how neurons in the visual cortex respond only to stimuli in specific regions of the visual field. This local connectivity is what makes CNNs parameter-efficient compared to fully-connected layers that would connect every input pixel to every neuron.</p>
             </div>
+          </div>
 
-            <p>Each neuron in the output feature map is connected only to a small part (local region) of the input (e.g., a 3×3 patch) <sup><a href="#update1">[1]</a></sup>.
-                That neuron computes a dot product between the filter weights (its parameters) and the input patch.
-                This result becomes one value in the output feature map.</p>
+          <p>In our architecture, the first convolutional layer has 32 filters, each of size 3×3. Each filter produces a 26×26 feature map (28 − 3 + 1 = 26) after sliding across the input. The output of this layer would be a 26×26×32 tensor, where 32 is the number of filters.</p>
 
-            <p>This is also how receptive field came to be.</p>
+          <p>Wait.</p>
+          <p>Then how come the output shape is <a href="#pad">(32, 28, 28)</a> instead of (32, 26, 26)?</p>
+          <p>It's because we use <strong>padding</strong>. Padding controls the spatial dimensions (height and width) of the output after a convolution. The formula:</p>
 
-            <div class="accordion">
-                <h4 class="accordion-heading" id="receptive" onclick="toggleAccordion(this)">What is Receptive Field?</h4>
-                <div class="accordion-content">
-                    <p>Since each neuron only connects to a small patch (like 3×3), that patch defines its receptive field.</p>
-                    <p>The receptive field is the region of the input image that influences a single neuron's output.</p>
-                    <p>Each neuron only "sees" a small patch of the input, not the entire image. 
-                        But as the flow goes on, deeper layers have larger receptive fields due to stacking operations.</p>
-                    <img src="../back-to-ai-basics-images/receptive.png" alt="Receptive Field" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
-                    <figcaption>Receptive field in CNNs</figcaption>
-                    <p>So for example, a 3×3 conv filter has a 3×3 receptive field, detecting simple features (edges, textures) in small regions.
-                        But after pooling and more conv layers, neurons might effectively see 7×7, 15×15, or larger regions, detecting complex patterns (shapes, objects) across larger regions.
-                    </p>
-                    <p>The biological inspiration comes from how neurons in the visual cortex respond only to stimuli in specific regions of the visual field.
-                        This local connectivity is what makes CNNs parameter-efficient compared to fully-connected layers that would connect every input pixel to every neuron.</p>
-                </div>
+          <p>\[ \text{Output Size} = \frac{\text{Input Size} + 2 \times \text{Padding} - \text{Kernel Size}}{\text{Stride}} + 1 \]</p>
+
+          <p>In our case: input 28, kernel 3, stride 1, padding 1.</p>
+          <p>\[ \text{Output Size} = \frac{28 + 2 \times 1 - 3}{1} + 1 = \frac{27}{1} + 1 = 28 \]</p>
+          <p>If padding = 0, the formula gives 26 — no padding shrinks the spatial size. Padding of 1 is used to preserve size.</p>
+          <p>Padding can be crucial: it lets us control the output size of feature maps, which can matter for maintaining spatial dimensions throughout the network.</p>
+          <ul>
+            <li>No padding — input shrinks each time, and quickly becomes too small.</li>
+            <li>With padding — output can have the same spatial size, enabling deeper networks and better edge detection near borders.</li>
+          </ul>
+
+          <h4 class="step">Activation function</h4>
+          <p>After the convolutional layer we apply an activation function, typically ReLU (Rectified Linear Unit). ReLU replaces all negative values in the feature map with zero, introducing non-linearity so the network can learn complex relationships in the data.</p>
+
+          <p>There are other activations — Leaky ReLU, Tanh, Sigmoid — but ReLU remains the default unless there's a specific reason to use another.</p>
+
+          <figure>
+            <img src="../back-to-ai-basics-images/relu1.png" alt="ReLU applied to a feature map" class="blog-image">
+            <figcaption>A typical ReLU function applied to a feature map — negative values become 0. With 32, 64, or more filters, those output maps have the same shape as the input, but different values in each pixel — different patterns detected by each filter.</figcaption>
+          </figure>
+          <figure>
+            <img src="../back-to-ai-basics-images/relu2.png" alt="Different kernels producing different feature maps" class="blog-image">
+            <figcaption>Different kernels produce different feature maps, each highlighting different patterns.</figcaption>
+          </figure>
+          <figure>
+            <img src="../back-to-ai-basics-images/relu3.png" alt="From one input image, multiple feature maps" class="blog-image">
+            <figcaption>From one input image, multiple feature maps.</figcaption>
+          </figure>
+
+          <h4 class="step">Pooling layer</h4>
+          <p>The pooling layer's job is to reduce the spatial dimensions of feature maps — reducing (or further reducing, if padding isn't used) the number of parameters in that activation.</p>
+
+          <p>Like the convolutional layer, pooling slides across the input feature map — usually in a 2×2 window. Unlike convolutional layers, pooling layers have no weights or learnable parameters. They apply a fixed operation, such as max pooling or mean pooling.</p>
+
+          <p>The formula is similar to the convolutional layer's. Pooling usually uses padding = 0 and stride = kernel size (no overlap). So for a 2×2 pooling layer on a 28×28 input:</p>
+
+          <p>\[ \text{Output Size} = \frac{28 + 2 \times 0 - 2}{2} + 1 = \frac{26}{2} + 1 = 14 \]</p>
+
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Why are pooling operations fixed (non-learnable)?</h4>
+            <div class="accordion-content">
+              <p>The purpose of pooling is purely dimensional reduction, not feature learning. The convolutional layers handle feature learning through trainable weights and filters. Pooling's job is just to downsample while preserving the important information — a task that simple fixed operations handle effectively.</p>
+              <p>Fixed operations (max, average) are sufficient for reducing dimensions while retaining important features. It helps reduce parameters and increase <a href="#receptive">the receptive field</a> while preserving the most important features.</p>
             </div>
+          </div>
 
-            <p>For example, in our architecture, the first convolutional layer has 32 filters, each of size 3×3.
-                This means that each filter will produce a 26×26 feature map (28-3+1=26) after sliding across the input.
-                The output of this layer will be a 26×26×32 tensor, where 32 is the number of filters.</p>
+          <p>In our architecture, the first pooling layer reduces the 28×28 feature map to 14×14 by taking the maximum value in each 2×2 region. The second pooling layer further reduces 14×14 to 7×7 and the network depth grows to 64 channels, resulting in a 64×7×7 tensor.</p>
 
-            <p>Wait.</p>
-            <p>Then how come the output shape is <a href="#pad">(32, 28, 28)</a> instead of (32, 26, 26)?</p>
-            <p>It is because we use <strong>padding</strong>.
-                Padding is used to control the spatial dimensions (height and width) of the output after a convolution. 
-                The formula for calculating the output size of a convolutional layer is:
-            </p>
+          <p>The commonly observed method is <strong>max pooling</strong> with stride 2 and a 2×2 kernel. Overlapping pooling can also be used (3×3 kernel, stride 2). Because of pooling's destructive nature, a kernel size above 3 will usually hurt performance.</p>
 
-            <p>
-            \[
-            \text{Output Size} = \frac{\text{Input Size} + 2 \times \text{Padding} - \text{Kernel Size}}{\text{Stride}} + 1
-            \]
-            </p>
+          <h4 class="step">Flattening</h4>
+          <p>Flattening converts the multi-dimensional tensor into a 1D array. Without flattening we can't connect the convolutional features to the fully-connected layers.</p>
+          <p>Convolutional layers output 3D tensors (height × width × channels), but dense/linear layers expect 1D input vectors. Flatten reshapes the data without losing information — turning the current 7×7×64 tensor into a 3136-element vector that feeds into the classifier.</p>
 
-            <p>In our case, we have an input size of 28, a kernel size of 3, a stride of 1, and padding of 1.</p>
-            <p>
-            \[
-            \text{Output Size} = \frac{28 + 2 \times 1 - 3}{1} + 1 = \frac{28 + 2 - 3}{1} + 1 = \frac{27}{1} + 1 = 27 + 1 = 28
-            \]
-            </p>
-            <p>If padding = 0, then the formula would become 26, meaning no padding reduces spatial size. Padding of 1 is used to preserve size.</p>
-            <p>Padding can be crucial, as it allows us to control the output size of the feature maps, which can be important for maintaining spatial dimensions throughout the network.</p>
-            <ul>
-                <li>No padding = input shrinks each time → quickly becomes too small.</li>
-                <li>With padding = output can have same spatial size → deeper networks possible, better for edge detection near borders.</li>
-            </ul>
+          <h4 class="step">Dropout regularisation</h4>
+          <p><a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#1-dropout" target="_blank" rel="noopener">Dropout</a> is a regularisation technique used to prevent overfitting. It randomly sets a fraction of input units to zero during training — effectively "dropping out" some neurons — forcing the network to learn more robust features that don't rely on any single neuron.</p>
 
-            <h4 class="step">Activation Function</h4>
-            <p>After the convolutional layer, we apply an activation function, typically ReLU (Rectified Linear Unit).
-                ReLU replaces all negative values in the feature map with zero, introducing non-linearity to the model.
-                This helps the network learn complex patterns and relationships in the data.</p>
+          <p>In our architecture, we apply dropout with probability 0.25 after flattening. During training, 25% of the neurons in the flattened layer are randomly zeroed, preventing overfitting. The output shape stays the same, but the model learns to rely on different subsets of features each pass.</p>
 
-            <p>There are other activation functions used such as Leaky ReLU or Tanh/Sigmoid. 
-                Still, ReLU remains the default unless there's a specific reason to use another.</p>
-
-            <img src="../back-to-ai-basics-images/relu1.png" alt="ReLU Graph" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-            <figcaption>A typical ReLU function being applied and resulting in a feature map with negative values replaced by 0.
-                With 32, 64, or more filters, those output feature map will have the same shape as the input feature map, but with different values in each pixel, signifying different patterns detected by each filter.
-            </figcaption>
-            <img src="../back-to-ai-basics-images/relu2.png" alt="ReLU Graph 2" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-            <figcaption>Different kernels will produce different feature maps, each highlighting different patterns in the input image.</figcaption>
-            <img src="../back-to-ai-basics-images/relu3.png" alt="ReLU Graph 3" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
-            <figcaption>From one input image, we get multiple feature maps.</figcaption>
-
-            <h4 class="step">Pooling Layer</h4>
-            <p>Pooling layers' job is to simply reduce the spatial dimensions of the feature maps,
-                reducing (or further reducing if padding is not used) the number of parameters within that activation.</p>
-
-            <p>Like the convolutional layer, pooling layers also slide across the input feature map, usually in the 2×2 window.
-                Unlike convolutional layers, pooling layers do not have weights or learnable parameters.
-                Instead, they apply a fixed operation, such as max pooling or mean pooling, to the input feature map.
-            </p>
-
-            <p>The formula is similar to the convolutional layer.
-                Though Pooling usually has \(Padding = 0\) (no padding) and \(Stride = Kernel Size\) (no overlap).
-                So for a 2×2 pooling layer on 28×28 input, the output size is:
-            </p>
-
-            <p>
-            \[
-            \text{Output Size} = \frac{\text{Input Size} + 2 \times 0 - 2}{2} + 1 = \frac{28 - 2}{2} + 1 = \frac{26}{2} + 1 = 13 + 1 = 14
-            \]
-            </p>
-
-            <div class="accordion">
-                <h4 class="accordion-heading" onclick="toggleAccordion(this)">Why pooling operations are fixed (non-learnable)?</h4>
-                <div class="accordion-content">
-                    <p>The purpose of pooling is purely dimensional reduction, not feature learning.
-                        The convolutional layers already handle the feature learning through their trainable weights and filters. 
-                        Pooling's job is just to downsample while preserving important information - a task that simple fixed operations handle effectively.
-                    </p>
-                    <p>The fixed operations (like max or average) are sufficient for reducing dimensions while retaining the most important features.
-                        It helps reducing the number of parameters, increase <a href="#receptive">the receptive field</a> while preserving the most important features.
-                    </p>
-                </div>
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Where should I place the dropout layers?</h4>
+            <div class="accordion-content">
+              <p>There have been many debates about where to place dropout layers (<a href="https://stats.stackexchange.com/questions/240305/where-should-i-place-dropout-layers-in-a-neural-network/" target="_blank" rel="noopener">a prominent one</a>). A few general rules:</p>
+              <ul>
+                <li>Place dropout after feature extraction, before or between fully-connected layers. Conv layers learn spatial features; dropout there can disrupt that structure. Fully-connected layers are dense and prone to overfitting, so dropout is more effective here.</li>
+                <li>Avoid dropout after the final output layer — you want stable outputs there.</li>
+                <li>Dropout before BatchNorm = no. <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#3-batch-normalization" target="_blank" rel="noopener">BatchNorm</a> neutralises dropout's stochastic effect. If both are used, apply dropout after batch norm + activation.</li>
+                <li>Use dropout sparingly. Too much can hurt performance. Higher dropout in deeper/larger models, lower in smaller ones. Typical values 0.2 to 0.5, depending on model size and dataset.</li>
+              </ul>
+              <p>In our case, we place dropout after flattening, before the first fully-connected layer. It prevents overfitting on the flattened feature vector before the network learns high-level combinations in FC1 — essentially regularising the transition from convolutional features to dense classification layers.</p>
+              <p>Dropout after FC1 would prevent overfitting on the high-level learned features before final classification. Placing it before the output layer (FC2) would interfere with the final probability computation — it targets the most prone-to-overfitting layer without disrupting core functionality.</p>
+              <p>You can experiment — dropout before FC1, dropout after FC1, or both — and see which yields the best results for your task. For this architecture, one dropout after flattening is sufficient.</p>
             </div>
+          </div>
 
-            <p>In our architecture, the first pooling layer reduces the 28×28 feature map to 14×14 by taking the maximum value in each 2×2 region.
-                The second pooling layer further reduces the 14×14 feature map to 7×7 and increases the feature map depth to 64, resulting in a 64×7×7 tensor.</p>
+          <h4 class="step">Fully-connected layers</h4>
+          <p>The fully-connected layers work just like those in standard ANNs — taking the extracted features and transforming them into class-probability scores. Adding ReLU activations between these layers is often recommended.</p>
+          <p>In our architecture, we have two fully-connected layers:</p>
+          <ul>
+            <li>FC1 takes the flattened output (3136 features) and transforms it into 128.</li>
+            <li>FC2 takes the 128 features and outputs a 10-dimensional vector representing the class probabilities (0–9 for MNIST).</li>
+          </ul>
 
-            <p>The usually observed method is <strong>max pooling</strong> with the stride of 2 and kernel size of 2×2.
-                Furthermore overlapping can be used, with kernel size of 3×3 and stride of 2.
-                Due to the destructive nature of pooling, a kernel size above 3 will likely result in a decrease in performance.
-            </p>
+          <p>Through this progressive transformation, CNNs convert the original input image into representations. They apply convolutional operations and downsampling across multiple layers, ultimately producing class-probability scores for classification tasks.</p>
 
-            <h4 class="step">Flattening</h4>
+          <p>You can find the code for this architecture in the <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/convnet.ipynb" target="_blank" rel="noopener">GitHub repository</a>.</p>
 
-            <p>Flattening simply converts the multi-dimensional tensor into a 1D array.
-                Without flattening, we cannot connect the convolutional features to the fully connected layers.
-            </p>
+          <h3>Conclusion</h3>
+          <p>We've got a glimpse of how CNNs work and how they're better than standard ANNs for image data. With only around 421K parameters — just 7% of the total of an equivalent MLP — this architecture can hit ~99% accuracy on MNIST.</p>
+          <p>CNNs excel at preserving spatial relationships between pixels and detecting patterns regardless of where they appear in the image.</p>
+          <p>But so far we've only worked with a simple benchmark like MNIST. The <a href="deep-convnet.html">next plate</a> takes us to more complex datasets — CIFAR-10 and ImageNet — and the architectures we need to capture their patterns.</p>
 
-            <p>Convolutional layers output 3D tensors (height × width × channels), but dense/linear layers expect 1D input vectors. 
-                Flatten reshapes the data without losing information - turning the current 7×7×64 tensor into a 3136-element vector that can feed into the classifier.
-            </p>
+          <section class="references" id="references">
+            <h2>References</h2>
+            <ol>
+              <li>O'Shea, K., &amp; Nash, R. (2015). An Introduction to Convolutional Neural Networks. arXiv:1511.08458. <a href="https://arxiv.org/pdf/1511.08458" target="_blank" rel="noopener">arxiv.org/pdf/1511.08458</a></li>
+            </ol>
+          </section>
 
-            <h4 class="step">Dropout Regularization</h4>
-            <p><a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#1-dropout" target="_blank">Dropout</a> is a regularization technique used to prevent overfitting in neural networks.
-                It randomly sets a fraction of the input units to zero during training, effectively "dropping out" some neurons.
-                This forces the network to learn more robust features that are not reliant on any specific neuron.
-            </p>
+          <div class="update">
+            <p id="update1"><strong>Update 1.</strong> As a more detailed explanation: training ANNs on image input can result in a huge number of parameters, due to ANNs' fully-connected nature. To mitigate this, CNNs use local connectivity — each neuron only connects to a small region of the input.</p>
+          </div>
 
-            <p>In our architecture, we apply dropout with a probability of 0.25 after flattening.
-                This means that during training, 25% of the neurons in the flattened layer will be randomly set to zero, preventing overfitting.
-                The output shape remains the same, but the model learns to rely on different subsets of features each time.</p>
-            </p>
+        </div>
+      </article>
 
-            <div class="accordion">
-                <h4 class="accordion-heading" onclick="toggleAccordion(this)">Where should I place the dropout layers?</h4>
-                <div class="accordion-content">
-                    <p>There have been many debates about where to place dropout layers (<a href="https://stats.stackexchange.com/questions/240305/where-should-i-place-dropout-layers-in-a-neural-network/">Here is the prominent one</a>).
-                        A few general rules of thumb are:</p>
-                        <ul>
-                            <li>Place dropout after feature extraction, before or between fully connected layers.
-                                Conv layers learn spatial features; dropout there can disrupt that structure. 
-                                Fully connected layers are dense and prone to overfitting, so dropout is more effective here.
-                            </li>
-                            <li>Avoid dropout after the final output layer. It just makes no sense, you want stable outputs there.</li>
-                            <li>Dropout before batchnorm = no.
-                                <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#3-batch-normalization" target="_blank">BatchNorm</a> neutralizes dropout's stochastic effect. 
-                                If both are used, apply dropout after batch norm + activation.
-                            </li>
-                            <li>Use dropout sparingly. Too much can hurt performance. 
-                                Use higher dropout in deeper/larger models, lower in smaller models.
-                                Typical values are 0.2 to 0.5, but it depends on the model size and dataset.
-                            </li>
-                        </ul>
-                    <p>In our case, we place dropout after flattening, before the first fully connected layer.
-                        It prevents overfitting on the flattened feature vector before the network learns high-level combinations in FC1. 
-                        It's essentially regularizing the transition from convolutional features to dense classification layers.
-                    </p>
-                    <p>However, Dropout after FC1 prevents overfitting on the high-level learned features before final classification. 
-                        Placing it before the output layer (FC2) would interfere with the final probability computation, which targets the most prone-to-overfitting layer without affecting core functionality.
-                    </p>
-                    <p>So you can experiment with different options, Dropout before FC1, Dropout after FC1, or both, and see which yields the best results for your specific task.
-                        For this architecture, we only use one Dropout after flattening, which is sufficient. 
-                    </p>
-                </div>
-            </div>
+      <a href="../back-to-ai-basics.html" class="back-link">back to the series · back to ai basics</a>
 
-            <h4 class="step">Fully Connected Layers</h4>
-            <p>The fully connected layers function just like those in standard ANNs, taking the extracted features and transforming them into class probability scores for classification. 
-                Adding ReLU activations between these layers is often recommended to enhance the network's performance and learning capacity.
-            </p>
-            <p>In our architecture, we have two fully connected layers:</p>
-            <ul>
-                <li>The first fully connected layer (FC1) takes the flattened output (3136 features) and transforms it into 128 features.</li>
-                <li>The second fully connected layer (FC2) takes the 128 features and outputs a 10-dimensional vector representing the class probabilities (0-9 for MNIST).</li>
-            </ul>
-
-            <p>Through this progressive transformation architecture, CNNs convert the original input image into representations.
-                It applies convolutional operations and downsampling techniques across multiple layers, ultimately producing class probability scores for classification tasks.</p>
-            
-                <p>You can find the code for this architecture in the <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/models/convnet.ipynb" target="_blank">GitHub repository</a>.
-                </p>
-
-            <h3>Conclusion</h3>
-            <p>So, we have got the glimpse of how CNNs work and how they are better than standard ANNs for image data.
-                With only around 421K parameters, just 7% of the total of equivalent MLP parameters, this architecture can achieve around 99% accuracy on the MNIST dataset.
-            </p>
-            <p>CNNs excel in preserving spatial relationships between pixels and detecting patterns regardless of where they appear in the image</p>
-            <p>But so far, we have only discussed on a simple, benchmarking dataset like MNIST.
-                We will explore more complex datasets, CIFAR-10 and ImageNet, and see what kind of architectures we need to build to capture the patterns on these datasets.
-            </p>
-            <p>You can check it out <a href="deep-convnet.html">here</a>.</p>
-            <section id="references">
-                <h2>References</h2>
-                <ol>
-                    <li>
-                    O'Shea, K., & Nash, R. (2015). An Introduction to Convolutional Neural Networks. arXiv:1511.08458. Retrieved from <a href="https://arxiv.org/pdf/1511.08458" target="_blank">https://arxiv.org/pdf/1511.08458</a>
-                    </li>
-                </ol>
-            </section>  
-            <div class="update">
-                <p id="update1">Update 1: As a more detailed explanation,
-                    training ANNs on input like images can result in a large number of parameters, due to ANNs' nature of fully connected.
-                    So to mitigate this, CNNs use local connectivity, where each neuron only connects to a small region of the input.
-                </p>
-            </div>
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.3.c · Convolutional Neural Networks</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
 
     </div>
+  </main>
 
-        <p><a href="../back-to-ai-basics.html">Back to the top page of this series</a>
-        <p><a href="../../index.html">Back to Home</a></p>
-
-        <footer>
-            <hr>
-            <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-        </footer>
-    </div>
+  <script src="../../js/scripts.js"></script>
+  <script src="../../js/cyanotype-chrome.js"></script>
+  <script src="../../js/audio-player.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-<script src="../../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
-<script src="../../js/audio-player.js"></script>
 </html>

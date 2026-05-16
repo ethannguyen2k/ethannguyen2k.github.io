@@ -400,12 +400,12 @@
 /* 7. Code windows (cyanotype palette) ----------------------------------- */
 
 .project-page .code-window {
-  background: var(--ink);
-  color: var(--cream);
+  background: var(--plate-bg);
+  color: var(--plate-fg);
   border: 1px solid var(--plate-rule);
   margin: 18px 0;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  box-shadow: 0 10px 22px -14px rgba(10, 47, 92, 0.4);
+  box-shadow: var(--plate-shadow);
 }
 
 .project-page .code-window .console {
@@ -413,17 +413,17 @@
   align-items: center;
   gap: 10px;
   padding: 8px 14px;
-  background: rgba(6, 26, 54, 0.5);
-  border-bottom: 1px solid rgba(244, 236, 213, 0.18);
+  background: transparent;
+  border-bottom: 1px solid var(--plate-rule);
   font-size: 10px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(244, 236, 213, 0.7);
+  color: var(--fg-mute);
 }
 /* Cyanotype-discipline traffic lights: keep the three-dot affordance but
-   render in cream tones instead of red/orange/green so the palette stays
-   one-color-print. Slight tonal variation reads as "three buttons" without
-   shouting. */
+   render as tiered plate-fg dots so the palette stays one-color-print and
+   the dots invert correctly between paper (ink dots on cream) and night
+   (cream dots on deep blue). */
 .project-page .code-window .console .red,
 .project-page .code-window .console .orange,
 .project-page .code-window .console .green {
@@ -431,10 +431,10 @@
   height: 9px;
   border-radius: 50%;
   border: 0;
-  background: rgba(244, 236, 213, 0.85);
+  background: var(--plate-fg);
 }
-.project-page .code-window .console .orange { background: rgba(244, 236, 213, 0.55); }
-.project-page .code-window .console .green  { background: rgba(244, 236, 213, 0.30); }
+.project-page .code-window .console .orange { opacity: 0.6; }
+.project-page .code-window .console .green  { opacity: 0.35; }
 .project-page .code-window .console::after {
   content: "stdout";
   margin-left: auto;
@@ -445,7 +445,7 @@
   margin: 0;
   padding: 16px 18px;
   background: transparent;
-  color: var(--cream);
+  color: var(--plate-fg);
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-size: 12px;
   line-height: 1.55;

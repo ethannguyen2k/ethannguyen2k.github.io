@@ -1,186 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Obsidian Instructions</title>
-    <link rel="stylesheet" href="../css/blog-styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Setting up Obsidian with Git for team collaboration — step-by-step.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.1 — Obsidian + Git</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/cyanotype.css">
+  <link rel="stylesheet" href="../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../css/cyanotype-syntax.css">
+
+  <script>
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
+<body class="post-page">
 
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
-        </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../index.html">Homepage</a>
-            <a href="../portfolio.html">My Portfolio</a>
-            <a href="../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>Obsidian Instructions</h2>
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">June 11, 2025</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
-            </div>
-
-            <p>Most of the instructions, I derived it from <a href="https://publish.obsidian.md/git-doc/Start+here">here</a>, but here is a step-by-step for using Obsidian + Git.</p>
-            <p>Feel free to skip the part you have already done in the past.</p>
-            <p>Remember, this need to push/pull changes manually, not real-time sync. Manual conflict will happen when team members edit same file.
-                So make sure you communicate with your team members before editing a file.</p>
-
-            <h3>1. Install Obsidian</h3>
-            <p>Download and install Obsidian from the <a href="https://obsidian.md/download">official website</a>.</p>
-
-            <h3>2. Git Installation</h3>
-            <p>Make sure you have Git installed on your system. You can download it from the <a href="https://git-scm.com/downloads/win">official Git website</a>.</p>
-            <p>Make sure you have 3rd-party software access enabled.</p>
-            <img src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/third-party-windows-git.png" alt="Git Installation" class="blog-image" style="display: block; margin-left: auto; margin-right: auto;">
-
-            <p>Enable Git Credential Manager</p>
-            <img src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/credential-manager-windows-git.png" alt="Git Credential Manager" class="blog-image" style="display: block; margin-left: auto; margin-right: auto;">
-
-            <h3>3. Create GitHub Account</h3>
-            <p>If you don't have a GitHub account, create one at <a href="GitHub.com">GitHub.com</a>.</p>
-            <p>This is needed to push your Obsidian vault version whenever you change something.</p>
-
-            <h3>4. Set up Git identity</h3>
-            <p>Open your terminal (Command Prompt, PowerShell, or Git Bash) and set your Git identity:</p>
-            <div class="code-window">
-            <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
-            </div>
-            <pre class="code-content">
-git config --global user.name "Your GitHub Name"
-git config --global user.email "your.email@example.com"
-            </pre>
-        </div>
-
-        <h3>5. Git Clone</h3>
-        <p>Clone your vault repository. Open your terminal and run:</p>
-<div class="code-window">
-            <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
-            </div>
-            <pre class="code-content">
-cd C:\Users\YourUsername\Documents      # The folder you want to clone the vault to
-git clone https://github.com/your-username/your-vault.git
-            </pre>
-        </div>
-
-        <p>Note: There are 2 ways you can get the stuff from the vault: <a href="https://publish.obsidian.md/git-doc/Getting+Started#For+existing+remote+repository">For existing remote repository</a>
-            But I recommend you follow this as it is an easier option of the twos.</p>
-
-        <h3>6. Open Obsidian</h3>
-        <p>Open Obsidian and select "Open folder as vault". Navigate to the folder where you cloned the vault (e.g., C:\Users\YourUsername\Documents\your-vault) and open it.</p>
-
-        <h3>7. Install Git Plugin</h3>
-        <p>In Obsidian, go to Settings &gt; Community plugins &gt; Browse and search for "Git". Install the plugin named "Git" by "Vinzent" and enable it.</p>
-
-        <p>After installing the plugin, you can configure it by going to Settings &gt; Git. 
-            But overall, you can leave the default settings as they are.</p>
-
-        <hr>
-
-        <p>Every available commands: <a href="https://github.com/Vinzent03/obsidian-git?tab=readme-ov-file#%EF%B8%8F-available-commands">Available Commands</a></p>
-
-        <p>Now that you have set up Obsidian with Git, here's a simple daily workflow:</p>
-
-        <h3>Before Starting Work</h3>
-        <p>You have 2 options:</p>
-        <ul>
-            <li>Open Git source control (an icon on the right sidebar) and click on the "Pull" button to pull the latest changes from the remote repository.
-                You would want to do this first when starting out to ensure the latest changes are pulled from the remote repository.
-            </li>
-            <img src="obsidian-images/pull.png" alt="Pull Changes" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-            <li>You can also pull the latest changes from now on by enabling the "Pull on startup" option in the Git plugin settings.
-                This will automatically pull the latest changes from the remote repository whenever you open Obsidian.
-            </li>
-            <img src="obsidian-images/pull2.png" alt="Auto Pull" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-        </ul>
-
-        <h3>After Finishing Work</h3>
-        <p>After you finish your work, you can commit your changes and push them to the remote repository.</p>
-        <img src="obsidian-images/commit_push.png" alt="Commit and Push Changes" class="blog-image" style="display: block; margin-left: auto; margin-right: auto; width: 100%;">
-        <p>To do this, open the Git source control panel.
-            Enter a commit message describing your changes and click "Commit-and-sync". <a href="https://publish.obsidian.md/git-doc/Start+here#Commit-and-sync" target="_blank">More about Commit-and-sync</a>.
-            This will commit your changes and push them to the remote repository in one step.
-        </p>
-
-        <p>Alternatively, you can also commit and push your changes separately.
-            Create your commit locally by clicking the "Commit" button (assume you have entered your commit message), also on the Git source control panel.
-            Then, click the "Push" button to push your changes to the remote repository.
-        </p>
-
-        <h3>Best Practices</h3>
-        <ul>
-            <li>Pull before starting work</li>
-            <li>Commit frequently with clear messages</li>
-            <li>Push at end of sessions to keep it up-to-date</li>
-            <li>Communicate with your team members</li>
-        </ul>
-
-        <p>External Links for Guides</p>
-        <ul>
-            <li><a href="https://publish.obsidian.md/git-doc/Start+here">Obsidian Git Documentation</a></li>
-            <li><a href="https://publish.obsidian.md/git-doc/Getting+Started">Getting Started with Obsidian Git</a></li>
-            <li><a href="https://publish.obsidian.md/git-doc/Start+here#For+existing+remote+repository">For existing remote repository</a></li>
-            <li><a href="https://github.com/Vinzent03/obsidian-git?tab=readme-ov-file#%EF%B8%8F-available-commands">Available Commands</a></li>
-            <li><a href="https://publish.obsidian.md/git-doc/Start+here#Commit-and-sync">Commit-and-sync</a></li>
-        </ul>
-
-        </div>
-
-        <p><a href="../index.html">Back to Home</a></p>
-
-        <footer>
-            <hr>
-            <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-        </footer>
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
     </div>
+    <div class="links">
+      <a class="home" href="../index.html">Folio I</a>
+      <a href="../portfolio.html">II · Works</a>
+      <a href="../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="folio-content">
+
+      <article class="post">
+
+        <header class="post-hero reveal d2">
+          <div class="plate-no">Plate III.1 — Obsidian + Git</div>
+          <h1 class="post-title">Setting up <em>Obsidian with Git</em> for team collaboration</h1>
+          <div class="post-meta">
+            <span class="post-date">Jun 11, 2025</span>
+            <span class="sep">·</span>
+            <span>Obsidian</span>
+            <span class="sep">·</span>
+            <span>Git</span>
+            <span class="sep">·</span>
+            <span>Collaboration</span>
+          </div>
+        </header>
+
+        <div class="post-prose fade-in">
+
+          <p class="lede">Most of the instructions here I derived from <a href="https://publish.obsidian.md/git-doc/Start+here" target="_blank" rel="noopener">the Obsidian Git docs</a>, but this is a step-by-step recipe for using Obsidian + Git together. Skip any steps you've already done.</p>
+
+          <p>One thing to keep in mind: this setup pushes and pulls changes manually — it's not real-time sync. Manual conflicts will happen when team members edit the same file, so communicate with your team before editing.</p>
+
+          <h3>1. Install Obsidian</h3>
+          <p>Download and install Obsidian from the <a href="https://obsidian.md/download" target="_blank" rel="noopener">official website</a>.</p>
+
+          <h3>2. Install Git</h3>
+          <p>Make sure you have Git installed on your system. Grab it from the <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">official Git website</a>.</p>
+
+          <p>Enable third-party software access:</p>
+          <img src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/third-party-windows-git.png" alt="Git installer — enable third-party access option" class="blog-image">
+
+          <p>Enable Git Credential Manager:</p>
+          <img src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/credential-manager-windows-git.png" alt="Git installer — enable credential manager" class="blog-image">
+
+          <h3>3. Create a GitHub account</h3>
+          <p>If you don't have a GitHub account, create one at <a href="https://github.com/" target="_blank" rel="noopener">github.com</a>. You'll need it to push your Obsidian vault whenever you make changes.</p>
+
+          <h3>4. Set up your Git identity</h3>
+          <p>Open your terminal (Command Prompt, PowerShell, or Git Bash) and set your Git identity:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-bash">git config --global user.name "Your GitHub Name"
+git config --global user.email "your.email@example.com"</code></pre>
+          </div>
+
+          <h3>5. Clone the vault</h3>
+          <p>Clone your vault repository. In your terminal:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-bash">cd C:\Users\YourUsername\Documents      # where you want the vault
+git clone https://github.com/your-username/your-vault.git</code></pre>
+          </div>
+
+          <p>There are two ways to get the contents of an existing vault. The other option is described under <a href="https://publish.obsidian.md/git-doc/Getting+Started#For+existing+remote+repository" target="_blank" rel="noopener">For existing remote repository</a>, but I recommend the clone-first flow above — it's simpler.</p>
+
+          <h3>6. Open the vault in Obsidian</h3>
+          <p>Open Obsidian and select <em>Open folder as vault</em>. Navigate to the folder where you cloned the repo (e.g. <code>C:\Users\YourUsername\Documents\your-vault</code>) and open it.</p>
+
+          <h3>7. Install the Git plugin</h3>
+          <p>In Obsidian, go to <em>Settings → Community plugins → Browse</em> and search for "Git". Install the plugin called "Git" by Vinzent and enable it.</p>
+
+          <p>You can configure the plugin under <em>Settings → Git</em>, but the defaults are fine for most workflows.</p>
+
+          <h3>The daily workflow</h3>
+          <p>Now that everything's wired up, here's a simple daily rhythm. Full command reference: <a href="https://github.com/Vinzent03/obsidian-git?tab=readme-ov-file#%EF%B8%8F-available-commands" target="_blank" rel="noopener">available commands</a>.</p>
+
+          <h4>Before starting work</h4>
+          <p>Two options:</p>
+          <ul>
+            <li>Open the Git source-control panel (icon in the right sidebar) and click <em>Pull</em> to pull the latest changes from the remote. Do this first whenever you start a session so you're working from current state.</li>
+          </ul>
+          <img src="obsidian-images/pull.png" alt="Manual pull from Obsidian Git source-control panel" class="blog-image">
+
+          <ul>
+            <li>Or enable <em>Pull on startup</em> in the Git plugin settings — Obsidian will pull automatically when you open it.</li>
+          </ul>
+          <img src="obsidian-images/pull2.png" alt="Pull on startup setting in Obsidian Git plugin" class="blog-image">
+
+          <h4>After finishing work</h4>
+          <p>Commit your changes and push them to the remote.</p>
+          <img src="obsidian-images/commit_push.png" alt="Commit-and-sync from Obsidian Git source-control panel" class="blog-image">
+
+          <p>Open the Git source-control panel, type a commit message describing your changes, and click <em>Commit-and-sync</em> — that commits and pushes in one step. <a href="https://publish.obsidian.md/git-doc/Start+here#Commit-and-sync" target="_blank" rel="noopener">More about Commit-and-sync</a>.</p>
+
+          <p>You can also commit and push separately. Type your commit message, click <em>Commit</em> to make the local commit, then click <em>Push</em> to send it to the remote.</p>
+
+          <h3>Best practices</h3>
+          <ul>
+            <li>Pull before starting work.</li>
+            <li>Commit frequently with clear messages.</li>
+            <li>Push at the end of sessions so the remote stays current.</li>
+            <li>Communicate with your team before editing shared files.</li>
+          </ul>
+
+          <h3>Further reading</h3>
+          <ul>
+            <li><a href="https://publish.obsidian.md/git-doc/Start+here" target="_blank" rel="noopener">Obsidian Git documentation</a></li>
+            <li><a href="https://publish.obsidian.md/git-doc/Getting+Started" target="_blank" rel="noopener">Getting started with Obsidian Git</a></li>
+            <li><a href="https://publish.obsidian.md/git-doc/Start+here#For+existing+remote+repository" target="_blank" rel="noopener">For existing remote repository</a></li>
+            <li><a href="https://github.com/Vinzent03/obsidian-git?tab=readme-ov-file#%EF%B8%8F-available-commands" target="_blank" rel="noopener">Available commands</a></li>
+            <li><a href="https://publish.obsidian.md/git-doc/Start+here#Commit-and-sync" target="_blank" rel="noopener">Commit-and-sync</a></li>
+          </ul>
+
+        </div>
+      </article>
+
+      <a href="../blog.html" class="back-link">back to folio III · field notes</a>
+
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.1 · Obsidian + Git</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
+
+    </div>
+  </main>
+
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cyanotype-chrome.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
-
-
-<script src="../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
 </html>

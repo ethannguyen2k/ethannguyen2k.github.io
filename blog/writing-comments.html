@@ -1,86 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Writing Comments in Programming</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/blog-styles.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="On writing comments in code — when prose helps, when it lies, when the code should speak for itself.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.8 — On Writing Comments</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/cyanotype.css">
+  <link rel="stylesheet" href="../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../css/cyanotype-syntax.css">
+
+  <script>
+    // Apply theme before paint. Migrate legacy light/dark → paper/night.
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
+<body class="post-page">
+
+  <!-- Botanical decorations -->
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
+
+  <!-- Folio running header -->
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
+    </div>
+    <div class="links">
+      <a class="home" href="../index.html">Folio I</a>
+      <a href="../portfolio.html">II · Works</a>
+      <a href="../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <div class="folio-content">
+
+      <article class="post">
+
+        <header class="post-hero reveal d2">
+          <div class="plate-no">Plate III.8 — On Writing Comments</div>
+          <h1 class="post-title">On <em>writing comments</em> in code</h1>
+          <div class="post-meta">
+            <span class="post-date">Jun 10, 2023</span>
+            <span class="sep">·</span>
+            <span>Programming</span>
+            <span class="sep">·</span>
+            <span>Craft</span>
+          </div>
+        </header>
+
+        <div class="post-prose fade-in">
+
+          <p class="lede">As a 23-year-old at the time of writing, I'd had my fair share of moments grappling with programming. When I started out, my understanding was straightforward but somewhat naive:</p>
+
+          <ul>
+            <li>I hadn't yet gained real-world experience in my domain.</li>
+            <li>I struggled to distinguish the standards for including comments and knowing if they were succinct.</li>
+            <li>I believed every code snippet should include comments to help readers understand context and purpose.</li>
+          </ul>
+
+          <p>A couple of years working on various projects and engaging with sprawling codebases later, I've learned that the quantity and quality of comments aren't always correlated. Poor comments can be worse than none.</p>
+
+          <p>So how do we decide when, and what, to include in comments to make them effective?</p>
+
+          <h3>The case against comments</h3>
+
+          <p>As <a href="https://visualstudiomagazine.com/articles/2013/07/26/why-commenting-code-is-still-bad.aspx" target="_blank" rel="noopener">Peter Vogel</a> has written:</p>
+
+          <ul>
+            <li>Writing and maintaining comments is costly.</li>
+            <li>Compilers don't check comments, so there's no guarantee they're correct.</li>
+            <li>The computer will always do what the code specifies, regardless of comments.</li>
+          </ul>
+
+          <p>This suggests it's often better to <em>tell</em> the compiler — and people, secondarily — through clear and expressive code, rather than rely on comments. Compare:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
             </div>
-        </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../index.html">Homepage</a>
-            <a href="../portfolio.html">My Portfolio</a>
-            <a href="../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
-    
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>Writing Comments in Programming</h2>
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">June 10, 2023</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
-            </div>
-            <img src="https://www.wikihow.com/images/thumb/c/c1/Write-a-Comment-in-a-Computer-Programming-Language-Step-1-Version-2.jpg/aid3070096-v4-728px-Write-a-Comment-in-a-Computer-Programming-Language-Step-1-Version-2.jpg" alt="Article Image" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-            <p>As a 23-year-old at the time of writing, I have had my fair share of moments grappling with programming. When I started, my understanding was straightforward but somewhat naive:</p>
-            <ul>
-                <li>I hadn't yet gained real-world experience in my domain.</li>
-                <li>I struggled to distinguish the standards for including comments and knowing if they were succinct.</li>
-                <li>I believed every code snippet should include comments to help readers understand the code's context and purpose.</li>
-            </ul>
-            
-            <p>However, through a couple of years working on various projects and engaging with extensive codebases, I've learned that the quantity and quality of comments aren't always correlated. Poor comments can be worse than none.</p>
-            <p>So, how do we decide when and what to include in comments to make them effective?</p>
-            
-            <p>As <a href="https://visualstudiomagazine.com/articles/2013/07/26/why-commenting-code-is-still-bad.aspx" target="_blank">Peter Vogel has written</a>:</p>
-            <ul>
-                <li>Writing and maintaining comments is costly.</li>
-                <li>Compilers don't check comments, so there's no guarantee they're correct.</li>
-                <li>The computer will always do what the code specifies, regardless of comments.</li>
-            </ul>
-            
-            <p>This suggests it's often better to "tell" the compiler, and people potentially, through clear and expressive code rather than rely on comments. Here's an example to illustrate this:</p>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content"><code class="language-javascript">
-if (userRole === 'member') {
+<pre class="code-content"><code class="language-javascript">if (userRole === 'member') {
     // Show member-only content
     document.getElementById('member-content').style.display = 'block';
     // Hide admin-only content
@@ -96,20 +131,18 @@ if (userRole === 'member') {
     // Hide member and admin content
     document.getElementById('member-content').style.display = 'none';
     document.getElementById('admin-content').style.display = 'none';
-}
-                </code></pre>
+}</code></pre>
+          </div>
+
+          <p>And the same logic without the running narration:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
             </div>
-            
-            <p>Compare that to:</p>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content"><code class="language-javascript">
-if (userRole === 'member') {
+<pre class="code-content"><code class="language-javascript">if (userRole === 'member') {
     document.getElementById('member-content').style.display = 'block';
     document.getElementById('admin-content').style.display = 'none';
 } else if (userRole === 'admin') {
@@ -119,53 +152,57 @@ if (userRole === 'member') {
     document.getElementById('default-content').style.display = 'block';
     document.getElementById('member-content').style.display = 'none';
     document.getElementById('admin-content').style.display = 'none';
-}
-                </code></pre>
-            </div>
-            
-            <p>The above example suggest that, we can do both. Both as in both quality code, and expressive comments.</p>
-            <p>But that takes me back right to Peter Vogel's three statements at the start. Compilers will do exactly what you want as time goes on (considering you are updating the codebase). We can have pipelines, test cases, compiler checks, … Comments are not often get updated, on the other hand, and does not have these kind of checks (maybe AI will).</p>
-            <p>Comments are still useful though. Like this example with referencing math or algorithm:</p>
-                        
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content"><code class="language-python">
-par = PassiveAggressiveRegressor().fit(x_train, y_train)
-# taken from https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.PassiveAggressiveRegressor.html
-                </code></pre>
-            </div>
-            
-            <p>Comments can also be useful for:</p>
-            <ul>
-                <li>Documenting performance optimizations.</li>
-                <li>Referencing other external resources or documentation.</li>
-                <li>Pointing bugs or explaining fixes.</li>
-                <li>Enhancing readability in complex sections.</li>
-            </ul>
-            
-            <p>Good code combined with meaningful comments can save time and reduce frustration for you and your teammates. Although coding philosophies may vary, and some prefer detailed comments while others lean towards self-explanatory code, a balanced approach often works best.
-                While I still believe comments can provide valuable context, I've learned that clear code can often express intent more effectively than comments alone.</p>
-        </div>        
+}</code></pre>
+          </div>
 
-        <p><a href="../index.html">Back to Home</a></p>
+          <p>You could argue we can do both: keep both quality code <em>and</em> expressive comments. But that takes me back to Vogel's three statements. The compiler will do exactly what you want as time goes on (assuming you keep updating the codebase). We have pipelines, tests, type-checkers — all kinds of guards. Comments don't have those guards. They're free to drift, and they usually do (maybe AI will help one day).</p>
 
-        <footer>
-            <hr>
-            <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-        </footer>
+          <h3>When comments do earn their keep</h3>
+
+          <p>Comments are still useful — like attaching the source of a math reference or algorithm:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-python">par = PassiveAggressiveRegressor().fit(x_train, y_train)
+# taken from https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.PassiveAggressiveRegressor.html</code></pre>
+          </div>
+
+          <p>Comments also pull weight when they're:</p>
+
+          <ul>
+            <li>Documenting performance optimizations the code can't explain on its own.</li>
+            <li>Referencing external resources, papers, or documentation.</li>
+            <li>Pointing at known bugs or explaining a non-obvious fix.</li>
+            <li>Sketching the shape of an unusually complex section before the reader dives in.</li>
+          </ul>
+
+          <h3>A balanced approach</h3>
+
+          <p>Good code combined with meaningful comments saves time and reduces frustration — for you and for whoever reads it next. Coding philosophies vary; some prefer detailed comments, others lean toward self-explanatory code. A balanced approach usually wins.</p>
+
+          <p>I still believe comments can carry valuable context. I've also learned that clear code expresses intent more effectively than comments alone — and that the best comment is often the one you didn't have to write because the code already said it.</p>
+
+        </div>
+      </article>
+
+      <a href="../blog.html" class="back-link">back to folio III · field notes</a>
+
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.8 · On Writing Comments</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
 
     </div>
-</body>
+  </main>
 
-<script src="../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cyanotype-chrome.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
 </html>

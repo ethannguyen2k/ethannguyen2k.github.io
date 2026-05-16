@@ -1,0 +1,1122 @@
+/* =========================================================================
+   blog-cyanotype.css — Folio III · Field Notes
+   Extends css/cyanotype.css. Owns blog.html (the index) and every
+   blog/*.html post page.
+
+   Sections:
+     1. Folio III header block
+     2. Section headings
+     3. § Field Notes — single-column journal cards
+     4. § Field Notes — see-also list
+     5. § From the Stacks — denser 2-col grid
+     6. Vietnamese [VI] tag
+     7. Back-to-home link
+     8. Responsive
+   ========================================================================= */
+
+
+/* 1. Folio III header block ---------------------------------------------- */
+
+.folio-block {
+  margin: 18px 0 38px;
+}
+.folio-block .plate-no { margin-bottom: 14px; }
+.folio-block .folio-title {
+  font-size: clamp(54px, 7vw, 92px);
+  margin-bottom: 26px;
+}
+.folio-block .folio-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--fg-mute);
+}
+.folio-block .folio-subtitle {
+  font-size: 11px;
+  margin-bottom: 0;
+  border-top: none;
+  padding-top: 0;
+  max-width: 720px;
+}
+
+
+/* 2. Section headings ---------------------------------------------------- */
+
+.folio-content section { margin-bottom: 64px; scroll-margin-top: 32px; }
+.folio-content section > h2 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(28px, 3.4vw, 38px);
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.folio-content section > h2::before {
+  content: attr(data-numeral);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-style: normal;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  min-width: 36px;
+}
+.folio-content section > h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  margin-left: 6px;
+  align-self: center;
+}
+
+
+/* 3. § Field Notes — single-column journal -------------------------------- */
+
+.field-notes { display: flex; flex-direction: column; }
+
+.field-note {
+  display: grid;
+  grid-template-columns: 96px 1fr 160px;
+  gap: 28px;
+  align-items: start;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line);
+}
+.field-note:first-child { padding-top: 8px; }
+.field-note:last-child  { border-bottom: none; }
+
+/* Datestamp (left column) */
+.field-note .datestamp {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+.field-note .datestamp .d-day {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+}
+.field-note .datestamp .d-mon {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+/* Body (middle column) */
+.field-note .body { min-width: 0; }
+.field-note .body h3 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.2vw, 24px);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  margin-bottom: 8px;
+}
+.field-note .body h3 a {
+  color: var(--fg);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--t-fast) ease, color var(--t-fast) ease;
+}
+.field-note .body h3 a:hover { border-bottom-color: var(--line); }
+
+.field-note .meta {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin-bottom: 12px;
+}
+.field-note .meta .sep { opacity: 0.5; margin: 0 6px; }
+
+.field-note .desc {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--fg);
+  max-width: 60ch;
+}
+
+/* Thumbnail (right column) — plate-framed specimen, no duotone */
+.field-note .thumb {
+  position: relative;
+  background: var(--plate-bg);
+  padding: 6px;
+  border: 1px solid var(--plate-rule);
+  align-self: start;
+}
+.field-note .thumb img {
+  display: block;
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+.field-note .thumb .corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--plate-rule);
+  pointer-events: none;
+}
+.field-note .thumb .corner.tl { top: -1px; left: -1px;  border-right: none; border-bottom: none; }
+.field-note .thumb .corner.tr { top: -1px; right: -1px; border-left: none;  border-bottom: none; }
+.field-note .thumb .corner.bl { bottom: -1px; left: -1px;  border-right: none; border-top: none; }
+.field-note .thumb .corner.br { bottom: -1px; right: -1px; border-left: none;  border-top: none; }
+
+
+/* 4. See-also list ------------------------------------------------------- */
+
+.see-also {
+  margin-top: 14px;
+  padding: 8px 0 8px 14px;
+  border-left: 1px solid var(--line);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  line-height: 1.9;
+}
+.see-also .see-also-label {
+  display: inline-block;
+  margin-right: 8px;
+  color: var(--fg);
+  letter-spacing: 0.28em;
+}
+.see-also a {
+  color: var(--fg-mute);
+  border-bottom: 1px solid transparent;
+  transition: color var(--t-fast) ease, border-color var(--t-fast) ease;
+}
+.see-also a:hover {
+  color: var(--fg);
+  border-bottom-color: var(--line);
+}
+.see-also .roman {
+  display: inline-block;
+  margin-right: 4px;
+  opacity: 0.6;
+}
+.see-also .sep { opacity: 0.4; margin: 0 6px; }
+
+
+/* 5. § From the Stacks — denser 2-col grid ------------------------------- */
+
+.stacks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 32px;
+}
+
+.stack-card {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 18px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  align-items: start;
+}
+
+.stack-card .thumb {
+  position: relative;
+  background: var(--plate-bg);
+  padding: 5px;
+  border: 1px solid var(--plate-rule);
+  align-self: start;
+}
+.stack-card .thumb img {
+  display: block;
+  width: 100%;
+  height: 84px;
+  object-fit: cover;
+}
+
+.stack-card .body { min-width: 0; }
+.stack-card .body h3 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  letter-spacing: -0.005em;
+}
+.stack-card .body h3 a {
+  color: var(--fg);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--t-fast) ease;
+}
+.stack-card .body h3 a:hover { border-bottom-color: var(--line); }
+.stack-card .body h3 a::after {
+  content: " ↗";
+  font-family: 'IBM Plex Mono', monospace;
+  font-style: normal;
+  font-size: 0.7em;
+  letter-spacing: 0;
+  color: var(--fg-mute);
+  opacity: 0.7;
+  transition: opacity var(--t-fast) ease;
+  margin-left: 2px;
+}
+.stack-card .body h3 a:hover::after { opacity: 1; }
+
+.stack-card .meta {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.stack-card .meta .sep { opacity: 0.5; margin: 0 5px; }
+
+.stack-card .desc {
+  font-family: 'Fraunces', serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--fg);
+}
+
+
+/* 6. Vietnamese [VI] tag ------------------------------------------------- */
+
+.lang-tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  margin-left: 6px;
+  vertical-align: 2px;
+  cursor: help;
+  border-radius: 2px;
+}
+
+
+/* 7. Back-to-home link --------------------------------------------------- */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 36px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  border: none;
+  padding: 0;
+}
+.back-link::before { content: "←"; letter-spacing: 0; opacity: 0.85; }
+.back-link:hover { color: var(--fg); }
+
+
+/* Reveal — slow print-developing motion ---------------------------------- */
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 900ms var(--ease), transform 900ms var(--ease);
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { opacity: 1; transform: none; transition: none; }
+}
+
+
+/* 8. Responsive --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .field-note { grid-template-columns: 72px 1fr; gap: 18px; }
+  .field-note .thumb { display: none; }
+  .stacks-grid { grid-template-columns: 1fr; gap: 0; }
+}
+
+@media (max-width: 600px) {
+  .field-note { grid-template-columns: 1fr; gap: 12px; }
+  .field-note .datestamp {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+    padding-top: 0;
+  }
+  .field-note .datestamp .d-day { font-size: 16px; }
+  .field-note .datestamp .d-mon { border-top: none; padding-top: 0; }
+  .stack-card { grid-template-columns: 72px 1fr; gap: 12px; }
+  .stack-card .thumb img { height: 64px; }
+}
+
+
+/* =========================================================================
+   POST PAGE — every blog/*.html plate inside Folio III
+   ========================================================================= */
+
+/* 9. Post hero ------------------------------------------------------------ */
+
+.post-page .folio-content { max-width: 760px; }
+
+.post {
+  display: block;
+  margin-top: 6px;
+}
+
+.post-hero { margin: 6px 0 44px; }
+.post-hero .plate-no { margin-bottom: 18px; }
+.post-hero .post-title {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(36px, 5.2vw, 60px);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  margin: 0 0 24px;
+  max-width: 18ch;
+}
+.post-hero .post-title em {
+  font-style: italic;
+  color: var(--fg-mute);
+}
+.post-hero .post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 14px;
+  row-gap: 6px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.post-hero .post-meta .sep { opacity: 0.4; }
+.post-hero .post-meta .post-date { color: var(--fg); }
+
+
+/* 10. Post prose --------------------------------------------------------- */
+
+.post-prose {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.72;
+  color: var(--fg);
+}
+.post-prose > * + * { margin-top: 1.15em; }
+
+.post-prose > p,
+.post-prose > ul,
+.post-prose > ol,
+.post-prose > h3,
+.post-prose > h4,
+.post-prose > .step,
+.post-prose > .spoiler {
+  max-width: 65ch;
+}
+.post-prose > .table-common,
+.post-prose > .blog-image,
+.post-prose > .code-window,
+.post-prose > .audio-plate,
+.post-prose > .accordion,
+.post-prose > figure,
+.post-prose > .note,
+.post-prose > .blog-video {
+  max-width: 100%;
+  width: 100%;
+}
+/* Paragraphs that wrap a display equation are display elements, not prose —
+   lift them out of the 65ch measure so wide equations breathe. The :has()
+   match becomes true once MathJax replaces \[...\] with mjx-container. */
+.post-prose > p:has(> mjx-container[display="true"]) {
+  max-width: 100%;
+  text-align: center;
+}
+
+.post-prose h3 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 28px);
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  margin: 2.4em 0 0.45em;
+  padding-top: 1.1em;
+  border-top: 1px solid var(--line);
+}
+.post-prose h3:first-child,
+.post-prose > .spoiler + h3 { border-top: none; padding-top: 0; margin-top: 0.6em; }
+
+.post-prose h4 {
+  font-family: 'Fraunces', serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(17px, 1.7vw, 19px);
+  letter-spacing: 0;
+  color: var(--fg);
+  margin: 2em 0 0.4em;
+}
+
+.post-prose h5 {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin: 1.6em 0 0.4em;
+}
+
+.post-prose p { margin: 0; }
+.post-prose strong { font-weight: 500; color: var(--fg); }
+.post-prose em { font-style: italic; }
+
+.post-prose a {
+  color: var(--accent);
+  border-bottom: 1px solid var(--line);
+  transition: color var(--t-fast) ease, border-color var(--t-fast) ease;
+}
+.post-prose a:hover {
+  color: var(--fg);
+  border-bottom-color: var(--fg);
+}
+
+.post-prose code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.86em;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--fg);
+}
+
+/* Lists — cyanotype markers */
+.post-prose ul,
+.post-prose ol {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.4em 0;
+}
+.post-prose ul li,
+.post-prose ol li { margin: 0.45em 0; }
+
+.post-prose ul li {
+  position: relative;
+  padding-left: 1.4em;
+}
+.post-prose ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.25em;
+  top: 0.7em;
+  width: 8px;
+  height: 1px;
+  background: var(--fg-mute);
+}
+
+.post-prose ol {
+  /* Supports continued numbering via inline style="--ol-start: N-1" on the
+     ol element when an ol is split across non-list elements (code-windows,
+     images). HTML's `start` attribute is informational here; the CSS
+     counter is what renders the leading numeral. */
+  counter-reset: post-ol var(--ol-start, 0);
+}
+.post-prose ol:not(.sub-plates) li {
+  position: relative;
+  padding-left: 2.4em;
+  counter-increment: post-ol;
+}
+.post-prose ol:not(.sub-plates) li::before {
+  content: counter(post-ol, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--fg-mute);
+}
+
+
+/* 11. Drop cap (.lede) --------------------------------------------------- */
+
+.post-prose .lede::first-letter {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 4.6em;
+  line-height: 0.86;
+  float: left;
+  padding: 0.08em 0.14em 0 0;
+  margin: 0.04em 0.08em -0.08em 0;
+  color: var(--ink);
+}
+[data-theme="night"] .post-prose .lede::first-letter { color: var(--ink-soft); }
+
+
+/* 12. Editorial note ----------------------------------------------------- */
+
+.post-prose .spoiler {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--fg-mute);
+  padding: 14px 0 14px 18px;
+  border-left: 2px solid var(--plate-rule);
+  max-width: 60ch;
+  margin: 24px 0 32px;
+}
+
+
+/* 13. Code window -------------------------------------------------------- */
+
+.code-window {
+  background: var(--plate-bg);
+  color: var(--plate-fg);
+  border: 1px solid var(--plate-rule);
+  margin: 24px 0;
+  max-width: 100%;
+  overflow: hidden;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+.code-window .console {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--plate-rule);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.code-window .console .red,
+.code-window .console .orange,
+.code-window .console .green {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--plate-fg);
+}
+.code-window .console .orange { opacity: 0.6; }
+.code-window .console .green  { opacity: 0.35; }
+.code-window .console::after {
+  content: "stdout";
+  margin-left: auto;
+  opacity: 0.7;
+}
+.code-window pre.code-content {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  background: transparent;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--plate-fg);
+  white-space: pre;
+}
+.code-window pre.code-content code {
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+
+/* 14. Post — series sub-page eyebrow ------------------------------------ */
+
+.post-hero .series-tag {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin-bottom: 10px;
+}
+.post-hero .series-tag a {
+  color: var(--fg);
+  border-bottom: 1px solid var(--line);
+  transition: border-color var(--t-fast) ease;
+}
+.post-hero .series-tag a:hover { border-bottom-color: var(--fg); }
+
+
+/* 15. CTA button (outlined, mono small caps) ----------------------------- */
+
+.post-prose .button {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: 9px 14px 8px;
+  margin: 10px 0;
+  text-decoration: none;
+  transition: border-color var(--t-fast) ease,
+              background var(--t-fast) ease,
+              color var(--t-fast) ease;
+}
+.post-prose .button::after {
+  content: "↗";
+  margin-left: 8px;
+  opacity: 0.7;
+  font-size: 0.9em;
+}
+.post-prose .button:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+  background: var(--plate-bg);
+}
+
+
+/* 16. Data table (.table-common) ---------------------------------------- */
+
+.post-prose .table-common {
+  width: 100%;
+  margin: 24px 0;
+  border-collapse: collapse;
+  font-family: 'Fraunces', serif;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  border-top: 1px solid var(--fg-mute);
+  border-bottom: 1px solid var(--fg-mute);
+}
+.post-prose .table-common thead th {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--fg-mute);
+  vertical-align: bottom;
+}
+.post-prose .table-common tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  color: var(--fg);
+}
+.post-prose .table-common tbody tr:last-child td { border-bottom: none; }
+/* Opt-in mono cells (use .shape for tuples / .numeric for values).
+   Default cells stay in Fraunces so text-heavy columns like "Description"
+   in the AWS post read like prose. */
+.post-prose .table-common td.shape,
+.post-prose .table-common td.numeric {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+}
+.post-prose .table-common td.shape { white-space: nowrap; }
+.post-prose .table-common td.numeric { text-align: right; }
+
+.post-prose .table-common caption {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  text-align: left;
+  caption-side: top;
+  padding: 0 0 12px;
+}
+
+
+/* Matrix component — laid out as a proper grid of numbers in tabular
+   monospace. Bracket glyphs frame the grid via ::before/::after pseudo
+   elements, drawn from --plate-rule so they theme-swap. */
+.post-prose .matrix {
+  display: inline-grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, auto));
+  column-gap: 14px;
+  row-gap: 4px;
+  align-items: baseline;
+  position: relative;
+  padding: 4px 12px;
+  margin: 2px 0;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--fg);
+}
+.post-prose .matrix > span { display: block; min-width: 1.5em; }
+.post-prose .matrix::before,
+.post-prose .matrix::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border: 1px solid var(--plate-rule);
+}
+.post-prose .matrix::before { left: 0;  border-right: none; }
+.post-prose .matrix::after  { right: 0; border-left: none; }
+
+
+/* 17. Inline figure (.blog-image, optional <figure> + <figcaption>) ----- */
+
+.post-prose .blog-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 28px auto;
+  background: var(--plate-bg);
+  padding: 14px;
+  border: 1px solid var(--plate-rule);
+  box-shadow: var(--plate-shadow);
+}
+/* Size modifiers — use when a figure earns its place but shouldn't dominate.
+   .small for portraits / personal photos / mascots (~240px),
+   .medium for diagrams that read well at half-width (~420px). */
+.post-prose .blog-image.small  { max-width: 240px; padding: 10px; }
+.post-prose .blog-image.medium { max-width: 420px; padding: 12px; }
+
+/* Figure wrapper + figcaption — for diagrams that need a label like
+   "Diagram A — a single EC2 instance accepting HTTP traffic". */
+.post-prose figure {
+  margin: 28px 0;
+}
+.post-prose figure .blog-image { margin: 0 auto; }
+.post-prose figcaption {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  text-align: center;
+  margin-top: 12px;
+  max-width: 60ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Inline video — same plate-frame treatment as .blog-image */
+.post-prose .blog-video {
+  display: block;
+  max-width: 100%;
+  margin: 28px auto;
+  background: var(--plate-bg);
+  padding: 14px;
+  border: 1px solid var(--plate-rule);
+  box-shadow: var(--plate-shadow);
+}
+.post-prose .blog-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.post-prose .blog-video .video-caption {
+  margin: 12px 0 0;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  text-align: center;
+}
+
+
+/* 18. Numbered step paragraph (.step) ----------------------------------- */
+
+.post-prose .step {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.06rem;
+  color: var(--fg);
+  margin-top: 1.8em;
+  padding-left: 14px;
+  border-left: 2px solid var(--plate-rule);
+}
+
+
+/* 19. MathJax display blocks -------------------------------------------- */
+
+.post-prose mjx-container[display="true"] {
+  margin: 1.4em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+.post-prose mjx-container { color: var(--fg); }
+.post-prose p:has(> mjx-container[display="true"]) {
+  margin: 1.4em 0;
+}
+
+
+/* 20. Accordion (click-to-toggle) — uses scripts.js toggleAccordion() ---- */
+
+.post-prose .accordion {
+  margin: 24px 0;
+  border: 1px solid var(--plate-rule);
+  background: transparent;
+}
+.post-prose .accordion-heading {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+  padding: 14px 18px 13px 42px;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  background: transparent;
+  user-select: none;
+  transition: background var(--t-fast) ease;
+}
+.post-prose .accordion-heading:hover { background: rgba(10, 47, 92, 0.04); }
+[data-theme="night"] .post-prose .accordion-heading:hover { background: rgba(244, 236, 213, 0.04); }
+
+.post-prose .accordion-heading::before,
+.post-prose .accordion-heading::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  background: var(--fg-mute);
+  transition: transform 220ms var(--ease), background var(--t-fast) ease;
+}
+.post-prose .accordion-heading::before {
+  width: 12px;
+  height: 1px;
+  transform: translateY(-0.5px);
+}
+.post-prose .accordion-heading::after {
+  width: 1px;
+  height: 12px;
+  transform: translate(5.5px, -6px);
+  transform-origin: center;
+}
+.post-prose .accordion.open .accordion-heading::after {
+  transform: translate(5.5px, -6px) scaleY(0);
+}
+.post-prose .accordion.open .accordion-heading::before,
+.post-prose .accordion.open .accordion-heading::after {
+  background: var(--fg);
+}
+
+.post-prose .accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 22px;
+  border-top: 1px solid transparent;
+  transition:
+    max-height 360ms var(--ease),
+    opacity 220ms var(--ease),
+    padding 280ms var(--ease),
+    border-top-color 200ms var(--ease);
+}
+.post-prose .accordion.open .accordion-content {
+  max-height: 2000px;
+  opacity: 1;
+  padding: 14px 22px 18px;
+  border-top-color: var(--plate-rule);
+  transition:
+    max-height 420ms var(--ease),
+    opacity 260ms var(--ease) 80ms,
+    padding 320ms var(--ease),
+    border-top-color 200ms var(--ease);
+}
+.post-prose .accordion-content > * { max-width: 65ch; }
+.post-prose .accordion-content > *:first-child { margin-top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .post-prose .accordion-content,
+  .post-prose .accordion.open .accordion-content,
+  .post-prose .accordion-heading::before,
+  .post-prose .accordion-heading::after { transition: none; }
+}
+
+
+/* 21a. Note / analogy callout (more prominent than .spoiler) ------------ */
+
+.post-prose .note {
+  background: var(--plate-bg);
+  color: var(--plate-fg);
+  border: 1px solid var(--plate-rule);
+  padding: 18px 22px;
+  margin: 28px 0;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  line-height: 1.7;
+}
+.post-prose .note .note-label {
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin-bottom: 10px;
+}
+.post-prose .note p { margin: 0; max-width: 65ch; }
+
+
+/* 21b. Footnote / update block ----------------------------------------- */
+
+.post-prose .update {
+  margin: 44px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--plate-rule);
+}
+.post-prose .update p {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--fg-mute);
+}
+
+
+/* 21c. References section ---------------------------------------------- */
+
+.post-prose .references {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--plate-rule);
+}
+.post-prose .references h2 {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin: 0 0 16px;
+}
+.post-prose .references ol {
+  counter-reset: ref-ol 0;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.post-prose .references ol li {
+  position: relative;
+  padding-left: 2.4em;
+  margin: 0.6em 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  counter-increment: ref-ol;
+}
+.post-prose .references ol li::before {
+  content: counter(ref-ol, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--fg-mute);
+}
+
+
+/* 21d. h4.step combined — step heading variant ------------------------- */
+
+.post-prose h4.step {
+  font-style: italic;
+  padding-left: 14px;
+  border-left: 2px solid var(--plate-rule);
+}
+
+
+/* 21. Series sub-plates listing (parent series pages) ------------------- */
+
+.post-prose .sub-plates {
+  list-style: none;
+  padding: 22px 0;
+  margin: 30px 0;
+  border-top: 1px solid var(--plate-rule);
+  border-bottom: 1px solid var(--plate-rule);
+}
+.post-prose .sub-plates::before {
+  content: "Plates in this series";
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin-bottom: 16px;
+}
+.post-prose .sub-plates li {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding-left: 0;
+  margin: 8px 0;
+}
+.post-prose .sub-plates .sp-no {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.post-prose .sub-plates .sp-title {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--fg);
+}
+.post-prose .sub-plates a {
+  color: var(--fg);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--t-fast) ease;
+}
+.post-prose .sub-plates a:hover { border-bottom-color: var(--line); }
+.post-prose .sub-plates li.coming-soon { opacity: 0.55; font-style: italic; }
+
+
+/* 22. Post responsive --------------------------------------------------- */
+
+@media (max-width: 720px) {
+  .post-hero .post-title { max-width: none; }
+  .post-prose { font-size: 1rem; line-height: 1.65; }
+  .post-prose .lede::first-letter { font-size: 3.8em; }
+  .code-window pre.code-content { font-size: 12px; padding: 14px 16px; }
+  .post-prose .table-common { font-size: 0.86rem; }
+  .post-prose .table-common thead th,
+  .post-prose .table-common tbody td { padding: 10px 10px; }
+}

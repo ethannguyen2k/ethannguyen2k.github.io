@@ -1,0 +1,140 @@
+/* =========================================================================
+   cyanotype-syntax.css — highlight.js theme, cyanotype edition.
+
+   Typographic differentiation, not color. Tokens share var(--plate-fg)
+   and lean on weight / italic / opacity. Single accent --warm on strings.
+
+   Load order: cyanotype.css → blog-cyanotype.css → cyanotype-syntax.css.
+   ========================================================================= */
+
+
+.code-window .hljs,
+.code-window pre code.hljs {
+  background: transparent;
+  color: var(--plate-fg);
+  display: block;
+  padding: 0;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+
+.code-window .hljs-comment,
+.code-window .hljs-quote {
+  font-style: italic;
+  opacity: 0.55;
+}
+
+
+.code-window .hljs-keyword,
+.code-window .hljs-selector-tag,
+.code-window .hljs-subst {
+  font-weight: 500;
+}
+
+
+.code-window .hljs-string,
+.code-window .hljs-doctag,
+.code-window .hljs-regexp,
+.code-window .hljs-template-variable,
+.code-window .hljs-template-tag {
+  color: var(--warm);
+  font-style: italic;
+}
+
+
+.code-window .hljs-number,
+.code-window .hljs-literal {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+
+.code-window .hljs-title,
+.code-window .hljs-title.function_,
+.code-window .hljs-title.class_,
+.code-window .hljs-title.class_.inherited__,
+.code-window .hljs-name,
+.code-window .hljs-section,
+.code-window .hljs-selector-id,
+.code-window .hljs-selector-class {
+  font-weight: 500;
+  font-style: normal;
+}
+
+
+.code-window .hljs-built_in,
+.code-window .hljs-builtin-name,
+.code-window .hljs-type,
+.code-window .hljs-class .hljs-title {
+  font-style: italic;
+}
+
+
+.code-window .hljs-variable.language_,
+.code-window .hljs-symbol {
+  font-style: italic;
+  font-weight: 500;
+}
+
+
+.code-window .hljs-variable,
+.code-window .hljs-attr,
+.code-window .hljs-attribute,
+.code-window .hljs-property,
+.code-window .hljs-params {
+  color: var(--plate-fg);
+}
+
+
+.code-window .hljs-operator,
+.code-window .hljs-punctuation {
+  opacity: 0.7;
+}
+
+
+.code-window .hljs-tag,
+.code-window .hljs-tag .hljs-name {
+  font-weight: 500;
+}
+.code-window .hljs-tag .hljs-attr {
+  font-style: italic;
+  opacity: 0.85;
+}
+
+
+.code-window .hljs-meta,
+.code-window .hljs-meta-keyword,
+.code-window .hljs-meta-string {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+
+.code-window .hljs-addition {
+  background: rgba(196, 126, 77, 0.14);
+  color: var(--warm);
+}
+.code-window .hljs-deletion {
+  background: rgba(10, 47, 92, 0.10);
+  opacity: 0.7;
+  text-decoration: line-through;
+  text-decoration-color: var(--plate-rule);
+}
+[data-theme="night"] .code-window .hljs-deletion {
+  background: rgba(244, 236, 213, 0.08);
+  text-decoration-color: var(--plate-rule);
+}
+
+
+.code-window .hljs-emphasis { font-style: italic; }
+.code-window .hljs-strong   { font-weight: 500; }
+.code-window .hljs-link {
+  color: var(--accent);
+  border-bottom: 1px solid var(--line);
+}
+.code-window .hljs-code,
+.code-window .hljs-formula { opacity: 0.88; }
+
+
+.code-window .hljs-bullet { font-weight: 500; opacity: 0.7; }

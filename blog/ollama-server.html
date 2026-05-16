@@ -1,204 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - How to Share Ollama Server Through IP Address and Port</title>
-    <link rel="stylesheet" href="../css/blog-styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How to share an Ollama server through IP and port — configuring OLLAMA_HOST across macOS, Linux, and Windows.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.4 — Sharing Ollama Server</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/cyanotype.css">
+  <link rel="stylesheet" href="../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../css/cyanotype-syntax.css">
+
+  <script>
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
-        </div>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <nav id="nav-bar">
-            <a href="../index.html">Homepage</a>
-            <a href="../portfolio.html">My Portfolio</a>
-            <a href="../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
+<body class="post-page">
 
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>How to Share Ollama Server Through IP Address and Port</h2>
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">April 08, 2025</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
-            </div>
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-            <img src="https://ollama.com/public/blog/ollama-tool.png" alt="Project header image - Ollama Server" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-            
-            <h3>Introduction</h3>
-            <p>Recently, I was configuring a quick server to run LLM locally. Though it is easy in hindsight, it was not as clear-cut as it needed to be. 
-                After troubleshooting and following the <a href="https://github.com/ollama/ollama/blob/main/docs/faq.md#how-do-i-configure-ollama-server" target="_blank">Official Ollama FAQ</a>, I found a solution by configuring the <code>OLLAMA_HOST</code> environment variable. Here's a step-by-step guide on how to resolve this problem.</p>
-            
-            <h3>The Issue</h3>
-            <p>By default, Ollama binds to <code>127.0.0.1</code> on port <code>11434</code>, which restricts access to the local machine. This means that even if you specify an IP address and port, other devices on the network will not be able to access the Ollama server.</p>
-            
-            <h3>Solution: Configuring OLLAMA_HOST</h3>
-            <p>Again, it is really easy and not worth even talking about. Nonetheless, to make Ollama accessible from other devices on your network, you need to change the bind address from <code>127.0.0.1</code> to <code>0.0.0.0</code>, which allows the server to listen on all available IP addresses. Follow these steps to configure <code>OLLAMA_HOST</code>:</p>
-            
-            <h4>Step 1: Set OLLAMA_HOST Environment Variable</h4>
-            <p>You need to set the <code>OLLAMA_HOST</code> environment variable to <code>0.0.0.0:11434</code>. The process for setting environment variables varies depending on your operating system:</p>
-            
-            <h5>On macOS</h5>
-            <ol>
-                <li>Open the Terminal app.</li>
-                <li>Use <code>launchctl</code> to set the environment variable:</li>
-            </ol>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content">launchctl setenv OLLAMA_HOST "0.0.0.0:11434"</pre>
-            </div>
-            
-            <ol start="3">
-                <li>Run Ollama as a server:</li>
-            </ol>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content">ollama serve</pre>
-            </div>
-            
-            <ol start="4">
-                <li>Verify the environment variable is set correctly by running:</li>
-            </ol>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content">echo $OLLAMA_HOST</pre>
-            </div>
-            
-            <p>It should display <code>0.0.0.0:11434</code>.</p>
-            <p><strong>Make sure you exit the Ollama app before starting it as a server.</strong></p>
-            
-            <h5>On Linux</h5>
-            <ol>
-                <li>Edit the systemd service by calling <code>systemctl edit ollama.service</code>.</li>
-                <li>Add the following line under the <code>[Service]</code> section:</li>
-            </ol>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content">[Service]
-Environment="OLLAMA_HOST=0.0.0.0:11434"</pre>
-            </div>
-            
-            <ol start="3">
-                <li>Save and exit the editor.</li>
-                <li>Reload <code>systemd</code> and restart Ollama:</li>
-            </ol>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content">sudo systemctl daemon-reload
-sudo systemctl restart ollama</pre>
-            </div>
-            
-            <h5>On Windows</h5>
-            <ol>
-                <li>Quit the Ollama application by clicking on it in the taskbar.</li>
-                <li>Open the Settings (Windows 11) or Control Panel (Windows 10), and search for <strong>Environment Variables</strong>.</li>
-                <li>Click on <strong>Edit environment variables for your account</strong>.</li>
-                <li>Add or edit the variable for <code>OLLAMA_HOST</code> and set its value to <code>0.0.0.0:11434</code>.</li>
-                <li>Click <strong>OK/Apply</strong> to save the changes.</li>
-                <li>Restart the Ollama application from the Start menu.</li>
-            </ol>
-            
-            <h3>Step 2: Verify the Configuration</h3>
-            <p>After setting the environment variable, you can check if the Ollama server is accessible from another device on the network.</p>
-            <ol>
-                <li>From another device, open a browser or use a tool like <code>curl</code> to access the server:</li>
-            </ol>
-            
-            <div class="code-window">
-                <div class="console">
-                    <div class="red"></div>
-                    <div class="orange"></div>
-                    <div class="green"></div>
-                </div>
-                <pre class="code-content">http://your_ip_address:11434</pre>
-            </div>
-            
-            <ol start="2">
-                <li>If everything is configured correctly, you should see a response from the Ollama server.</li>
-            </ol>
-            
-            <h3>Additional Tips</h3>
-            <ul>
-                <li><strong>Firewall Settings</strong>: Make sure that the firewall on your host machine allows incoming connections on port <code>11434</code>.</li>
-                <li><strong>Port Forwarding</strong>: If you are accessing the server from a different network, you may need to configure port forwarding on your router.</li>
-            </ul>
-
-            <h3>Conclusion</h3>
-            <p>You can easily share your Ollama server with other devices on your network with this guide. This is particularly useful for collaborative projects or when you want to access the server from multiple devices.</p>
-            <p>For more details, here is the <a href="https://github.com/ollama/ollama/blob/main/docs/faq.md#how-do-i-configure-ollama-server" target="_blank">Official FAQ</a>.</p>
-        </div>
-
-        <p><a href="../index.html">Back to Home</a></p>
-
-        <footer>
-            <hr>
-            <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-        </footer>
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
     </div>
+    <div class="links">
+      <a class="home" href="../index.html">Folio I</a>
+      <a href="../portfolio.html">II · Works</a>
+      <a href="../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
+  <main class="stage">
+    <div class="folio-content">
+
+      <article class="post">
+
+        <header class="post-hero reveal d2">
+          <div class="plate-no">Plate III.4 — Sharing Ollama Server</div>
+          <h1 class="post-title">How to share an <em>Ollama server</em> through IP and port</h1>
+          <div class="post-meta">
+            <span class="post-date">Apr 8, 2025</span>
+            <span class="sep">·</span>
+            <span>Ollama</span>
+            <span class="sep">·</span>
+            <span>LLM</span>
+            <span class="sep">·</span>
+            <span>Networking</span>
+          </div>
+        </header>
+
+        <div class="post-prose fade-in">
+
+          <h3>Introduction</h3>
+          <p class="lede">I was recently configuring a quick server to run LLMs locally. It's easy in hindsight, but it wasn't as clear-cut as I'd hoped. After some troubleshooting and a read of the <a href="https://github.com/ollama/ollama/blob/main/docs/faq.md#how-do-i-configure-ollama-server" target="_blank" rel="noopener">official Ollama FAQ</a>, the fix came down to setting the <code>OLLAMA_HOST</code> environment variable. Here's a step-by-step.</p>
+
+          <h3>The issue</h3>
+          <p>By default, Ollama binds to <code>127.0.0.1</code> on port <code>11434</code>, which restricts access to the local machine. Even if you specify an IP and port on the client side, other devices on the network can't reach the server.</p>
+
+          <h3>Solution: configuring OLLAMA_HOST</h3>
+          <p>Honestly trivial once you know. Change the bind address from <code>127.0.0.1</code> to <code>0.0.0.0</code> so the server listens on every available interface. The mechanics differ by OS.</p>
+
+          <h4>Step 1 — Set the OLLAMA_HOST environment variable</h4>
+          <p>Set <code>OLLAMA_HOST</code> to <code>0.0.0.0:11434</code>. The exact procedure depends on your OS:</p>
+
+          <h5>On macOS</h5>
+          <p>Open Terminal and set the variable via <code>launchctl</code>:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-bash">launchctl setenv OLLAMA_HOST "0.0.0.0:11434"</code></pre>
+          </div>
+
+          <p>Run Ollama as a server:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-bash">ollama serve</code></pre>
+          </div>
+
+          <p>Verify the variable is set:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-bash">echo $OLLAMA_HOST</code></pre>
+          </div>
+
+          <p>It should print <code>0.0.0.0:11434</code>. <strong>Make sure the Ollama app is quit before starting it as a server.</strong></p>
+
+          <h5>On Linux</h5>
+          <p>Edit the systemd service with <code>systemctl edit ollama.service</code>, and add this under the <code>[Service]</code> section:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-ini">[Service]
+Environment="OLLAMA_HOST=0.0.0.0:11434"</code></pre>
+          </div>
+
+          <p>Save, exit, then reload systemd and restart Ollama:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl restart ollama</code></pre>
+          </div>
+
+          <h5>On Windows</h5>
+          <ol>
+            <li>Quit the Ollama application from the taskbar.</li>
+            <li>Open <em>Settings</em> (Windows 11) or <em>Control Panel</em> (Windows 10) and search for <strong>Environment Variables</strong>.</li>
+            <li>Click <em>Edit environment variables for your account</em>.</li>
+            <li>Add or edit <code>OLLAMA_HOST</code> and set its value to <code>0.0.0.0:11434</code>.</li>
+            <li>Click <em>OK / Apply</em> to save.</li>
+            <li>Restart the Ollama application from the Start menu.</li>
+          </ol>
+
+          <h4>Step 2 — Verify from another device</h4>
+          <p>From another device on the network, open a browser or use <code>curl</code>:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div>
+              <div class="orange"></div>
+              <div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-bash">curl http://your_ip_address:11434</code></pre>
+          </div>
+
+          <p>If everything's configured correctly, you'll get a response from the Ollama server.</p>
+
+          <h3>Additional tips</h3>
+          <ul>
+            <li><strong>Firewall</strong> — make sure your host firewall allows incoming connections on port <code>11434</code>.</li>
+            <li><strong>Port forwarding</strong> — if you're accessing the server from a different network entirely, you may need to configure port forwarding on your router.</li>
+          </ul>
+
+          <h3>Conclusion</h3>
+          <p>You can easily share your Ollama server with other devices on your network with this setup — useful for collaborative projects or accessing the server from multiple devices.</p>
+          <p>For more, see the <a href="https://github.com/ollama/ollama/blob/main/docs/faq.md#how-do-i-configure-ollama-server" target="_blank" rel="noopener">official FAQ</a>.</p>
+
+        </div>
+      </article>
+
+      <a href="../blog.html" class="back-link">back to folio III · field notes</a>
+
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.4 · Sharing Ollama Server</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
+
+    </div>
+  </main>
+
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cyanotype-chrome.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
-
-<script src="../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
 </html>

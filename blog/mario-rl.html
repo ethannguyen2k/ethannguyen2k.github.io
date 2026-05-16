@@ -1,223 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs - Training Mario with Reinforcement Learning</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/blog-styles.css">
-    <script>
-        // Immediately apply the saved theme
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-    <style>
-        .note {
-            color: #888;
-            font-style: italic;
-        }
-        
-        /* New styles for SVG images to improve visibility in dark mode */
-        [data-theme="dark"] img[src$=".svg"] {
-            background-color: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 4px;
-            padding: 10px;
-        }
-        
-        /* Some additional styling for all SVGs to ensure they look good in both modes */
-        img[src$=".svg"] {
-            filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.2));
-            transition: background-color 0.3s, border 0.3s;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Training a Super Mario Bros agent with reinforcement learning — Double Deep Q-Networks, replay buffers, and the patience of a 3060 Ti.">
+  <meta name="author" content="Ethan">
+  <title>Ethan · Plate III.6 — Training Mario with RL</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/cyanotype.css">
+  <link rel="stylesheet" href="../css/blog-cyanotype.css">
+  <link rel="stylesheet" href="../css/cyanotype-syntax.css">
+
+  <script>
+    (function () {
+      const raw = localStorage.getItem('theme');
+      let theme = 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
+<body class="post-page">
 
-<body>
-    <aside class="sidebar">
-        <div class="header-content">
-            <img id="logo" src="../images/logo2.webp" alt="Logo">
-            <div class="text-content">
-                <h1>Hi! I'm Ethan</h1>
-                <h3>Hard learning. Hardworking. Hard playing. Ready for what's next.</h3>
-            </div>
-        </div>
-        <nav id="nav-bar">
-            <a href="../index.html">Homepage</a>
-            <a href="../portfolio.html">My Portfolio</a>
-            <a href="../blog.html" class="current">My Blogs</a>
-        </nav>
-        <div class="theme-toggle">
-            <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
-                <i class="fa-solid fa-sun"></i>
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-        <div class="sidebar-extra">
-            <p><a href="mailto:phatnguyenground@gmail.com"><i class="fa-solid fa-at"></i></a>
-                <a href="https://github.com/ethannguyen2k" target="_blank"><i class="fa-brands fa-github-alt"></i></a>
-                <a href="https://linkedin.com/in/ethan-2k" target="_blank"><i class="fab fa-linkedin"></i></a></p>
-        </div>
-    </aside>
+  <div class="botanical left" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 220, 70 180, 40 160 C 70 165, 90 150, 95 130 C 70 130, 50 110, 35 85 C 60 95, 85 90, 95 70 C 75 65, 60 45, 50 20 C 75 35, 95 35, 100 10 C 105 35, 125 35, 150 20 C 140 45, 125 65, 105 70 C 115 90, 140 95, 165 85 C 150 110, 130 130, 105 130 C 110 150, 130 165, 160 160 C 130 180, 100 220, 100 280 Z"/>
+    </svg>
+  </div>
+  <div class="botanical right" aria-hidden="true">
+    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 280 C 100 230, 60 210, 30 200 C 60 195, 95 180, 100 150 C 70 150, 40 135, 20 110 C 50 115, 85 110, 100 85 C 80 75, 60 55, 55 25 C 80 45, 95 50, 100 25 C 105 50, 120 45, 145 25 C 140 55, 120 75, 100 85 C 115 110, 150 115, 180 110 C 160 135, 130 150, 100 150 C 105 180, 140 195, 170 200 C 140 210, 100 230, 100 280 Z"/>
+    </svg>
+  </div>
 
-    <div class="container2 fade-in">
-        <div class="blog-content">
-            <h2>Training Mario with Reinforcement Learning</h2>
-            <div class="blog-info">
-                <p>Date Created: <span id="date-created">November 12, 2024</span></p>
-                <p>Date Modified: <span id="date-modified"></span></p>
-            </div>
-            <img src="mario-images/mario-image.jpg" alt="Project header image - Mario" style="display: block; margin-left: auto; margin-right: auto; width: 60%;">
-            <p>In a lovely day, I asked myself, how can I make a computer learn to play Mario? 
-                Well, I did just that, and I run on this journey to understand reinforcement learning (RL) better. 
-                This blog post documents my experiments with training an AI agent to play Super Mario Bros using a Double Deep Q-Network (DDQN).</p>
+  <header class="folio-running reveal d1">
+    <div class="here">
+      <span class="eyebrow">Folio III</span>
+      <span class="title">Field Notes</span>
+    </div>
+    <div class="links">
+      <a class="home" href="../index.html">Folio I</a>
+      <a href="../portfolio.html">II · Works</a>
+      <a href="../playlist.html">IV · Sound</a>
+      <div class="controls">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 
-        <h3>What is Reinforcement Learning?</h3>
-        <p>Reinforcement learning (RL) is a type of machine learning where an agent learns by interacting with its environment to achieve a specific goal. 
-            The agent takes actions and receives rewards or penalties based on the effectiveness of those actions. 
-            Over time, the agent uses this feedback to adjust its behavior, aiming to maximise cumulative rewards. 
-        </p>
-        <!-- #TODO: Add a diagram here -->
-        <p>RL is commonly used in gaming, robotics, finance, or any setting where sequential decision-making under uncertainty is required. 
-            For example, an RL agent can learn to play video games by trying different strategies and learning from the outcomes. 
-            A famous example is AlphaGo, which used RL to beat world champions in <a href="https://deepmind.google/research/breakthroughs/alphago/">the game of Go</a>. There are also power agents in games like <a href="https://deepmind.google/discover/blog/alphastar-mastering-the-real-time-strategy-game-starcraft-ii/">AlphaStar in StarCraft</a> and <a href="https://openai.com/index/openai-five-defeats-dota-2-world-champions/">OpenAI Five in Dota 2</a> to play at superhuman levels.
-        </p>
-        <p>In the case of Mario, the agent's actions are moving left or right, jumping, or shooting fireballs.</p>
-        <p>The basic elements of reinforcement learning include:</p>
-        <ol>
-            <li><b>Agent</b>: The learner or decision-maker that interacts with the environment.</li>
-            <li><b>Environment</b>: The setting in which the agent operates.</li>
-            <li><b>Action</b>: Choices the agent can make.</li>
-            <li><b>State</b>: The current situation or context in which the agent finds itself.</li>
-            <li><b>Reward</b>: Feedback given to the agent to indicate success or failure.</li>
-        </ol>
-        <img src="mario-images/mario-diagram.png" alt="Agent-environment interaction loop" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-        <p>"For any given state, an agent can choose to do the most optimal action (exploit) or a random action (explore)."
-            This is something that agent has to learn to make better decision. 
-            This trade-off between exploration and exploitation is a key challenge in reinforcement learning.
-        </p>
+  <main class="stage">
+    <div class="folio-content">
 
-        <div class="accordion">
-            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Core Concepts</h3>
+      <article class="post">
+
+        <header class="post-hero reveal d2">
+          <div class="plate-no">Plate III.6 — Training Mario with RL</div>
+          <h1 class="post-title">Training <em>Mario</em> with reinforcement learning</h1>
+          <div class="post-meta">
+            <span class="post-date">Nov 12, 2024</span>
+            <span class="sep">·</span>
+            <span>Reinforcement Learning</span>
+            <span class="sep">·</span>
+            <span>DDQN</span>
+            <span class="sep">·</span>
+            <span>PyTorch</span>
+          </div>
+        </header>
+
+        <div class="post-prose fade-in">
+
+          <p class="lede">On a lovely day, I asked myself: how can I make a computer learn to play Mario? Well, I did just that — and went on the journey to understand reinforcement learning (RL) better. This plate documents my experiments training an AI agent to play Super Mario Bros using a Double Deep Q-Network (DDQN).</p>
+
+          <h3>What is reinforcement learning?</h3>
+          <p>Reinforcement learning is a type of machine learning where an agent learns by interacting with its environment to achieve a specific goal. The agent takes actions and receives rewards or penalties based on the effectiveness of those actions. Over time, the agent uses this feedback to adjust its behaviour, aiming to maximise cumulative rewards.</p>
+
+          <p>RL is commonly used in gaming, robotics, finance — anywhere sequential decision-making under uncertainty is required. For example, an RL agent can learn to play video games by trying different strategies and learning from the outcomes. A famous example is AlphaGo, which used RL to beat world champions at <a href="https://deepmind.google/research/breakthroughs/alphago/" target="_blank" rel="noopener">Go</a>. Other notable agents: <a href="https://deepmind.google/discover/blog/alphastar-mastering-the-real-time-strategy-game-starcraft-ii/" target="_blank" rel="noopener">AlphaStar in StarCraft</a> and <a href="https://openai.com/index/openai-five-defeats-dota-2-world-champions/" target="_blank" rel="noopener">OpenAI Five in Dota 2</a> at superhuman levels.</p>
+
+          <p>In Mario's case, the agent's actions are moving left or right, jumping, or shooting fireballs.</p>
+
+          <p>The basic elements of reinforcement learning:</p>
+          <ol>
+            <li><strong>Agent</strong> — the learner / decision-maker that interacts with the environment.</li>
+            <li><strong>Environment</strong> — the setting in which the agent operates.</li>
+            <li><strong>Action</strong> — choices the agent can make.</li>
+            <li><strong>State</strong> — the current situation or context in which the agent finds itself.</li>
+            <li><strong>Reward</strong> — feedback given to the agent to indicate success or failure.</li>
+          </ol>
+
+          <img src="mario-images/mario-diagram.png" alt="Agent–environment interaction loop" class="blog-image medium">
+
+          <p>"For any given state, an agent can choose to do the most optimal action (exploit) or a random action (explore)." Learning to make this trade-off is a key challenge in reinforcement learning.</p>
+
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Core concepts</h4>
             <div class="accordion-content">
-                <img src="https://spinningup.openai.com/en/latest/_images/rl_diagram_transparent_bg.png" alt="Agent-environment interaction loop" style="display: block; margin-left: auto; margin-right: auto;">
-                <p>Imagine you're playing a video game. You are the <b>agent</b> (the character you control), and the environment is the game world (the levels, obstacles, and everything around you).
-                    You can see things happening in the game (like a monster coming toward you) and decide what to do next (maybe jump, run away, or fight back), which is the <b>environment</b>.
-                </p>
-                <h4>States and Observations</h4>
-                <p>The <b>state</b> is like a snapshot of everything in the game world at a specific moment. For example, where the monsters are, what items are around, and how much health you have.
-                    <b>Observations</b> are what the agent can see or know about the world. Sometimes you can see everything (like in a game where you can see the whole map), and sometimes you can only see part of it (like if you're inside a building in the game and can't see the outside).
-                    This means the state is the complete picture (fully observed if agent can see the state) while the agent can only see part of it (agent can only see a part of the state), most of the time.
-                </p>
-                <h4>Action Space</h4>
-                <p><b>Action space</b> is the set of all possible things you can do in the game. 
-                    For example, you might have options like "jump", "run", or "attack". 
-                    These are the actions the agent can choose from.
-                </p>
-                <p>In some environments, such as Atari games and Go, the agent operates within <b>discrete action spaces</b>, meaning there are a limited number of possible actions it can take. 
-                    Other environments, like where the agent controls a robot in a physical world, have <b>continuous action spaces</b>. 
-                    In continuous spaces, actions are real-valued vectors.</p>
-                <h4>Policies</h4>
-                <p>A <b>policy</b> is like a set of rules or a plan that tells the agent what to do based on what it sees. 
-                    So, if you see a monster, your policy might tell you to jump, or if it is attacking you first, you fight back. 
-                    If you see a treasure, your policy might tell you to collect it.
-                </p>
-                <p>Since the policy acts as the agent's brain, the terms "policy" and "agent" are often used interchangeably. For example, one might say, "The policy aims to maximise the reward."</p>
-                <p>In deep RL, we use parameterised policies. These policies are functions whose outputs depend on a set of parameters, such as the weights and biases of a neural network. 
-                    In adjusting these parameters through optimisation algorithms, we can change the behavior of the policy.</p>
-                <p>A policy can be either deterministic or stochastic.</p>
-                <!-- see if deter and sto are like exploit and explore -->
-                <h4>Trajectories</h4>
-                <p>A <b>trajectory</b> is a sequence of states and actions in the world, like the path the agent takes through the game. 
-                    It's the series of actions the agent takes, starting from the beginning until the end. 
-                    It's like the story of what you do in the game.
-                </p>
-                <p>Trajectories are also frequently called episodes or rollouts.</p>
-                <h4>Rewards</h4>
-                <p>The goal of Reinforcement Learning (RL) is for <i><u>the agent to get better by practicing and learning from what happens when it takes different actions</u></i>. 
-                    The agent gets rewards for good actions and tries to do more of those to maximise its total reward.
-                </p>
-                <p>The reward function, written as 𝑅
-                    , tells the agent how good or bad a certain action was. This depends on:
-                    Where the agent was (the state it was in, like a level in a game),
-                    What action it just took (like moving, jumping, or grabbing something),
-                    Where it ended up (the next state, after the action).
-                    So we could write it as:
-                    𝑅=𝑅(𝑠,𝑎,𝑠′)
-                    </p>
-                <p>Sometimes, though, it's simpler to look only at where the agent is now (or where it is and what action it took).</p>
-                <p>The agent doesn’t just care about the reward from one action—it cares about getting the most points or rewards over time.
-                    This total score over a period is called the return, written as R(τ). There are a couple of ways to look at return:
-                    <ul>
-                        <li><b>Finite-Horizon Undiscounted Return</b>: adding up all the points you get in a short level or time period in a game.</li>
-                        <li><b>Infinite-Horizon Discounted Return</b>: look at all rewards the agent ever gets (an infinite horizon), but we use a discount factor (written as γ) to make future rewards worth a bit less.</li>
-                    </ul>
-                </p>
-                <p>Prioritise short-term gains (like going for treasures) but still consider discounted long-term rewards (by factoring in future treasures after defeating the monster). Plus, using a discount factor makes the math easier. 
-                    For each decision, it might calculate a value estimate based on both immediate rewards and discounted future rewards. 
-                    So, even if it avoids one monster initially for a quick treasure, it might tackle the next if it seems worthwhile.</p>
+              <img src="https://spinningup.openai.com/en/latest/_images/rl_diagram_transparent_bg.png" alt="Standard agent–environment interaction loop diagram" class="blog-image medium">
+
+              <p>Imagine you're playing a video game. You are the <strong>agent</strong> (the character you control), and the <strong>environment</strong> is the game world (the levels, obstacles, everything around you). You can see things happening in the game (a monster coming toward you) and decide what to do next (jump, run, fight back).</p>
+
+              <h5>States and observations</h5>
+              <p>The <strong>state</strong> is a snapshot of everything in the game world at a specific moment: where the monsters are, what items are around, how much health you have. <strong>Observations</strong> are what the agent can see or know about the world. Sometimes you can see everything (a game with a whole-map view), and sometimes you can only see part of it (you're inside a building and can't see outside). So the state is the complete picture (fully observed if the agent sees the state) while the agent often only sees part of it.</p>
+
+              <h5>Action space</h5>
+              <p><strong>Action space</strong> is the set of all possible things you can do. For example: "jump", "run", or "attack".</p>
+              <p>In some environments — Atari games, Go — the agent operates within <strong>discrete action spaces</strong>: a limited number of possible actions. Other environments, like a robot in a physical world, have <strong>continuous action spaces</strong>, where actions are real-valued vectors.</p>
+
+              <h5>Policies</h5>
+              <p>A <strong>policy</strong> is a set of rules — a plan — that tells the agent what to do based on what it sees. If you see a monster, your policy might say to jump; if it's attacking, fight back; if you see treasure, collect it.</p>
+              <p>Since the policy acts as the agent's brain, the terms "policy" and "agent" are often used interchangeably. "The policy aims to maximise the reward."</p>
+              <p>In deep RL we use parameterised policies — functions whose outputs depend on a set of parameters (e.g. the weights and biases of a neural network). Adjusting these parameters through optimisation algorithms changes the behaviour of the policy.</p>
+              <p>A policy can be deterministic or stochastic.</p>
+
+              <h5>Trajectories</h5>
+              <p>A <strong>trajectory</strong> is a sequence of states and actions in the world — the path the agent takes through the game. It's the story of what you do. Trajectories are also called episodes or rollouts.</p>
+
+              <h5>Rewards</h5>
+              <p>The goal of RL is for <em>the agent to get better by practicing and learning from what happens when it takes different actions</em>. The agent gets rewards for good actions and tries to do more of those to maximise its total reward.</p>
+              <p>The reward function, written as <code>R</code>, tells the agent how good or bad an action was. It depends on where the agent was (the state), what action it just took (move, jump, grab), and where it ended up (the next state). So: <code>R = R(s, a, s')</code>. Sometimes it's simpler to look only at the current state (or the state plus the action).</p>
+              <p>The agent doesn't just care about the reward from one action — it cares about getting the most points over time. This total over a period is called the return, written as <code>R(τ)</code>. Two flavours:</p>
+              <ul>
+                <li><strong>Finite-Horizon Undiscounted Return.</strong> Sum all the points you get in a short level or time period.</li>
+                <li><strong>Infinite-Horizon Discounted Return.</strong> Look at all rewards the agent ever gets (an infinite horizon), but use a discount factor (<code>γ</code>) to make future rewards worth a bit less.</li>
+              </ul>
+              <p>Prioritise short-term gains (like grabbing a treasure) but still consider discounted long-term rewards (factoring in future treasures after defeating a monster). The discount factor also makes the math easier. For each decision, the agent calculates a value estimate based on both immediate rewards and discounted future rewards.</p>
             </div>
-        </div>
+          </div>
 
-        <h3>Initial Setup</h3>
-        <p><span class="note">Note: This blog follows the instructions from <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html">this tutorial</a>. 
-            Discussion and modifications that entails will be attempted to make sense of the article and the code.</span></p>
-        <p>Setting up the environment was quite the adventure. 
-            If you've worked with Python packages before, you know the usual suspects - version conflicts, deprecation warnings, and the occasional "this doesn't work like it used to" moments. 
-        </p>
-        
-        <ul>
-            <li>Outdated components</li>
-            <li>Compatibility issues because some functions are deprecated</li>
-            <li>Getting the right combination of dependencies' versions</li>
-        </ul>
-        <p>After a few hours of debugging and package juggling, I finally got everything working together.</p>
+          <h3>Initial setup</h3>
+          <p class="spoiler">This plate follows the instructions from <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html" target="_blank" rel="noopener">this PyTorch tutorial</a>. Discussion and modifications that follow are my attempt to make sense of the article and the code.</p>
 
-        <p>To list the whole dependencies I used would be a bit much, but here are the main ones:</p>
-        <div class="code-window">
+          <p>Setting up the environment was quite the adventure. If you've worked with Python packages before, you know the usual suspects — version conflicts, deprecation warnings, the occasional "this doesn't work like it used to" moment.</p>
+
+          <ul>
+            <li>Outdated components.</li>
+            <li>Compatibility issues because some functions are deprecated.</li>
+            <li>Getting the right combination of dependency versions.</li>
+          </ul>
+          <p>After a few hours of debugging and package juggling, I finally got everything working together.</p>
+
+          <p>Listing all dependencies would be overkill — here are the main ones:</p>
+
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content"><code>
-pytorch=2.4.1=py3.8_cuda12.4_cudnn9_0
+<pre class="code-content"><code class="language-yaml">pytorch=2.4.1=py3.8_cuda12.4_cudnn9_0
 torchrl=0.5.0
 torchvision=0.20.0
 gym=0.26.1
 gym-super-mario-bros=7.4.0
 numpy=1.24.4
-matplotlib-base=3.7.3
-        </code></pre>
-        </div>
+matplotlib-base=3.7.3</code></pre>
+          </div>
 
-        <p>You can see that I used CUDA and cuDNN for GPU acceleration.
-            To find the right versions, I recommend checking <a href="https://stackoverflow.com/a/55717476">here</a>, <a href="https://pytorch.org/get-started/locally/">the official PyTorch website</a>, or using miniconda conda-forge channel for up-to-date packages.
-            Once you have the right versions, it will look something like this:
-        </p>
-        <img src="mario-images/cuda.png" alt="CUDA device confirmation" style="display: block; margin-left: auto; margin-right: auto;">
+          <p>I used CUDA and cuDNN for GPU acceleration. For the right versions, check <a href="https://stackoverflow.com/a/55717476" target="_blank" rel="noopener">this Stack Overflow answer</a>, <a href="https://pytorch.org/get-started/locally/" target="_blank" rel="noopener">the official PyTorch site</a>, or use miniconda's conda-forge channel for up-to-date packages. Once the versions line up, it looks like this:</p>
 
-        <h3>Initialise Environment</h3>
-        <p>In Mario, tubes, mushrooms, etc... are the components of the environment. 
-            This is where the agent will interact with the game world, taking actions and receiving rewards based on its performance.
-        </p>
+          <img src="mario-images/cuda.png" alt="CUDA device confirmation in Python REPL" class="blog-image">
 
-        <div class="code-window">
+          <h3>Initialise the environment</h3>
+          <p>In Mario, tubes, mushrooms, and the rest are components of the environment. This is where the agent interacts with the world, taking actions and receiving rewards based on its performance.</p>
+
+          <div class="code-window">
             <div class="console">
-                <div class="red"></div>
-                <div class="orange"></div>
-                <div class="green"></div>
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
             </div>
-        <pre class="code-content"><code>
-# Initialise Super Mario environment (in v0.26 change render mode to 'human' to see results on the screen)
-if gym.__version__ < '0.26':
+<pre class="code-content"><code class="language-python"># Initialise Super Mario environment
+# (in v0.26 change render mode to 'human' to see results on the screen)
+if gym.__version__ &lt; '0.26':
     env = gym_super_mario_bros.make("SuperMarioBros-1-1-v0", new_step_api=True)
 else:
     env = gym_super_mario_bros.make("SuperMarioBros-1-1-v0", render_mode='rgb', apply_api_compatibility=True)
@@ -233,137 +197,120 @@ env = JoypadSpace(env, MOVEMENT_OPTIONS)
 
 env.reset()
 next_state, reward, done, trunc, info = env.step(action=0)
-print(f"{next_state.shape},\n {reward},\n {done},\n {info}")
-        </code></pre>
-        </div>
+print(f"{next_state.shape},\n {reward},\n {done},\n {info}")</code></pre>
+          </div>
 
-        <p>This code snippet initialises the Super Mario environment, sets up the movement options, and applies a wrapper to the environment, which will helps the agent interact with the environment by providing a set of actions it can take.
-            As a test, the code prints out the next state, reward, done flag, and info after taking the first action in the environment.
-        </p>
+          <p>This snippet initialises the Super Mario environment, sets up the movement options, and applies a wrapper that lets the agent interact with the environment via a set of available actions. As a test, the code prints the next state, reward, done flag, and info after taking the first action.</p>
 
-        <div class="output-cell">
-            <div class="output-line">(240, 256, 3), </div>
-            <div class="output-line">0.0, </div>
-            <div class="output-line">False, </div>
-            <div class="output-line">{'coins': 0, 'flag_get': False, 'life': 2, 'score': 0, 'stage': 1, 'status': 'small', 'time': 400, 'world': 1, 'x_pos': 40, 'y_pos': 79}</div>
-        </div>
-        
-        <p>When you call env.step(action=0), you're telling Mario to perform action 0, which from the MOVEMENT_OPTIONS list is moving right. Of course, you can change the action to 1, which is a jump right.
-            The function returns the next state (a 240x256x3 image), the reward (0.0 in this case), a done flag (False, meaning the episode is not over), and some additional information about the environment.
-            This is something that Mario will probably see (for illustration purposes):
-        </p>
-        <img src="mario-images/mario-screen.svg" alt="Mario screen" style="display: block; margin-left: auto; margin-right: auto; width: 45%;">
-        <p>Think of it like pressing the right button for a split second, checks if you get a reward, game over or not, and then returns the new state of the game.
-            This is a single step in the game, the interaction loop will continue until the game is over or the AI beat the game.
-        </p>
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-plaintext">(240, 256, 3),
+0.0,
+False,
+{'coins': 0, 'flag_get': False, 'life': 2, 'score': 0, 'stage': 1,
+ 'status': 'small', 'time': 400, 'world': 1, 'x_pos': 40, 'y_pos': 79}</code></pre>
+          </div>
 
-        <h3>Pre-process the Environment</h3>
+          <p>When you call <code>env.step(action=0)</code>, you're telling Mario to perform action 0 — which from the MOVEMENT_OPTIONS list is "move right". You can change to action 1, which is "jump right". The function returns the next state (a 240×256×3 image), the reward (0.0), a done flag (False — episode not over), and some additional info about the environment.</p>
+          <p>This is something like what Mario will see (for illustration):</p>
 
-        <p>In the previous output, the next state was a 240x256x3 image which is returned by the environment.
-            Often, this is too much information for the agent to process directly.
-            Mario does not need to see the entire screen to make decisions.
-            Instead, we will apply wrappers to the environment to pre-process the images and make them more manageable for the agent.
-        </p>
-        <img src="mario-images/env-wrapper.png" alt="Environment wrapper" style="display: block; margin-left: auto; margin-right: auto;">
-        <img src="mario-images/frame-transformation.svg" alt="Frame transformation" style="display: block; margin-left: auto; margin-right: auto; width: 69.25%;">
+          <img src="mario-images/mario-screen.svg" alt="Frame the Mario agent sees" class="blog-image medium">
 
-        <p>The final output is smaller by almost 85%, which means faster processing and less memory usage.
-            This is much simpler than what a human sees, but contains all the essential information needed to learn how to play the game effectively.           
-        </p>
+          <p>Think of it like pressing the right button for a split second, checking if you got a reward, game over or not, and returning the new state. This is a single step in the game. The interaction loop continues until the game is over or the agent beats it.</p>
 
-        <h3>Replay Buffer</h3>
+          <h3>Pre-process the environment</h3>
+          <p>In the previous output, the next state was a 240×256×3 image returned by the environment. Often, this is too much information for the agent to process directly — Mario doesn't need to see the entire screen to make decisions. Instead, we apply wrappers to the environment to pre-process the images and make them more manageable.</p>
 
-        <p>A replay buffer is like a "memory bank" that stores the agent's experiences while it plays the game. Each experience consists of:
-            The current state (what Mario sees),
-            the action taken,
-            the reward received,
-            the next state,
-            and whether the game ended (done flag). Something like this:
-        </p>
-        <img src="mario-images/replay-buffer-structure.svg" alt="Replay buffer structure" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
+          <img src="mario-images/env-wrapper.png" alt="Environment wrapper pipeline" class="blog-image">
+          <img src="mario-images/frame-transformation.svg" alt="Frame transformation pipeline" class="blog-image">
 
-        <p>In <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html">this tutorial</a>, the author uses <b>TensorDictReplayBuffer with LazyMemmapStorage</b>, which is a custom replay buffer implementation.
-            The replay buffer stores experiences (state, action, reward, next state, done) and samples mini-batches for training the agent.
-            Only, I failed to get it running.
-        </p>
-        <div class="output-cell">
-            <div class="output-line">OSError: [WinError 1455] The paging file is too small for this operation to complete</div>
-        </div>
-        <p>Apparently, this is a Windows-specific error occurs when the system tries to allocate more virtual memory than is available.
-            Since I don't want to mess with the system too much and I don't have any money for RAM yet, I decided to use a simpler replay buffer implementation and called it SimpleReplayBuffer.
-        </p>
+          <p>The final output is smaller by almost 85% — faster processing, less memory usage. Simpler than what a human sees, but containing the essential information needed to learn how to play the game effectively.</p>
 
-        <table>
+          <h3>Replay buffer</h3>
+          <p>A replay buffer is a "memory bank" that stores the agent's experiences while it plays. Each experience consists of: the current state (what Mario sees), the action taken, the reward received, the next state, and whether the game ended (the done flag). Something like this:</p>
+
+          <img src="mario-images/replay-buffer-structure.svg" alt="Replay buffer entry structure" class="blog-image">
+
+          <p>In <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html" target="_blank" rel="noopener">the PyTorch tutorial</a>, the author uses <strong>TensorDictReplayBuffer with LazyMemmapStorage</strong> — a custom replay buffer that stores experiences and samples mini-batches for training. I failed to get it running:</p>
+
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-plaintext">OSError: [WinError 1455] The paging file is too small for this operation to complete</code></pre>
+          </div>
+
+          <p>This is a Windows-specific error that occurs when the system tries to allocate more virtual memory than is available. Since I don't want to mess with the system too much and don't have any money for RAM yet, I decided to use a simpler replay buffer implementation — <code>SimpleReplayBuffer</code>.</p>
+
+          <table class="table-common">
             <thead>
-                <tr>
-                    <th>SimpleReplayBuffer</th>
-                    <th>TensorDictReplayBuffer with LazyMemmapStorage</th>
-                </tr>
+              <tr>
+                <th>SimpleReplayBuffer</th>
+                <th>TensorDictReplayBuffer with LazyMemmapStorage</th>
+              </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Uses simple Python deque for storage</td>
-                    <td>More sophisticated memory management</td>
-                </tr>
-                <tr>
-                    <td>Implements basic prioritised experience replay</td>
-                    <td>Uses memory mapping for large datasets</td>
-                </tr>
-                <tr>
-                    <td>Straightforward memory management</td>
-                    <td>More complex data structures</td>
-                </tr>
-                <tr>
-                    <td>Less feature-rich but more robust</td>
-                    <td>More features but more potential points of failure</td>
-                </tr>
+              <tr>
+                <td>Uses a simple Python deque for storage</td>
+                <td>More sophisticated memory management</td>
+              </tr>
+              <tr>
+                <td>Implements basic prioritised experience replay</td>
+                <td>Uses memory mapping for large datasets</td>
+              </tr>
+              <tr>
+                <td>Straightforward memory management</td>
+                <td>More complex data structures</td>
+              </tr>
+              <tr>
+                <td>Less feature-rich but more robust</td>
+                <td>More features but more potential points of failure</td>
+              </tr>
             </tbody>
-        </table>
-        <img src="mario-images/memory-usage.svg" alt="Memory usage comparison" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
-        <p>My <b>SimpleReplayBuffer</b> does 2 key things:</p>
-        <ol>
-            <li>push (Storing Experiences): 
-                <ul>
-                    <li>It takes a snapshot of what happened during one step of Mario's gameplay.</li>
-                    <li>It calculates how important this memory is (priority = |reward| +  epsilon).</li>
-                    <li>It stores the experience in a deque and the priority in a separate deque.</li>
-                </ul>
-            </li>
-            <li>sample (Prioritised Sampling): 
-                <ul>
-                    <li>Think of this like Mario "remembering" past experiences to learn from. He will takes in how many memories to recall (batch_size) and prefers to remember important moments (high rewards).</li>
-                    <li>If picking importance memories failed (due to zero probabilities), it will fallback to random memories.</li>
-                    <li>Then, it converts chosen memories to format for learning (GPU tensors).</li>
-                </ul>
-            </li>
-        </ol>
-        <p>Even though it is essentially the same with TensorDictReplayBuffer, the <b>SimpleReplayBuffer</b> is actually a better solution for my current setup. 
-            It is lightweight, easy to understand, and doesn't require any special dependencies.
-            Plus, it is easier to debug and modify if needed.
-        </p>
+          </table>
 
-        <h3>It's-a me, Mario!</h3>
-        <p>It's time create the Mario-playing agent. Basically, Mario should be able to:
-        </p>
-        <ul>
-            <li><b>Act</b> according to the optimal policy (exploit) or try new things (explore) based on the current state.</li>
-            <li><b>Remember</b> experiences. Experience = (current state, current action, reward, next state). 
-                Mario will <b>cache</b> and <b>recall</b> these experiences to update his policy.</li>
-            <li><b>Learn</b> from these experiences, which means updating his policy to maximise rewards over time.</li>
-        </ul>
-        <img src="mario-images/mario-agent-overview.svg" alt="Mario agent overview" style="display: block; margin-left: auto; margin-right: auto;">
+          <img src="mario-images/memory-usage.svg" alt="Memory usage comparison" class="blog-image">
 
-        <div class="accordion">
-            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Act</h3>
+          <p>My <strong>SimpleReplayBuffer</strong> does two key things:</p>
+          <ol>
+            <li><strong>push</strong> (storing experiences):
+              <ul>
+                <li>Takes a snapshot of what happened during one step of Mario's gameplay.</li>
+                <li>Calculates how important the memory is (<code>priority = |reward| + epsilon</code>).</li>
+                <li>Stores the experience in a deque and the priority in a separate deque.</li>
+              </ul>
+            </li>
+            <li><strong>sample</strong> (prioritised sampling):
+              <ul>
+                <li>Mario "remembers" past experiences to learn from. Takes how many memories to recall (<code>batch_size</code>) and prefers important moments (high rewards).</li>
+                <li>If picking important memories fails (due to zero probabilities), falls back to random memories.</li>
+                <li>Converts chosen memories to a format for learning (GPU tensors).</li>
+              </ul>
+            </li>
+          </ol>
+
+          <p>Even though it's essentially the same as TensorDictReplayBuffer, the SimpleReplayBuffer is a better fit for my current setup — lightweight, easy to understand, no special dependencies, easier to debug and modify.</p>
+
+          <h3>It's-a me, Mario!</h3>
+          <p>Time to create the Mario-playing agent. Mario should be able to:</p>
+          <ul>
+            <li><strong>Act</strong> according to the optimal policy (exploit) or try new things (explore) based on the current state.</li>
+            <li><strong>Remember</strong> experiences. <code>Experience = (current state, current action, reward, next state)</code>. Mario will <strong>cache</strong> and <strong>recall</strong> these to update his policy.</li>
+            <li><strong>Learn</strong> from these experiences — updating his policy to maximise rewards over time.</li>
+          </ul>
+
+          <img src="mario-images/mario-agent-overview.svg" alt="Mario agent overview" class="blog-image">
+
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Act</h4>
             <div class="accordion-content">
-                <div class="code-window">
-                    <div class="console">
-                        <div class="red"></div>
-                        <div class="orange"></div>
-                        <div class="green"></div>
-                    </div>
-                <pre class="code-content"><code>
-def act(self, state):
+              <div class="code-window">
+                <div class="console">
+                  <div class="red"></div><div class="orange"></div><div class="green"></div>
+                </div>
+<pre class="code-content"><code class="language-python">def act(self, state):
     """
     Given a state, choose an epsilon-greedy action and update value of step.
 
@@ -371,38 +318,26 @@ def act(self, state):
     state(``LazyFrame``): A single observation of the current state, dimension is (state_dim)
     Outputs:
     ``action_idx`` (``int``): An integer representing which action Mario will perform
-    """
-                </code></pre>
-                </div>
+    """</code></pre>
+              </div>
 
-                <p>The act function takes a state, which is a LazyFrame object representing what Mario "sees" at a given moment.
-                    From there, it chooses an action based on an epsilon-greedy strategy (exploit vs. explore).
-                    If the agent is exploring (randomly trying new things), it will choose a random action.
-                    If the agent is exploiting (using what it knows to maximise rewards), it will choose the best action by relying on MarioNet in the Learn section.
-                </p>
+              <p>The <code>act</code> function takes a state — a LazyFrame representing what Mario "sees" at a given moment — and chooses an action based on an epsilon-greedy strategy (exploit vs explore). If exploring, it picks a random action; if exploiting, it picks the best action by relying on MarioNet from the Learn section.</p>
 
-                <img src="mario-images/act-method-flow.svg" alt="Act method flow" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
-                <p>The method is called every time Mario needs to make a decision, which happens many times per second during gameplay.
-                </p>
+              <img src="mario-images/act-method-flow.svg" alt="Act method flow" class="blog-image medium">
 
-                <p>Exploration rate early on is 1, meaning Mario will explore 100% of the time early in training.
-                    Over time, this rate will decrease through <code>exploration_rate_decay</code>, so Mario will explore less and force to exploit more.
-                    This value will never goes below <code>exploration_rate_min</code>, which can be set.
-                </p>
+              <p>The method is called every time Mario needs to make a decision — many times per second during gameplay.</p>
+              <p>The exploration rate early on is 1, meaning Mario will explore 100% of the time early in training. Over time the rate decreases through <code>exploration_rate_decay</code>, so Mario explores less and is forced to exploit more. This value never goes below <code>exploration_rate_min</code>.</p>
             </div>
-        </div>
-        
-        <div class="accordion">
-            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Remember (Cache and Recall)</h3>
+          </div>
+
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Remember (cache and recall)</h4>
             <div class="accordion-content">
-                <div class="code-window">
-                    <div class="console">
-                        <div class="red"></div>
-                        <div class="orange"></div>
-                        <div class="green"></div>
-                    </div>
-                <pre class="code-content"><code>
-def cache(self, state, next_state, action, reward, done):
+              <div class="code-window">
+                <div class="console">
+                  <div class="red"></div><div class="orange"></div><div class="green"></div>
+                </div>
+<pre class="code-content"><code class="language-python">def cache(self, state, next_state, action, reward, done):
     """
     Store the experience to self.memory (replay buffer)
 
@@ -417,98 +352,80 @@ def cache(self, state, next_state, action, reward, done):
 def recall(self):
     """
     Retrieve a batch of experiences from memory
-    """
-                </code></pre>
-                </div>
+    """</code></pre>
+              </div>
 
-                <p>These 2 functions serve as the memory bank for Mario.</p>
-                <p>The cache function stores experiences (state, next state, action, reward, done) in the memory (replay buffer).
-                    The recall function randomly retrieves a batch of experiences from the replay buffer for training.
-                    This is where Mario "remembers" past experiences and uses them to learn.
-                </p>
+              <p>These two functions serve as Mario's memory bank.</p>
+              <p>The <code>cache</code> function stores experiences (state, next state, action, reward, done) in the replay buffer. The <code>recall</code> function randomly retrieves a batch of experiences from the buffer for training. This is where Mario "remembers" past experiences and uses them to learn.</p>
 
-                <p>There are 2 keys parameters to consider when caching and recalling experiences: <b>the buffer size</b> and <b>the batch size</b>.</p>
-                <img src="mario-images/mario-memory-flow.svg" alt="Mario memory flow" style="display: block; margin-left: auto; margin-right: auto; width: 85%;">
-                <p><b>The buffer size</b> determines how many experiences Mario can remember at once.
-                    For Mario, each level lasts around 200-300 seconds. 50000 experiences should be enough to cover 150-250 full levels, making it a good starting point.
-                    If you have the computational resources, you can increase this number to remember more experiences -> diverse learning, important events are not forgotten.</p>
-                <p><b>The batch size</b> determines how many experiences Mario will recall for training.
-                    A larger batch size means Mario can learn from more experiences at once, which can lead to more stable learning.
-                    However, larger batch sizes require more memory and computational resources, so it's a trade-off.
-                </p>
+              <p>Two key parameters to consider: <strong>buffer size</strong> and <strong>batch size</strong>.</p>
+
+              <img src="mario-images/mario-memory-flow.svg" alt="Mario memory flow" class="blog-image medium">
+
+              <p><strong>Buffer size</strong> determines how many experiences Mario can remember at once. For Mario, each level lasts around 200–300 seconds. 50,000 experiences should cover 150–250 full levels, a good starting point. With more compute, increase to remember more — diverse learning, important events not forgotten.</p>
+              <p><strong>Batch size</strong> determines how many experiences Mario will recall for training. Larger batches mean learning from more experiences at once — more stable learning. But larger batches need more memory and compute, so it's a trade-off.</p>
             </div>
-        </div>
+          </div>
 
-        <div class="accordion">
-            <h3 class="accordion-heading" onclick="toggleAccordion(this)">Learn</h3>
+          <div class="accordion">
+            <h4 class="accordion-heading" onclick="toggleAccordion(this)">Learn</h4>
             <div class="accordion-content">
-                <h4>MarioNet</h4>
-                <div class="code-window">
-                    <div class="console">
-                        <div class="red"></div>
-                        <div class="orange"></div>
-                        <div class="green"></div>
-                    </div>
-                <pre class="code-content"><code>
-class MarioNet(nn.Module):
-    """mini CNN structure
-    input -> (conv2d + relu) x 3 -> flatten -> (dense + relu) x 2 -> output
-    """
-                </code></pre>
+              <h5>MarioNet</h5>
+              <div class="code-window">
+                <div class="console">
+                  <div class="red"></div><div class="orange"></div><div class="green"></div>
                 </div>
+<pre class="code-content"><code class="language-python">class MarioNet(nn.Module):
+    """mini CNN structure
+    input -&gt; (conv2d + relu) x 3 -&gt; flatten -&gt; (dense + relu) x 2 -&gt; output
+    """</code></pre>
+              </div>
 
-                <p>The MarioNet class defines the neural network architecture that Mario uses to learn how to play the game.
-                    In this instance, we use Double Deep-Q Network. For clarity, the blog won't drill into the details.
-                    However, know that DDQN can provide a more stable training, better performance, and relatively simple to implement compare to DQN or Dueling DQN which is way more complex.
-                </p>
+              <p>MarioNet defines the neural-network architecture Mario uses to learn how to play. In this instance we use Double Deep-Q Network. For clarity, this plate won't drill into the details — but know that DDQN provides more stable training, better performance, and is relatively simple to implement compared to DQN or Dueling DQN.</p>
 
-                <h4>TD Estimate and Target (Temporal Difference Learning)</h4>
-                <div class="code-window">
-                    <div class="console">
-                        <div class="red"></div>
-                        <div class="orange"></div>
-                        <div class="green"></div>
-                    </div>
-                <pre class="code-content"><code>
-@torch.cuda.amp.autocast()
+              <h5>TD estimate and target (Temporal Difference Learning)</h5>
+              <div class="code-window">
+                <div class="console">
+                  <div class="red"></div><div class="orange"></div><div class="green"></div>
+                </div>
+<pre class="code-content"><code class="language-python">@torch.cuda.amp.autocast()
 def td_estimate(self, state, action):
     """Compute current Q-value estimate"""
 
 @torch.cuda.amp.autocast()
 @torch.no_grad()  # No gradients needed for target
 def td_target(self, reward, next_state, done):
-    """Compute TD target using DDQN"""
-                </code></pre>
+    """Compute TD target using DDQN"""</code></pre>
+              </div>
+
+              <p>In short, TD learning is about estimating the value of a state-action pair and updating that estimate based on the reward and the expected value of the next state.</p>
+              <ol>
+                <li><strong>TD Estimate</strong> (current guess):
+                  <ul>
+                    <li>What Mario thinks the value of the current state-action pair is.</li>
+                    <li>Comes from the online network (current knowledge).</li>
+                    <li>Like Mario saying "I think jumping here will give me X points".</li>
+                  </ul>
+                </li>
+                <li><strong>TD Target</strong> (better guess):
+                  <ul>
+                    <li>What Mario should think the value is — based on immediate reward received plus estimated future value from the more stable target network.</li>
+                    <li>Comes from the target network (more accurate).</li>
+                    <li>Like a teacher saying "Actually, jumping there gave you Y points plus future possibilities".</li>
+                  </ul>
+                </li>
+              </ol>
+
+              <img src="mario-images/td-learning-simple.svg" alt="TD learning diagram" class="blog-image medium">
+
+              <p>Over time, learning happens by minimising the difference — Mario's estimates get closer to reality.</p>
+
+              <h5>Model updates (training process)</h5>
+              <div class="code-window">
+                <div class="console">
+                  <div class="red"></div><div class="orange"></div><div class="green"></div>
                 </div>
-
-                <p>In short, TD learning is about estimating the value of a state-action pair and updating this estimate based on the reward and the expected value of the next state.</p>
-                <ol>
-                    <li><b>TD Estimate</b> (Current Guess):</li>
-                        <ul>
-                            <li>What Mario thinks the value of current state-action pair is</li>
-                            <li>Comes from online network (current knowledge)</li>
-                            <li>Like Mario saying "I think jumping here will give me X points"</li>
-                        </ul>
-                    <li><b>TD Target</b> (Better Guess):</li>
-                        <ul>
-                            <li>What Mario should think the value is, based on immediate reward received and estimated future value from more stable target network.</li>
-                            <li>Comes from target network (more accurate)</li>
-                            <li>Like a teacher saying "Actually, jumping there gave you Y points plus future possibilities"</li>
-                        </ul>
-                </ol>
-                <img src="mario-images/td-learning-simple.svg" alt="TD learning" style="display: block; margin-left: auto; margin-right: auto; width: 70%;">
-                <p>Over time, learning happens by minimising difference and Mario's estimates get closer to reality.
-                </p>
-
-                <h4>Model Updates (Training Process)</h4>
-                <div class="code-window">
-                    <div class="console">
-                        <div class="red"></div>
-                        <div class="orange"></div>
-                        <div class="green"></div>
-                    </div>
-                <pre class="code-content"><code>
-def update_Q_online(self, td_estimate, td_target):
+<pre class="code-content"><code class="language-python">def update_Q_online(self, td_estimate, td_target):
     loss = self.loss_fn(td_estimate, td_target)  # How wrong was Mario?
     self.optimizer.zero_grad()                   # Clear previous gradients
     loss.backward()                              # Calculate gradients
@@ -517,32 +434,24 @@ def update_Q_online(self, td_estimate, td_target):
 
 def sync_Q_target(self):
     # Copy online network weights to target network
-    self.net.target.load_state_dict(self.net.online.state_dict())
-                </code></pre>
+    self.net.target.load_state_dict(self.net.online.state_dict())</code></pre>
+              </div>
+
+              <p>These functions update the online network based on the TD estimate and TD target — Mario's brain adjusting its understanding. <code>update_Q_online</code> calculates the loss between TD estimate and target, backpropagates to update the network weights, and returns the loss value. <code>sync_Q_target</code> is called occasionally to synchronise the target network with the online network by copying the weights — so the target network has the latest knowledge.</p>
+
+              <h5>Learning loop</h5>
+              <div class="code-window">
+                <div class="console">
+                  <div class="red"></div><div class="orange"></div><div class="green"></div>
                 </div>
-
-                <p>These functions are responsible for updating the online network based on the TD estimate and TD target.
-                    It's like Mario's brain adjusting its understanding.
-                    The update_Q_online function calculates the loss between the TD estimate and TD target, backpropagates the loss to update the network weights, and returns the loss value.
-                    The sync_Q_target function, which will be called occasionally, synchronises the target network with the online network by copying the weights so that the target network is updated with the latest knowledge.
-                </p>
-
-                <h4>Learning Loop</h4>
-                <div class="code-window">
-                    <div class="console">
-                        <div class="red"></div>
-                        <div class="orange"></div>
-                        <div class="green"></div>
-                    </div>
-                <pre class="code-content"><code>
-def learn(self):
+<pre class="code-content"><code class="language-python">def learn(self):
     # Important timings
-    if self.curr_step < self.burnin:         # First 5000 steps
+    if self.curr_step &lt; self.burnin:         # First 5000 steps
         return None, None                    # Just collect experiences
-        
+
     if self.curr_step % self.learn_every != 0:   # Every 2 steps
         return None, None                        # Skip learning
-        
+
     if self.curr_step % self.sync_every == 0:    # Every 5000 steps
         self.sync_Q_target()                     # Sync target network
 
@@ -553,115 +462,94 @@ def learn(self):
     state, next_state, action, reward, done = self.recall()  # Get batch
     td_est = self.td_estimate(state, action)                 # Current guess
     td_tgt = self.td_target(reward, next_state, done)        # Better guess
-    loss = self.update_Q_online(td_est, td_tgt)              # Learn
-                </code></pre>
-                </div>
+    loss = self.update_Q_online(td_est, td_tgt)              # Learn</code></pre>
+              </div>
 
-                <p>The learn function is the heart of the agent's learning process.
-                    It decides when to start learning, when to skip learning, and when to synchronise the target network.
-                    <ul>
-                        <li>First 5000 steps: Just collect experiences</li>
-                        <li>Every 2 steps: Skip learning</li>
-                        <li>Every 5000 steps: Sync target network</li>
-                        <li>Every 500,000 steps: Save checkpoint</li>
-                    </ul>
-                </p>
-                <p>The flow would be something like this: Get Batch → Calculate Guess → Calculate Target → Update Network</p>
+              <p>The <code>learn</code> function is the heart of the agent's learning process. It decides when to start learning, when to skip learning, and when to synchronise the target network:</p>
+              <ul>
+                <li>First 5,000 steps — just collect experiences.</li>
+                <li>Every 2 steps — skip learning.</li>
+                <li>Every 5,000 steps — sync target network.</li>
+                <li>Every 500,000 steps — save checkpoint.</li>
+              </ul>
+              <p>The flow: Get Batch → Calculate Guess → Calculate Target → Update Network.</p>
             </div>
-        </div>
+          </div>
 
-        <h3>Logging</h3>
-        <p>For tracking and visualising the training process, the MetricLogger class is created.
-            It is a comprehensive logging system used to track, and save, and visualise the agent's performance during training.
-        </p>
-        <img src="mario-images/metric-logger-diagram.svg" alt="Metric logger diagram" style="display: block; margin-left: auto; margin-right: auto;">
-        <p>In essence, these metrics help understand the agent's learning:</p>
-        <ul>
-            <li>Increasing rewards indicate the agent is getting better</li>
-            <li>Decreasing losses show stable learning, that the agent is learning from its mistakes</li>
-            <li>Increasing Q-values show the agent is finding better strategies</li>
-            <li>Episode lengths can indicate if Mario is surviving longer or completing levels faster</li>
-        </ul>
+          <h3>Logging</h3>
+          <p>For tracking and visualising the training process, the <code>MetricLogger</code> class is a comprehensive logging system used to track, save, and visualise the agent's performance during training.</p>
 
-        <h3>Evaluation</h3>
-        <p>I have made a evaluation script in order to watch MarioNet plays.
-            Because after all, the goal is to see Mario beat the game by itself, right?
-        </p>
-        <img src="mario-images/mario-eval-flow.svg" alt="Mario evaluation flow" style="display: block; margin-left: auto; margin-right: auto; width: 80%;">
-        
-        <p>The script runs in human-visible mode (render_mode="human") and records video, 
-            making it easy to analyse the agent's behavior.
-        </p>
-        
-        <p>The evaluation process is somewhat similar to the training process.
-            The eval script still initiate environment setup and MarioNet, but it will load the checkpoint provided by the training process earlier.
-            Then, we implement gameplay loop, run the Mario session played by the model, and record its performance.
-            This is where you can see how well Mario is performing and if he's improving over time.
-        </p>
+          <img src="mario-images/metric-logger-diagram.svg" alt="Metric logger diagram" class="blog-image">
 
-        <div class="video-container">
-            <video controls>
-                <source src="../projects/mario/mario_gameplay_20241117_135729.mp4" type="video/mp4">
-                Your browser does not support the video tag.
+          <p>In essence, these metrics help understand the agent's learning:</p>
+          <ul>
+            <li>Increasing rewards indicate the agent is getting better.</li>
+            <li>Decreasing losses show stable learning — the agent is learning from its mistakes.</li>
+            <li>Increasing Q-values show the agent is finding better strategies.</li>
+            <li>Episode lengths can indicate whether Mario is surviving longer or completing levels faster.</li>
+          </ul>
+
+          <h3>Evaluation</h3>
+          <p>I made an evaluation script to watch MarioNet play. Because, after all, the goal is to see Mario beat the game by himself.</p>
+
+          <img src="mario-images/mario-eval-flow.svg" alt="Mario evaluation flow" class="blog-image medium">
+
+          <p>The script runs in human-visible mode (<code>render_mode="human"</code>) and records video, making it easy to analyse the agent's behaviour.</p>
+          <p>The evaluation process is similar to training. The eval script still initialises the environment and MarioNet, but loads a checkpoint produced by the training script. Then it implements the gameplay loop, runs the Mario session played by the model, and records its performance.</p>
+
+          <div class="blog-video">
+            <video controls preload="metadata">
+              <source src="../projects/mario/mario_gameplay_20241117_135729.mp4" type="video/mp4">
+              Your browser does not support the video tag.
             </video>
-            <p class="video-caption">Mario Gameplay - Recorded on November 17, 2024</p>
-        </div>
+            <p class="video-caption">Mario gameplay — recorded 17 November 2024</p>
+          </div>
 
-        <p>As you can see, he's stuck. But that's okay, it's part of the learning process.
-            The agent will learn from these experiences and improve over time.
-        </p>
+          <p>As you can see, he's stuck. But that's okay — it's part of the learning process. The agent will learn from these experiences and improve over time.</p>
 
-        <p>The script will track several metrics to demonstrate its playing styles and identify areas for improvement:
-            Total steps taken, final x-position reached, chosen actions, whether Mario reached the flag, and average speed (pixels/step).
-        </p>
+          <p>The script tracks several metrics to demonstrate playing styles and identify areas for improvement: total steps taken, final x-position reached, chosen actions, whether Mario reached the flag, and average speed (pixels/step).</p>
 
-        <h3>Training Process and Parameter Optimisation</h3>
-        <p>Training a reinforcement learning agent to play Super Mario Bros is computationally intensive. 
-            With my RTX 3060 Ti 8GB GPU setup, I had to make several compromises and optimisations to make the training feasible. 
-            Here's what I learned from two different training approaches.
-        </p>
+          <h3>Training process and parameter optimisation</h3>
+          <p>Training a reinforcement-learning agent to play Super Mario Bros is computationally intensive. With my RTX 3060 Ti 8 GB GPU, I had to make compromises and optimisations to make training feasible. Here's what I learned from two different training approaches.</p>
 
-      <table>
-        <thead>
-            <tr>
-                <th>Training Approach</th>
+          <table class="table-common">
+            <thead>
+              <tr>
+                <th>Training approach</th>
                 <th>Results</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><b>First Training Run</b>: Fast but Limited</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>First run</strong> — fast but limited</td>
                 <td>
-                    <ul>
-                        <li>Duration: 1-2 hours</li>
-                        <li>Episodes: 1000</li>
-                        <li>Action Space: 2 actions (only jump right and move right)</li>
-                        <li>Parameters: More aggressive learning rates and exploration decay</li>
-                    </ul>
+                  <ul>
+                    <li>Duration: 1–2 hours</li>
+                    <li>Episodes: 1,000</li>
+                    <li>Action space: 2 actions (jump right and move right)</li>
+                    <li>Parameters: more aggressive learning rates and exploration decay</li>
+                  </ul>
                 </td>
-            </tr>
-            <tr>
-                <td><b>Second Training Run</b>: Longer but More Complex</td>
+              </tr>
+              <tr>
+                <td><strong>Second run</strong> — longer, more complex</td>
                 <td>
-                    <ul>
-                        <li>Duration: 10-11 hours</li>
-                        <li>Episodes: 5000</li>
-                        <li>Action Space: 6 actions (no move, right, run right, jump right, run+jump right, charge)</li>
-                        <li>Parameters: More conservative settings for stability</li>
-                    </ul>
+                  <ul>
+                    <li>Duration: 10–11 hours</li>
+                    <li>Episodes: 5,000</li>
+                    <li>Action space: 6 actions (no move, right, run right, jump right, run+jump right, charge)</li>
+                    <li>Parameters: more conservative settings for stability</li>
+                  </ul>
                 </td>
-            </tr>
-        </tbody>
-      </table>
+              </tr>
+            </tbody>
+          </table>
 
-      <div class="code-window">
-        <div class="console">
-            <div class="red"></div>
-            <div class="orange"></div>
-            <div class="green"></div>
-        </div>
-    <pre class="code-content"><code>
-# First Run (Aggressive)
+          <div class="code-window">
+            <div class="console">
+              <div class="red"></div><div class="orange"></div><div class="green"></div>
+            </div>
+<pre class="code-content"><code class="language-python"># First Run (Aggressive)
 batch_size = 32                      # Smaller batch size for faster learning
 exploration_rate_decay = 0.99999975  # Slower decay for more exploration
 gamma = 0.90                         # Higher discount factor for long-term rewards
@@ -671,62 +559,48 @@ SimpleReplayBuffer(100000, ...)      # Larger buffer for more experiences
 # Second Run (Conservative)
 batch_size = 256                     # Larger batch size for more stable learning
 exploration_rate_decay = 0.99999
-gamma = 0.95 
+gamma = 0.95
 learning_rate = 0.0005
-SimpleReplayBuffer(50000, ...)       # Smaller buffer for less memory usage
-    </code></pre>
-    </div>
+SimpleReplayBuffer(50000, ...)       # Smaller buffer for less memory usage</code></pre>
+          </div>
 
-        <p>After messing around, here are what I conclude:
-        </p>
+          <p>After messing around, here's what I concluded:</p>
+          <ul>
+            <li><strong>Action-space trade-off.</strong> The 2-action model (first run) performed well — if not matching the 6-action model. For limited compute, a simpler action space might be more efficient.</li>
+            <li><strong>Behavioural patterns.</strong> To be observed, since both models occasionally got stuck in place — indicating incomplete learning.</li>
+            <li><strong>Time.</strong> The 2-action model is much faster. The 6-action model, while showing more diverse strategies, required significantly more training time to be optimal.</li>
+          </ul>
 
-        <ul>
-            <li><b>Action Space Trade-off</b>: The 2-action model (first run) performed well, if not matching the 6-action model. 
-                This suggests that for limited computational resources, a simpler action space might be more efficient.</li>
-            <li><b>Behavioral Patterns</b>: To be observed, since both models occasionally stuck in-place, indicating incomplete learning.</li>
-            <li><b>Time</b>: The 2-action model is so much faster. 
-                The 6-action model, while showed more diverse strategies, required significantly more training time to be optimal.</li>
-        </ul>
+          <p>I'll continue experimenting with different hyperparameters and training strategies. What I have in mind is using the 2-action model trained in smaller episodes. I'll also try more extreme parameters to force the model to converge faster, since the hardware is limited.</p>
 
-        <p>Certainly, I will continue to experiment with different hyperparameters and training strategies to improve the agent's performance.
-            What I have in mind at first is using the 2-action model and train it in smaller episodes.
-            I will also try to explore extreme parameters to force the model to converge faster, since hardware is limited in a way.
-        </p>
+          <p>More findings in part 2. In the meantime, you can check out <a href="../projects/mario/mario.html">this project in a concise manner</a> or <a href="../blog.html">my other plates</a>.</p>
 
-        <p>I will update with more findings in part 2 soon enough. 
-            In the mean time, you can check out <a href="../projects/mario/mario.html">this project in a concise manner</a> or <a href="../blog.html">my other projects</a>.
-        </p>
+          <section class="references" id="references">
+            <h2>References</h2>
+            <ol>
+              <li>Van Hasselt, H., Guez, A., &amp; Silver, D. (2015). Deep Reinforcement Learning with Double Q-Learning. <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>, 30. <a href="http://arxiv.org/pdf/1509.06461.pdf" target="_blank" rel="noopener">arxiv.org/pdf/1509.06461.pdf</a></li>
+              <li>Feng, Y., Subramanian, S., Wang, H., &amp; Guo, S. <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html" target="_blank" rel="noopener">Train a Mario-playing RL Agent</a> (PyTorch tutorial).</li>
+              <li>OpenAI. <a href="https://spinningup.openai.com/en/latest/" target="_blank" rel="noopener">Spinning Up in Deep RL</a>.</li>
+            </ol>
+          </section>
+
         </div>
+      </article>
 
-        <section id="references">
-        <h2>References</h2>
-        <ol>
-            <li>
-            Van Hasselt, Hado & Guez, Arthur & Silver, David. (2015). Deep Reinforcement Learning with Double Q-Learning. Proceedings of the AAAI Conference on Artificial Intelligence. 30. <a target="_blank" href="http://arxiv.org/pdf/1509.06461.pdf">http://arxiv.org/pdf/1509.06461.pdf</a>
-            </li>
-            <li>
-            Feng, Yuansong & Subramanian, Suraj & Wang, Howard & Guo, Steven. Train a Mario-playing RL Agent. Available at: <a target="_blank" href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html">https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html</a>
-            </li>
-            <li>
-            OpenAI Spinning Up tutorial: <a target="_blank" href="https://spinningup.openai.com/en/latest/">https://spinningup.openai.com/en/latest/</a>
-        </ol>
-        </section>
-          
-    <p><a href="../index.html">Back to Home</a></p>
+      <a href="../blog.html" class="back-link">back to folio III · field notes</a>
 
-    <footer>
-        <hr>
-        <p>Made by Ethan, <span id="year"></span>, with 💜. <a href="mailto:phatnguyenground@gmail.com">Email me</a></p>
-    </footer>
-</div>
+      <footer class="print-stamp">
+        <div class="seal">Exposed in cyan, <span id="year"></span></div>
+        <span>Plate III.6 · Training Mario with RL</span>
+        <a href="mailto:phatnguyenground@gmail.com">email me</a>
+      </footer>
 
+    </div>
+  </main>
+
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cyanotype-chrome.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
-
-<script src="../js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
-<script>
-    // JavaScript to set the date modified
-    document.getElementById('date-modified').textContent = document.lastModified;
-</script>
 </html>
