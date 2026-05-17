@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Folio I — Home -->
+  <url><loc>https://ethannguyen2k.github.io/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+
+  <!-- Folio II — Portfolio -->
+  <url><loc>https://ethannguyen2k.github.io/portfolio.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/projects/mario/mario.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/projects/sna/sna.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/projects/psy/psy.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/projects/uciadult/uciadult.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/projects/privacy/privacy.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/projects/poker/poker.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/projects/totp/totp.html</loc><changefreq>yearly</changefreq><priority>0.7</priority></url>
+
+  <!-- Folio III — Blog -->
+  <url><loc>https://ethannguyen2k.github.io/blog.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/obsidian.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/aws-sec.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/back-to-ai-basics.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/back-to-ai-basics/simple-nn.html</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/back-to-ai-basics/mlp-mnist.html</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/back-to-ai-basics/convnet.html</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/back-to-ai-basics/deep-convnet.html</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/ollama-server.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/wound.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/mario-rl.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/azure.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/writing-comments.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ethannguyen2k.github.io/blog/data-org.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+
+  <!-- Folio IV — Playlist -->
+  <url><loc>https://ethannguyen2k.github.io/playlist.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+</urlset>
