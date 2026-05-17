@@ -1,92 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Playlists</title>
-    <link rel="stylesheet" href="css/playlist-styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <style>
-        #tv-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        #tv-screen {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Channel IV — Late Broadcast. A signal-loss catalog of sound.">
+  <meta name="author" content="Ethan">
+  <title>CH.IV · Catalog of Sound</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/playlist-styles.css">
 </head>
-<body id="playlist-body">
-    <header>
-        <div class="header-content">
-            <img id="logo" src="images/logo2inverted.webp" alt="Logo">
-            <div class="text-content">
-                <h1>ethan</h1>
-                <h3>good vibes save lives</h3>
-            </div>
-        </div>
-        <nav id="nav-bar">
-            <a href="index.html">homepage</a>
-            <a href="portfolio.html">my portfolio</a>
-            <a href="blog.html">my blogs</a>
-        </nav>
+<body class="playlist-page">
+
+  <div class="static-overlay" aria-hidden="true"></div>
+  <div class="scanlines"      aria-hidden="true"></div>
+  <div class="roll-bar"       aria-hidden="true"></div>
+  <div class="vignette"       aria-hidden="true"></div>
+
+  <div class="broadcast">
+
+    <!-- TOP STATUS BAR -->
+    <header class="cb-top">
+      <div class="cb-id">
+        <span class="ch-tag">CH.IV</span>
+        <span class="ch-name">Catalog of Sound</span>
+        <span class="cb-sub">— a late broadcast</span>
+      </div>
+      <nav class="cb-nav" aria-label="Folio navigation">
+        <a href="index.html">◀ Folio I</a>
+        <a href="portfolio.html">II · Works</a>
+        <a href="blog.html">III · Notes</a>
+      </nav>
+      <div class="cb-status">
+        SIG <span class="bars">▮▮▮▯</span>
+      </div>
     </header>
-    
-    <div class="container2">
-        <h1>my playlists</h1>
-        <div class="playlist-list">
-            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0onTC6nOYUjO-kF9BGFYtkA&si=mANGdAMWAfketiDY" target="_blank" class="playlist-item" data-bg="images/playlist1.webp">
-                <div class="playlist-content">
-                    <h2>WORK & STUDY TUNES</h2>
-                    <p>music that keeps me in the zone with some cooldowns in between.</p>
-                </div>
-            </a>
 
-            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0rw9Xtn8TNX4j0tabJaXrzv&si=OLZBojTItzJ4tLDj" target="_blank" class="playlist-item" data-bg="images/playlist2.jpg">
-                <div class="playlist-content">
-                    <h2>MY JAM</h2>
-                    <p>play replay times three thousands.</p>
-                </div>
-            </a>
+    <!-- MAIN: TV + RACK -->
+    <main class="cb-main">
 
-            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0qbQ6xM8QMMt2IA3CGvvIGw&si=5HwH8r6gLEGwALJt" target="_blank" class="playlist-item" data-bg="images/playlist3.webp">
-                <div class="playlist-content">
-                    <h2>癒し系 ACOUSTIC</h2>
-                    <p>tranquility and relaxation</p>
-                </div>
-            </a>
+      <!-- LEFT: tube television -->
+      <section class="tv-wrap">
+        <div class="tv-bezel">
+          <div class="tv-screen" id="tv-screen">
 
-            <a href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0qgPZVJm8Sp_YH2vxRoJwkU&si=JLz7T9LMhclDquj7" target="_blank" class="playlist-item" data-bg="images/playlist4.gif">
-                <div class="playlist-content">
-                    <h2>TURN BACK TIME</h2>
-                    <p>"Marty, you're not thinking fourth dimensionally!"</p>
+            <div class="tv-glow" aria-hidden="true"></div>
+
+            <!-- Channel art rendered into 4 stacked layers for chromatic split + tear glitch -->
+            <div class="tv-art" aria-hidden="true">
+              <div class="layer base"></div>
+              <div class="layer red"></div>
+              <div class="layer cyan"></div>
+              <div class="layer tear"></div>
+            </div>
+
+            <!-- Standby (default state — no channel tuned) -->
+            <div class="tv-standby">
+              <div class="standby-bars" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span>
+              </div>
+              <div class="standby-text">
+                <div class="big">— STANDBY —</div>
+                <div class="small">no signal · select a channel</div>
+              </div>
+            </div>
+
+            <!-- Now-tuning meta panel (visible when a card is hovered) -->
+            <div class="tv-info" hidden>
+              <div class="info-tag">▣ NOW TUNING</div>
+              <div class="info-title" id="info-title"></div>
+              <div class="info-desc" id="info-desc"></div>
+              <div class="info-counter">
+                <span id="info-no">CH.IV.--</span>
+                <span class="info-time" id="info-time">00:00:00</span>
+              </div>
+            </div>
+
+            <!-- Channel-change blackout overlay -->
+            <div class="tv-blackout" aria-hidden="true"></div>
+
+            <!-- Confirm modal — appears inside the screen on card click -->
+            <div class="tv-confirm" hidden role="dialog" aria-label="Tune in to channel">
+              <div class="cf-frame">
+                <div class="cf-head">▶ TUNE IN?</div>
+                <div class="cf-title" id="cf-title"></div>
+                <div class="cf-warn">EXTERNAL SIGNAL — YOUTUBE MUSIC ↗</div>
+                <div class="cf-actions">
+                  <button class="cf-btn yes" id="cf-yes" type="button">
+                    <span class="k">Y</span><span class="l">CONFIRM</span>
+                  </button>
+                  <button class="cf-btn no" id="cf-no" type="button">
+                    <span class="k">N</span><span class="l">CANCEL</span>
+                  </button>
                 </div>
-            </a>
+                <div class="cf-hint">[ press Y / N or click ]</div>
+              </div>
+            </div>
+
+          </div>
         </div>
-    </div>
+        <div class="tv-base">
+          <span class="tv-brand">SONY · TRINITRON · MOD. KV-25 · MCMLXXXVII</span>
+          <span class="tv-led" aria-hidden="true"></span>
+        </div>
+      </section>
 
-    <p class="inspiration">music has always been a day-by-day source of inspiration and motivation for me. these will be constantly updated.</p>
+      <!-- RIGHT: channel rack -->
+      <aside class="rack-wrap" aria-label="Channel roster">
+        <div class="rack-head">
+          <span class="rack-tag">▣ CHANNEL ROSTER</span>
+          <span class="rack-count">04 / 04</span>
+        </div>
 
-    <footer>
-        <p>made by ethan, <span id="year"></span>, with 💚. <a href="mailto:phatnguyenground@gmail.com">email me</a></p>
+        <ol class="rack">
+          <li>
+            <button class="ch-card"
+              data-no="CH.IV.01"
+              data-bg="images/playlist1.webp"
+              data-title="Work &amp; Study Tunes"
+              data-desc="music that keeps me in the zone — with cooldowns in between."
+              data-href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0onTC6nOYUjO-kF9BGFYtkA&si=mANGdAMWAfketiDY">
+              <span class="ch-thumb"><img src="images/playlist1.webp" alt=""></span>
+              <span class="ch-meta">
+                <span class="ch-no">01</span>
+                <span class="ch-tt">Work &amp; Study Tunes</span>
+              </span>
+              <span class="ch-len">∞</span>
+            </button>
+          </li>
+          <li>
+            <button class="ch-card"
+              data-no="CH.IV.02"
+              data-bg="images/playlist2.jpg"
+              data-title="My Jam"
+              data-desc="play, replay — times three thousand."
+              data-href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0rw9Xtn8TNX4j0tabJaXrzv&si=OLZBojTItzJ4tLDj">
+              <span class="ch-thumb"><img src="images/playlist2.jpg" alt=""></span>
+              <span class="ch-meta">
+                <span class="ch-no">02</span>
+                <span class="ch-tt">My Jam</span>
+              </span>
+              <span class="ch-len">∞</span>
+            </button>
+          </li>
+          <li>
+            <button class="ch-card"
+              data-no="CH.IV.03"
+              data-bg="images/playlist3.webp"
+              data-title="癒し系 Acoustic"
+              data-desc="tranquility and relaxation."
+              data-href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0qbQ6xM8QMMt2IA3CGvvIGw&si=5HwH8r6gLEGwALJt">
+              <span class="ch-thumb"><img src="images/playlist3.webp" alt=""></span>
+              <span class="ch-meta">
+                <span class="ch-no">03</span>
+                <span class="ch-tt">癒し系 Acoustic</span>
+              </span>
+              <span class="ch-len">∞</span>
+            </button>
+          </li>
+          <li>
+            <button class="ch-card"
+              data-no="CH.IV.04"
+              data-bg="images/playlist4.gif"
+              data-title="Turn Back Time"
+              data-desc="“Marty, you're not thinking fourth dimensionally!”"
+              data-href="https://music.youtube.com/playlist?list=PLg2bn11Ps-0qgPZVJm8Sp_YH2vxRoJwkU&si=JLz7T9LMhclDquj7">
+              <span class="ch-thumb"><img src="images/playlist4.gif" alt=""></span>
+              <span class="ch-meta">
+                <span class="ch-no">04</span>
+                <span class="ch-tt">Turn Back Time</span>
+              </span>
+              <span class="ch-len">∞</span>
+            </button>
+          </li>
+        </ol>
+
+        <div class="rack-foot">
+          hover to preview · click to tune in · esc returns to standby
+        </div>
+      </aside>
+
+    </main>
+
+    <!-- BOTTOM TICKER STRIP -->
+    <footer class="cb-bottom">
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-inner">
+          <span>▣ good vibes save lives — broadcast nightly — music has always been a day-by-day source of inspiration — these channels are constantly updated — stay tuned ▣ &nbsp;&nbsp;</span>
+          <span>▣ good vibes save lives — broadcast nightly — music has always been a day-by-day source of inspiration — these channels are constantly updated — stay tuned ▣ &nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <a class="contact" href="mailto:phatnguyenground@gmail.com">EMAIL ↗</a>
     </footer>
 
-    <div id="tv-container">
-        <div id="tv-screen"></div>
-    </div>
+  </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="js/TVScreen.js"></script>
-    <script src="js/playlist.js"></script>
-    <script src="js/scripts.js"></script>
+  <script src="js/projector.js"></script>
+  <script src="js/playlist.js"></script>
 </body>
 </html>
