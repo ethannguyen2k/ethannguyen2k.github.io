@@ -582,26 +582,7 @@
 }
 
 
-/* 10. Back-to-portfolio link -------------------------------------------- */
-
-.project-page .back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 40px 0 0;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--fg-mute);
-  text-decoration: none;
-  border: none;
-  padding: 0;
-  transition: color var(--t-fast) ease;
-}
-.project-page .back-link::before { content: "←"; letter-spacing: 0; opacity: 0.85; }
-.project-page .back-link:hover { color: var(--fg); }
-
+.project-page .back-link { margin: var(--sp-10) 0 0; }
 
 /* 11. Reveal animation hook --------------------------------------------- */
 /* scripts.js toggles .visible on .fade-in elements that scroll into view. */

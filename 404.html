@@ -12,8 +12,8 @@
   <link rel="manifest" href="/site.webmanifest">
 
   <link rel="stylesheet" href="/fonts/cyanotype-fonts.css">
+  <link rel="stylesheet" href="/css/cyanotype.css">
   <script>
-    // Honor cyanotype theme before paint. Migrate legacy light/dark.
     (function () {
       const raw = localStorage.getItem('theme');
       let theme = 'paper';
@@ -25,121 +25,14 @@
   </script>
 
   <style>
-    /* ── tokens ───────────────────────────────────────────────────── */
-    :root {
-      --ink-deep:  #061a36;
-      --ink:       #0a2f5c;
-      --ink-mid:   #1a4d8c;
-      --ink-soft:  #6b9dc7;
-      --cream:     #f4ecd5;
-      --cream-mute:#c9bfa3;
-      --paper:     #e8dfc8;
-
-      --bg:           var(--paper);
-      --surface:      var(--cream);
-      --fg:           var(--ink-deep);
-      --fg-mute:      var(--ink-mid);
-      --accent:       var(--ink);
-      --line:         rgba(10, 47, 92, 0.28);
-      --plate-bg:     var(--cream);
-      --plate-fg:     var(--ink-deep);
-      --plate-rule:   rgba(10, 47, 92, 0.28);
-      --plate-id-fg:  rgba(10, 47, 92, 0.55);
-      --plate-shadow: 0 14px 28px -14px rgba(10, 47, 92, 0.30),
-                      inset 0 0 60px rgba(10, 47, 92, 0.04);
-      --grain-blend:  multiply;
-      --grain-opacity: 0.22;
-      --exposure:
-        radial-gradient(ellipse at 18% 8%, rgba(10, 47, 92, 0.10), transparent 55%),
-        radial-gradient(ellipse at 82% 92%, rgba(10, 47, 92, 0.18), transparent 60%);
-      --exposure-blend: multiply;
-
-      --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-      --t-fast: 180ms;
-      --t-med:  400ms;
-      --t-theme: 600ms;
-    }
-    [data-theme="night"] {
-      --bg:           var(--ink-deep);
-      --surface:      var(--ink);
-      --fg:           var(--cream);
-      --fg-mute:      var(--cream-mute);
-      --accent:       var(--ink-soft);
-      --line:         rgba(244, 236, 213, 0.22);
-      --plate-bg:     #0e3666;
-      --plate-fg:     var(--cream);
-      --plate-rule:   rgba(244, 236, 213, 0.30);
-      --plate-id-fg:  rgba(244, 236, 213, 0.6);
-      --plate-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.55),
-                      inset 0 0 80px rgba(255, 255, 255, 0.04);
-      --grain-blend:  overlay;
-      --grain-opacity: 0.18;
-      --exposure:
-        radial-gradient(ellipse at 18% 8%, rgba(255, 255, 255, 0.06), transparent 55%),
-        radial-gradient(ellipse at 82% 92%, rgba(0, 0, 0, 0.35), transparent 60%);
-      --exposure-blend: soft-light;
-    }
-
-    /* ── reset + base ─────────────────────────────────────────────── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
     body {
-      font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-      font-optical-sizing: auto;
-      background: var(--bg);
-      color: var(--fg);
-      position: relative;
       overflow: hidden;
-      letter-spacing: 0.005em;
-      line-height: 1.55;
       display: flex;
       flex-direction: column;
-      transition: background var(--t-theme) ease, color var(--t-theme) ease;
     }
 
-    /* paper grain */
-    body::before {
-      content: "";
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 1;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      opacity: var(--grain-opacity);
-      mix-blend-mode: var(--grain-blend);
-    }
-    /* uneven exposure */
-    body::after {
-      content: "";
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 2;
-      background: var(--exposure);
-      mix-blend-mode: var(--exposure-blend);
-    }
-
-    /* ── botanical silhouettes (drift behind the plate) ───────────── */
-    .botanical {
-      position: fixed;
-      pointer-events: none;
-      opacity: 0.16;
-      z-index: 0;
-      color: var(--fg);
-    }
-    .botanical svg { width: 100%; height: 100%; display: block; }
-    .botanical svg path { fill: currentColor; }
-    .botanical.left  { top: -50px; left: -70px; width: 360px; height: 500px; transform: rotate(-14deg); }
-    .botanical.right { bottom: -90px; right: -90px; width: 440px; height: 580px; transform: rotate(10deg) scaleX(-1); }
-
-    /* ── topbar (lean: brand + theme toggle) ──────────────────────── */
-    .topbar {
-      position: relative; z-index: 10;
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 16px;
-      padding: 22px 32px;
-      font-family: 'IBM Plex Mono', ui-monospace, monospace;
-      font-size: 11px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--fg-mute);
-    }
+    .topbar { gap: var(--sp-4); letter-spacing: 0.28em; }
     .topbar .brand { display: inline-flex; align-items: center; gap: 10px; }
     .topbar .brand .dot {
       width: 7px; height: 7px; border-radius: 50%;
@@ -149,41 +42,17 @@
     .topbar .brand a { color: var(--fg-mute); text-decoration: none; transition: color var(--t-fast) ease; }
     .topbar .brand a:hover { color: var(--fg); }
 
-    .icon-btn {
-      width: 34px; height: 34px;
-      background: transparent;
-      border: 1px solid var(--line);
-      color: var(--fg);
-      border-radius: 50%;
-      cursor: pointer;
-      display: grid; place-items: center;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 14px;
-      transition: background var(--t-fast) ease,
-                  border-color var(--t-fast) ease,
-                  color var(--t-fast) ease,
-                  transform var(--t-med) var(--ease);
-    }
-    .icon-btn:hover {
-      background: var(--accent);
-      color: var(--surface);
-      border-color: var(--accent);
-      transform: rotate(20deg);
-    }
     .icon-btn .moon { display: none; }
     [data-theme="night"] .icon-btn .sun  { display: none; }
     [data-theme="night"] .icon-btn .moon { display: block; }
 
-    /* ── stage ────────────────────────────────────────────────────── */
     .stage {
-      position: relative; z-index: 5;
       flex: 1;
       display: grid;
       place-items: center;
-      padding: 20px 32px 40px;
+      padding: var(--sp-5) var(--sp-8) var(--sp-10);
     }
 
-    /* ── the plate ────────────────────────────────────────────────── */
     .plate-404 {
       position: relative;
       background: var(--plate-bg);
@@ -191,18 +60,17 @@
       border: 1px solid var(--line);
       box-shadow: var(--plate-shadow);
       width: min(560px, 92vw);
-      padding: 56px 56px 44px;
+      padding: var(--sp-14) var(--sp-14) 44px;
       overflow: hidden;
       transform: rotate(-0.4deg);
-      animation: rise 900ms var(--ease) forwards;
+      animation: rise-404 900ms var(--ease) forwards;
       opacity: 0;
     }
-    @keyframes rise {
-      to { opacity: 1; transform: rotate(-0.4deg) translateY(0); }
+    @keyframes rise-404 {
       from { opacity: 0; transform: rotate(-0.4deg) translateY(14px); }
+      to   { opacity: 1; transform: rotate(-0.4deg) translateY(0); }
     }
 
-    /* in-plate grain */
     .plate-404::after {
       content: "";
       position: absolute; inset: 0;
@@ -211,7 +79,6 @@
       mix-blend-mode: screen;
       pointer-events: none;
     }
-    /* corner marks */
     .plate-404 .corner {
       position: absolute; width: 16px; height: 16px;
       border: 1px solid var(--plate-rule);
@@ -222,10 +89,9 @@
     .plate-404 .corner.bl { bottom: 10px; left: 10px;    border-right: none; border-top: none; }
     .plate-404 .corner.br { bottom: 10px; right: 10px;   border-left: none;  border-top: none; }
 
-    /* plate header rule */
-    .plate-id {
+    .plate-404 .plate-id {
       font-family: 'IBM Plex Mono', ui-monospace, monospace;
-      font-size: 11px;
+      font-size: var(--text-sm);
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--plate-id-fg);
@@ -233,9 +99,8 @@
       margin-bottom: 22px;
       position: relative; z-index: 1;
     }
-    .plate-id::after { content: ""; flex: 1; height: 1px; background: var(--plate-rule); }
+    .plate-404 .plate-id::after { content: ""; flex: 1; height: 1px; background: var(--plate-rule); }
 
-    /* the big italic */
     .plate-title {
       font-family: 'Fraunces', serif;
       font-style: italic;
@@ -247,7 +112,6 @@
       position: relative; z-index: 1;
     }
 
-    /* the developer-marginalia paragraph */
     .plate-body {
       font-family: 'Fraunces', serif;
       font-size: 17px;
@@ -256,110 +120,61 @@
       max-width: 42ch;
       padding-top: 18px;
       border-top: 1px solid var(--plate-rule);
-      margin-bottom: 32px;
+      margin-bottom: var(--sp-8);
       position: relative; z-index: 1;
     }
     .plate-body em { font-style: italic; color: var(--fg); }
 
-    /* mono actions */
     .plate-actions {
-      display: flex; gap: 12px; flex-wrap: wrap;
+      display: flex; gap: var(--sp-3); flex-wrap: wrap;
       position: relative; z-index: 1;
     }
-    .btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 10px 18px;
-      background: transparent;
+    .plate-404 .btn {
       color: var(--plate-fg);
-      border: 1px solid var(--plate-rule);
-      font-family: 'IBM Plex Mono', ui-monospace, monospace;
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background var(--t-fast) ease,
-                  color var(--t-fast) ease,
-                  border-color var(--t-fast) ease;
+      border-color: var(--plate-rule);
     }
-    .btn:hover {
+    .plate-404 .btn:hover {
       background: var(--plate-fg);
       color: var(--plate-bg);
       border-color: var(--plate-fg);
     }
-    .btn .glyph { font-size: 13px; letter-spacing: 0; line-height: 1; }
+    .plate-404 .btn .glyph { font-size: 13px; letter-spacing: 0; line-height: 1; }
 
-    /* exposure stamp — bottom-right corner of the plate */
     .plate-stamp {
       position: absolute;
       right: 26px; bottom: 22px;
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
+      font-size: var(--text-2xs);
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--plate-id-fg);
       border: 1px solid var(--plate-rule);
-      padding: 4px 8px;
+      padding: var(--sp-1) var(--sp-2);
       transform: rotate(4deg);
       z-index: 1;
     }
 
-    /* ── footer print-stamp ───────────────────────────────────────── */
-    .print-stamp {
-      position: relative; z-index: 5;
-      padding: 18px 32px;
-      font-family: 'IBM Plex Mono', ui-monospace, monospace;
-      font-size: 10px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--fg-mute);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      border-top: 1px solid var(--line);
-    }
-    .print-stamp a {
-      color: var(--fg-mute);
-      text-decoration: none;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 1px;
-      transition: color var(--t-fast) ease, border-color var(--t-fast) ease;
-    }
-    .print-stamp a:hover { color: var(--fg); border-color: currentColor; }
-    .print-stamp .seal {
-      display: inline-flex; align-items: center; gap: 10px;
-      border: 1px solid var(--line);
-      padding: 6px 12px;
-      border-radius: 999px;
-    }
-    .print-stamp .seal::before {
-      content: "";
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 3px rgba(107, 157, 199, 0.18);
-    }
+    .print-stamp { padding: 18px var(--sp-8); margin-top: 0; }
 
-    /* ── responsive ───────────────────────────────────────────────── */
+    .botanical { opacity: 0.16; }
+    .botanical.left  { top: -50px; left: -70px; width: 360px; height: 500px; transform: rotate(-14deg); }
+    .botanical.right { bottom: -90px; right: -90px; width: 440px; height: 580px; transform: rotate(10deg) scaleX(-1); }
+
     @media (max-width: 720px) {
       body { overflow: auto; }
-      .topbar { padding: 16px 22px; }
-      .stage  { padding: 16px 22px 32px; }
-      .plate-404 { padding: 40px 28px 36px; }
+      .topbar { padding: var(--sp-4) 22px; }
+      .stage  { padding: var(--sp-4) 22px var(--sp-8); }
+      .plate-404 { padding: var(--sp-10) var(--sp-7) 36px; }
       .plate-stamp { right: 14px; bottom: 12px; }
       .botanical.left  { width: 220px; height: 300px; opacity: 0.10; }
       .botanical.right { width: 260px; height: 340px; opacity: 0.10; }
-      .print-stamp { padding: 14px 22px; font-size: 9px; }
+      .print-stamp { padding: 14px 22px; font-size: var(--text-2xs); }
     }
     @media (max-height: 620px) {
       body { overflow: auto; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       .plate-404 { animation: none; opacity: 1; }
-      .icon-btn:hover { transform: none; }
     }
   </style>
 </head>

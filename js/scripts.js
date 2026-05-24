@@ -23,7 +23,7 @@ function initAudioContext() {
         // Hide the nudge once audio is initialized
         const audioNudge = document.getElementById('audio-nudge');
         if (audioNudge) {
-            audioNudge.style.display = 'none';
+            audioNudge.classList.add('hidden');
         }
     }
 }
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Always show audio nudge when page loads
     const audioNudge = document.getElementById('audio-nudge');
     if (audioNudge) {
-        audioNudge.style.display = 'block';
+        audioNudge.classList.remove('hidden');
     }
     
     // Initialize audio context on first user interaction

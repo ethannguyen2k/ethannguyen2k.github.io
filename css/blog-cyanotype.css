@@ -310,25 +310,6 @@
 }
 
 
-/* 7. Back-to-home link --------------------------------------------------- */
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 36px;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--fg-mute);
-  border: none;
-  padding: 0;
-}
-.back-link::before { content: "←"; letter-spacing: 0; opacity: 0.85; }
-.back-link:hover { color: var(--fg); }
-
-
 /* Reveal — slow print-developing motion ---------------------------------- */
 
 .fade-in {

@@ -635,25 +635,26 @@
 #scroll-prompt:hover { color: var(--fg); border-color: var(--fg); }
 
 #audio-nudge {
-  position: fixed !important;
-  bottom: 22px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  background: color-mix(in srgb, var(--bg) 88%, transparent) !important;
-  color: var(--fg-mute) !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 0 !important;
-  padding: 8px 14px !important;
-  box-shadow: none !important;
-  z-index: 60 !important;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace !important;
-  font-size: 10px !important;
-  letter-spacing: 0.22em !important;
-  text-transform: uppercase !important;
-  animation: none !important;
-  opacity: 1 !important;
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  color: var(--fg-mute);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  padding: var(--sp-2) 14px;
+  box-shadow: none;
+  z-index: 60;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  animation: none;
+  opacity: 1;
   backdrop-filter: blur(2px);
 }
+#audio-nudge.hidden { display: none; }
 
 
 /* Anchor highlight (cyanotype version) ----------------------------------- */
@@ -667,25 +668,6 @@
   0%   { outline-color: var(--accent); }
   100% { outline-color: transparent; }
 }
-
-
-/* Back-to-home link ------------------------------------------------------ */
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 36px;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--fg-mute);
-  border: none;
-  padding: 0;
-}
-.back-link::before { content: "←"; letter-spacing: 0; opacity: 0.85; }
-.back-link:hover { color: var(--fg); }
 
 
 /* Reveal — slow print-developing motion --------------------------------- */
