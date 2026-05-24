@@ -45,7 +45,7 @@
   --plate-bg:     var(--cream);
   --plate-fg:     var(--ink-deep);
   --plate-rule:   rgba(10, 47, 92, 0.28);
-  --plate-id-fg:  rgba(10, 47, 92, 0.55);
+  --plate-id-fg:  rgba(10, 47, 92, 0.70);
   --plate-shadow: 0 14px 28px -14px rgba(10, 47, 92, 0.30),
                   inset 0 0 60px rgba(10, 47, 92, 0.04);
   --grain-blend:  multiply;
@@ -84,7 +84,7 @@
   --plate-bg:     #0e3666;
   --plate-fg:     var(--cream);
   --plate-rule:   rgba(244, 236, 213, 0.30);
-  --plate-id-fg:  rgba(244, 236, 213, 0.6);
+  --plate-id-fg:  rgba(244, 236, 213, 0.75);
   --plate-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.55),
                   inset 0 0 80px rgba(255, 255, 255, 0.04);
   --grain-blend:  overlay;
@@ -274,6 +274,12 @@ body::after {
   padding-bottom: 3px;
   border-bottom: 1px solid transparent;
   transition: color var(--t-fast) ease, border-color var(--t-fast) ease;
+  position: relative;
+}
+.folio-running .links a::after {
+  content: "";
+  position: absolute;
+  inset: -12px -6px;
 }
 .folio-running .links a:hover {
   color: var(--fg);
@@ -296,8 +302,8 @@ body::after {
 
 /* Topbar icon button (theme toggle, about, etc.) */
 .icon-btn {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   background: transparent;
   border: 1px solid var(--line);
   color: var(--fg);
@@ -316,6 +322,10 @@ body::after {
   color: var(--surface);
   border-color: var(--accent);
   transform: rotate(20deg);
+}
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 
@@ -450,7 +460,7 @@ body::after {
   font-size: var(--text-xs);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  opacity: 0.6;
+  color: var(--plate-id-fg);
 }
 
 /* Cream-framed image inside a plate (specimen card) */
@@ -485,7 +495,7 @@ body::after {
   font-size: var(--text-xs);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  opacity: 0.7;
+  color: var(--plate-id-fg);
 }
 
 
@@ -495,6 +505,7 @@ body::after {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  min-height: 44px;
   padding: var(--sp-3) 18px;
   background: transparent;
   color: var(--fg);
@@ -515,6 +526,10 @@ body::after {
   border-color: var(--fg);
 }
 
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 .btn-ghost { border-color: transparent; padding-left: 0; padding-right: 0; }
 .btn-ghost:hover { background: transparent; color: var(--fg); border-color: transparent; text-decoration: underline; }
 

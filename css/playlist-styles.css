@@ -705,3 +705,15 @@ button { background: none; border: 0; padding: 0; color: inherit; font: inherit;
   .cf-frame  { width: 88%; padding: 16px 18px; }
   .cf-head   { font-size: 18px; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .static-overlay { animation: none; }
+  .roll-bar { animation: none; }
+  .tv-led { animation: none; }
+  .standby-bars span { animation: none; height: 50%; }
+  .tv-screen { animation: none; }
+  .tv-screen.power-on { animation: none; }
+  .tv-art .tear { animation: none; }
+  .ticker-inner { animation: none; }
+  .tv-screen.switching .tv-blackout::after { animation: none; }
+}

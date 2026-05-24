@@ -27,10 +27,19 @@ document.addEventListener('DOMContentLoaded', function () {
     return `${m}:${ss}`;
   };
 
+  progressEl.setAttribute('tabindex', '0');
+  progressEl.setAttribute('role', 'slider');
+  progressEl.setAttribute('aria-label', 'Seek');
+  progressEl.setAttribute('aria-valuemin', '0');
+  progressEl.setAttribute('aria-valuemax', '100');
+  progressEl.setAttribute('aria-valuenow', '0');
+
   const render = () => {
     const dur = audio.duration;
-    fillEl.style.width = dur ? `${(audio.currentTime / dur) * 100}%` : '0%';
+    const pct = dur ? Math.round((audio.currentTime / dur) * 100) : 0;
+    fillEl.style.width = `${pct}%`;
     nowEl.textContent  = fmt(audio.currentTime);
+    progressEl.setAttribute('aria-valuenow', pct);
   };
 
   const updateIcon = () => {
@@ -58,6 +67,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const rect = progressEl.getBoundingClientRect();
     const pos  = (e.clientX - rect.left) / rect.width;
     audio.currentTime = Math.max(0, Math.min(1, pos)) * audio.duration;
+  });
+
+  progressEl.addEventListener('keydown', (e) => {
+    if (!audio.duration) return;
+    const step = e.shiftKey ? 10 : 5;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      audio.currentTime = Math.min(audio.duration, audio.currentTime + step);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      audio.currentTime = Math.max(0, audio.currentTime - step);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      audio.currentTime = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      audio.currentTime = audio.duration;
+    }
   });
 
   restartBtn.addEventListener('click', () => { audio.currentTime = 0; });
