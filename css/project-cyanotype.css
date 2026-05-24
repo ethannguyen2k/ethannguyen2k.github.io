@@ -22,17 +22,7 @@
 
 /* 1. Stage layout -------------------------------------------------------- */
 
-.project-page main.stage {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 40px 48px 80px;
-  position: relative;
-  z-index: 5;
-}
-
-/* Replaces the legacy .container1 wrapper class — selector kept so existing
-   HTML doesn't need to drop the class. */
-.project-page .container1 {
+.project-page .stage {
   max-width: 880px;
   margin: 0 auto;
   padding: 40px 48px 80px;
@@ -184,12 +174,12 @@
 
 /* 4. Body prose ---------------------------------------------------------- */
 
-.project-page .container1 > div,
-.project-page .container1 > section {
+.project-page .stage > div,
+.project-page .stage > section {
   margin-bottom: 36px;
 }
 
-.project-page .container1 p {
+.project-page .stage p {
   font-family: 'Fraunces', serif;
   font-size: 1rem;
   line-height: 1.75;
@@ -198,7 +188,7 @@
   max-width: 70ch;
 }
 
-.project-page .container1 h2 {
+.project-page .stage h2 {
   font-family: 'Fraunces', serif;
   font-style: italic;
   font-weight: 400;
@@ -212,7 +202,7 @@
 /* The Built-With h2 inside .project-info is mono-cap'd above; don't double-style it. */
 .project-page .project-info h2 { border-top: 1px solid var(--line); }
 
-.project-page .container1 h3 {
+.project-page .stage h3 {
   font-family: 'Fraunces', serif;
   font-style: italic;
   font-weight: 400;
@@ -221,8 +211,8 @@
   margin: 24px 0 8px;
 }
 
-.project-page .container1 ol,
-.project-page .container1 ul {
+.project-page .stage ol,
+.project-page .stage ul {
   margin: 12px 0 12px 28px;
   font-family: 'Fraunces', serif;
   font-size: 1rem;
@@ -230,31 +220,31 @@
   color: var(--fg);
   max-width: 70ch;
 }
-.project-page .container1 li { margin: 6px 0; }
+.project-page .stage li { margin: 6px 0; }
 
-.project-page .container1 ul ul,
-.project-page .container1 ol ul,
-.project-page .container1 ol ol {
+.project-page .stage ul ul,
+.project-page .stage ol ul,
+.project-page .stage ol ol {
   margin: 4px 0 8px 22px;
 }
 
-.project-page .container1 a {
+.project-page .stage a {
   color: var(--fg);
   border-bottom: 1px solid var(--line);
   padding-bottom: 1px;
   transition: border-color var(--t-fast) ease;
 }
-.project-page .container1 a:hover { border-bottom-color: currentColor; }
+.project-page .stage a:hover { border-bottom-color: currentColor; }
 
 /* Inline color overrides removed via HTML scrub; these defensive resets
    keep older inline styles from leaking through if any remain. */
-.project-page .container1 a[style] {
+.project-page .stage a[style] {
   color: var(--fg) !important;
   text-decoration: none !important;
 }
 
-.project-page .container1 strong,
-.project-page .container1 b {
+.project-page .stage strong,
+.project-page .stage b {
   font-weight: 600;
   color: var(--fg);
 }
@@ -293,6 +283,7 @@
   font-size: 0.88rem;
   color: var(--plate-fg);
   text-align: center;
+  max-width: none;
   margin: 0;
   padding: 4px 6px 2px;
   line-height: 1.4;
@@ -326,27 +317,24 @@
 
 
 /* 6. Lightbox restyle --------------------------------------------------- */
-/* The project HTMLs ship with the legacy <div id="lightbox" class="lightbox">
-   markup that scripts.js toggles via display:block/none. Restyle in place. */
-
-/* cyanotype-chrome.js opens the lightbox via inline style="display: flex".
-   That inline value wins over CSS, so the default below is just the closed
-   state; opening lets the flex layout center the content.
-   We override opacity/visibility because cyanotype.css's base .lightbox rule
-   keeps them at 0/hidden until a .is-open class is toggled — a system the
-   project-page lightbox doesn't use (it toggles display directly). */
 .project-page #lightbox.lightbox {
   position: fixed;
   inset: 0;
   background: rgba(6, 26, 54, 0.92);
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   cursor: zoom-out;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--t-med) ease, visibility var(--t-med) ease;
+}
+.project-page #lightbox.lightbox.is-open {
   opacity: 1;
   visibility: visible;
-  transition: none;
+  pointer-events: auto;
 }
 
 .project-page #lightbox .lightbox-content {
@@ -601,7 +589,7 @@
 
 @media (max-width: 760px) {
   .project-page main.stage,
-  .project-page .container1 {
+  .project-page .stage {
     padding: 24px 22px 60px;
   }
   .project-page .project-info h1 { font-size: clamp(28px, 6vw, 38px); }

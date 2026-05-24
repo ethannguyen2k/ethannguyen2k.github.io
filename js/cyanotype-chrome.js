@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Owns the lightbox entirely on project pages: hero plate image,
   // example-image grids, close button, and backdrop.
   //
-  // The legacy markup nests #lightbox inside .container1, which has
+  // The legacy markup nests #lightbox inside .stage, which has
   // position: relative + z-index: 5 — that creates a stacking context and
   // traps the lightbox behind any sibling with higher z-index. Move it to
   // <body> root so its z-index actually means what it says.
@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const open = (img) => {
         lbImg.src = img.currentSrc || img.src;
         lbCap.textContent = img.alt || '';
-        box.style.display = 'flex';
+        box.classList.add('is-open');
       };
-      const close = () => { box.style.display = 'none'; };
+      const close = () => { box.classList.remove('is-open'); };
 
       // Hero plate image
       const hero = document.querySelector('.project-image');
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Close on Escape
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && box.style.display !== 'none' && box.style.display !== '') {
+        if (e.key === 'Escape' && box.classList.contains('is-open')) {
           close();
         }
       });

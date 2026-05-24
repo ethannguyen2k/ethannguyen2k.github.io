@@ -186,23 +186,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function handleScroll() {
-        let offset = 150;  // Adjust this value if necessary
-
-        divs.forEach(function(div) {
-            if (div.getBoundingClientRect().top <= window.innerHeight - offset) {
-                div.classList.add('visible');
-            }
-        });
+    const revealTargets = document.querySelectorAll('.fade-in, section');
+    if (revealTargets.length) {
+        const revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '0px 0px -150px 0px' });
+        revealTargets.forEach(function(el) { revealObserver.observe(el); });
     }
 
-    // Initial check for divs already in view
-    handleScroll();
-
-    // Check divs on scroll
-    window.addEventListener('scroll', handleScroll);
-
-    // Smooth scrolling for TOC links
     tocLinks.forEach(function(link) {
         link.addEventListener('click', function(event) {
             event.preventDefault();
@@ -212,62 +208,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add theme toggle initialization here
     const themeToggle = document.getElementById('themeToggle');
-    
-    // Toggle theme
     themeToggle?.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
+
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
     });
 
-    // Highlight the TOC link while scrolling
-    window.addEventListener('scroll', function() {
-        let offset = 150;  // Adjust this value if necessary
+    if (!document.body.classList.contains('project-page')) {
+        const exampleImages = document.querySelectorAll('.example-image img');
+        exampleImages.forEach(function(img) {
+            img.addEventListener('click', function() {
+                openLightbox(img);
+            });
+        });
 
-        // Add fade-in effect
-        sections.forEach(function(section) {
-            if (section.getBoundingClientRect().top <= window.innerHeight - offset) {
-                section.classList.add('visible');
+        function openLightbox(img) {
+            lightbox.style.display = "block";
+            lightboxImg.src = img.src;
+            lightboxCaption.textContent = img.alt;
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = "none";
+        }
+
+        document.querySelector('.close')?.addEventListener('click', closeLightbox);
+
+        window.addEventListener('click', function(event) {
+            if (event.target === lightbox) {
+                closeLightbox();
             }
         });
-    });
-
-    // Initial check for sections already in view
-    sections.forEach(function(section) {
-        if (section.getBoundingClientRect().top <= window.innerHeight) {
-            section.classList.add('visible');
-        }
-    });
-
-    // Lightbox functionality
-    const exampleImages = document.querySelectorAll('.example-image img');
-    exampleImages.forEach(function(img) {
-        img.addEventListener('click', function() {
-            openLightbox(img);
-        });
-    });
-
-    function openLightbox(img) {
-        lightbox.style.display = "block";
-        lightboxImg.src = img.src;
-        lightboxCaption.textContent = img.alt;
     }
-
-    function closeLightbox() {
-        lightbox.style.display = "none";
-    }
-
-    document.querySelector('.close').addEventListener('click', closeLightbox);
-
-    window.addEventListener('click', function(event) {
-        if (event.target === lightbox) {
-            closeLightbox();
-        }
-    });
 });
 
 // Anchor highlight functionality for blog references

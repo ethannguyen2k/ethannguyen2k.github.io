@@ -40,7 +40,7 @@
   --surface:      var(--cream);
   --fg:           var(--ink-deep);
   --fg-mute:      var(--ink-mid);
-  --accent:       var(--ink);
+  --accent:       var(--ink-mid);
   --line:         rgba(10, 47, 92, 0.28);
   --plate-bg:     var(--cream);
   --plate-fg:     var(--ink-deep);
