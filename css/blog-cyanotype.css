@@ -31,7 +31,6 @@
   color: var(--fg-mute);
 }
 .folio-block .folio-subtitle {
-  font-size: 11px;
   margin-bottom: 0;
   border-top: none;
   padding-top: 0;
@@ -276,7 +275,7 @@
 
 .stack-card .meta {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -298,7 +297,7 @@
 .lang-tag {
   display: inline-block;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-mute);

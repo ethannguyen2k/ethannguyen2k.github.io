@@ -266,3 +266,35 @@
     }
   });
 }
+
+// ---- Dog-ear (Pl. 0 — margin note) -----------------------------------
+// The folded page corner toggles a hidden card. Closes on Escape, on
+// outside click, or on a second click of the fold itself.
+{
+  const fold = document.getElementById('dogear');
+  const card = document.getElementById('dogearCard');
+  if (fold && card) {
+    function setOpen(open) {
+      fold.setAttribute('aria-expanded', open ? 'true' : 'false');
+      card.setAttribute('aria-hidden', open ? 'false' : 'true');
+    }
+
+    fold.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(fold.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (fold.getAttribute('aria-expanded') !== 'true') return;
+      if (card.contains(e.target) || fold.contains(e.target)) return;
+      setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && fold.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        fold.focus();
+      }
+    });
+  }
+}

@@ -210,15 +210,6 @@
 
       </section>
 
-      <!-- Marginalia (mother quote) ----------------------------------- -->
-      <aside class="hero-marginalia reveal d4">
-        <div class="quote">
-          <p>"If you are wrong, you can walk away and slam the door. If your mother is wrong, she can only shed tears while cleaning the house.</p>
-          <p>Everyone wants to save the world, but no one wants to help their mother with the housework."</p>
-        </div>
-        <span class="attr">— anonymous</span>
-      </aside>
-
       <!-- Footer print stamp ------------------------------------------ -->
       <footer class="print-stamp">
         <div class="seal">Exposed in cyan, <span id="year"></span></div>
@@ -240,6 +231,35 @@
         <img alt="" />
       </div>
     </div>
+
+    <!-- Dog-ear (Pl. 0 — margin note) ------------------------------- -->
+    <button
+      class="dogear"
+      id="dogear"
+      type="button"
+      aria-expanded="false"
+      aria-controls="dogearCard"
+      aria-label="Plate 0 — turn the page corner">
+      <span class="dogear-fold" aria-hidden="true">
+        <span class="dogear-tag">Pl. 0</span>
+      </span>
+    </button>
+    <aside
+      class="dogear-card"
+      id="dogearCard"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="dogearHeading"
+      aria-hidden="true">
+      <div class="dogear-card-inner">
+        <div class="dogear-eyebrow" id="dogearHeading">Pl. 0 — Margin Note</div>
+        <blockquote class="dogear-quote">
+          <p>"If you are wrong, you can walk away and slam the door. If your mother is wrong, she can only shed tears while cleaning the house.</p>
+          <p>Everyone wants to save the world, but no one wants to help their mother with the housework."</p>
+        </blockquote>
+        <span class="dogear-attr">— anonymous</span>
+      </div>
+    </aside>
 
   </div>
 

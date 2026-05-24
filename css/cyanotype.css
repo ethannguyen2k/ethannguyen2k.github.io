@@ -88,7 +88,10 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  font-size: 17px;
+}
 
 body {
   font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
@@ -340,7 +343,7 @@ body::after {
 
 .folio-subtitle {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 12px;
+  font-size: 13.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -397,7 +400,7 @@ body::after {
 
 .plate .plate-id {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--plate-id-fg);
@@ -432,7 +435,7 @@ body::after {
 .plate .plate-label .latin {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-style: normal;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   opacity: 0.6;
@@ -645,7 +648,7 @@ a.text-link:hover { border-color: currentColor; }
     flex-wrap: wrap;
     align-items: flex-start;
   }
-  .folio-running .links { gap: 14px; font-size: 9px; letter-spacing: 0.22em; }
+  .folio-running .links { gap: 14px; font-size: 10px; letter-spacing: 0.22em; }
 }
 
 @media (max-width: 600px) {

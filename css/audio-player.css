@@ -181,5 +181,5 @@
   .audio-plate .audio-row { flex-wrap: wrap; gap: 10px 12px; }
   .audio-plate .audio-progress { order: 10; flex: 1 0 100%; height: 3px; }
   .audio-plate .audio-time { min-width: 0; }
-  .audio-plate .audio-meta { font-size: 9px; letter-spacing: 0.22em; }
+  .audio-plate .audio-meta { font-size: 10px; letter-spacing: 0.22em; }
 }

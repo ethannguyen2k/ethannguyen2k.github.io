@@ -33,7 +33,6 @@
   color: var(--fg-mute);
 }
 .folio-block .folio-subtitle {
-  font-size: 11px;
   margin-bottom: 0;
   border-top: none;
   padding-top: 0;
@@ -62,7 +61,7 @@
   display: block;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-style: normal;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -249,7 +248,7 @@
 .specimen-tag {
   display: inline-block;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg);
@@ -353,7 +352,7 @@
 }
 .project .plate-mark {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--plate-id-fg);
@@ -404,7 +403,7 @@
   flex-wrap: wrap;
   gap: 6px;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--plate-id-fg);
@@ -512,7 +511,7 @@
 .mos-callout .text .when {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-style: normal;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -561,7 +560,7 @@
   align-items: center;
   gap: 10px;
   padding: 7px 0 7px 16px;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -591,7 +590,7 @@
 }
 #toc a .roman {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 9px;
+  font-size: 11px;
   opacity: 0.6;
   flex: 0 0 auto;
   margin-right: 4px;
