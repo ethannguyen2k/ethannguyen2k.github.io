@@ -55,6 +55,18 @@
     radial-gradient(ellipse at 82% 92%, rgba(10, 47, 92, 0.18), transparent 60%);
   --exposure-blend: multiply;
 
+  /* Spacing (4px base) */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 20px;  --sp-6: 24px;  --sp-7: 28px;  --sp-8: 32px;
+  --sp-10: 40px; --sp-12: 48px; --sp-14: 56px; --sp-20: 80px;
+
+  /* Type scale (fixed sizes only; display sizes use clamp()) */
+  --text-2xs: 9px;
+  --text-xs:  10px;
+  --text-sm:  11px;
+  --text-base: 13.5px;
+  --text-md:  14px;
+
   /* Motion */
   --ease:       cubic-bezier(0.2, 0.8, 0.2, 1);
   --t-fast:     180ms;
@@ -137,7 +149,7 @@ a:hover { color: var(--fg); }
 
 .label {
   font-family: 'IBM Plex Mono', ui-monospace, 'Menlo', monospace;
-  font-size: 11px;
+  font-size: var(--text-sm);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -202,17 +214,17 @@ body::after {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 24px;
-  padding: 22px 32px;
+  gap: var(--sp-6);
+  padding: var(--sp-6) var(--sp-8);
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: var(--text-sm);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--fg-mute);
 }
-.topbar .meta { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
-.topbar .meta > * { display: inline-flex; align-items: center; gap: 8px; }
-.topbar .controls { display: flex; gap: 12px; align-items: center; }
+.topbar .meta { display: flex; gap: var(--sp-7); align-items: center; flex-wrap: wrap; }
+.topbar .meta > * { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.topbar .controls { display: flex; gap: var(--sp-3); align-items: center; }
 
 /* Folio running header — used on every page except the index.
    Left: prominent current-folio block (mono eyebrow + serif title).
@@ -223,15 +235,15 @@ body::after {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 24px;
-  padding: 22px 32px 18px;
+  gap: var(--sp-6);
+  padding: var(--sp-6) var(--sp-8) 18px;
   border-bottom: 1px solid var(--line);
 }
 .folio-running .here { line-height: 1; }
 .folio-running .here .eyebrow {
   display: block;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
+  font-size: var(--text-xs);
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -250,7 +262,7 @@ body::after {
   align-items: center;
   gap: 22px;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
+  font-size: var(--text-xs);
   letter-spacing: 0.28em;
   text-transform: uppercase;
 }
@@ -277,7 +289,7 @@ body::after {
 }
 .folio-running .controls {
   display: flex;
-  gap: 12px;
+  gap: var(--sp-3);
   align-items: center;
   margin-left: 4px;
 }
@@ -293,7 +305,7 @@ body::after {
   cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: 14px;
+  font-size: var(--text-md);
   transition: background var(--t-fast) ease,
               transform var(--t-med) var(--ease),
               border-color var(--t-fast) ease,
@@ -314,12 +326,12 @@ body::after {
   z-index: 5;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 40px 48px 80px;
+  padding: var(--sp-10) var(--sp-12) var(--sp-20);
 }
 
 .plate-no {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: var(--text-sm);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -343,7 +355,7 @@ body::after {
 
 .folio-subtitle {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 13.5px;
+  font-size: var(--text-base);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fg-mute);
@@ -400,7 +412,7 @@ body::after {
 
 .plate .plate-id {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: var(--text-sm);
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--plate-id-fg);
@@ -420,7 +432,7 @@ body::after {
   font-family: 'Fraunces', serif;
   font-style: italic;
   font-weight: 400;
-  font-size: 22px;
+  font-size: var(--text-lg);
   letter-spacing: 0.01em;
   border-top: 1px solid var(--plate-rule);
   padding-top: 10px;
@@ -435,7 +447,7 @@ body::after {
 .plate .plate-label .latin {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-style: normal;
-  font-size: 10px;
+  font-size: var(--text-xs);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   opacity: 0.6;
@@ -467,10 +479,10 @@ body::after {
 }
 .marginalia .attr {
   display: block;
-  margin-top: 8px;
+  margin-top: var(--sp-2);
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-style: normal;
-  font-size: 10px;
+  font-size: var(--text-xs);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   opacity: 0.7;
@@ -483,12 +495,12 @@ body::after {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 18px;
+  padding: var(--sp-3) 18px;
   background: transparent;
   color: var(--fg);
   border: 1px solid var(--line);
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 11px;
+  font-size: var(--text-sm);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   text-decoration: none;
@@ -517,19 +529,19 @@ a.text-link:hover { border-color: currentColor; }
 /* 11. Footer print-stamp ------------------------------------------------ */
 
 .print-stamp {
-  margin-top: 80px;
+  margin-top: var(--sp-20);
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
+  font-size: var(--text-xs);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--fg-mute);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: var(--sp-5);
   flex-wrap: wrap;
   border-top: 1px solid var(--line);
-  padding-top: 22px;
+  padding-top: var(--sp-6);
 }
 .print-stamp .seal {
   display: inline-flex;
@@ -636,19 +648,16 @@ a.text-link:hover { border-color: currentColor; }
 /* 14. Responsive -------------------------------------------------------- */
 
 @media (max-width: 900px) {
-  .topbar { padding: 16px 22px; flex-wrap: wrap; gap: 14px; }
-  .topbar .meta { gap: 16px; font-size: 10px; }
-  .stage { padding: 24px 22px 60px; }
+  .topbar { padding: var(--sp-4) 22px; flex-wrap: wrap; gap: 14px; }
+  .topbar .meta { gap: var(--sp-4); font-size: var(--text-xs); }
+  .stage { padding: var(--sp-6) 22px 60px; }
   .folio-subtitle { margin-bottom: 36px; }
-}
-
-@media (max-width: 900px) {
   .folio-running {
-    padding: 16px 22px 14px;
+    padding: var(--sp-4) 22px 14px;
     flex-wrap: wrap;
     align-items: flex-start;
   }
-  .folio-running .links { gap: 14px; font-size: 10px; letter-spacing: 0.22em; }
+  .folio-running .links { gap: 14px; font-size: var(--text-xs); letter-spacing: 0.22em; }
 }
 
 @media (max-width: 600px) {
@@ -656,5 +665,5 @@ a.text-link:hover { border-color: currentColor; }
   .folio-running .links { gap: 10px; }
   .botanical.left  { width: 240px; height: 320px; opacity: 0.10; }
   .botanical.right { width: 280px; height: 360px; opacity: 0.10; }
-  .print-stamp { font-size: 9px; }
+  .print-stamp { font-size: var(--text-2xs); }
 }
