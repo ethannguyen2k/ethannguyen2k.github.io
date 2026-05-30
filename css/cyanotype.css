@@ -58,7 +58,8 @@
   /* Spacing (4px base) */
   --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
   --sp-5: 20px;  --sp-6: 24px;  --sp-7: 28px;  --sp-8: 32px;
-  --sp-10: 40px; --sp-12: 48px; --sp-14: 56px; --sp-20: 80px;
+  --sp-10: 40px; --sp-12: 48px; --sp-14: 56px; --sp-16: 64px;
+  --sp-20: 80px; --sp-24: 96px;
 
   /* Type scale (fixed sizes only; display sizes use clamp()) */
   --text-2xs: 9px;
@@ -557,6 +558,17 @@ a.text-link {
   transition: border-color var(--t-fast) ease;
 }
 a.text-link:hover { border-color: currentColor; }
+
+a:focus-visible,
+.back-link:focus-visible,
+.tech-bubble:focus-visible,
+.specimen:focus-visible,
+.ch-card:focus-visible,
+#scroll-prompt:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
 
 
 /* 11. Footer print-stamp ------------------------------------------------ */

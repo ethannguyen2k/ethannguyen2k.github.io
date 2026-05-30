@@ -86,98 +86,52 @@ function playNextNote() {
     currentNoteIndex = (currentNoteIndex + 1) % noteFrequencies.length;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Scroll Prompt functionality
-    const scrollPrompt = document.getElementById('scroll-prompt');
+function toggleAccordion(element) {
+    element.parentElement.classList.toggle('open');
+}
 
-    if (scrollPrompt) {
-        // Hide the scroll prompt when user is near the bottom of the page
-        window.addEventListener('scroll', function () {
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollPrompt = document.getElementById('scroll-prompt');
+    if (scrollPrompt && !scrollPrompt.hasAttribute('data-scroll-custom')) {
+        const updateScrollPrompt = () => {
             const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-    
-            // Hide when near the bottom (e.g., within 100px)
-            if (scrollPosition + windowHeight >= documentHeight - 100) {
-                scrollPrompt.style.opacity = '0';
-                setTimeout(() => {
-                    scrollPrompt.style.display = 'none';
-                }, 300);
-            } else {
-                scrollPrompt.style.display = 'flex';
-                setTimeout(() => {
-                    scrollPrompt.style.opacity = '0.8';
-                }, 10);
-            }
+            const nearBottom = scrollPosition + window.innerHeight >= document.documentElement.scrollHeight - 100;
+            scrollPrompt.classList.toggle('is-visible', !nearBottom);
+        };
+        window.addEventListener('scroll', updateScrollPrompt, { passive: true });
+        scrollPrompt.addEventListener('click', () => {
+            window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
         });
-    
-        // Smooth scroll down when clicked
-        scrollPrompt.addEventListener('click', function () {
-            const windowHeight = window.innerHeight;
-            window.scrollTo({
-                top: windowHeight,
-                behavior: 'smooth'
-            });
-        });
-    
-        // Initial check
-        setTimeout(() => {
-            const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-    
-            if (scrollPosition + windowHeight < documentHeight - 100) {
-                scrollPrompt.style.display = 'flex';
-                scrollPrompt.style.opacity = '0.8';
-            } else {
-                scrollPrompt.style.display = 'none';
-            }
-        }, 1000);
-    }    
-    
-    // Footer year
+        setTimeout(updateScrollPrompt, 1000);
+    }
+
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    // Always show audio nudge when page loads
     const audioNudge = document.getElementById('audio-nudge');
-    if (audioNudge) {
-        audioNudge.classList.remove('hidden');
-    }
-    
-    // Initialize audio context on first user interaction
+    if (audioNudge) audioNudge.classList.remove('hidden');
+
     document.addEventListener('click', function initAudioOnce() {
         initAudioContext();
         document.removeEventListener('click', initAudioOnce);
     }, { once: true });
-    
-    // Tech bubble music functionality
-    const techBubbles = document.querySelectorAll('.tech-bubble');
-    if (techBubbles) {
-        techBubbles.forEach(bubble => {
-            bubble.addEventListener('mouseenter', function() {
-                playNextNote();
-            });
-        });
-    }  
 
-    // Add music to TOC links on hover
+    document.querySelectorAll('.tech-bubble').forEach(bubble => {
+        bubble.addEventListener('mouseenter', playNextNote);
+    });
+
     const tocLinks = document.querySelectorAll('#toc a');
-    if (tocLinks) {
-        tocLinks.forEach(link => {
-            link.addEventListener('mouseenter', function() {
-                playNextNote();
-            });
+    tocLinks.forEach(link => {
+        link.addEventListener('mouseenter', playNextNote);
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            document.querySelector(link.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
         });
-    }
+    });
 
-    const navLinks = document.querySelectorAll('#nav-bar a');
-
-    let currentUrl = window.location.pathname.split('/').pop();
-    navLinks.forEach(function(link) {
-        if (link.getAttribute('href') === currentUrl) {
-            link.classList.add('current');
-        }
+    const currentUrl = window.location.pathname.split('/').pop();
+    document.querySelectorAll('#nav-bar a').forEach(function(link) {
+        if (link.getAttribute('href') === currentUrl) link.classList.add('current');
     });
 
     const revealTargets = document.querySelectorAll('.fade-in, section');
@@ -193,100 +147,40 @@ document.addEventListener('DOMContentLoaded', function() {
         revealTargets.forEach(function(el) { revealObserver.observe(el); });
     }
 
-    tocLinks.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            document.querySelector(link.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-
-});
-
-// Anchor highlight functionality for blog references
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if the URL contains a hash (anchor)
-    if (window.location.hash) {
-        // Wait a brief moment to ensure the page has scrolled to the anchor
-        setTimeout(() => {
-            const targetElement = document.getElementById(window.location.hash.substring(1));
-            
-            if (targetElement) {
-                // Remove any existing highlight
-                const previousHighlight = document.querySelector('.anchor-highlight');
-                if (previousHighlight) {
-                    previousHighlight.classList.remove('anchor-highlight');
-                }
-                
-                // Add highlight class
-                targetElement.classList.add('anchor-highlight');
-                
-                // Optional: Ensure the element is visible and centered in view
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
-        }, 100);
-    }
-    
-    // Handle clicks on any internal anchor links
+    const highlightAnchor = (hash) => {
+        if (!hash) return;
+        const target = document.getElementById(hash.substring(1));
+        if (!target) return;
+        document.querySelector('.anchor-highlight')?.classList.remove('anchor-highlight');
+        target.classList.add('anchor-highlight');
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    if (window.location.hash) setTimeout(() => highlightAnchor(window.location.hash), 100);
     document.body.addEventListener('click', function(e) {
-        // Check if the clicked element is an anchor link
         if (e.target.tagName === 'A' && e.target.hash && e.target.origin === window.location.origin) {
-            // Get the target element
-            const targetId = e.target.hash.substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-                // Remove any existing highlight
-                const previousHighlight = document.querySelector('.anchor-highlight');
-                if (previousHighlight) {
-                    previousHighlight.classList.remove('anchor-highlight');
-                }
-                
-                // Wait for the browser to navigate to the anchor
-                setTimeout(() => {
-                    // Add highlight class
-                    targetElement.classList.add('anchor-highlight');
-                }, 100);
-            }
+            setTimeout(() => highlightAnchor(e.target.hash), 100);
         }
     });
-});
 
-// Accordion toggle (used by .accordion-heading onclick attributes in long blog posts).
-function toggleAccordion(element) {
-    element.parentElement.classList.toggle('open');
-}
-
-// Mobile menu toggle for blog page sidebars. No-op if the page has no .sidebar.
-document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.sidebar');
-    if (!sidebar) return;
+    if (sidebar) {
+        const toggle = document.createElement('button');
+        toggle.classList.add('mobile-menu-toggle');
+        toggle.innerHTML = '<i aria-hidden="true" class="fas fa-bars"></i>';
+        toggle.setAttribute('aria-label', 'Toggle menu');
+        document.body.insertBefore(toggle, document.body.firstChild);
 
-    const toggle = document.createElement('button');
-    toggle.classList.add('mobile-menu-toggle');
-    toggle.innerHTML = '<i aria-hidden="true" class="fas fa-bars"></i>';
-    toggle.setAttribute('aria-label', 'Toggle menu');
-    document.body.insertBefore(toggle, document.body.firstChild);
-
-    toggle.addEventListener('click', () => {
-        sidebar.classList.toggle('sidebar-open');
-        toggle.classList.toggle('toggle-active');
-    });
-
-    document.querySelectorAll('#nav-bar a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.remove('sidebar-open');
-                toggle.classList.remove('toggle-active');
-            }
+        toggle.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-open');
+            toggle.classList.toggle('toggle-active');
         });
-    });
+        document.querySelectorAll('#nav-bar a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('sidebar-open');
+                    toggle.classList.remove('toggle-active');
+                }
+            });
+        });
+    }
 });

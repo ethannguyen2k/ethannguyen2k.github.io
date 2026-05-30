@@ -452,7 +452,7 @@
     </div>
   </main>
 
-  <div id="scroll-prompt"><i aria-hidden="true" class="fa-solid fa-arrow-up"></i></div>
+  <div id="scroll-prompt" data-scroll-custom><i aria-hidden="true" class="fa-solid fa-arrow-up"></i></div>
   <div id="audio-nudge" role="status" aria-live="polite">[ click anywhere to enable bubble notes ♪ ]</div>
 
   <script src="js/scripts.js"></script>
@@ -487,29 +487,24 @@
        (not the very top), and only show the prompt while you're below it. -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const old = document.getElementById('scroll-prompt');
-      if (!old) return;
-      // Clone-replace drops the legacy click handler scripts.js attached
-      // (which scrolled to window.innerHeight, i.e. effectively "to top").
-      const sp = old.cloneNode(true);
-      old.parentNode.replaceChild(sp, old);
+      const sp = document.getElementById('scroll-prompt');
+      if (!sp) return;
 
-      function update() {
+      const update = () => {
         const target = document.querySelector('.tech-stack-grid');
         if (!target) return;
         const targetBottom = target.getBoundingClientRect().bottom + window.scrollY;
         const y  = window.scrollY;
-        const wh = window.innerHeight;
-        const dh = document.documentElement.scrollHeight;
         const past = y > targetBottom - 40;
-        const nearBottom = y + wh >= dh - 80;
-        sp.style.display = (past && !nearBottom) ? 'flex' : 'none';
-      }
+        const nearBottom = y + window.innerHeight >= document.documentElement.scrollHeight - 80;
+        sp.classList.toggle('is-visible', past && !nearBottom);
+      };
 
       setTimeout(update, 600);
       window.addEventListener('scroll', update, { passive: true });
 
-      sp.addEventListener('click', () => {
+      sp.addEventListener('click', (e) => {
+        e.preventDefault();
         const target = document.querySelector('.tech-stack-grid');
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
