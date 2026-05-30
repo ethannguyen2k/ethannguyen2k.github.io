@@ -17,13 +17,14 @@
   <link rel="stylesheet" href="../css/cyanotype.css">
 
   <script>
-    // Apply saved theme before paint
+    // Apply theme before paint. Migrate legacy light/dark → paper/night.
     (function () {
-      const saved = localStorage.getItem('theme');
-      const initial = saved === 'night' || saved === 'paper'
-        ? saved
-        : (saved === 'dark' ? 'night' : 'paper');
-      document.documentElement.setAttribute('data-theme', initial);
+      const raw = localStorage.getItem('theme');
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
+      if (raw === 'paper' || raw === 'night') theme = raw;
+      else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
+      else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
+      document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
 
@@ -96,7 +97,7 @@
       <a href="../" class="back-link">← Current site</a>
     </div>
     <div class="controls">
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+      <button class="icon-btn" id="themeToggle" type="button" aria-pressed="false" aria-label="Toggle theme">
         <svg id="themeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="4"></circle>
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
@@ -133,7 +134,7 @@
 
     <section class="archive-grid" aria-label="Archived pages">
 
-      <a class="plate archive-plate reveal d3" data-caption="Pl. 0.1 — Homepage (paper). Soft waves, peace-hand modal, friendly blue. The cycling surprise icon lived in the bottom row.">
+      <a class="plate archive-plate reveal d3" tabindex="0" role="button" data-caption="Pl. 0.1 — Homepage (paper). Soft waves, peace-hand modal, friendly blue. The cycling surprise icon lived in the bottom row.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.1 — Homepage · Paper</div>
@@ -143,7 +144,7 @@
         </div>
       </a>
 
-      <a class="plate archive-plate reveal d3" data-caption="Pl. 0.2 — Homepage (night). The same icon grid in dark mode. A purple moon replaced the yellow sun in the toggle.">
+      <a class="plate archive-plate reveal d3" tabindex="0" role="button" data-caption="Pl. 0.2 — Homepage (night). The same icon grid in dark mode. A purple moon replaced the yellow sun in the toggle.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.2 — Homepage · Night</div>
@@ -153,7 +154,7 @@
         </div>
       </a>
 
-      <a class="plate archive-plate reveal d4" data-caption="Pl. 0.3 — Portfolio. Saturated blue subject card, gradient-bordered intro box. Hovering a tech bubble played a triangle-wave musical note.">
+      <a class="plate archive-plate reveal d4" tabindex="0" role="button" data-caption="Pl. 0.3 — Portfolio. Saturated blue subject card, gradient-bordered intro box. Hovering a tech bubble played a triangle-wave musical note.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.3 — Portfolio</div>
@@ -163,7 +164,7 @@
         </div>
       </a>
 
-      <a class="plate archive-plate reveal d4" data-caption="Pl. 0.4 — Blog index. Left fixed sidebar with logo + nav + socials. First-party writings stacked above a list of recommended reading.">
+      <a class="plate archive-plate reveal d4" tabindex="0" role="button" data-caption="Pl. 0.4 — Blog index. Left fixed sidebar with logo + nav + socials. First-party writings stacked above a list of recommended reading.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.4 — Blog Index</div>
@@ -173,7 +174,7 @@
         </div>
       </a>
 
-      <a class="plate archive-plate reveal d4" data-caption="Pl. 0.5 — Blog post. Geist sans body type, dark-grey code windows with red/orange/green traffic-light dots, default highlight.js syntax.">
+      <a class="plate archive-plate reveal d4" tabindex="0" role="button" data-caption="Pl. 0.5 — Blog post. Geist sans body type, dark-grey code windows with red/orange/green traffic-light dots, default highlight.js syntax.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.5 — Blog Post</div>
@@ -183,7 +184,7 @@
         </div>
       </a>
 
-      <a class="plate archive-plate reveal d5" data-caption="Pl. 0.6 — Playlist. The most distinctive page on the site: black background, neon green Courier, flicker animation. Hovering a tile triggered a fullscreen CRT takeover with judder, ghosting, and a real screen-glass overlay.">
+      <a class="plate archive-plate reveal d5" tabindex="0" role="button" data-caption="Pl. 0.6 — Playlist. The most distinctive page on the site: black background, neon green Courier, flicker animation. Hovering a tile triggered a fullscreen CRT takeover with judder, ghosting, and a real screen-glass overlay.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.6 — Playlist</div>
@@ -193,7 +194,7 @@
         </div>
       </a>
 
-      <a class="plate archive-plate reveal d5" data-caption="Pl. 0.7 — About modal. Triggered by the peace-hand FAB. Twenty photos cascaded into the collage with a 150ms stagger when the modal opened.">
+      <a class="plate archive-plate reveal d5" tabindex="0" role="button" data-caption="Pl. 0.7 — About modal. Triggered by the peace-hand FAB. Twenty photos cascaded into the collage with a 150ms stagger when the modal opened.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.7 — About Modal</div>
@@ -203,7 +204,7 @@
         </div>
       </a>
 
-      <a class="plate archive-plate reveal d5" data-caption="Pl. 0.8 — 404. Two-column card on dark navy: text and buttons on the left, a hand-drawn man-and-dog illustration on the right, with a bouncing 💜 below.">
+      <a class="plate archive-plate reveal d5" tabindex="0" role="button" data-caption="Pl. 0.8 — 404. Two-column card on dark navy: text and buttons on the left, a hand-drawn man-and-dog illustration on the right, with a bouncing 💜 below.">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
         <div class="plate-id">Pl. 0.8 — 404</div>
@@ -245,6 +246,8 @@
         ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>'
         // sun
         : '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>';
+      themeBtn.setAttribute('aria-pressed', isNight ? 'true' : 'false');
+      themeBtn.setAttribute('aria-label', isNight ? 'Switch to paper theme' : 'Switch to night theme');
     }
     syncIcon();
 
@@ -261,16 +264,30 @@
     const lbCap = document.getElementById('lightboxCaption');
     const lbClose = document.getElementById('lightboxClose');
 
+    let lbTrigger = null;
+
+    function openLightbox(plate) {
+      const img = plate.querySelector('.plate-image img');
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent = plate.dataset.caption || '';
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lbTrigger = plate;
+      lbClose.focus({ preventScroll: true });
+    }
+
     document.querySelectorAll('.archive-plate').forEach(plate => {
       plate.addEventListener('click', e => {
         e.preventDefault();
-        const img = plate.querySelector('.plate-image img');
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
-        lbCap.textContent = plate.dataset.caption || '';
-        lightbox.classList.add('is-open');
-        lightbox.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        openLightbox(plate);
+      });
+      plate.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(plate);
+        }
       });
     });
 
@@ -278,13 +295,22 @@
       lightbox.classList.remove('is-open');
       lightbox.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      if (lbTrigger) {
+        lbTrigger.focus({ preventScroll: true });
+        lbTrigger = null;
+      }
     }
     lbClose.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => {
       if (e.target === lightbox) closeLightbox();
     });
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') { closeLightbox(); return; }
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        lbClose.focus({ preventScroll: true });
+      }
     });
   </script>
 
