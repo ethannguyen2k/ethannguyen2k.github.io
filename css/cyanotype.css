@@ -567,7 +567,6 @@ a:focus-visible,
 .back-link:focus-visible,
 .tech-bubble:focus-visible,
 .specimen:focus-visible,
-.ch-card:focus-visible,
 #scroll-prompt:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;

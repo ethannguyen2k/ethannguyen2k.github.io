@@ -604,6 +604,7 @@
   bottom: 22px;
   right: var(--sp-7);
   z-index: 50;
+  appearance: none;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-size: var(--text-xs);
   letter-spacing: 0.3em;
