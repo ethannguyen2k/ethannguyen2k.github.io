@@ -123,12 +123,16 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       handleCancel();
     } else if (k === 'Enter') {
-      // Enter on a focused Y/N button is handled natively by the browser.
       if (document.activeElement !== tv.cfYes &&
           document.activeElement !== tv.cfNo) {
         e.preventDefault();
         handleConfirm();
       }
+    } else if (k === 'Tab') {
+      // Trap focus between Y/N while the modal is open.
+      e.preventDefault();
+      const next = document.activeElement === tv.cfYes ? tv.cfNo : tv.cfYes;
+      next.focus({ preventScroll: true });
     }
   });
 

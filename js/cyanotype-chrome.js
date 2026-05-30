@@ -45,39 +45,60 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(box);
       }
 
+      const closeBtn = box.querySelector('.close');
+      let trigger = null;
+
       const open = (img) => {
+        trigger = img;
         lbImg.src = img.currentSrc || img.src;
         lbCap.textContent = img.alt || '';
         box.classList.add('is-open');
+        if (closeBtn) closeBtn.focus({ preventScroll: true });
       };
-      const close = () => { box.classList.remove('is-open'); };
+      const close = () => {
+        box.classList.remove('is-open');
+        if (trigger) {
+          trigger.focus({ preventScroll: true });
+          trigger = null;
+        }
+      };
 
-      // Hero plate image
       const hero = document.querySelector('.project-image');
       if (hero) {
         hero.style.cursor = 'zoom-in';
+        hero.setAttribute('tabindex', '0');
+        hero.setAttribute('role', 'button');
+        hero.setAttribute('aria-label', 'Open image preview');
         hero.addEventListener('click', () => open(hero));
+        hero.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(hero); }
+        });
       }
 
-      // Example-image grids (sna, uciadult, privacy, poker, totp)
       document.querySelectorAll('.example-image img').forEach((img) => {
         img.style.cursor = 'zoom-in';
+        img.setAttribute('tabindex', '0');
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', 'Open image preview');
         img.addEventListener('click', () => open(img));
+        img.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(img); }
+        });
       });
 
-      // Close on × button
-      const closeBtn = box.querySelector('.close');
       if (closeBtn) closeBtn.addEventListener('click', close);
 
-      // Close on backdrop click
       box.addEventListener('click', (e) => {
         if (e.target === box) close();
       });
 
-      // Close on Escape
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && box.classList.contains('is-open')) {
-          close();
+        if (!box.classList.contains('is-open')) return;
+        if (e.key === 'Escape') { close(); return; }
+        if (e.key === 'Tab') {
+          // Only the close button is focusable inside the dialog — trap focus on it.
+          e.preventDefault();
+          if (closeBtn) closeBtn.focus({ preventScroll: true });
         }
       });
     }

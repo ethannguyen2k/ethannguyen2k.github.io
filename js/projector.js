@@ -43,13 +43,19 @@ class TVScreen {
   openConfirm(card) {
     this.cfTitle.textContent = card.dataset.title;
     this._currentHref = card.dataset.href || null;
+    this._trigger = card;
     this.confirm.hidden = false;
     this.cfYes.focus({ preventScroll: true });
   }
 
   closeConfirm() {
+    const wasOpen = !this.confirm.hidden;
     this.confirm.hidden = true;
     this._currentHref = null;
+    if (wasOpen && this._trigger) {
+      this._trigger.focus({ preventScroll: true });
+    }
+    this._trigger = null;
   }
 
   isConfirmOpen() { return !this.confirm.hidden; }
