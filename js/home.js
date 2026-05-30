@@ -20,19 +20,21 @@
   const sun  = document.getElementById('themeIconSun');
   const moon = document.getElementById('themeIconMoon');
 
-  function syncIcon() {
+  function sync() {
     const isNight = document.documentElement.getAttribute('data-theme') === 'night';
     sun.style.display  = isNight ? 'none' : '';
     moon.style.display = isNight ? '' : 'none';
+    btn.setAttribute('aria-pressed', isNight ? 'true' : 'false');
+    btn.setAttribute('aria-label', isNight ? 'Switch to paper theme' : 'Switch to night theme');
   }
-  syncIcon();
+  sync();
 
   btn.addEventListener('click', () => {
     const cur = document.documentElement.getAttribute('data-theme');
     const next = cur === 'night' ? 'paper' : 'night';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    syncIcon();
+    sync();
   });
 }
 

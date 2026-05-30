@@ -198,7 +198,7 @@
       <span class="dot" aria-hidden="true"></span>
       <a href="/">Ethan Nguyen · Folio</a>
     </div>
-    <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle theme">
+    <button class="icon-btn" id="themeToggle" type="button" aria-pressed="false" aria-label="Toggle theme">
       <span class="sun"  aria-hidden="true">☀</span>
       <span class="moon" aria-hidden="true">☾</span>
     </button>
@@ -242,11 +242,22 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const toggle = document.getElementById('themeToggle');
+    const sun  = document.getElementById('themeIconSun');
+    const moon = document.getElementById('themeIconMoon');
+    function sync() {
+      const isNight = document.documentElement.getAttribute('data-theme') === 'night';
+      if (sun)  sun.style.display  = isNight ? 'none' : '';
+      if (moon) moon.style.display = isNight ? '' : 'none';
+      toggle.setAttribute('aria-pressed', isNight ? 'true' : 'false');
+      toggle.setAttribute('aria-label', isNight ? 'Switch to paper theme' : 'Switch to night theme');
+    }
+    sync();
     toggle.addEventListener('click', () => {
       const cur  = document.documentElement.getAttribute('data-theme');
       const next = cur === 'night' ? 'paper' : 'night';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
+      sync();
     });
   </script>
 </body>

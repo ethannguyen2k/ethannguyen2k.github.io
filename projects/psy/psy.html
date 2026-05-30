@@ -55,9 +55,9 @@
         <a href="../../blog.html">III · Notes</a>
         <a href="../../playlist.html">IV · Sound</a>
         <div class="controls">
-          <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
-            <i class="fa-solid fa-sun" id="themeIconSun"></i>
-            <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+          <button class="icon-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle theme">
+            <i aria-hidden="true" class="fa-solid fa-sun" id="themeIconSun"></i>
+            <i aria-hidden="true" class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
           </button>
         </div>
       </div>
@@ -231,7 +231,7 @@
         </footer>
     </div>
 
-    <div id="scroll-prompt"><i class="fa-solid fa-arrow-down"></i></div>
+    <div id="scroll-prompt"><i aria-hidden="true" class="fa-solid fa-arrow-down"></i></div>
 
     <script src="../../js/scripts.js"></script>
     <script src="../../js/cyanotype-chrome.js"></script>

@@ -4,31 +4,26 @@
 // the pre-paint theme migration in <head> so data-theme is set before paint.
 
 document.addEventListener('DOMContentLoaded', () => {
-  // -- Theme toggle override ---------------------------------------------
-  // Drop the legacy light/dark listener scripts.js attached to #themeToggle
-  // by clone-replacing the node, then bind a paper/night handler with
-  // sun/moon icon sync.
   const btn = document.getElementById('themeToggle');
   if (btn) {
-    const fresh = btn.cloneNode(true);
-    btn.parentNode.replaceChild(fresh, btn);
+    const sun  = btn.querySelector('#themeIconSun');
+    const moon = btn.querySelector('#themeIconMoon');
 
-    const sun  = fresh.querySelector('#themeIconSun');
-    const moon = fresh.querySelector('#themeIconMoon');
-
-    const syncIcon = () => {
+    const sync = () => {
       const isNight = document.documentElement.getAttribute('data-theme') === 'night';
       if (sun)  sun.style.display  = isNight ? 'none' : '';
       if (moon) moon.style.display = isNight ? '' : 'none';
+      btn.setAttribute('aria-pressed', isNight ? 'true' : 'false');
+      btn.setAttribute('aria-label', isNight ? 'Switch to paper theme' : 'Switch to night theme');
     };
-    syncIcon();
+    sync();
 
-    fresh.addEventListener('click', () => {
+    btn.addEventListener('click', () => {
       const cur  = document.documentElement.getAttribute('data-theme');
       const next = cur === 'night' ? 'paper' : 'night';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
-      syncIcon();
+      sync();
     });
   }
 

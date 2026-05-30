@@ -172,13 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const navLinks = document.querySelectorAll('#nav-bar a');
-    const sections = document.querySelectorAll('section');
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const lightboxCaption = document.getElementById("lightbox-caption");
-    const divs = document.querySelectorAll('div.fade-in');
 
-    // Highlight the current nav link
     let currentUrl = window.location.pathname.split('/').pop();
     navLinks.forEach(function(link) {
         if (link.getAttribute('href') === currentUrl) {
@@ -208,41 +202,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle?.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-
-    if (!document.body.classList.contains('project-page')) {
-        const exampleImages = document.querySelectorAll('.example-image img');
-        exampleImages.forEach(function(img) {
-            img.addEventListener('click', function() {
-                openLightbox(img);
-            });
-        });
-
-        function openLightbox(img) {
-            lightbox.style.display = "block";
-            lightboxImg.src = img.src;
-            lightboxCaption.textContent = img.alt;
-        }
-
-        function closeLightbox() {
-            lightbox.style.display = "none";
-        }
-
-        document.querySelector('.close')?.addEventListener('click', closeLightbox);
-
-        window.addEventListener('click', function(event) {
-            if (event.target === lightbox) {
-                closeLightbox();
-            }
-        });
-    }
 });
 
 // Anchor highlight functionality for blog references
@@ -313,7 +272,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const toggle = document.createElement('button');
     toggle.classList.add('mobile-menu-toggle');
-    toggle.innerHTML = '<i class="fas fa-bars"></i>';
+    toggle.innerHTML = '<i aria-hidden="true" class="fas fa-bars"></i>';
+    toggle.setAttribute('aria-label', 'Toggle menu');
     document.body.insertBefore(toggle, document.body.firstChild);
 
     toggle.addEventListener('click', () => {

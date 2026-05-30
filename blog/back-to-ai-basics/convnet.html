@@ -56,9 +56,9 @@
       <a href="../../portfolio.html">II · Works</a>
       <a href="../../playlist.html">IV · Sound</a>
       <div class="controls">
-        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
-          <i class="fa-solid fa-sun" id="themeIconSun"></i>
-          <i class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
+        <button class="icon-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle theme">
+          <i aria-hidden="true" class="fa-solid fa-sun" id="themeIconSun"></i>
+          <i aria-hidden="true" class="fa-solid fa-moon" id="themeIconMoon" style="display:none"></i>
         </button>
       </div>
     </div>
@@ -97,14 +97,14 @@
             </audio>
             <div class="audio-row">
               <button id="playBtn" class="audio-btn" aria-label="Play / pause">
-                <i class="fa-solid fa-play"></i>
+                <i aria-hidden="true" class="fa-solid fa-play"></i>
               </button>
               <div class="audio-time" id="audioTime"><span class="now">0:00</span> / 0:00</div>
               <div class="audio-progress" id="audioProgress" role="slider" aria-label="Seek">
                 <div class="audio-progress-fill" id="audioProgressFill"></div>
               </div>
               <button id="restartBtn" class="audio-btn small" aria-label="Restart">
-                <i class="fa-solid fa-rotate-left"></i>
+                <i aria-hidden="true" class="fa-solid fa-rotate-left"></i>
               </button>
               <div class="audio-speed">
                 <label for="playbackSpeed">×</label>
