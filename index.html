@@ -24,7 +24,7 @@
     // Apply theme before paint. Migrate legacy light/dark → paper/night.
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -72,7 +72,7 @@
       <!-- Hero -------------------------------------------------------- -->
       <section class="hero">
         <div class="hero-portrait reveal d2" id="logo">
-          <img src="images/ava.jpg" alt="Ethan">
+          <img loading="lazy" decoding="async" src="images/ava.jpg" alt="Ethan">
           <span class="corner tl"></span><span class="corner tr"></span>
           <span class="corner bl"></span><span class="corner br"></span>
         </div>
@@ -272,7 +272,7 @@
 
     <div class="about-header">
       <div class="about-avatar-frame">
-        <img src="images/ava.jpg" alt="Ethan's avatar">
+        <img loading="lazy" decoding="async" src="images/ava.jpg" alt="Ethan's avatar">
         <span class="corner tl"></span><span class="corner tr"></span>
         <span class="corner bl"></span><span class="corner br"></span>
       </div>

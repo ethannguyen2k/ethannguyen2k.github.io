@@ -235,6 +235,7 @@
   transition: border-color var(--t-fast) ease;
 }
 .project-page .stage a:hover { border-bottom-color: currentColor; }
+.project-page .stage a:visited { color: var(--accent-visited); }
 
 /* Inline color overrides removed via HTML scrub; these defensive resets
    keep older inline styles from leaking through if any remain. */

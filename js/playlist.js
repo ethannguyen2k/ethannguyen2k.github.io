@@ -107,8 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keydown', (e) => {
-    // Esc is the only "turn off the TV" path — works at any time.
     if (e.key === 'Escape') {
+      const lit = screenEl.classList.contains('lit');
+      if (!lit && !tv.isConfirmOpen()) return;
       e.preventDefault();
       e.stopPropagation();
       forceStandby();

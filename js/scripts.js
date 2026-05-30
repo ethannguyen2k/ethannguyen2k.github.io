@@ -32,6 +32,9 @@ function playNote(frequency) {
     if (!audioInitialized) {
         initAudioContext();
     }
+    if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    }
 
     const t = audioContext.currentTime;
     const dur = 1.2;  // total note length — long natural decay

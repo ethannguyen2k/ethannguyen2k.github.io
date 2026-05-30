@@ -131,6 +131,7 @@
   transition: border-color var(--t-fast) ease, color var(--t-fast) ease;
 }
 .field-note .body h3 a:hover { border-bottom-color: var(--line); }
+.field-note .body h3 a:visited { color: var(--accent-visited); }
 
 .field-note .meta {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
@@ -260,6 +261,7 @@
   transition: border-color var(--t-fast) ease;
 }
 .stack-card .body h3 a:hover { border-bottom-color: var(--line); }
+.stack-card .body h3 a:visited { color: var(--accent-visited); }
 .stack-card .body h3 a::after {
   content: " ↗";
   font-family: 'IBM Plex Mono', monospace;

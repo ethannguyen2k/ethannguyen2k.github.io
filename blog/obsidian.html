@@ -24,7 +24,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -95,10 +95,10 @@
           <p>Make sure you have Git installed on your system. Grab it from the <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">official Git website</a>.</p>
 
           <p>Enable third-party software access:</p>
-          <img src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/third-party-windows-git.png" alt="Git installer — enable third-party access option" class="blog-image">
+          <img loading="lazy" decoding="async" src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/third-party-windows-git.png" alt="Git installer — enable third-party access option" class="blog-image">
 
           <p>Enable Git Credential Manager:</p>
-          <img src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/credential-manager-windows-git.png" alt="Git installer — enable credential manager" class="blog-image">
+          <img loading="lazy" decoding="async" src="https://publish-01.obsidian.md/access/ba74dc4504dbb42a703d7de2bf2c5113/assets/credential-manager-windows-git.png" alt="Git installer — enable credential manager" class="blog-image">
 
           <h3>3. Create a GitHub account</h3>
           <p>If you don't have a GitHub account, create one at <a href="https://github.com/" target="_blank" rel="noopener">github.com</a>. You'll need it to push your Obsidian vault whenever you make changes.</p>
@@ -147,16 +147,16 @@ git clone https://github.com/your-username/your-vault.git</code></pre>
           <ul>
             <li>Open the Git source-control panel (icon in the right sidebar) and click <em>Pull</em> to pull the latest changes from the remote. Do this first whenever you start a session so you're working from current state.</li>
           </ul>
-          <img src="obsidian-images/pull.png" alt="Manual pull from Obsidian Git source-control panel" class="blog-image">
+          <img loading="lazy" decoding="async" src="obsidian-images/pull.png" alt="Manual pull from Obsidian Git source-control panel" class="blog-image">
 
           <ul>
             <li>Or enable <em>Pull on startup</em> in the Git plugin settings — Obsidian will pull automatically when you open it.</li>
           </ul>
-          <img src="obsidian-images/pull2.png" alt="Pull on startup setting in Obsidian Git plugin" class="blog-image">
+          <img loading="lazy" decoding="async" src="obsidian-images/pull2.png" alt="Pull on startup setting in Obsidian Git plugin" class="blog-image">
 
           <h4>After finishing work</h4>
           <p>Commit your changes and push them to the remote.</p>
-          <img src="obsidian-images/commit_push.png" alt="Commit-and-sync from Obsidian Git source-control panel" class="blog-image">
+          <img loading="lazy" decoding="async" src="obsidian-images/commit_push.png" alt="Commit-and-sync from Obsidian Git source-control panel" class="blog-image">
 
           <p>Open the Git source-control panel, type a commit message describing your changes, and click <em>Commit-and-sync</em> — that commits and pushes in one step. <a href="https://publish.obsidian.md/git-doc/Start+here#Commit-and-sync" target="_blank" rel="noopener">More about Commit-and-sync</a>.</p>
 

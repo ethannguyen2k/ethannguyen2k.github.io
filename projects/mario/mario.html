@@ -23,7 +23,7 @@
     <script>
       (function () {
         const raw = localStorage.getItem('theme');
-        let theme = 'paper';
+        let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
         if (raw === 'paper' || raw === 'night') theme = raw;
         else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
         else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -68,7 +68,7 @@
             <div class="project-image-frame">
                 <span class="corner tl"></span><span class="corner tr"></span>
                 <span class="corner bl"></span><span class="corner br"></span>
-                <img src="https://user-images.githubusercontent.com/2184469/40949613-7542733a-6834-11e8-895b-ce1cc3af9dbb.gif" alt="Project Mario RL thumbnail" class="project-image">
+                <img loading="lazy" decoding="async" src="https://user-images.githubusercontent.com/2184469/40949613-7542733a-6834-11e8-895b-ce1cc3af9dbb.gif" alt="Project Mario RL thumbnail" class="project-image">
             </div>
             <div class="project-info">
                 <h1>Play Mario with Reinforcement Learning</h1>
@@ -119,28 +119,28 @@
         <div class="fade-in"><h2>Agent Performing Captures</h2></div>
         <div class="example-images fade-in">
             <div class="video-container">
-                <video controls>
+                <video controls preload="metadata">
                     <source src="mario_gameplay_20241117_135729.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <p class="video-caption">Mario Gameplay - 1st Train</p>
             </div>
             <div class="video-container">
-                <video controls>
+                <video controls preload="metadata">
                     <source src="mario_gameplay_20241117_140049.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <p class="video-caption">Mario Gameplay checkpoint 1 - 2nd Train</p>
             </div>
             <div class="video-container">
-                <video controls>
+                <video controls preload="metadata">
                     <source src="mario_gameplay_20241117_140149.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <p class="video-caption">Mario Gameplay checkpoint 2 - 2nd Train</p>
             </div>
             <div class="video-container">
-                <video controls>
+                <video controls preload="metadata">
                     <source src="mario_gameplay_20241117_140254.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

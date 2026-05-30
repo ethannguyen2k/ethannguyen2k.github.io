@@ -41,6 +41,7 @@
   --fg:           var(--ink-deep);
   --fg-mute:      var(--ink-mid);
   --accent:       var(--ink-mid);
+  --accent-visited: #5a4a6e;
   --line:         rgba(10, 47, 92, 0.28);
   --plate-bg:     var(--cream);
   --plate-fg:     var(--ink-deep);
@@ -81,6 +82,7 @@
   --fg:           var(--cream);
   --fg-mute:      var(--cream-mute);
   --accent:       var(--ink-soft);
+  --accent-visited: #b8a3c9;
   --line:         rgba(244, 236, 213, 0.22);
   --plate-bg:     #0e3666;
   --plate-fg:     var(--cream);
@@ -125,6 +127,8 @@ img { height: auto; }
 
 a { color: var(--accent); text-decoration: none; transition: color var(--t-fast) ease; }
 a:hover { color: var(--fg); }
+.stage a:visited,
+.field-note a:visited { color: var(--accent-visited); }
 
 
 /* 3. Typography ---------------------------------------------------------- */

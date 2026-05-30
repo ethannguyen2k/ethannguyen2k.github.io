@@ -24,7 +24,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -84,7 +84,7 @@
 
         <div class="post-prose fade-in">
 
-          <img src="back-to-ai-basics-images/lucy.jpg" alt="Series mascot" class="blog-image small">
+          <img loading="lazy" decoding="async" src="back-to-ai-basics-images/lucy.jpg" alt="Series mascot" class="blog-image small">
 
           <ol class="sub-plates">
             <li>

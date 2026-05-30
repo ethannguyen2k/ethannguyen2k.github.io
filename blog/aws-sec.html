@@ -24,7 +24,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -106,7 +106,7 @@
           <p>Consider the architecture in diagram A — an EC2 instance associated with a Security Group (<code>sg-1</code>) and located in a public subnet that's associated with a single Network ACL (<code>nacl-1</code>).</p>
 
           <figure>
-            <img src="aws-images/archi-1.png" alt="EC2 instance in a public subnet with sg-1 and nacl-1" class="blog-image">
+            <img loading="lazy" decoding="async" src="aws-images/archi-1.png" alt="EC2 instance in a public subnet with sg-1 and nacl-1" class="blog-image">
             <figcaption>Diagram A — a single EC2 instance accepting HTTP traffic</figcaption>
           </figure>
 
@@ -166,7 +166,7 @@
           <p>Consider diagram B — a Classic Load Balancer (to keep things simple) listening for HTTP on port 80 and distributing requests to a group of EC2 instances; assume health checks are on port 80 too.</p>
 
           <figure>
-            <img src="aws-images/archi-2.png" alt="Load balancer distributing HTTP traffic to EC2 instances" class="blog-image">
+            <img loading="lazy" decoding="async" src="aws-images/archi-2.png" alt="Load balancer distributing HTTP traffic to EC2 instances" class="blog-image">
             <figcaption>Diagram B — a load balancer sending HTTP traffic to EC2 instances</figcaption>
           </figure>
 

@@ -24,7 +24,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -97,7 +97,7 @@
           <h3>Basic CNN for CIFAR-10</h3>
 
           <figure>
-            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="The previous plate's CNN architecture" class="blog-image">
+            <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="The previous plate's CNN architecture" class="blog-image">
             <figcaption>Revisiting the last plate's architecture</figcaption>
           </figure>
 
@@ -133,7 +133,7 @@ Test Loss:  0.8065, Test Acc:  74.75%</code></pre>
           <p>How do we improve this basic CNN for better CIFAR-10 performance? Make it deeper and more complex. We'll build a deeper CNN with more convolutional blocks, <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md#3-batch-normalization" target="_blank" rel="noopener">batch normalisation</a>, better initialisation, and <a href="https://github.com/ethannguyen2k/back-to-AI-basics/blob/main/regularization.md" target="_blank" rel="noopener">regularisation techniques like dropout and data augmentation</a>.</p>
 
           <figure>
-            <img src="../back-to-ai-basics-images/deeper_cnn_architecture.svg" alt="VGG-style deeper CNN architecture" class="blog-image">
+            <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/deeper_cnn_architecture.svg" alt="VGG-style deeper CNN architecture" class="blog-image">
             <figcaption>VGG-style deeper CNN for a 10-class task</figcaption>
           </figure>
 
@@ -301,7 +301,7 @@ Training Time:        1093.35 seconds</code></pre>
           <p>There are several variations of ResNet with different depths. We'll choose 18 layers since this plate is about the underlying concept — so, <strong>ResNet-18</strong>.</p>
 
           <figure>
-            <img src="https://www.researchgate.net/profile/Chih-Hsien-Hsia/publication/353026381/figure/fig2/AS:1042698844770347@1625610185976/Color-online-ResNet-18-architecture.ppm" alt="ResNet-18 architecture diagram" class="blog-image">
+            <img loading="lazy" decoding="async" src="https://www.researchgate.net/profile/Chih-Hsien-Hsia/publication/353026381/figure/fig2/AS:1042698844770347@1625610185976/Color-online-ResNet-18-architecture.ppm" alt="ResNet-18 architecture diagram" class="blog-image">
             <figcaption>ResNet-18 architecture (<a href="https://www.researchgate.net/figure/Color-online-ResNet-18-architecture_fig2_353026381" target="_blank" rel="noopener">source</a>)</figcaption>
           </figure>
 

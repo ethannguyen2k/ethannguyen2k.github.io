@@ -24,7 +24,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -102,14 +102,14 @@
             <li><strong>Reward</strong> — feedback given to the agent to indicate success or failure.</li>
           </ol>
 
-          <img src="mario-images/mario-diagram.png" alt="Agent–environment interaction loop" class="blog-image medium">
+          <img loading="lazy" decoding="async" src="mario-images/mario-diagram.png" alt="Agent–environment interaction loop" class="blog-image medium">
 
           <p>"For any given state, an agent can choose to do the most optimal action (exploit) or a random action (explore)." Learning to make this trade-off is a key challenge in reinforcement learning.</p>
 
           <div class="accordion">
             <h4 class="accordion-heading" onclick="toggleAccordion(this)">Core concepts</h4>
             <div class="accordion-content">
-              <img src="https://spinningup.openai.com/en/latest/_images/rl_diagram_transparent_bg.png" alt="Standard agent–environment interaction loop diagram" class="blog-image medium">
+              <img loading="lazy" decoding="async" src="https://spinningup.openai.com/en/latest/_images/rl_diagram_transparent_bg.png" alt="Standard agent–environment interaction loop diagram" class="blog-image medium">
 
               <p>Imagine you're playing a video game. You are the <strong>agent</strong> (the character you control), and the <strong>environment</strong> is the game world (the levels, obstacles, everything around you). You can see things happening in the game (a monster coming toward you) and decide what to do next (jump, run, fight back).</p>
 
@@ -170,7 +170,7 @@ matplotlib-base=3.7.3</code></pre>
 
           <p>I used CUDA and cuDNN for GPU acceleration. For the right versions, check <a href="https://stackoverflow.com/a/55717476" target="_blank" rel="noopener">this Stack Overflow answer</a>, <a href="https://pytorch.org/get-started/locally/" target="_blank" rel="noopener">the official PyTorch site</a>, or use miniconda's conda-forge channel for up-to-date packages. Once the versions line up, it looks like this:</p>
 
-          <img src="mario-images/cuda.png" alt="CUDA device confirmation in Python REPL" class="blog-image">
+          <img loading="lazy" decoding="async" src="mario-images/cuda.png" alt="CUDA device confirmation in Python REPL" class="blog-image">
 
           <h3>Initialise the environment</h3>
           <p>In Mario, tubes, mushrooms, and the rest are components of the environment. This is where the agent interacts with the world, taking actions and receiving rewards based on its performance.</p>
@@ -216,22 +216,22 @@ False,
           <p>When you call <code>env.step(action=0)</code>, you're telling Mario to perform action 0 — which from the MOVEMENT_OPTIONS list is "move right". You can change to action 1, which is "jump right". The function returns the next state (a 240×256×3 image), the reward (0.0), a done flag (False — episode not over), and some additional info about the environment.</p>
           <p>This is something like what Mario will see (for illustration):</p>
 
-          <img src="mario-images/mario-screen.svg" alt="Frame the Mario agent sees" class="blog-image medium">
+          <img loading="lazy" decoding="async" src="mario-images/mario-screen.svg" alt="Frame the Mario agent sees" class="blog-image medium">
 
           <p>Think of it like pressing the right button for a split second, checking if you got a reward, game over or not, and returning the new state. This is a single step in the game. The interaction loop continues until the game is over or the agent beats it.</p>
 
           <h3>Pre-process the environment</h3>
           <p>In the previous output, the next state was a 240×256×3 image returned by the environment. Often, this is too much information for the agent to process directly — Mario doesn't need to see the entire screen to make decisions. Instead, we apply wrappers to the environment to pre-process the images and make them more manageable.</p>
 
-          <img src="mario-images/env-wrapper.png" alt="Environment wrapper pipeline" class="blog-image">
-          <img src="mario-images/frame-transformation.svg" alt="Frame transformation pipeline" class="blog-image">
+          <img loading="lazy" decoding="async" src="mario-images/env-wrapper.png" alt="Environment wrapper pipeline" class="blog-image">
+          <img loading="lazy" decoding="async" src="mario-images/frame-transformation.svg" alt="Frame transformation pipeline" class="blog-image">
 
           <p>The final output is smaller by almost 85% — faster processing, less memory usage. Simpler than what a human sees, but containing the essential information needed to learn how to play the game effectively.</p>
 
           <h3>Replay buffer</h3>
           <p>A replay buffer is a "memory bank" that stores the agent's experiences while it plays. Each experience consists of: the current state (what Mario sees), the action taken, the reward received, the next state, and whether the game ended (the done flag). Something like this:</p>
 
-          <img src="mario-images/replay-buffer-structure.svg" alt="Replay buffer entry structure" class="blog-image">
+          <img loading="lazy" decoding="async" src="mario-images/replay-buffer-structure.svg" alt="Replay buffer entry structure" class="blog-image">
 
           <p>In <a href="https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html" target="_blank" rel="noopener">the PyTorch tutorial</a>, the author uses <strong>TensorDictReplayBuffer with LazyMemmapStorage</strong> — a custom replay buffer that stores experiences and samples mini-batches for training. I failed to get it running:</p>
 
@@ -271,7 +271,7 @@ False,
             </tbody>
           </table>
 
-          <img src="mario-images/memory-usage.svg" alt="Memory usage comparison" class="blog-image">
+          <img loading="lazy" decoding="async" src="mario-images/memory-usage.svg" alt="Memory usage comparison" class="blog-image">
 
           <p>My <strong>SimpleReplayBuffer</strong> does two key things:</p>
           <ol>
@@ -301,7 +301,7 @@ False,
             <li><strong>Learn</strong> from these experiences — updating his policy to maximise rewards over time.</li>
           </ul>
 
-          <img src="mario-images/mario-agent-overview.svg" alt="Mario agent overview" class="blog-image">
+          <img loading="lazy" decoding="async" src="mario-images/mario-agent-overview.svg" alt="Mario agent overview" class="blog-image">
 
           <div class="accordion">
             <h4 class="accordion-heading" onclick="toggleAccordion(this)">Act</h4>
@@ -323,7 +323,7 @@ False,
 
               <p>The <code>act</code> function takes a state — a LazyFrame representing what Mario "sees" at a given moment — and chooses an action based on an epsilon-greedy strategy (exploit vs explore). If exploring, it picks a random action; if exploiting, it picks the best action by relying on MarioNet from the Learn section.</p>
 
-              <img src="mario-images/act-method-flow.svg" alt="Act method flow" class="blog-image medium">
+              <img loading="lazy" decoding="async" src="mario-images/act-method-flow.svg" alt="Act method flow" class="blog-image medium">
 
               <p>The method is called every time Mario needs to make a decision — many times per second during gameplay.</p>
               <p>The exploration rate early on is 1, meaning Mario will explore 100% of the time early in training. Over time the rate decreases through <code>exploration_rate_decay</code>, so Mario explores less and is forced to exploit more. This value never goes below <code>exploration_rate_min</code>.</p>
@@ -360,7 +360,7 @@ def recall(self):
 
               <p>Two key parameters to consider: <strong>buffer size</strong> and <strong>batch size</strong>.</p>
 
-              <img src="mario-images/mario-memory-flow.svg" alt="Mario memory flow" class="blog-image medium">
+              <img loading="lazy" decoding="async" src="mario-images/mario-memory-flow.svg" alt="Mario memory flow" class="blog-image medium">
 
               <p><strong>Buffer size</strong> determines how many experiences Mario can remember at once. For Mario, each level lasts around 200–300 seconds. 50,000 experiences should cover 150–250 full levels, a good starting point. With more compute, increase to remember more — diverse learning, important events not forgotten.</p>
               <p><strong>Batch size</strong> determines how many experiences Mario will recall for training. Larger batches mean learning from more experiences at once — more stable learning. But larger batches need more memory and compute, so it's a trade-off.</p>
@@ -416,7 +416,7 @@ def td_target(self, reward, next_state, done):
                 </li>
               </ol>
 
-              <img src="mario-images/td-learning-simple.svg" alt="TD learning diagram" class="blog-image medium">
+              <img loading="lazy" decoding="async" src="mario-images/td-learning-simple.svg" alt="TD learning diagram" class="blog-image medium">
 
               <p>Over time, learning happens by minimising the difference — Mario's estimates get closer to reality.</p>
 
@@ -479,7 +479,7 @@ def sync_Q_target(self):
           <h3>Logging</h3>
           <p>For tracking and visualising the training process, the <code>MetricLogger</code> class is a comprehensive logging system used to track, save, and visualise the agent's performance during training.</p>
 
-          <img src="mario-images/metric-logger-diagram.svg" alt="Metric logger diagram" class="blog-image">
+          <img loading="lazy" decoding="async" src="mario-images/metric-logger-diagram.svg" alt="Metric logger diagram" class="blog-image">
 
           <p>In essence, these metrics help understand the agent's learning:</p>
           <ul>
@@ -492,7 +492,7 @@ def sync_Q_target(self):
           <h3>Evaluation</h3>
           <p>I made an evaluation script to watch MarioNet play. Because, after all, the goal is to see Mario beat the game by himself.</p>
 
-          <img src="mario-images/mario-eval-flow.svg" alt="Mario evaluation flow" class="blog-image medium">
+          <img loading="lazy" decoding="async" src="mario-images/mario-eval-flow.svg" alt="Mario evaluation flow" class="blog-image medium">
 
           <p>The script runs in human-visible mode (<code>render_mode="human"</code>) and records video, making it easy to analyse the agent's behaviour.</p>
           <p>The evaluation process is similar to training. The eval script still initialises the environment and MarioNet, but loads a checkpoint produced by the training script. Then it implements the gameplay loop, runs the Mario session played by the model, and records its performance.</p>

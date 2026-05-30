@@ -24,7 +24,7 @@
     // Apply theme before paint. Migrate legacy light/dark → paper/night.
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -91,7 +91,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="https://obsidian.md/images/2023-06-logo.png" alt="Obsidian logo">
+              <img loading="lazy" decoding="async" src="https://obsidian.md/images/2023-06-logo.png" alt="Obsidian logo">
             </div>
           </article>
 
@@ -105,7 +105,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="blog/aws-images/AWS-Emblem.png" alt="AWS emblem">
+              <img loading="lazy" decoding="async" src="blog/aws-images/AWS-Emblem.png" alt="AWS emblem">
             </div>
           </article>
 
@@ -126,7 +126,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="blog/back-to-ai-basics-images/lucy.jpg" alt="Lucy — back to AI basics">
+              <img loading="lazy" decoding="async" src="blog/back-to-ai-basics-images/lucy.jpg" alt="Lucy — back to AI basics">
             </div>
           </article>
 
@@ -140,7 +140,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="https://ollama.com/public/assets/c889cc0d-cb83-4c46-a98e-0d0e273151b9/42f6b28d-9117-48cd-ac0d-44baaf5c178e.png" alt="Ollama">
+              <img loading="lazy" decoding="async" src="https://ollama.com/public/assets/c889cc0d-cb83-4c46-a98e-0d0e273151b9/42f6b28d-9117-48cd-ac0d-44baaf5c178e.png" alt="Ollama">
             </div>
           </article>
 
@@ -154,7 +154,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="https://softengi.com/wp-content/uploads/2021/05/image1.jpeg" alt="Wound measurement">
+              <img loading="lazy" decoding="async" src="https://softengi.com/wp-content/uploads/2021/05/image1.jpeg" alt="Wound measurement">
             </div>
           </article>
 
@@ -168,7 +168,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="blog/mario-images/thumbnail.png" alt="Mario RL thumbnail">
+              <img loading="lazy" decoding="async" src="blog/mario-images/thumbnail.png" alt="Mario RL thumbnail">
             </div>
           </article>
 
@@ -182,7 +182,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="blog/azure-images/thumbnail.jpeg" alt="Azure thumbnail">
+              <img loading="lazy" decoding="async" src="blog/azure-images/thumbnail.jpeg" alt="Azure thumbnail">
             </div>
           </article>
 
@@ -196,7 +196,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="https://www.wikihow.com/images/thumb/c/c1/Write-a-Comment-in-a-Computer-Programming-Language-Step-1-Version-2.jpg/aid3070096-v4-728px-Write-a-Comment-in-a-Computer-Programming-Language-Step-1-Version-2.jpg" alt="Writing comments thumbnail">
+              <img loading="lazy" decoding="async" src="https://www.wikihow.com/images/thumb/c/c1/Write-a-Comment-in-a-Computer-Programming-Language-Step-1-Version-2.jpg/aid3070096-v4-728px-Write-a-Comment-in-a-Computer-Programming-Language-Step-1-Version-2.jpg" alt="Writing comments thumbnail">
             </div>
           </article>
 
@@ -210,7 +210,7 @@
             <div class="thumb">
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <img src="https://datacarpentry.org/spreadsheet-ecology-lesson/fig/conditional_formating.png" alt="Spreadsheet data organization">
+              <img loading="lazy" decoding="async" src="https://datacarpentry.org/spreadsheet-ecology-lesson/fig/conditional_formating.png" alt="Spreadsheet data organization">
             </div>
           </article>
 
@@ -225,7 +225,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://federalnewsnetwork.com/wp-content/uploads/2023/12/3000x3000_Federal-Drive-GEHA-150x150.jpg" alt="">
+              <img loading="lazy" decoding="async" src="https://federalnewsnetwork.com/wp-content/uploads/2023/12/3000x3000_Federal-Drive-GEHA-150x150.jpg" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://federalnewsnetwork.com/artificial-intelligence/2022/12/advancing-artificial-intelligence-and-data-analytics/">Advancing artificial intelligence and data analytics</a></h3>
@@ -236,7 +236,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://images.theconversation.com/files/503160/original/file-20230104-129813-ndxcdv.png?ixlib=rb-4.1.0&q=45&auto=format&w=600&h=750&fit=crop&dpr=1" alt="">
+              <img loading="lazy" decoding="async" src="https://images.theconversation.com/files/503160/original/file-20230104-129813-ndxcdv.png?ixlib=rb-4.1.0&q=45&auto=format&w=600&h=750&fit=crop&dpr=1" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://theconversation.com/ai-and-the-future-of-work-5-experts-on-what-chatgpt-dall-e-and-other-ai-tools-mean-for-artists-and-knowledge-workers-196783">AI and the future of work</a></h3>
@@ -247,7 +247,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://th.bing.com/th/id/R.8e802d83d6bc9794d264beed8ecf8f82?rik=Llldx6XqwBpwIQ&riu=http%3a%2f%2fww1.prweb.com%2fprfiles%2f2016%2f12%2f13%2f15869766%2fMOSWC_2017_Logo.png&ehk=FOiOAEeSo9hNHj1SYx5ec4eLBK%2fA%2bD5wyeM4fCADgic%3d&risl=&pid=ImgRaw&r=0" alt="">
+              <img loading="lazy" decoding="async" src="https://th.bing.com/th/id/R.8e802d83d6bc9794d264beed8ecf8f82?rik=Llldx6XqwBpwIQ&riu=http%3a%2f%2fww1.prweb.com%2fprfiles%2f2016%2f12%2f13%2f15869766%2fMOSWC_2017_Logo.png&ehk=FOiOAEeSo9hNHj1SYx5ec4eLBK%2fA%2bD5wyeM4fCADgic%3d&risl=&pid=ImgRaw&r=0" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://news.microsoft.com/vi-vn/2021/11/16/viet-nam-gianh-cu-dup-huy-chuong-vang-va-huy-chuong-bac-the-gioi-cuoc-thi-vo-dich-tin-hoc-van-phong-the-gioi-2020-2021/">Vietnam wins Gold and Silver at the World Office Informatics Championship 2020–2021<span class="lang-tag" title="Vietnamese — use browser translation">VI</span></a></h3>
@@ -258,7 +258,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://static.ybox.vn/2021/12/0/1638670937183-1638586510235-0.%20%E1%BA%A2nh%20cover.%20%C4%90%E1%BB%A9c%20Ph%C3%A1t%20&%20B%E1%BA%A3o%20Ng%E1%BB%8Dc.jpg" alt="">
+              <img loading="lazy" decoding="async" src="https://static.ybox.vn/2021/12/0/1638670937183-1638586510235-0.%20%E1%BA%A2nh%20cover.%20%C4%90%E1%BB%A9c%20Ph%C3%A1t%20&%20B%E1%BA%A3o%20Ng%E1%BB%8Dc.jpg" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://ybox.vn/guong-mat/doi-ban-than-cung-nhau-chinh-phuc-cuoc-thi-vo-dich-tin-hoc-van-phong-the-gioi-61aadb03ae21b47a994c6855">A pair of close friends conquering the World Office Informatics Championship together<span class="lang-tag" title="Vietnamese — use browser translation">VI</span></a></h3>
@@ -269,7 +269,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://raisedgood.com/wp-content/uploads/2018/05/simplifying_childhood-min.jpg" alt="">
+              <img loading="lazy" decoding="async" src="https://raisedgood.com/wp-content/uploads/2018/05/simplifying_childhood-min.jpg" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://raisedgood.com/extraordinary-things-happen-when-we-simplify-childhood/">Simplifying Childhood May Protect Against Mental Health Issues</a></h3>
@@ -280,7 +280,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://img.idesign.vn/2017/12/16/42569/id-7-tip-de-thuyet-trinh-mot-cach-day-tu-tin-1.png" alt="">
+              <img loading="lazy" decoding="async" src="https://img.idesign.vn/2017/12/16/42569/id-7-tip-de-thuyet-trinh-mot-cach-day-tu-tin-1.png" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://idesign.vn/eco-art/i-gallery/7-tips-de-thuyet-trinh-mot-du-thiet-ke-day-tu-tin-42569.html">Secrets to Presenting a Design Project with Confidence<span class="lang-tag" title="Vietnamese — use browser translation">VI</span></a></h3>
@@ -291,7 +291,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://hrcsuite.com/wp-content/uploads/2017/07/Emotional-e1431913623511.jpg" alt="">
+              <img loading="lazy" decoding="async" src="https://hrcsuite.com/wp-content/uploads/2017/07/Emotional-e1431913623511.jpg" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://aws.amazon.com/careers/life-at-aws-5-tips-for-using-EQ-to-boost-productivity-and-peace-at-work/">5 tips for using emotional intelligence to boost productivity and peace at work</a></h3>
@@ -302,7 +302,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://i.pinimg.com/originals/77/9a/de/779adef5233f0ff0720cf1a96313b80d.jpg" alt="">
+              <img loading="lazy" decoding="async" src="https://i.pinimg.com/originals/77/9a/de/779adef5233f0ff0720cf1a96313b80d.jpg" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://www.mckinsey.com/featured-insights/mckinsey-on-books/author-talks-charles-duhigg-on-how-the-best-communicators-click">Author Talks: Charles Duhigg on how the best communicators 'click'</a></h3>
@@ -313,7 +313,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://www.bigspeak.com/wp-content/uploads/2020/07/bruce-feiler-1-e1594741818901.jpg" alt="">
+              <img loading="lazy" decoding="async" src="https://www.bigspeak.com/wp-content/uploads/2020/07/bruce-feiler-1-e1594741818901.jpg" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://ideas.ted.com/could-your-life-story-use-an-update-heres-how-to-do-it/">Could your life story use an update? Here's how to do it</a></h3>
@@ -324,7 +324,7 @@
 
           <article class="stack-card">
             <div class="thumb">
-              <img src="https://d1.awsstatic.com/employer-brand/AWS_EB_NAMER_ECT_DuoSittingAtBooth_.58e15a97146b369f9c4f96c6e94749487fef92a8.jpg" alt="">
+              <img loading="lazy" decoding="async" src="https://d1.awsstatic.com/employer-brand/AWS_EB_NAMER_ECT_DuoSittingAtBooth_.58e15a97146b369f9c4f96c6e94749487fef92a8.jpg" alt="">
             </div>
             <div class="body">
               <h3><a target="_blank" rel="noopener" href="https://aws.amazon.com/careers/life-at-aws-five-ways-to-rethink-traditional-career-advice/">5 ways to rethink traditional career advice</a></h3>

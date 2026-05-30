@@ -23,7 +23,7 @@
     <script>
       (function () {
         const raw = localStorage.getItem('theme');
-        let theme = 'paper';
+        let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
         if (raw === 'paper' || raw === 'night') theme = raw;
         else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
         else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -68,7 +68,7 @@
             <div class="project-image-frame">
                 <span class="corner tl"></span><span class="corner tr"></span>
                 <span class="corner bl"></span><span class="corner br"></span>
-                <img src="../../images/sna_thumbnail.jpg" alt="Project SNA thumbnail" class="project-image">
+                <img loading="lazy" decoding="async" src="../../images/sna_thumbnail.jpg" alt="Project SNA thumbnail" class="project-image">
             </div>
             <div class="project-info">
                 <h1>Statnet33 — Social Network Analysis</h1>
@@ -92,23 +92,23 @@
         <div class="fade-in"><h2>Example</h2></div>
         <div class="example-images fade-in">
             <div class="example-image">
-                <img src="Picture1.png" alt="Home Page">
+                <img loading="lazy" decoding="async" src="Picture1.png" alt="Home Page">
                 <p>Home Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture2.png" alt="General Metrics Page">
+                <img loading="lazy" decoding="async" src="Picture2.png" alt="General Metrics Page">
                 <p>General Metrics Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture3.png" alt="Visualization Page">
+                <img loading="lazy" decoding="async" src="Picture3.png" alt="Visualization Page">
                 <p>Visualization Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture4.png" alt="ERGM Model Page">
+                <img loading="lazy" decoding="async" src="Picture4.png" alt="ERGM Model Page">
                 <p>ERGM Model Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture5.png" alt="Simulation Page">
+                <img loading="lazy" decoding="async" src="Picture5.png" alt="Simulation Page">
                 <p>Simulation Page</p>
             </div>
         </div>

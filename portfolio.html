@@ -24,7 +24,7 @@
     // Apply theme before paint. Migrate legacy light/dark → paper/night.
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -102,7 +102,7 @@
           <div class="subject-frame">
             <span class="corner tl"></span><span class="corner tr"></span>
             <span class="corner bl"></span><span class="corner br"></span>
-            <img src="images/ava.jpg" alt="Ethan — duotoned subject portrait">
+            <img loading="lazy" decoding="async" src="images/ava.jpg" alt="Ethan — duotoned subject portrait">
           </div>
           <div class="subject-details">
             <div class="subject-name">Duc Phat Nguyen <em>(Ethan)</em></div>
@@ -240,7 +240,7 @@
           <div class="project">
             <a href="projects/mario/mario.html">
               <div class="plate-mark">Pl. II.1</div>
-              <img src="https://user-images.githubusercontent.com/2184469/40949613-7542733a-6834-11e8-895b-ce1cc3af9dbb.gif" alt="Project RL Mario thumbnail">
+              <img loading="lazy" decoding="async" src="https://user-images.githubusercontent.com/2184469/40949613-7542733a-6834-11e8-895b-ce1cc3af9dbb.gif" alt="Project RL Mario thumbnail">
               <div class="project-details">
                 <h3>Play Mario with Reinforcement Learning</h3>
                 <p>Double Deep Q-Learning model to play Super Mario Bros.</p>
@@ -254,7 +254,7 @@
           <div class="project">
             <a href="projects/sna/sna.html">
               <div class="plate-mark">Pl. II.2</div>
-              <img src="images/sna_thumbnail.jpg" alt="Project SNA thumbnail">
+              <img loading="lazy" decoding="async" src="images/sna_thumbnail.jpg" alt="Project SNA thumbnail">
               <div class="project-details">
                 <h3>Social Network Analysis</h3>
                 <p>Statnet33 — a social network analyzer using statistical models and visualisation.</p>
@@ -268,7 +268,7 @@
           <div class="project">
             <a href="projects/psy/psy.html">
               <div class="plate-mark">Pl. II.3</div>
-              <img src="images/psy_thumbnail.webp" alt="Project Psychological Analysis thumbnail">
+              <img loading="lazy" decoding="async" src="images/psy_thumbnail.webp" alt="Project Psychological Analysis thumbnail">
               <div class="project-details">
                 <h3>Research Automation Project</h3>
                 <p>Automating psychological research with BeautifulSoup and Google Gemini.</p>
@@ -282,7 +282,7 @@
           <div class="project">
             <a href="projects/uciadult/uciadult.html">
               <div class="plate-mark">Pl. II.4</div>
-              <img src="images/uciadult_thumbnail.jpg" alt="Project Income Disparity thumbnail">
+              <img loading="lazy" decoding="async" src="images/uciadult_thumbnail.jpg" alt="Project Income Disparity thumbnail">
               <div class="project-details">
                 <h3>Income Disparity Analysis</h3>
                 <p>A full-stack analysis of demographics through tree-based models.</p>
@@ -296,7 +296,7 @@
           <div class="project">
             <a href="projects/privacy/privacy.html">
               <div class="plate-mark">Pl. II.5</div>
-              <img src="images/privacy_thumbnail.jpeg" alt="Project Privacy Policies thumbnail">
+              <img loading="lazy" decoding="async" src="images/privacy_thumbnail.jpeg" alt="Project Privacy Policies thumbnail">
               <div class="project-details">
                 <h3>Privacy Policies AI System</h3>
                 <p>An NLP model + web app for interpreting Privacy Policies and Terms of Conditions.</p>
@@ -310,7 +310,7 @@
           <div class="project">
             <a href="projects/poker/poker.html">
               <div class="plate-mark">Pl. II.6</div>
-              <img src="images/poker_thumbnail.webp" alt="Project Poker Tree-based Models thumbnail">
+              <img loading="lazy" decoding="async" src="images/poker_thumbnail.webp" alt="Project Poker Tree-based Models thumbnail">
               <div class="project-details">
                 <h3>Poker Hand Classification</h3>
                 <p>Tree-based models for poker hand classification, with custom preprocessing and model optimisation.</p>
@@ -324,7 +324,7 @@
           <div class="project">
             <a href="projects/totp/totp.html">
               <div class="plate-mark">Pl. II.7</div>
-              <img src="images/2fa_thumbnail.jpg" alt="Project TOTP thumbnail">
+              <img loading="lazy" decoding="async" src="images/2fa_thumbnail.jpg" alt="Project TOTP thumbnail">
               <div class="project-details">
                 <h3>Self-Hosted TOTP Authenticator</h3>
                 <p>A desktop 2FA solution for managing multiple TOTP authenticator codes without reaching for your phone.</p>

@@ -23,7 +23,7 @@
     <script>
       (function () {
         const raw = localStorage.getItem('theme');
-        let theme = 'paper';
+        let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
         if (raw === 'paper' || raw === 'night') theme = raw;
         else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
         else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -68,7 +68,7 @@
             <div class="project-image-frame">
                 <span class="corner tl"></span><span class="corner tr"></span>
                 <span class="corner bl"></span><span class="corner br"></span>
-                <img src="../../images/poker_thumbnail.webp" alt="Project Poker tree-based models thumbnail" class="project-image">
+                <img loading="lazy" decoding="async" src="../../images/poker_thumbnail.webp" alt="Project Poker tree-based models thumbnail" class="project-image">
             </div>
             <div class="project-info">
                 <h1>Poker Hand Classification</h1>
@@ -142,7 +142,7 @@
         <div class="fade-in"><h2>Pre-built | Visualisation</h2></div>
         <div class="example-images fade-in">
             <div class="example-image">
-                <img src="confusion_matrix_grid.png" alt="Confusion Matrix Grid">
+                <img loading="lazy" decoding="async" src="confusion_matrix_grid.png" alt="Confusion Matrix Grid">
                 <p>Confusion Matrix Results</p>
             </div>
         </div>

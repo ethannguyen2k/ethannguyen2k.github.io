@@ -24,7 +24,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -243,7 +243,7 @@
           <h3>Create a metadata table</h3>
           <p>Include a separate table explaining all the variables. This metadata table should have:</p>
 
-          <img src="data-org-images/metadata-image.png" alt="Example metadata table" class="blog-image">
+          <img loading="lazy" decoding="async" src="data-org-images/metadata-image.png" alt="Example metadata table" class="blog-image">
 
           <ul>
             <li>The exact variable name as it appears in the data file.</li>
@@ -267,22 +267,22 @@
           <h3>More examples — bad and good</h3>
 
           <figure>
-            <img src="data-org-images/bad-examples.png" alt="Layouts that cause problems" class="blog-image">
+            <img loading="lazy" decoding="async" src="data-org-images/bad-examples.png" alt="Layouts that cause problems" class="blog-image">
             <figcaption>Layouts that are causing problems</figcaption>
           </figure>
 
           <figure>
-            <img src="data-org-images/good-examples.png" alt="Reorganised version of bad example D" class="blog-image">
+            <img loading="lazy" decoding="async" src="data-org-images/good-examples.png" alt="Reorganised version of bad example D" class="blog-image">
             <figcaption>Reorganisation of table D above</figcaption>
           </figure>
 
           <figure>
-            <img src="data-org-images/bad-examples2.png" alt="Bad column-per-week layout" class="blog-image">
+            <img loading="lazy" decoding="async" src="data-org-images/bad-examples2.png" alt="Bad column-per-week layout" class="blog-image">
             <figcaption>Instead of this, use a single header — date_W4, date_W6, …</figcaption>
           </figure>
 
           <figure>
-            <img src="data-org-images/good-examples2.png" alt="Tidy long-format alternative" class="blog-image">
+            <img loading="lazy" decoding="async" src="data-org-images/good-examples2.png" alt="Tidy long-format alternative" class="blog-image">
             <figcaption>Or like this</figcaption>
           </figure>
 

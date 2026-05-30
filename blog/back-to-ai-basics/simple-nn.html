@@ -24,7 +24,7 @@
     // Apply theme before paint. Migrate legacy light/dark → paper/night.
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -109,7 +109,7 @@
           <h3>The Model</h3>
           <p>Our model: <strong>Input Layer</strong> (2 neurons) → <strong>Hidden Layer</strong> (3 neurons with ReLU) → <strong>Output Layer</strong> (2 neurons with Softmax).</p>
 
-          <img src="../back-to-ai-basics-images/simplenn_architecture.svg" alt="Simple Neural Network Architecture" class="blog-image">
+          <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/simplenn_architecture.svg" alt="Simple Neural Network Architecture" class="blog-image">
 
           <p>This is a basic Multilayer Perceptron — an MLP (<a href="mlp-mnist.html#mlp">more on MLPs here</a>). It refers to fully connected feedforward networks with at least one hidden layer, exactly what we're building. The walk-through follows the notebook closely.</p>
 

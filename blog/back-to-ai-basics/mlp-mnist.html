@@ -25,7 +25,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -128,7 +128,7 @@
 
           <p>Remember what I said about <a href="../back-to-ai-basics.html#neuron">how our brains do things effortlessly</a>? Picture this:</p>
 
-          <img src="../back-to-ai-basics-images/mnist.jpg" alt="MNIST digit samples" class="blog-image">
+          <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/mnist.jpg" alt="MNIST digit samples" class="blog-image">
 
           <p>A grid of sloppy digits, written by hand and rendered at a low resolution of just 28×28 pixels. Our brains can read them with no trouble at all (appreciate it, brain). Different handwriting, different thickness, different slant, different size, different color, different background — and we still associate <em>this</em> 7 or <em>that</em> 7 with the digit 7.</p>
 
@@ -145,7 +145,7 @@
 
           <p>In an MLP, all neurons are <em>fully connected</em> — every neuron in one layer is connected to every neuron in the next.</p>
 
-          <img src="../back-to-ai-basics-images/mlp_architecture.svg" alt="MLP architecture diagram" class="blog-image">
+          <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/mlp_architecture.svg" alt="MLP architecture diagram" class="blog-image">
 
           <p>Our digit images are 28×28 pixels, which means each image has 784 pixels. Each pixel is a feature, and we can think of each image as a vector of 784 features. So the first layer of the MLP will have 784 neurons.</p>
 
@@ -194,7 +194,7 @@
 
           <p>Without hidden layers, a neural network is just a linear model — like logistic regression. A linear model can only learn linear relationships between input and output, which means it can only separate the input space with a straight line (or hyperplane in higher dimensions).</p>
 
-          <img src="../back-to-ai-basics-images/linear_vs_xor.svg" alt="Linear separability vs XOR" class="blog-image">
+          <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/linear_vs_xor.svg" alt="Linear separability vs XOR" class="blog-image">
 
           <p>The XOR problem is the classic example of a problem a linear model can't solve. A network without hidden layers can't handle it. One with even a single hidden layer can.</p>
 
@@ -232,7 +232,7 @@ Training completed in 63.94 seconds</pre>
           <p>I'll retrace my words and say it again.</p>
           <p>Despite all the biological terminology, a neuron in a neural network is just a mathematical function — a building block. And a neural network, despite its biological inspiration and complex architecture, is fundamentally just a big mathematical function that transforms a set of input numbers into a set of output numbers through a complex, tangled process of weighted combinations and non-linear transformations.</p>
 
-          <img src="../back-to-ai-basics-images/nn_as_function.svg" alt="Neural network as a function" class="blog-image">
+          <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/nn_as_function.svg" alt="Neural network as a function" class="blog-image">
 
           <p>For me, this framing is reassuring in two ways:</p>
           <ol>

@@ -25,7 +25,7 @@
   <script>
     (function () {
       const raw = localStorage.getItem('theme');
-      let theme = 'paper';
+      let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
       if (raw === 'paper' || raw === 'night') theme = raw;
       else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
       else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -125,7 +125,7 @@
           <p class="lede"><a href="mlp-mnist.html#mlp-cnn">As I mentioned in the previous plate</a>, when we need to process image data, Convolutional Neural Networks (CNNs) are a better choice than standard Multi-Layer Perceptrons. But better how? And in what way?</p>
 
           <figure>
-            <img src="https://www.theclickreader.com/wp-content/uploads/2020/07/cnn-architecture.png" alt="A standard CNN architecture" class="blog-image">
+            <img loading="lazy" decoding="async" src="https://www.theclickreader.com/wp-content/uploads/2020/07/cnn-architecture.png" alt="A standard CNN architecture" class="blog-image">
             <figcaption>A standard CNN architecture</figcaption>
           </figure>
 
@@ -139,7 +139,7 @@
           <p>With that out of the way — one of the largest limitations of traditional ANNs is that they struggle with the computational complexity required to process image data. Benchmarks like MNIST handwritten digits are workable for most ANNs thanks to the small image dimensionality (28×28). A single neuron in the first hidden layer would carry 784 weights (28×28×1, since MNIST is normalised to black and white), which is manageable.</p>
 
           <figure>
-            <img src="../back-to-ai-basics-images/ann-complexity-comparison.svg" alt="Parameter explosion as image size grows" class="blog-image">
+            <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/ann-complexity-comparison.svg" alt="Parameter explosion as image size grows" class="blog-image">
             <figcaption>ANN complexity comparison</figcaption>
           </figure>
 
@@ -164,7 +164,7 @@
               <p>CNNs were inspired by the visual cortex of animals, where individual neurons respond to stimuli only in a restricted region of the visual field (a receptive field). LeNet-5, developed by Yann LeCun in the 1990s, was one of the first successful applications of CNNs for digit recognition.</p>
               <p>The CNN revolution truly began with AlexNet in 2012, which won the ImageNet competition by a significant margin and demonstrated the power of deep convolutional architectures.</p>
               <figure>
-                <img src="../back-to-ai-basics-images/imagenet.png" alt="ImageNet competition 2012 results" class="blog-image">
+                <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/imagenet.png" alt="ImageNet competition 2012 results" class="blog-image">
                 <figcaption>ImageNet competition 2012 (<a href="https://paperswithcode.com/sota/image-classification-on-imagenet?ref=blog.roboflow.com" target="_blank" rel="noopener">source</a>)</figcaption>
               </figure>
               <p>Since then, CNNs have become the backbone of many computer-vision tasks, leading to breakthroughs in image classification, object detection, and segmentation.</p>
@@ -180,7 +180,7 @@
 
           <h3>The architecture</h3>
           <figure>
-            <img src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="A standard CNN architecture diagram" class="blog-image">
+            <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/cnn-architecture-diagram.svg" alt="A standard CNN architecture diagram" class="blog-image">
             <figcaption>A standard CNN architecture</figcaption>
           </figure>
 
@@ -228,7 +228,7 @@
               <p>Since each neuron only connects to a small patch (like 3×3), that patch defines its receptive field. The receptive field is the region of the input image that influences a single neuron's output.</p>
               <p>Each neuron only "sees" a small patch of the input, not the entire image. But as you go deeper, layers have larger receptive fields due to stacking operations.</p>
               <figure>
-                <img src="../back-to-ai-basics-images/receptive.png" alt="Receptive field growth across CNN layers" class="blog-image">
+                <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/receptive.png" alt="Receptive field growth across CNN layers" class="blog-image">
                 <figcaption>Receptive field in CNNs</figcaption>
               </figure>
               <p>So a 3×3 conv filter has a 3×3 receptive field, detecting simple features (edges, textures) in small regions. But after pooling and more conv layers, neurons might effectively see 7×7, 15×15, or larger regions — detecting complex patterns (shapes, objects) across larger areas.</p>
@@ -259,15 +259,15 @@
           <p>There are other activations — Leaky ReLU, Tanh, Sigmoid — but ReLU remains the default unless there's a specific reason to use another.</p>
 
           <figure>
-            <img src="../back-to-ai-basics-images/relu1.png" alt="ReLU applied to a feature map" class="blog-image">
+            <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/relu1.png" alt="ReLU applied to a feature map" class="blog-image">
             <figcaption>A typical ReLU function applied to a feature map — negative values become 0. With 32, 64, or more filters, those output maps have the same shape as the input, but different values in each pixel — different patterns detected by each filter.</figcaption>
           </figure>
           <figure>
-            <img src="../back-to-ai-basics-images/relu2.png" alt="Different kernels producing different feature maps" class="blog-image">
+            <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/relu2.png" alt="Different kernels producing different feature maps" class="blog-image">
             <figcaption>Different kernels produce different feature maps, each highlighting different patterns.</figcaption>
           </figure>
           <figure>
-            <img src="../back-to-ai-basics-images/relu3.png" alt="From one input image, multiple feature maps" class="blog-image">
+            <img loading="lazy" decoding="async" src="../back-to-ai-basics-images/relu3.png" alt="From one input image, multiple feature maps" class="blog-image">
             <figcaption>From one input image, multiple feature maps.</figcaption>
           </figure>
 

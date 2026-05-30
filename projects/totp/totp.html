@@ -23,7 +23,7 @@
     <script>
       (function () {
         const raw = localStorage.getItem('theme');
-        let theme = 'paper';
+        let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
         if (raw === 'paper' || raw === 'night') theme = raw;
         else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
         else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -68,7 +68,7 @@
             <div class="project-image-frame">
                 <span class="corner tl"></span><span class="corner tr"></span>
                 <span class="corner bl"></span><span class="corner br"></span>
-                <img src="../../images/2fa_thumbnail.jpg" alt="Project TOTP authenticator thumbnail" class="project-image">
+                <img loading="lazy" decoding="async" src="../../images/2fa_thumbnail.jpg" alt="Project TOTP authenticator thumbnail" class="project-image">
             </div>
             <div class="project-info">
                 <h1>Self-Hosted TOTP Authenticator</h1>
@@ -99,11 +99,11 @@
         <div class="fade-in"><h2>Screenshots</h2></div>
         <div class="example-images fade-in">
             <div class="example-image">
-                <img src="dark.png" alt="Dark Interface">
+                <img loading="lazy" decoding="async" src="dark.png" alt="Dark Interface">
                 <p>Dark Interface</p>
             </div>
             <div class="example-image">
-                <img src="light.png" alt="Light Interface">
+                <img loading="lazy" decoding="async" src="light.png" alt="Light Interface">
                 <p>Light Interface</p>
             </div>
         </div>

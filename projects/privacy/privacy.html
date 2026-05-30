@@ -23,7 +23,7 @@
     <script>
       (function () {
         const raw = localStorage.getItem('theme');
-        let theme = 'paper';
+        let theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'paper';
         if (raw === 'paper' || raw === 'night') theme = raw;
         else if (raw === 'dark')  { theme = 'night'; localStorage.setItem('theme', 'night'); }
         else if (raw === 'light') { theme = 'paper'; localStorage.setItem('theme', 'paper'); }
@@ -68,7 +68,7 @@
             <div class="project-image-frame">
                 <span class="corner tl"></span><span class="corner tr"></span>
                 <span class="corner bl"></span><span class="corner br"></span>
-                <img src="../../images/privacy_thumbnail.jpeg" alt="Project Privacy Policies thumbnail" class="project-image">
+                <img loading="lazy" decoding="async" src="../../images/privacy_thumbnail.jpeg" alt="Project Privacy Policies thumbnail" class="project-image">
             </div>
             <div class="project-info">
                 <h1>Privacy Policies AI System</h1>
@@ -105,15 +105,15 @@
         <div class="fade-in"><h2>Visualisation</h2></div>
         <div class="example-images fade-in">
             <div class="example-image">
-                <img src="Picture1.png" alt="Main Page">
+                <img loading="lazy" decoding="async" src="Picture1.png" alt="Main Page">
                 <p>Main Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture2.png" alt="Result Page">
+                <img loading="lazy" decoding="async" src="Picture2.png" alt="Result Page">
                 <p>Result Page</p>
             </div>
             <div class="example-image">
-                <img src="Picture3.jpeg" alt="Main Page variation on Streamlit">
+                <img loading="lazy" decoding="async" src="Picture3.jpeg" alt="Main Page variation on Streamlit">
                 <p>Main Page variation on Streamlit</p>
             </div>
         </div>
